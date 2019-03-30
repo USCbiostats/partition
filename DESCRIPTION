@@ -44,6 +44,9 @@ Imports:
     ICC,
     infotheo,
     MASS,
-    ggplot2
+    ggplot2,
+    magrittr
 Suggests: 
     covr
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1

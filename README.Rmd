@@ -1,0 +1,26 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+# partition2
+
+This is an experimental rewrite of the partition package
+
+## Installation
+
+You can install the development version of partition2 GitHub with:
+
+``` r
+# install.packages("remotes)
+remotes::install_github("partition2")
+```
