@@ -1,0 +1,49 @@
+Package: partition2
+Type: Package
+Title: Agglomerative Partitioning Framework for Dimension Reduction of High-Dimensional Genomic Datasets
+Version: 0.1.0
+Author: person("Joshua", "Millstein", email = "joshua.millstein@usc.edu", 
+  role = c("aut", "cre")),
+  person("Malcolm", "Barrett", email = "malcolmbarrett@gmail.com", 
+  role = c("aut", "cre"))
+Maintainer: Malcolm Barrett <malcolmbarrett@gmail.com>
+Description: A common feature across genomic data types, including genome, 
+  epigenome, transcriptome, microbiome, metabolome, etc., is dependencies among 
+  variables. Improvements in genomic technologies accompanied by decreasing 
+  costs  have led to vastly increasing amounts of information collected from individual 
+  tissue samples. However, this increase in information is often accompanied by 
+  increasing dependencies among variables. This dynamic has fueled the need for 
+  methods to reduce dimensionality of datasets by summarizing multiple dependent 
+  variables into fewer and less dependent variables. Dimension reduction has 
+  multiple benefits including reduced computational demands, 
+  reduced multiple-testing challenge, better-behaved data, and possible increase 
+  in statistical power to detect associations with external variables. 
+  Algorithms included here use an agglomerative partitioning framework and share 
+  the following goals, 1) minimum information loss given the achieved reduction 
+  in dimensionality, 2) each original variable maps to one and only one variable in 
+  the reduced dataset, 3) a user specified maximum amount of information loss. 
+  The  framework can be described as a partitioning of the original features into 
+  subsets of similar variables with a function applied to each subset to 
+  summarize it into a single new variable. Each partition/new variable pair 
+  satisfies a maximum information loss criterion, and the overall goal is to 
+  minimize the number of partitions subject to that criterion. 
+Depends: 
+    R (>= 2.10)
+License: Artistic-2.0
+Encoding: UTF-8
+LazyData: true
+LinkingTo: 
+    Rcpp, 
+    RcppArmadillo, 
+    RcppMLPACK
+Imports: 
+    Rcpp,
+    purrr,
+    glue,
+    tibble,
+    ICC,
+    infotheo,
+    MASS,
+    ggplot2
+Suggests: 
+    covr
