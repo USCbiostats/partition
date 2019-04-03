@@ -1,3 +1,4 @@
+# is this a little slow?
 simulate_block_data <- function(block_sizes, lower_corr, upper_corr, n, block_name = "block",
                              sep = "_", var_name = "x") {
 

@@ -202,6 +202,22 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// reduce_partition_c
+List reduce_partition_c(List x, DataFrame df, Function assign_partition, List partitioner, const double& threshold, const int& niter);
+RcppExport SEXP _partition2_reduce_partition_c(SEXP xSEXP, SEXP dfSEXP, SEXP assign_partitionSEXP, SEXP partitionerSEXP, SEXP thresholdSEXP, SEXP niterSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< Function >::type assign_partition(assign_partitionSEXP);
+    Rcpp::traits::input_parameter< List >::type partitioner(partitionerSEXP);
+    Rcpp::traits::input_parameter< const double& >::type threshold(thresholdSEXP);
+    Rcpp::traits::input_parameter< const int& >::type niter(niterSEXP);
+    rcpp_result_gen = Rcpp::wrap(reduce_partition_c(x, df, assign_partition, partitioner, threshold, niter));
+    return rcpp_result_gen;
+END_RCPP
+}
 // bind_empty_row
 NumericMatrix bind_empty_row(NumericMatrix x);
 RcppExport SEXP _partition2_bind_empty_row(SEXP xSEXP) {
@@ -289,6 +305,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_partition2_update_dist", (DL_FUNC) &_partition2_update_dist, 5},
     {"_partition2_assign_clusters", (DL_FUNC) &_partition2_assign_clusters, 10},
     {"_partition2_pca_c", (DL_FUNC) &_partition2_pca_c, 1},
+    {"_partition2_reduce_partition_c", (DL_FUNC) &_partition2_reduce_partition_c, 6},
     {"_partition2_bind_empty_row", (DL_FUNC) &_partition2_bind_empty_row, 1},
     {"_partition2_has_rownames", (DL_FUNC) &_partition2_has_rownames, 1},
     {"_partition2_has_colnames", (DL_FUNC) &_partition2_has_colnames, 1},

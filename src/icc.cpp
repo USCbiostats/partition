@@ -5,11 +5,11 @@ using namespace Rcpp;
 NumericVector icc_c(NumericMatrix x) {
   NumericVector icc, ms1, ms2, variance;
   int ncols = x.ncol(), nrows = x.nrow();
-  NumericVector row_vec(ncols), rowmeans(nrows), long_means(nrows * ncols), 
+  NumericVector row_vec(ncols), rowmeans(nrows), long_means(nrows * ncols),
     among, within;
-  
+
   double matrix_mean = mean(x);
-  
+
   for (int i = 0; i < nrows; ++i) {
     row_vec = x(i, _);
     rowmeans[i] = mean(row_vec);
@@ -18,28 +18,28 @@ NumericVector icc_c(NumericMatrix x) {
       within.insert(within.end(), *it);
     }
   }
-  
+
   long_means = rep(rowmeans, ncols);
   among = pow(long_means - matrix_mean, 2);
   within = pow(within, 2);
-  ms1 = sum(among) / (nrows - 1); 
+  ms1 = sum(among) / (nrows - 1);
   ms2 = sum(within) / (nrows * (ncols - 1));
   variance = (ms1 - ms2) / ncols;
   icc = variance / (variance + ms2);
-  
+
   return icc;
 }
 
 // [[Rcpp::export]]
 NumericVector scale_rowmeans(NumericMatrix x) {
-  
+
   NumericVector row_vec(x.ncol()), out(x.nrow());
-  
+
   for(int i = 0; i < x.nrow(); ++i) {
     row_vec = x(i, _);
     out[i] = mean(noNA(row_vec));
   }
-  
+
   return (out - mean(out)) / sd(out);
 }
 

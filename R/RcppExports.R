@@ -2,90 +2,94 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 arma_kmeans <- function(x, k) {
-    .Call('_partition2_arma_kmeans', PACKAGE = 'partition2', x, k)
+    .Call(`_partition2_arma_kmeans`, x, k)
 }
 
 rank_c <- function(x) {
-    .Call('_partition2_rank_c', PACKAGE = 'partition2', x)
+    .Call(`_partition2_rank_c`, x)
 }
 
 apply_rank <- function(x) {
-    .Call('_partition2_apply_rank', PACKAGE = 'partition2', x)
+    .Call(`_partition2_apply_rank`, x)
 }
 
 corr_c_mat <- function(x) {
-    .Call('_partition2_corr_c_mat', PACKAGE = 'partition2', x)
+    .Call(`_partition2_corr_c_mat`, x)
 }
 
 corr_c_2mat <- function(x, y) {
-    .Call('_partition2_corr_c_2mat', PACKAGE = 'partition2', x, y)
+    .Call(`_partition2_corr_c_2mat`, x, y)
 }
 
 corr_c_2vec <- function(x, y) {
-    .Call('_partition2_corr_c_2vec', PACKAGE = 'partition2', x, y)
+    .Call(`_partition2_corr_c_2vec`, x, y)
 }
 
 pearson_distance <- function(x, y) {
-    .Call('_partition2_pearson_distance', PACKAGE = 'partition2', x, y)
+    .Call(`_partition2_pearson_distance`, x, y)
 }
 
 spearman_distance <- function(x, y) {
-    .Call('_partition2_spearman_distance', PACKAGE = 'partition2', x, y)
+    .Call(`_partition2_spearman_distance`, x, y)
 }
 
 icc_c <- function(x) {
-    .Call('_partition2_icc_c', PACKAGE = 'partition2', x)
+    .Call(`_partition2_icc_c`, x)
 }
 
 scale_rowmeans <- function(x) {
-    .Call('_partition2_scale_rowmeans', PACKAGE = 'partition2', x)
+    .Call(`_partition2_scale_rowmeans`, x)
 }
 
 ICC_c <- function(x) {
-    .Call('_partition2_ICC_c', PACKAGE = 'partition2', x)
+    .Call(`_partition2_ICC_c`, x)
 }
 
 kmeans_c <- function(data, clusters) {
-    .Call('_partition2_kmeans_c', PACKAGE = 'partition2', data, clusters)
+    .Call(`_partition2_kmeans_c`, data, clusters)
 }
 
 minR2_c <- function(x) {
-    .Call('_partition2_minR2_c', PACKAGE = 'partition2', x)
+    .Call(`_partition2_minR2_c`, x)
 }
 
 update_dist <- function(reduced_dist, cluster_nm, clust_var_nms, reduced_data, dist_type) {
-    .Call('_partition2_update_dist', PACKAGE = 'partition2', reduced_dist, cluster_nm, clust_var_nms, reduced_data, dist_type)
+    .Call(`_partition2_update_dist`, reduced_dist, cluster_nm, clust_var_nms, reduced_data, dist_type)
 }
 
 assign_clusters <- function(index_r, reduced_dist_r, reduced_data_r, data_r, pct_var, clusters_r, cluster_ind, method, dist_type, new_var) {
-    .Call('_partition2_assign_clusters', PACKAGE = 'partition2', index_r, reduced_dist_r, reduced_data_r, data_r, pct_var, clusters_r, cluster_ind, method, dist_type, new_var)
+    .Call(`_partition2_assign_clusters`, index_r, reduced_dist_r, reduced_data_r, data_r, pct_var, clusters_r, cluster_ind, method, dist_type, new_var)
 }
 
 pca_c <- function(x) {
-    .Call('_partition2_pca_c', PACKAGE = 'partition2', x)
+    .Call(`_partition2_pca_c`, x)
+}
+
+reduce_partition_c <- function(x, df, assign_partition, partitioner, threshold, niter) {
+    .Call(`_partition2_reduce_partition_c`, x, df, assign_partition, partitioner, threshold, niter)
 }
 
 bind_empty_row <- function(x) {
-    .Call('_partition2_bind_empty_row', PACKAGE = 'partition2', x)
+    .Call(`_partition2_bind_empty_row`, x)
 }
 
 has_rownames <- function(x) {
-    .Call('_partition2_has_rownames', PACKAGE = 'partition2', x)
+    .Call(`_partition2_has_rownames`, x)
 }
 
 has_colnames <- function(x) {
-    .Call('_partition2_has_colnames', PACKAGE = 'partition2', x)
+    .Call(`_partition2_has_colnames`, x)
 }
 
 subset_c <- function(x, subset) {
-    .Call('_partition2_subset_c', PACKAGE = 'partition2', x, subset)
+    .Call(`_partition2_subset_c`, x, subset)
 }
 
 drop <- function(x, subset) {
-    .Call('_partition2_drop', PACKAGE = 'partition2', x, subset)
+    .Call(`_partition2_drop`, x, subset)
 }
 
 drop_dist <- function(reduced_dist, distance_index) {
-    .Call('_partition2_drop_dist', PACKAGE = 'partition2', reduced_dist, distance_index)
+    .Call(`_partition2_drop_dist`, reduced_dist, distance_index)
 }
 

@@ -1,5 +1,12 @@
-metric_icc <- function() {
-  icc_c()
+
+metric_icc <- function(.partition_step) {
+  composite_variables <- pull_composite_variables(.partition_step)
+  target_data <- .partition_step$.df %>%
+    dplyr::select(composite_variables)
+
+  .partition_step$metric <- icc_c(as.matrix(target_data))
+
+  .partition_step
 }
 
 metric_variance_explained <- function(.partition_step) {
@@ -8,3 +15,9 @@ metric_variance_explained <- function(.partition_step) {
   .partition_step
 }
 
+store_mapping <- function(.partition_step, x, metric) {
+  .partition_step$metric_key
+  .partition_step$group_key
+
+  .partition_step
+}
