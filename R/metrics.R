@@ -1,8 +1,7 @@
 
 metric_icc <- function(.partition_step) {
   composite_variables <- pull_composite_variables(.partition_step)
-  target_data <- .partition_step$.df %>%
-    dplyr::select(composite_variables)
+  target_data <- .partition_step$.df[, composite_variables]
 
   .partition_step$metric <- icc_c(as.matrix(target_data))
 

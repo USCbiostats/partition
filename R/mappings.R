@@ -24,11 +24,7 @@ append_mappings <- function(.partition_step, new_x) {
 }
 
 expand_mappings <- function(x, .mapping_key) {
-  .mapping_key %>%
-    dplyr::filter(variable == x) %>%
-    dplyr::select(mapping) %>%
-    dplyr::pull() %>%
-    purrr::pluck(1)
+  .mapping_key[.mapping_key$variable == x, "mapping"][[1]][[1]]
 }
 
 pull_composite_variables <- function(.partition_step) {
