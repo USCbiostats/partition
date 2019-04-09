@@ -22,5 +22,5 @@ You can install the development version of partition2 GitHub with:
 
 ``` r
 # install.packages("remotes)
-remotes::install_github("partition2")
+remotes::install_github("malcolmbarrett/partition2")
 ```
