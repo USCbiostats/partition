@@ -45,8 +45,24 @@ ICC_c <- function(x) {
     .Call(`_partition2_ICC_c`, x)
 }
 
-kmeans_c <- function(data, clusters) {
-    .Call(`_partition2_kmeans_c`, data, clusters)
+subset_matrix <- function(x, i, m) {
+    .Call(`_partition2_subset_matrix`, x, i, m)
+}
+
+min_icc_c <- function(columns, x, k, threshold) {
+    .Call(`_partition2_min_icc_c`, columns, x, k, threshold)
+}
+
+kmeans_c <- function(x, k, n_iter = 10L, verbose = FALSE, seed = 1L) {
+    .Call(`_partition2_kmeans_c`, x, k, n_iter, verbose, seed)
+}
+
+assign_cluster <- function(x, init_centroids) {
+    .Call(`_partition2_assign_cluster`, x, init_centroids)
+}
+
+kmean_assignment <- function(x, k, n_iter = 10L, verbose = FALSE, seed = 1L) {
+    .Call(`_partition2_kmean_assignment`, x, k, n_iter, verbose, seed)
 }
 
 minR2_c <- function(x) {
@@ -65,8 +81,8 @@ pca_c <- function(x) {
     .Call(`_partition2_pca_c`, x)
 }
 
-reduce_partition_c <- function(x, df, assign_partition, partitioner, threshold, niter) {
-    .Call(`_partition2_reduce_partition_c`, x, df, assign_partition, partitioner, threshold, niter)
+reduce_partition_c <- function(x, df, assign_partition, partitioner, threshold, tolerance, var_prefix, niter) {
+    .Call(`_partition2_reduce_partition_c`, x, df, assign_partition, partitioner, threshold, tolerance, var_prefix, niter)
 }
 
 bind_empty_row <- function(x) {

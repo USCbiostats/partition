@@ -7,7 +7,7 @@ direct_distance_spearman <- function(.partition) {
 }
 
 direct_distance <- function(.partition, spearman = FALSE) {
-  # stop parition if all pairs checked
+  # stop partition if all pairs checked
   if (matrix_is_exhausted(.partition)) {
     .partition$metric <- 0
     .partition$all_done <- TRUE
@@ -25,6 +25,27 @@ direct_distance <- function(.partition, spearman = FALSE) {
     target = .partition$target,
     distance_matrix = distance_matrix
   )
+
+  .partition
+}
+
+direct_k_cluster <- function(.partition) {
+  if (is.null(.partition$k)) .partition$k <- guess_init_k(.partition)
+
+  if (k_exhausted(.partition)) {
+    .partition$metric <- 0
+    .partition$all_done <- TRUE
+    return(.partition)
+  }
+
+  .partition$target <- kmean_assignment(as.matrix(.partition$.df), .partition$k)
+
+  if (length(.partition$last_target) == 1 && is.na(.partition$last_target)) {
+    .partition$last_target <- list(
+      target = .partition$target,
+      k = .partition$k
+    )
+  }
 
   .partition
 }
@@ -103,7 +124,13 @@ matrix_is_exhausted <- function(.partition) {
   all(is.na(.partition$last_target$distance_matrix))
 }
 
-direct_n_cluster <- function() {
-
+guess_init_k <- function(.partition) {
+  round(.partition$threshold * ncol(.partition$.df))
 }
 
+k_exhausted <- function(.partition) {
+  k_0 <- .partition$k == 0
+  k_max <- .partition$k == ncol(.partition$.df)
+
+  k_0 || k_max
+}

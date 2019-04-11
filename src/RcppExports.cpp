@@ -101,7 +101,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // icc_c
-NumericVector icc_c(NumericMatrix x);
+double icc_c(NumericMatrix x);
 RcppExport SEXP _partition2_icc_c(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -133,15 +133,72 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// kmeans_c
-List kmeans_c(SEXP data, const int& clusters);
-RcppExport SEXP _partition2_kmeans_c(SEXP dataSEXP, SEXP clustersSEXP) {
+// subset_matrix
+NumericMatrix subset_matrix(List& x, int& i, arma::mat& m);
+RcppExport SEXP _partition2_subset_matrix(SEXP xSEXP, SEXP iSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< const int& >::type clusters(clustersSEXP);
-    rcpp_result_gen = Rcpp::wrap(kmeans_c(data, clusters));
+    Rcpp::traits::input_parameter< List& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int& >::type i(iSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type m(mSEXP);
+    rcpp_result_gen = Rcpp::wrap(subset_matrix(x, i, m));
+    return rcpp_result_gen;
+END_RCPP
+}
+// min_icc_c
+NumericVector min_icc_c(List& columns, arma::mat& x, int& k, double& threshold);
+RcppExport SEXP _partition2_min_icc_c(SEXP columnsSEXP, SEXP xSEXP, SEXP kSEXP, SEXP thresholdSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List& >::type columns(columnsSEXP);
+    Rcpp::traits::input_parameter< arma::mat& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int& >::type k(kSEXP);
+    Rcpp::traits::input_parameter< double& >::type threshold(thresholdSEXP);
+    rcpp_result_gen = Rcpp::wrap(min_icc_c(columns, x, k, threshold));
+    return rcpp_result_gen;
+END_RCPP
+}
+// kmeans_c
+arma::mat kmeans_c(arma::mat& x, int k, int n_iter, bool verbose, int seed);
+RcppExport SEXP _partition2_kmeans_c(SEXP xSEXP, SEXP kSEXP, SEXP n_iterSEXP, SEXP verboseSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< int >::type n_iter(n_iterSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(kmeans_c(x, k, n_iter, verbose, seed));
+    return rcpp_result_gen;
+END_RCPP
+}
+// assign_cluster
+NumericVector assign_cluster(arma::mat& x, arma::mat init_centroids);
+RcppExport SEXP _partition2_assign_cluster(SEXP xSEXP, SEXP init_centroidsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type init_centroids(init_centroidsSEXP);
+    rcpp_result_gen = Rcpp::wrap(assign_cluster(x, init_centroids));
+    return rcpp_result_gen;
+END_RCPP
+}
+// kmean_assignment
+NumericVector kmean_assignment(arma::mat& x, int k, int n_iter, bool verbose, int seed);
+RcppExport SEXP _partition2_kmean_assignment(SEXP xSEXP, SEXP kSEXP, SEXP n_iterSEXP, SEXP verboseSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type k(kSEXP);
+    Rcpp::traits::input_parameter< int >::type n_iter(n_iterSEXP);
+    Rcpp::traits::input_parameter< bool >::type verbose(verboseSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(kmean_assignment(x, k, n_iter, verbose, seed));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -203,8 +260,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // reduce_partition_c
-List reduce_partition_c(List x, DataFrame df, Function assign_partition, List partitioner, const double& threshold, const int& niter);
-RcppExport SEXP _partition2_reduce_partition_c(SEXP xSEXP, SEXP dfSEXP, SEXP assign_partitionSEXP, SEXP partitionerSEXP, SEXP thresholdSEXP, SEXP niterSEXP) {
+List reduce_partition_c(List x, DataFrame df, Function assign_partition, List partitioner, const double& threshold, const double& tolerance, const std::string& var_prefix, const int& niter);
+RcppExport SEXP _partition2_reduce_partition_c(SEXP xSEXP, SEXP dfSEXP, SEXP assign_partitionSEXP, SEXP partitionerSEXP, SEXP thresholdSEXP, SEXP toleranceSEXP, SEXP var_prefixSEXP, SEXP niterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -213,8 +270,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Function >::type assign_partition(assign_partitionSEXP);
     Rcpp::traits::input_parameter< List >::type partitioner(partitionerSEXP);
     Rcpp::traits::input_parameter< const double& >::type threshold(thresholdSEXP);
+    Rcpp::traits::input_parameter< const double& >::type tolerance(toleranceSEXP);
+    Rcpp::traits::input_parameter< const std::string& >::type var_prefix(var_prefixSEXP);
     Rcpp::traits::input_parameter< const int& >::type niter(niterSEXP);
-    rcpp_result_gen = Rcpp::wrap(reduce_partition_c(x, df, assign_partition, partitioner, threshold, niter));
+    rcpp_result_gen = Rcpp::wrap(reduce_partition_c(x, df, assign_partition, partitioner, threshold, tolerance, var_prefix, niter));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -300,12 +359,16 @@ static const R_CallMethodDef CallEntries[] = {
     {"_partition2_icc_c", (DL_FUNC) &_partition2_icc_c, 1},
     {"_partition2_scale_rowmeans", (DL_FUNC) &_partition2_scale_rowmeans, 1},
     {"_partition2_ICC_c", (DL_FUNC) &_partition2_ICC_c, 1},
-    {"_partition2_kmeans_c", (DL_FUNC) &_partition2_kmeans_c, 2},
+    {"_partition2_subset_matrix", (DL_FUNC) &_partition2_subset_matrix, 3},
+    {"_partition2_min_icc_c", (DL_FUNC) &_partition2_min_icc_c, 4},
+    {"_partition2_kmeans_c", (DL_FUNC) &_partition2_kmeans_c, 5},
+    {"_partition2_assign_cluster", (DL_FUNC) &_partition2_assign_cluster, 2},
+    {"_partition2_kmean_assignment", (DL_FUNC) &_partition2_kmean_assignment, 5},
     {"_partition2_minR2_c", (DL_FUNC) &_partition2_minR2_c, 1},
     {"_partition2_update_dist", (DL_FUNC) &_partition2_update_dist, 5},
     {"_partition2_assign_clusters", (DL_FUNC) &_partition2_assign_clusters, 10},
     {"_partition2_pca_c", (DL_FUNC) &_partition2_pca_c, 1},
-    {"_partition2_reduce_partition_c", (DL_FUNC) &_partition2_reduce_partition_c, 6},
+    {"_partition2_reduce_partition_c", (DL_FUNC) &_partition2_reduce_partition_c, 8},
     {"_partition2_bind_empty_row", (DL_FUNC) &_partition2_bind_empty_row, 1},
     {"_partition2_has_rownames", (DL_FUNC) &_partition2_has_rownames, 1},
     {"_partition2_has_colnames", (DL_FUNC) &_partition2_has_colnames, 1},

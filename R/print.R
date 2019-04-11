@@ -1,0 +1,96 @@
+cat_bold <- function(...) cat(crayon::bold(...))
+
+cat_white <- function(...) cat(crayon::white(...))
+
+cat_subtle <- function(...) {
+  cat(paste_subtle(...))
+}
+
+paste_subtle <- function(...) {
+  paste0("\033[90m", ..., "\033[39m")
+}
+
+#' @export
+print.partition <- function(x, ...) {
+  #  methods used
+  cat_bold("Partitioner:")
+  cat("\n")
+  print(x$partitioner)
+  cat("\n\n")
+
+  # number of clusters
+  cat_bold("Number of Reduced Variables:")
+  cat("\n")
+  cat(
+    crayon::green(count_clusters(x)),
+    crayon::white("reduced variables created from"),
+    crayon::yellow(total_reduced(x)),
+    crayon::white("observed variables")
+  )
+
+  if (count_clusters(x) == 0) return(invisible(x))
+
+  cat("\n\n")
+
+  # summary of mapping
+  cat_bold("Mappings:")
+  cat("\n")
+  cat(summarize_mapping(x))
+  cat("\n\n")
+
+  # summary of information
+  cat_bold("Minimum information:")
+  cat("\n")
+  cat_white(minimum_information(x))
+
+  # return partition object
+  invisible(x)
+}
+
+#' @export
+print.partitioner <- function(x, ...) {
+  #  methods used
+  cat_white(
+    "  ",
+    paste_director(x),
+    " ",
+    paste_metric(x),
+    " ",
+    paste_reducer(x)
+  )
+
+  invisible(x)
+}
+
+paste_director <- function(x) {
+  director <- dplyr::case_when(
+    identical(x$director, direct_distance_pearson) ~ "Miniumum Distance (Pearson)",
+    identical(x$director, direct_distance_spearman) ~ "Miniumum Distance (Spearman)",
+    identical(x$director, direct_k_cluster) ~ "K-Means Clusters",
+    TRUE ~ paste_subtle("<custom director>")
+  )
+
+ paste("Director:", director, "\n")
+}
+
+paste_metric <- function(x) {
+  metric <- dplyr::case_when(
+    identical(x$metric, metric_icc) ~ "Intraclass Correlation",
+    identical(x$metric, metric_min_icc) ~ "Minimum Intraclass Correlation",
+    identical(x$metric, metric_variance_explained) ~ "Variance Explained (PCA)",
+    TRUE ~ paste_subtle("<custom metric>")
+  )
+
+ paste("Metric:", metric, "\n")
+}
+
+paste_reducer <- function(x) {
+  reducer <- dplyr::case_when(
+    identical(x$reducer, reduce_scaled_mean) ~ "Scaled Mean",
+    identical(x$reducer, reduce_kmeans) ~ "Scaled Mean",
+    identical(x$reducer, reduce_first_component) ~ "First Principal Component",
+    TRUE ~ paste_subtle("<custom reducer>")
+  )
+
+ paste("Reducer:", reducer)
+}

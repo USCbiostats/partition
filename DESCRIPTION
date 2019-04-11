@@ -45,7 +45,8 @@ Imports:
     infotheo,
     MASS,
     ggplot2,
-    magrittr
+    magrittr,
+    crayon
 Suggests: 
     covr
 Roxygen: list(markdown = TRUE)
