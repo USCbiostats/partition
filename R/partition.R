@@ -1,3 +1,27 @@
+partition <- function(.data, partitioner, threshold, tolerance = .01, ..., niter = NULL, x = "reduced_var", .sep = "_") {
+  # set number of unsuccesful iterations allowed in a row to be ~20% of the
+  # number of variables but at least 10
+  if (is.null(niter)) {
+    niter <- round(.2 * ncol(.data))
+    niter <- ifelse(niter < 10, 10, niter)
+  }
+
+  partitioned_obj <- reduce_partition_c(
+    .data,
+    df = .data,
+    assign_partition = assign_partition,
+    partitioner = partitioner,
+    threshold = threshold,
+    tolerance = tolerance,
+    var_prefix = paste0(x, .sep),
+    # currently unused
+    ...,
+    niter = niter
+  )
+
+  as_partition(partitioned_obj, partitioner)
+}
+
 as_partitioner <- function(reducer, director, metric) {
   structure(
     list(
@@ -82,7 +106,11 @@ as_partition <- function(partitioned_obj, partitioner) {
   #
   # * remove original data
   # * clean reduced names and mappings
+  # * add variable positions (indices) to mapping
+  # * sort mappings by order in original data
   partitioned_obj <- simplify_names(partitioned_obj)
+  partitioned_obj <- add_indices(partitioned_obj)
+  partitioned_obj <- sort_mapping(partitioned_obj)
 
   structure(
     list(
@@ -119,21 +147,32 @@ simplify_names <- function(.partition_step) {
   .partition_step
 }
 
-partition <- function(.data, partitioner, threshold, tolerance = .01, ..., niter = 1000, x = "reduced_var", .sep = "_") {
-  partitioned_obj <- reduce_partition_c(
-    .data,
-    df = .data,
-    assign_partition = assign_partition,
-    partitioner = partitioner,
-    threshold = threshold,
-    tolerance = tolerance,
-    var_prefix = paste0(x, .sep),
-    # currently unused
-    ...,
-    niter = niter
-  )
+get_indices <- function(.partition_step) {
+  .partition_step$mapping_key$mapping %>%
+    # take list of mappings
+    purrr::map(
+      # in each element is a vector of variable names
+      # get the
+      ~ which(names(.partition_step$.df) %in% .x)
+    )
+}
 
-  as_partition(partitioned_obj, partitioner)
+add_indices <- function(.partition_step) {
+   .partition_step$mapping_key <- .partition_step$mapping_key %>%
+     dplyr::mutate(indices = get_indices(.partition_step))
+
+  .partition_step
+}
+
+sort_mapping <- function(.partition_step) {
+  #  sort the varible names by their position in the original data
+  .partition_step$mapping_key <- .partition_step$mapping_key %>%
+    dplyr::mutate(mapping = purrr::map(
+      indices,
+      ~names(.partition_step$.df)[.x]
+    ))
+
+  .partition_step
 }
 
 is_partition <- function(x) inherits(x, "partition")

@@ -10,8 +10,7 @@ direct_distance <- function(.partition, spearman = FALSE) {
   # stop partition if all pairs checked
   if (matrix_is_exhausted(.partition)) {
     .partition$metric <- 0
-    .partition$all_done <- TRUE
-    return(.partition)
+    return(all_done(.partition))
   }
 
   # find minimum distance
@@ -34,8 +33,7 @@ direct_k_cluster <- function(.partition) {
 
   if (k_exhausted(.partition)) {
     .partition$metric <- 0
-    .partition$all_done <- TRUE
-    return(.partition)
+    return(all_done(.partition))
   }
 
   .partition$target <- kmean_assignment(as.matrix(.partition$.df), .partition$k)
@@ -85,13 +83,9 @@ update_dist <- function(.partition, spearman = FALSE) {
 
   # just refit new variable
   x <- variable_names[length(variable_names)]
-  reduced_variable <- .partition$reduced_data %>%
-    # should just be last variable added
-    # dplyr::select(dplyr::starts_with(!!x)) %>%
-    dplyr::pull()
+  reduced_variable <- .partition$reduced_data[[ncol(.partition$reduced_data)]]
 
-  subset_data <- .partition$reduced_data %>%
-    dplyr::select(-dplyr::last_col())
+  subset_data <- .partition$reduced_data[, -ncol(.partition$reduced_data)]
 
   updated_distances <- purrr::map_dbl(
     subset_data,

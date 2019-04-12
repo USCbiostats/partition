@@ -78,6 +78,8 @@ paste_metric <- function(x) {
     identical(x$metric, metric_icc) ~ "Intraclass Correlation",
     identical(x$metric, metric_min_icc) ~ "Minimum Intraclass Correlation",
     identical(x$metric, metric_variance_explained) ~ "Variance Explained (PCA)",
+    identical(x$metric, metric_min_r2) ~ "Minimum R-Squared",
+    identical(x$metric, metric_std_mutualinfo) ~ "Standardized Mutual Information",
     TRUE ~ paste_subtle("<custom metric>")
   )
 

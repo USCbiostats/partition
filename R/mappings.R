@@ -3,10 +3,11 @@ mappings <- function(.partition) {
   tidr::unnest(.partition$mapping_key)
 }
 
-mapping_groups <- function(.partition, just_names = FALSE) {
+mapping_groups <- function(.partition, indices = FALSE) {
   # return efficiently stored mappings (tibble with name of variable,
   # vector of contained vars (probably named vector for index e.g. "x1" = 1))
-  .partition$mapping_key
+  if (indices) return(.partition$mapping_key$indices)
+  .partition$mapping_key$mapping
 }
 
 set_mappings <- function(.mappings) {
@@ -107,14 +108,14 @@ partition_scores <- function(.partition) {
 }
 
 replicate_partition <- function(new_data, .partition) {
-  .mappings <- mapping_groups(.partition, just_names = TRUE)
+  .mappings <- mapping_groups(.partition)
 
   #  double check if names are in new data
   #  use variable positions if not
-  same_names <- all(.mappings %in% names(new_data))
+  same_names <- all(purrr::flatten_chr(.mappings) %in% names(new_data))
   if (!same_names) {
-    warning("variable names do not match partition; using variable positions instead")
-    .mappings <- mapping_groups(.partition)
+    warning("variable names do not match partition; using variable positions")
+    .mappings <- mapping_groups(.partition, indices = TRUE)
   }
 
   # replicate parition exactly

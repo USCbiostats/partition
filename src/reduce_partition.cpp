@@ -16,7 +16,7 @@ List reduce_partition_c(List x, DataFrame df, Function assign_partition,
 
     metric = x["metric"];
 
-    if (metric < threshold) streak++;
+    if (metric < threshold) streak++; else streak = 0;
   }
 
   return x;
