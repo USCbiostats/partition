@@ -33,7 +33,6 @@ direct_k_cluster <- function(.partition, search = c("binary", "linear")) {
   if (is.null(.partition$k)) .partition$k <- guess_init_k(.partition)
 
   if (k_exhausted(.partition)) {
-    browser()
     .partition$metric <- 0
     return(all_done(.partition))
   }
