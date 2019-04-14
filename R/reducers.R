@@ -2,7 +2,32 @@ reduce_scaled_mean <- function(.partition_step) {
   reduce_data(.partition_step, scaled_mean_r)
 }
 
-reduce_kmeans <- function(.partition_step) {
+reduce_kmeans <- function(.partition_step, search = c("binary", "linear")) {
+  search <- match.arg(search)
+
+  if (search == "linear") return(linear_k_search(.partition_step))
+
+  binary_k_search(.partition_step)
+}
+
+binary_k_search <- function(.partition_step) {
+  # check if we've found the threshold boundary
+  if (boundary_found(.partition_step)) {
+    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+    return(all_done(.partition_step))
+  }
+
+  .partition_step <- search_k(.partition_step, "binary")
+  .partition_step$last_target <- list(
+    target = .partition_step$target,
+    metric = .partition_step$metric_vector,
+    k = .partition_step$k
+  )
+
+  .partition_step
+}
+
+linear_k_search <- function(.partition_step) {
   if (is.null(.partition_step$k_search)) {
     #  if initial metric is smaller than threshold, search forward through k to
     #  capture more information. if it's larger, search backwards to minimize it
@@ -12,7 +37,7 @@ reduce_kmeans <- function(.partition_step) {
 
   # if we're searching forward, check if we've past the threshold
   if (k_searching_forward(.partition_step) && above_threshold(.partition_step)) {
-    .partition_step <- map_data(.partition_step, scaled_mean_r)
+    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
     return(all_done(.partition_step))
   }
 
@@ -20,12 +45,14 @@ reduce_kmeans <- function(.partition_step) {
   # use the last targets.
   if (k_searching_backward(.partition_step) && under_threshold(.partition_step)) {
     .partition_step <- rewind_target(.partition_step)
-    .partition_step <- map_data(.partition_step, scaled_mean_r)
+    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
     return(all_done(.partition_step))
   }
 
-  .partition_step <- map_data(.partition_step, scaled_mean_r)
-  .partition_step$k <- search_k(.partition_step)
+  # I think reducing here is a wasted step because I know I haven't found the threshold
+  # .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+  .partition_step <- search_k(.partition_step, "linear")
+
   .partition_step$last_target <- list(
     target = .partition_step$target,
     metric = .partition_step$metric_vector,
@@ -107,13 +134,15 @@ map_data <- function(.partition_step, .f, first_match = FALSE) {
   if (under_threshold(.partition_step)) return(.partition_step)
 
   target_list <- purrr::map(
-    seq_len(.partition_step$k),
+    sort(unique(.partition_step$target)),
     ~which(.partition_step$target == .x)
   )
 
   named_targets <- all(is.character(target_list[[1]]))
   if (!named_targets) target_list <- get_names(.partition_step, target_list)
 
+  # TODO: oppurtunity for parallelization
+  # Although this only gets called once in kmeans
   .partition_step$reduced_data <- purrr:::map_dfc(
     target_list,
     ~return_if_single(.partition_step$.df[, .x], .f)
@@ -154,10 +183,6 @@ metric_within_tolerance <- function(.partition_step){
   is_within(.partition_step$metric, .partition_step$threshold, .partition_step$tolerance)
 }
 
-search_k <- function(.partition_step) {
-  .partition_step$k + .partition_step$k_search
-}
-
 # set target to last value
 rewind_target <- function(.partition_step) {
   .partition_step$target <- .partition_step$last_target$target
@@ -166,6 +191,49 @@ rewind_target <- function(.partition_step) {
   .partition_step$k <- .partition_step$k - 1
 
   .partition_step
+}
+
+search_k <- function(.partition_step, search_method = c("binary", "linear")) {
+  search_method <- match.arg(search_method)
+
+  #  linear search method: add or subtract 1
+  if (search_method == "linear") {
+    .partition_step$k <- .partition_step$k + .partition_step$k_search
+    return(.partition_step)
+  }
+
+  #  binary search method: jump to median of target region
+  #
+  #  if this is is the first k, search the full range of the metric (0, 1)
+  if (is.null(.partition_step$min_k)) .partition_step$min_k <- 1
+  if (is.null(.partition_step$max_k)) .partition_step$max_k <- ncol(.partition_step$.df)
+
+  #  find next k
+  new_k <- ifelse(
+    .partition_step$metric > .partition_step$threshold,
+    #  if above threshold, search between minimum k and current k
+    round(median(.partition_step$min_k:.partition_step$k)),
+    #  if below threshold, search between current k and maximum k
+    round(median(.partition_step$k:.partition_step$max_k))
+  )
+
+  if (.partition_step$metric > .partition_step$threshold) {
+    #  if above threshold, set as new maximum
+    .partition_step$max_k <- .partition_step$k
+  } else {
+    #  if above below, set as new minimum
+    .partition_step$min_k <- .partition_step$k
+  }
+
+  .partition_step$k <- new_k
+
+  .partition_step
+}
+
+boundary_found <- function(.partition_step) {
+  k_above <- .partition_step$metric > .partition_step$threshold
+  k1_below <- .partition_step$metric_k1 < .partition_step$threshold
+  k_above && k1_below
 }
 
 all_done <- function(.partition_step) {

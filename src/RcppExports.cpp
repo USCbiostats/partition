@@ -101,12 +101,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // icc_c
-double icc_c(NumericMatrix x);
+double icc_c(const NumericMatrix& x);
 RcppExport SEXP _partition2_icc_c(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(icc_c(x));
     return rcpp_result_gen;
 END_RCPP

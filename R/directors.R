@@ -28,10 +28,12 @@ direct_distance <- function(.partition, spearman = FALSE) {
   .partition
 }
 
-direct_k_cluster <- function(.partition) {
+direct_k_cluster <- function(.partition, search = c("binary", "linear")) {
+  search_method <- match.arg(search)
   if (is.null(.partition$k)) .partition$k <- guess_init_k(.partition)
 
   if (k_exhausted(.partition)) {
+    browser()
     .partition$metric <- 0
     return(all_done(.partition))
   }
@@ -43,6 +45,10 @@ direct_k_cluster <- function(.partition) {
       target = .partition$target,
       k = .partition$k
     )
+  }
+
+  if (search_method == "binary") {
+    .partition$target_k1 <- kmean_assignment(as.matrix(.partition$.df), .partition$k - 1)
   }
 
   .partition
@@ -128,3 +134,4 @@ k_exhausted <- function(.partition) {
 
   k_0 || k_max
 }
+
