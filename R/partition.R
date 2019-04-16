@@ -42,7 +42,7 @@ direct_measure_reduce <- function(.x, partitioner) {
 
 is_partition_step <- function(x) inherits(x, "partition_step")
 
-as_partition_step <- function(.x, threshold = NA, reduced_data = NA, target = NA, metric = NA, tolerance = .01, var_prefix = NA, ...) {
+as_partition_step <- function(.x, threshold = NA, reduced_data = NA, target = NA, metric = NA, tolerance = .01, var_prefix = NA, partitioner = NA, ...) {
   # do I want to swap reduced_data for .df here? or do I need the full data? update_partition_step()
   if (is_partition_step(.x)) return(.x)
 
@@ -66,6 +66,7 @@ as_partition_step <- function(.x, threshold = NA, reduced_data = NA, target = NA
         mapping_key = mapping_key,
         var_prefix = var_prefix,
         all_done = FALSE,
+        partitioner = partitioner,
         ...
       ),
       class = "partition_step"
@@ -79,7 +80,8 @@ if (!is_partition_step(.x)) {
     .data,
     threshold = threshold,
     tolerance = tolerance,
-    var_prefix = var_prefix
+    var_prefix = var_prefix,
+    partitioner = partitioner
   )
 }
 

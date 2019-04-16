@@ -39,9 +39,9 @@ LinkingTo:
 Imports: 
     Rcpp,
     purrr,
-    glue,
     tibble,
-    ICC,
+    dplyr,
+    glue,
     infotheo,
     MASS,
     ggplot2,

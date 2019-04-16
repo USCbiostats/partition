@@ -65,7 +65,8 @@ metric_variance_explained <- function(.partition_step) {
   .partition_step$metric <- pca1[["pct_var"]]
   # PCA and variance explained are calculated at the same time for efficiency
   # so store the first PC to use later as the reduced variable
-  .partition_step$new_variable <- as.numeric(pca1[["pc1"]])
+  uses_scaled_mean <- is_same_function(.partition_step$partition$reducer, reduce_scaled_mean)
+  if (uses_scaled_mean) .partition_step$new_variable <- as.numeric(pca1[["pc1"]])
 
   .partition_step
 }
@@ -79,7 +80,8 @@ metric_min_r2 <- function(.partition_step) {
   minr2 <- minR2_c(as.matrix(target_data))
   .partition_step$metric <- minr2[["minr2"]]
   # we need scaled means for min r2 calculation; store it to use for reducing
-  .partition_step$new_variable <- minr2[["row_means"]]
+  uses_scaled_mean <- is_same_function(.partition_step$partition$reducer, reduce_scaled_mean)
+  if (uses_scaled_mean) .partition_step$new_variable <- minr2[["row_means"]]
 
   .partition_step
 }
@@ -94,7 +96,8 @@ metric_std_mutualinfo <- function(.partition_step) {
   mi <- mutual_information(target_data)
   .partition_step$metric <- mi[["standardized_mi"]]
   # we need scaled means for MI calculation; store it to use for reducing
-  .partition_step$new_variable <- mi[["scaled_row_means"]]
+  uses_scaled_mean <- is_same_function(.partition_step$partition$reducer, reduce_scaled_mean)
+  if (uses_scaled_mean) .partition_step$new_variable <- mi[["scaled_row_means"]]
 
   .partition_step
 }
