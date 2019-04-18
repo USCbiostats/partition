@@ -1,95 +1,106 @@
+#' Create a custom reducer
+#'
+#' @template describe_reducer
+#'
+#' @param .f a function that returns either a numeric vector or a `data.frame`
+#' @param ... Extra arguments passed to `.f`.
+#' @param returns_vector logical. Does `.f` return a vector? `TRUE` by default.
+#'   If `FALSE`, assumes that `.f` returns a `data.frame`.
+#'
+#' @return a function to use in [`as_partitioner()`]
+#' @export
+#'
+#' @examples
+#'
+#' reduce_row_means <- as_reducer(rowMeans)
+#' reduce_row_means
+#'
+as_reducer <- function(.f, ..., returns_vector = TRUE) {
+  if (returns_vector) {
+    mapping_f <- reduce_data
+  } else {
+    mapping_f <- map_data
+  }
+
+  function(.partition_step, ...) {
+    mapping_f(.partition_step, .f, ...)
+  }
+}
+
+#' Reduce selected variables to scaled means
+#'
+#' @template describe_reducer
+#'
+#' @description `reduce_scaled_mean()` returns the scaled row means of the
+#'   target variables to reduce.
+#'
+#' @template partition_step
+#' @export
 reduce_scaled_mean <- function(.partition_step) {
   reduce_data(.partition_step, scaled_mean_r)
 }
 
+#' Reduce selected variables to scaled means
+#'
+#' @template describe_reducer
+#'
+#' @description `reduce_kmeans()` is efficient in that it doesn't reduce until
+#'   the closest `k` to the information threshold is found.
+#'
+#' @template partition_step
+#' @param search  The search method. Binary search is generally more efficient
+#'   but linear search can be faster in very low dimensions.
+#' @export
 reduce_kmeans <- function(.partition_step, search = c("binary", "linear")) {
   search <- match.arg(search)
 
+  #  find next `k`
   if (search == "linear") return(linear_k_search(.partition_step))
-
   binary_k_search(.partition_step)
 }
 
-binary_k_search <- function(.partition_step) {
-  # check if we've found the threshold boundary
-  if (boundary_found(.partition_step)) {
-    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
-    return(all_done(.partition_step))
-  }
-
-  .partition_step <- search_k(.partition_step, "binary")
-  .partition_step$last_target <- list(
-    target = .partition_step$target,
-    metric = .partition_step$metric_vector,
-    k = .partition_step$k
-  )
-
-  .partition_step
-}
-
-linear_k_search <- function(.partition_step) {
-  if (is.null(.partition_step$k_search)) {
-    #  if initial metric is smaller than threshold, search forward through k to
-    #  capture more information. if it's larger, search backwards to minimize it
-    smaller_than_threshold <- .partition_step$metric < .partition_step$threshold
-    .partition_step$k_search <- ifelse(smaller_than_threshold, 1,-1)
-  }
-
-  # if we're searching forward, check if we've past the threshold
-  if (k_searching_forward(.partition_step) && above_threshold(.partition_step)) {
-    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
-    return(all_done(.partition_step))
-  }
-
-  # if we're searching backward, check if we've gone under the threshold. if so,
-  # use the last targets.
-  if (k_searching_backward(.partition_step) && under_threshold(.partition_step)) {
-    .partition_step <- rewind_target(.partition_step)
-    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
-    return(all_done(.partition_step))
-  }
-
-  # I think reducing here is a wasted step because I know I haven't found the threshold
-  # .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
-  .partition_step <- search_k(.partition_step, "linear")
-
-  .partition_step$last_target <- list(
-    target = .partition_step$target,
-    metric = .partition_step$metric_vector,
-    k = .partition_step$k
-  )
-
-  .partition_step
-}
-
+#' Reduce selected variables to first principal component
+#'
+#' @template describe_reducer
+#'
+#' @description `reduce_first_component()` returns the first component from the
+#'   principal components analysis of the target variables.
+#'
+#' @template partition_step
+#' @export
 reduce_first_component <- function(.partition_step) {
   # this function uses the first PC, which is fit at the same time as variance
   # explained, so no need to pass a function. Just process it.
   reduce_data(.partition_step, NULL)
 }
 
-# TODO may remove this
-scaled_mean_c <- function(.x) {
-  scale_rowmeans(as.matrix(.x))
-}
-
-scaled_mean_r <- function(.x) {
-  as.numeric(scale(rowMeans(.x)))
-}
-
-build_next_name <- function(.partition_step) {
-  reduced_names <- names(.partition_step$reduced_data)
-
-  n_reduced_names <- reduced_names[length(reduced_names)] %>%
-    stringr::str_split(.partition_step$var_prefix) %>%
-    purrr::pluck(1) %>%
-    # if null (no reduced variables), return 0
-    purrr::pluck(2) %||% 0
-
-  paste0(.partition_step$var_prefix, as.numeric(n_reduced_names) + 1)
-}
-
-#  for reducers that return a vector
+#' Reduce a target
+#'
+#' `reduce_data()` and `map_data()` apply the data reduction to the targets
+#' found in the director step. They only do so if the metric is above the
+#' threshold, however. `reduce_data()` is for functions that return vectors
+#' while `map_data()` is for functions that return `data.frames`. If you're
+#' using [`as_reducer()`], there's no need to call these functions directly.
+#'
+#' @template partition_step
+#' @param .f a function to reduce the data to either a vector or a data.frame
+#' @param first_match logical. Should the partition algorithm stop when it finds
+#'   a reduction that is equal to the threshold?
+#'
+#' @export
+#'
+#' @examples
+#'
+#' reduce_row_means <- function(.partition_step, .data) {
+#'   reduce_data(.partition_step, rowMeans)
+#' }
+#'
+#' replace_partitioner(
+#'   part_icc,
+#'   reducer = reduce_row_means
+#' )
+#'
+#' @rdname reduce_target
 reduce_data <- function(.partition_step, .f, first_match = TRUE) {
   if (.partition_step$all_done) return(.partition_step)
   if (under_threshold(.partition_step)) return(.partition_step)
@@ -110,25 +121,8 @@ reduce_data <- function(.partition_step, .f, first_match = TRUE) {
   .partition_step
 }
 
-calculate_new_variable <- function(.partition_step, .f) {
-  #  some methods calculate the metric and reduction at the same time. if a
-  #  stored variable is present, use that.
-  if (!is.null(.partition_step$new_variable)) {
-    new_variable <- .partition_step$new_variable
-    return(new_variable)
-  }
-
-  .partition_step$reduced_data %>%
-    dplyr::select(.partition_step$target) %>%
-    .f()
-}
-
-return_if_single <- function(.x, .f, ...) {
-  if (length(.x) == 1) return(unlist(.x, use.names = FALSE))
-  .f(.x, ...)
-}
-
-#  for reducers that return a data frame
+#' @export
+#' @rdname reduce_target
 map_data <- function(.partition_step, .f, first_match = FALSE) {
   if (.partition_step$all_done) return(.partition_step)
   if (under_threshold(.partition_step)) return(.partition_step)
@@ -158,41 +152,13 @@ map_data <- function(.partition_step, .f, first_match = FALSE) {
   .partition_step
 }
 
-under_threshold <- function(.partition_step) {
-  .partition_step$metric < (.partition_step$threshold - .partition_step$tolerance)
-}
-
-above_threshold <- function(.partition_step) {
-  .partition_step$metric > (.partition_step$threshold + .partition_step$tolerance)
-}
-
-k_searching_forward <- function(.partition_step) {
-  .partition_step$k_search == 1
-}
-
-k_searching_backward <- function(.partition_step) {
-  .partition_step$k_search == -1
-}
-
-is_within <- function(.x, .y, .e) {
-  if (.e == 0) return(.x == .y)
-  .x >= (.y - .e) && .x <= (.y + .e)
-}
-
-metric_within_tolerance <- function(.partition_step){
-  is_within(.partition_step$metric, .partition_step$threshold, .partition_step$tolerance)
-}
-
-# set target to last value
-rewind_target <- function(.partition_step) {
-  .partition_step$target <- .partition_step$last_target$target
-  .partition_step$metric_vector <- .partition_step$last_target$metric_vector
-  .partition_step$metric <- min(.partition_step$metric)
-  .partition_step$k <- .partition_step$k - 1
-
-  .partition_step
-}
-
+#' Search for the best `k`
+#'
+#' @template partition_step
+#' @param search_method The search method. Binary search is generally more efficient
+#'   but linear search can be faster in very low dimensions.
+#'
+#' @keywords internal
 search_k <- function(.partition_step, search_method = c("binary", "linear")) {
   search_method <- match.arg(search_method)
 
@@ -230,17 +196,232 @@ search_k <- function(.partition_step, search_method = c("binary", "linear")) {
   .partition_step
 }
 
+#' Search for best `k` using the binary search method
+#'
+#' @template partition_step
+#' @keywords internal
+binary_k_search <- function(.partition_step) {
+  # check if we've found the threshold boundary
+  if (boundary_found(.partition_step)) {
+    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+    return(all_done(.partition_step))
+  }
+
+  .partition_step <- search_k(.partition_step, "binary")
+  .partition_step$last_target <- list(
+    target = .partition_step$target,
+    metric = .partition_step$metric_vector,
+    k = .partition_step$k
+  )
+
+  .partition_step
+}
+
+#' Search for best `k` using the linear search method
+#'
+#' @template partition_step
+#' @keywords internal
+linear_k_search <- function(.partition_step) {
+  if (is.null(.partition_step$k_search)) {
+    #  if initial metric is smaller than threshold, search forward through k to
+    #  capture more information. if it's larger, search backwards to minimize it
+    smaller_than_threshold <- .partition_step$metric < .partition_step$threshold
+    .partition_step$k_search <- ifelse(smaller_than_threshold, 1,-1)
+  }
+
+  # if we're searching forward, check if we've past the threshold
+  if (k_searching_forward(.partition_step) && above_threshold(.partition_step)) {
+    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+    return(all_done(.partition_step))
+  }
+
+  # if we're searching backward, check if we've gone under the threshold. if so,
+  # use the last targets.
+  if (k_searching_backward(.partition_step) && under_threshold(.partition_step)) {
+    .partition_step <- rewind_target(.partition_step)
+    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+    return(all_done(.partition_step))
+  }
+
+  .partition_step <- search_k(.partition_step, "linear")
+
+  .partition_step$last_target <- list(
+    target = .partition_step$target,
+    metric = .partition_step$metric_vector,
+    k = .partition_step$k
+  )
+
+  .partition_step
+}
+
+#' Average and scale a rows in a `data.frame`
+#'
+#' `scaled_mean()` calculates scaled row means for a dataframe.
+#'
+#' @param .x a `data.frame`
+#' @param method The method source: both the pure R and C++ versions are efficient
+#'
+#' @return a numeric vector
+#' @export
+#'
+#' @examples
+#' library(dplyr)
+#' iris %>%
+#'   select_if(is.numeric) %>%
+#'   scaled_mean()
+#'
+#' @rdname scaled_mean
+scaled_mean <- function(.x, method = c("r", "c")) {
+  method <- match.arg(method)
+  if (method == "c") return(scaled_mean_c(.x))
+
+  scaled_mean_r(.x)
+}
+
+scaled_mean_c <- function(.x) {
+  scale_rowmeans(as.matrix(.x))
+}
+
+scaled_mean_r <- function(.x) {
+  as.numeric(scale(rowMeans(.x)))
+}
+
+#' Create new variable name based on prefix and previous reductions
+#'
+#' @template partition_step_param
+#'
+#' @return a character vector
+#' @keywords internal
+build_next_name <- function(.partition_step) {
+  reduced_names <- names(.partition_step$reduced_data)
+
+  n_reduced_names <- reduced_names[length(reduced_names)] %>%
+    stringr::str_split(.partition_step$var_prefix) %>%
+    purrr::pluck(1) %>%
+    # if null (no reduced variables), return 0
+    purrr::pluck(2) %||% 0
+
+  paste0(.partition_step$var_prefix, as.numeric(n_reduced_names) + 1)
+}
+
+#' Calculate or retrieve stored reduced variable
+#'
+#' @template partition_step_param
+#'
+#' @return a numeric vector, the reduced variable
+#' @keywords internal
+calculate_new_variable <- function(.partition_step, .f) {
+  #  some methods calculate the metric and reduction at the same time. if a
+  #  stored variable is present, use that.
+  if (!is.null(.partition_step$new_variable)) {
+    new_variable <- .partition_step$new_variable
+    return(new_variable)
+  }
+
+  #  apply the reduction to the targetted variables
+  .partition_step$reduced_data %>%
+    dplyr::select(.partition_step$target) %>%
+    .f()
+}
+
+#' Reduce targets if more than one variable, return otherwise
+#'
+#' @param .x a `data.frame` containing the targets to reduce
+#' @param .f a reduction function to apply
+#' @param ... arguments passed to `.f`
+#'
+#' @return a numeric vector, the reduced or original variable
+#' @keywords internal
+return_if_single <- function(.x, .f, ...) {
+  if (length(.x) == 1) return(unlist(.x, use.names = FALSE))
+  .f(.x, ...)
+}
+
+#' Compare metric to threshold
+#'
+#' `under_threshold()` and `above_threshold()` check relative location of the
+#' metric. `metric_within_tolerance()` uses `is_within()` to check if the metric
+#' is within in the range of the threshold plus/minus the tolerance.
+#'
+#' @template partition_step_param
+#'
+#' @return logical, `TRUE` or `FALSE`
+#' @keywords internal
+#' @rdname compare_metric
+under_threshold <- function(.partition_step) {
+  .partition_step$metric < (.partition_step$threshold - .partition_step$tolerance)
+}
+
+#' @rdname compare_metric
+above_threshold <- function(.partition_step) {
+  .partition_step$metric > (.partition_step$threshold + .partition_step$tolerance)
+}
+
+#' @rdname compare_metric
+is_within <- function(.x, .y, .e) {
+  if (.e == 0) return(.x == .y)
+  .x >= (.y - .e) && .x <= (.y + .e)
+}
+
+#' @rdname compare_metric
+metric_within_tolerance <- function(.partition_step){
+  is_within(.partition_step$metric, .partition_step$threshold, .partition_step$tolerance)
+}
+
+#' Set target to last value
+#'
+#' @template partition_step
+#' @keywords internal
+rewind_target <- function(.partition_step) {
+  .partition_step$target <- .partition_step$last_target$target
+  .partition_step$metric_vector <- .partition_step$last_target$metric_vector
+  .partition_step$metric <- min(.partition_step$metric)
+  .partition_step$k <- .partition_step$k - 1
+
+  .partition_step
+}
+
+#' Assess `k` search
+#'
+#' `k_searching_forward()` and `k_searching_backward()` check the direction of
+#' the `k` search metric. `boundary_found()` checks if the last value of `k` was
+#' under the threshold while the current value is over
+#'
+#' @template partition_step_param
+#'
+#' @return logical, `TRUE` or `FALSE`
+#' @keywords internal
+#' @rdname compare_k
+k_searching_forward <- function(.partition_step) {
+  .partition_step$k_search == 1
+}
+
+#' @rdname compare_k
+k_searching_backward <- function(.partition_step) {
+  .partition_step$k_search == -1
+}
+
+#' @rdname compare_k
 boundary_found <- function(.partition_step) {
   k_above <- .partition_step$metric > .partition_step$threshold
   k1_below <- .partition_step$metric_k1 < .partition_step$threshold
   k_above && k1_below
 }
 
+#' Mark the partition as complete to stop search
+#'
+#' @template partition_step
+#' @keywords internal
 all_done <- function(.partition_step) {
   .partition_step$all_done <- TRUE
   .partition_step
 }
 
+#' Check if all variables reduced to a single composite
+#'
+#' @template partition_step_param
+#' @return logical, `TRUE` or `FALSE`
+#' @keywords internal
 all_columns_reduced <- function(.partition_step) {
   ncol(.partition_step$reduced_data) == 1
 }

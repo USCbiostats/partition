@@ -1,8 +1,25 @@
+#' Return partition mapping key
+#'
+#' `mappings()` returns a tidy data frame with each reduced variable and its
+#' mapping and information loss. `mapping_groups()` returns a list of mappings
+#' (either the variable names or their column position).
+#'
+#' @template partition_param
+#' @param indices logical. Return just the indices instead of the names? Default is `FALSE`.
+#'
+#' @return a `tibble`
+#' @export
+#'
+#' @examples
+#'
+#'
+#' @rdname mapping_key
 mappings <- function(.partition) {
   # return df of mappings
-  tidr::unnest(.partition$mapping_key)
+  tidyr::unnest(.partition$mapping_key)
 }
 
+#' @rdname mapping_key
 mapping_groups <- function(.partition, indices = FALSE) {
   # return efficiently stored mappings (tibble with name of variable,
   # vector of contained vars (probably named vector for index e.g. "x1" = 1))
@@ -14,7 +31,36 @@ set_mappings <- function(.mappings) {
   # return partition_map, an empty partition obj
 }
 
-# export this
+
+replicate_partition <- function(new_data, .partition) {
+  .mappings <- mapping_groups(.partition)
+
+  #  double check if names are in new data
+  #  use variable positions if not
+  same_names <- all(purrr::flatten_chr(.mappings) %in% names(new_data))
+  if (!same_names) {
+    warning("variable names do not match partition; using variable positions")
+    .mappings <- mapping_groups(.partition, indices = TRUE)
+  }
+
+  # replicate parition exactly
+}
+
+
+#' Filter the reduced mappings
+#'
+#' `filter_reduced()` and `unnest_reduced()` are convenience functions to
+#' quickly retrieve the mappings for only the reduced variables.
+#' `filter_reduced()` returns a nested `tibble` while `unnest_reduced()` unnests
+#' it.
+#'
+#' @template partition_param
+#'
+#' @return a `tibble` with mapping key
+#' @export
+#'
+#' @examples
+#' @rdname filter_reduced
 filter_reduced <- function(.partition) {
   .partition$mapping_key %>%
     dplyr::mutate(is_reduced = purrr::map_lgl(mapping, ~length(.x) > 1)) %>%
@@ -22,38 +68,38 @@ filter_reduced <- function(.partition) {
     dplyr::select(-is_reduced)
 }
 
-count_clusters <- function(.partition) {
-  reduced <- filter_reduced(.partition)
-  nrow(reduced)
+#' @export
+#' @rdname filter_reduced
+unnest_reduced <- function(.partition) {
+  .partition %>%
+    filter_reduced() %>%
+    tidyr::unnest()
 }
 
-total_reduced <- function(.partition) {
-  filter_reduced(.partition) %>%
-    tidyr::unnest() %>%
-    nrow()
+#' Return the reduced data from a partition
+#'
+#' @template partition_param
+#'
+#' @return a tibble containing the reduced data for the partition
+#' @export
+#'
+#' @examples
+#' @rdname partition_scores
+partition_scores <- function(.partition) {
+ .partition$reduced_data
 }
 
-summarize_mapping <- function(.partition) {
-  summary <- filter_reduced(.partition) %>%
-    dplyr::mutate(
-      old_vars = purrr::map_chr(mapping, ~paste(.x, collapse = ", ")),
-      summary = paste0(
-        crayon::green(variable),
-        crayon::silver(" = {"),
-        crayon::yellow(old_vars),
-        crayon::silver("}")
-      )
-    )
+#' @export
+#' @rdname partition_scores
+fitted.partition <- partition_scores
 
-  paste(summary$summary, collapse = "\n")
-}
-
-minimum_information <- function(.partition, .round = TRUE, digits = 3) {
-  min_inf <- min(.partition$mapping_key$information)
-  if (.round) min_inf <- round(min_inf, 3)
-  min_inf
-}
-
+#' Append a new variable to mapping and filter out composite variables
+#'
+#' @template partition_step_param
+#' @param new_x the name of the reduced variable
+#'
+#' @return a `tibble`, the mapping key
+#' @keywords internal
 append_mappings <- function(.partition_step, new_x) {
   composite_variables <- pull_composite_variables(.partition_step)
 
@@ -66,6 +112,13 @@ append_mappings <- function(.partition_step, new_x) {
     )
 }
 
+#' Create a mapping key out of a list of targets
+#'
+#' @template partition_step_param
+#' @param target_list a list of composite variables
+#'
+#' @return a `tibble`, the mapping key
+#' @keywords internal
 reduce_mappings <- function(.partition_step, target_list) {
   named_targets <- all(is.character(target_list[[1]]))
   if (!named_targets) target_list <- get_names(.partition_step, target_list)
@@ -85,10 +138,22 @@ reduce_mappings <- function(.partition_step, target_list) {
     ))
 }
 
-expand_mappings <- function(x, .mapping_key) {
-  .mapping_key[.mapping_key$variable == x, "mapping"][[1]][[1]]
-}
 
+#' Access mapping variables
+#'
+#' `pull_composite_variables()` takes a target and finds all the composite
+#' variables (e.g. if a reduced variable is a target, it finds all the variables
+#' the reduced variable is created from). `expand_mappings()` extracts the
+#' composite variables of a given variable. `get_names()` finds the variable
+#' names for a list of column positions.
+#'
+#' @template partition_step_param
+#' @param .mapping_key a mapping key
+#' @param target_list a list of composite variables
+#'
+#' @return a vector containing mappings
+#' @keywords internal
+#' @rdname pull_mappings
 pull_composite_variables <- function(.partition_step) {
   purrr::map(
     .partition_step$target,
@@ -98,25 +163,14 @@ pull_composite_variables <- function(.partition_step) {
     purrr::flatten_chr()
 }
 
+#' @rdname pull_mappings
+expand_mappings <- function(x, .mapping_key) {
+  .mapping_key[.mapping_key$variable == x, "mapping"][[1]][[1]]
+}
+
+#' @rdname pull_mappings
 get_names <- function(.partition_step, target_list) {
   variable_names <- names(.partition_step$.df)
   purrr::map(target_list, ~variable_names[.x])
 }
 
-partition_scores <- function(.partition) {
- # return reduced data
-}
-
-replicate_partition <- function(new_data, .partition) {
-  .mappings <- mapping_groups(.partition)
-
-  #  double check if names are in new data
-  #  use variable positions if not
-  same_names <- all(purrr::flatten_chr(.mappings) %in% names(new_data))
-  if (!same_names) {
-    warning("variable names do not match partition; using variable positions")
-    .mappings <- mapping_groups(.partition, indices = TRUE)
-  }
-
-  # replicate parition exactly
-}

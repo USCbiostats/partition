@@ -1,3 +1,19 @@
+#' Calculate the standardized mutual information of a data set
+#'
+#' `mutual_information` calculate the standardized mutual information of a data
+#' set using the `infotheo` package.
+#'
+#' @param .data a dataframe of numeric values
+#'
+#' @return a list containing the standardized MI and the scaled row means
+#' @export
+#'
+#' @examples
+#' library(dplyr)
+#' iris %>%
+#'   select_if(is.numeric) %>%
+#'   mutual_information()
+#'
 mutual_information <- function(.data) {
   discretized_data <- infotheo::discretize(.data, disc = "equalfreq")
   row_means <- rowMeans(.data, na.rm = TRUE)

@@ -2,10 +2,18 @@ Package: partition2
 Type: Package
 Title: Agglomerative Partitioning Framework for Dimension Reduction of High-Dimensional Genomic Datasets
 Version: 0.1.0
-Author: person("Joshua", "Millstein", email = "joshua.millstein@usc.edu", 
-  role = c("aut", "cre")),
-  person("Malcolm", "Barrett", email = "malcolmbarrett@gmail.com", 
-  role = c("aut", "cre"))
+Author: c(
+ person(
+    "Joshua", 
+    "Millstein", 
+    role = c("aut", "cre")
+    email = "joshua.millstein@usc.edu"),
+  person(
+    "Malcolm", 
+    "Barrett", 
+    role = c("aut", "cre"),
+    email = "malcolmbarrett@gmail.com", 
+    comment = c(ORCID = "0000-0003-0299-5825")))
 Maintainer: Malcolm Barrett <malcolmbarrett@gmail.com>
 Description: A common feature across genomic data types, including genome, 
   epigenome, transcriptome, microbiome, metabolome, etc., is dependencies among 

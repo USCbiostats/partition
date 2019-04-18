@@ -1,3 +1,48 @@
+#' Create a custom metric
+#'
+#' @template describe_metric
+#'
+#' @param .f a function that returns either a numeric vector or a `data.frame`
+#' @param ... Extra arguments passed to `.f`.
+#'
+#' @return a function to use in [`as_partitioner()`]
+#' @export
+#'
+#' @examples
+#'
+#' inter_item_reliability <- function(.data) {
+#'    corr(.data) %>%
+#'     colMeans(na.rm = TRUE) %>%
+#'     mean()
+#' }
+#'
+#' metric_iir <- as_metric(inter_item_reliability)
+#' metric_iir
+#'
+as_metric <- function(.f, ...) {
+  function(.partition_step, ...) {
+    if (.partition_step$all_done) return(.partition_step)
+
+    composite_variables <- pull_composite_variables(.partition_step)
+    target_data <- .partition_step$.df[, composite_variables]
+
+    .partition_step$metric <- .f(target_data, ...)
+
+    .partition_step
+
+  }
+}
+
+#' Measure the information loss of reduction using intraclass correlation
+#' coefficient
+#'
+#' @template describe_metric
+#'
+#' @description `metric_icc()` assesses information loss by calculating the
+#'   intraclass correlation coefficient for the target variables.
+#'
+#' @template partition_step
+#' @export
 metric_icc <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
@@ -9,6 +54,20 @@ metric_icc <- function(.partition_step) {
   .partition_step
 }
 
+#' Measure the information loss of reduction using the minimum intraclass
+#' correlation coefficient
+#'
+#' @template describe_metric
+#'
+#' @description `metric_min_icc()` assesses information loss by calculating the
+#'   intraclass correlation coefficient for each set of the target variables and
+#'   finding their minimum.
+#'
+#' @template partition_step
+#' @param search_method The search method. Binary search is generally more efficient
+#'   but linear search can be faster in very low dimensions.
+#'
+#' @export
 metric_min_icc <- function(.partition_step, search_method = c("binary", "linear")) {
   search_method <- match.arg(search_method)
   if (.partition_step$all_done) return(.partition_step)
@@ -55,6 +114,15 @@ metric_min_icc <- function(.partition_step, search_method = c("binary", "linear"
   .partition_step
 }
 
+#' Measure the information loss of reduction using the variance explained
+#'
+#' @template describe_metric
+#'
+#' @description `metric_variance_explained()` assesses information loss by calculating the
+#'   variance explained by the first component of a principal components analysis.
+#'
+#' @template partition_step
+#' @export
 metric_variance_explained <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
@@ -71,6 +139,15 @@ metric_variance_explained <- function(.partition_step) {
   .partition_step
 }
 
+#' Measure the information loss of reduction using minimum R-squared
+#'
+#' @template describe_metric
+#'
+#' @description `metric_variance_explained()` assesses information loss by
+#'   calculating the minimum R-squared for the target variables.
+#'
+#' @template partition_step
+#' @export
 metric_min_r2 <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
@@ -86,7 +163,17 @@ metric_min_r2 <- function(.partition_step) {
   .partition_step
 }
 
-
+#' Measure the information loss of reduction using standardized mutual
+#' information
+#'
+#' @template describe_metric
+#'
+#' @description `metric_std_mutualinfo()` assesses information loss by
+#'   calculating the standardized mutual information for the target variables.
+#'   See [mutual_information()].
+#'
+#' @template partition_step
+#' @export
 metric_std_mutualinfo <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
@@ -103,6 +190,35 @@ metric_std_mutualinfo <- function(.partition_step) {
 }
 
 
+#' Calculate the intraclass correlation coefficient
+#'
+#' `icc()` efficiently calculates the ICC for a numeric data set.
+#'
+#' @param .x a data set
+#' @param method The method source: both the pure R and C++ versions are efficient
+#'
+#' @return a numeric vector of length 1
+#' @export
+#'
+#' @examples
+#' library(dplyr)
+#' iris %>%
+#'   select_if(is.numeric) %>%
+#'   icc()
+icc <- function(.x, method = c("r", "c")) {
+  method <- match.arg(method)
+  if (method == "c") return(icc_c(as.matrix(.x)))
+
+  icc_r(.x)
+}
+
+#' Calculate the intraclass correlation coefficient
+#'
+#' `icc_r()` efficiently calculates the ICC for a numeric data set in pure R.
+#'
+#' @param .x a data set
+#' @return a numeric vector of length 1
+#' @keywords internal
 icc_r <- function(.x) {
   ncols <- ncol(.x)
   nrows <- nrow(.x)

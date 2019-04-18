@@ -1,70 +1,192 @@
-direct_distance_pearson <- function(.partition) {
-  direct_distance(.partition, spearman = FALSE)
+#' Create a custom director
+#'
+#' @template describe_director
+#'
+#' @param .f a function that returns a target (e.g. an integer vector of variable positions)
+#' @param ... Extra arguments passed to `.f`.
+#'
+#' @return a function to use in [`as_partitioner()`]
+#' @export
+#'
+#' @examples
+#'
+#' assign_hclust <- function(.data, k) {
+#'   hc <- hclust(dist(.data))
+#'   cutree(hc, k = k)
+#' }
+#'
+#' direct_hclust <- as_director(assign_hclust)
+#' direct_hclust
+#'
+as_director <- function(.f, ...) {
+  function(.partition_step, ...) {
+    .partition_step$target <- .f(.partition_step$reduced_data, ...)
+
+    .partition_step$last_target <- list(target = .partition_step$target)
+
+    .partition_step
+  }
 }
 
-direct_distance_spearman <- function(.partition) {
-  direct_distance(.partition, spearman = TRUE)
-}
-
-direct_distance <- function(.partition, spearman = FALSE) {
+#' Target based on minimum distance matrix
+#'
+#' @template describe_director
+#'
+#' @description `direct_distance()` fits a distance matrix using either Pearson's or
+#' Spearman's correlation and finds the pair with the smallest distance to
+#' target. If the distance matrix already exists, `direct_distance()` only
+#' fits the distances for any new reduced variables.
+#' `direct_distance_pearson()` and `direct_distance_spearman()` are
+#' convenience functions that directly call the type of distance matrix.
+#'
+#' @template partition_step
+#' @param spearman Logical. Use Spearman's correlation?
+#'
+#' @export
+#'
+#' @rdname direct_distance
+direct_distance <- function(.partition_step, spearman = FALSE) {
   # stop partition if all pairs checked
-  if (matrix_is_exhausted(.partition)) {
-    .partition$metric <- 0
-    return(all_done(.partition))
+  if (matrix_is_exhausted(.partition_step)) {
+    .partition_step$metric <- 0
+    return(all_done(.partition_step))
   }
 
   # find minimum distance
-  distance_matrix <- fit_distance_matrix(.partition, spearman = spearman)
-  .partition$target <- find_min_distance_variables(distance_matrix)
+  distance_matrix <- fit_distance_matrix(.partition_step, spearman = spearman)
+  .partition_step$target <- find_min_distance_variables(distance_matrix)
 
   # don't check this pair again
-  distance_matrix[.partition$target[1], .partition$target[2]] <- NA
+  distance_matrix[.partition_step$target[1], .partition_step$target[2]] <- NA
 
-  .partition$last_target <- list(
-    target = .partition$target,
+  .partition_step$last_target <- list(
+    target = .partition_step$target,
     distance_matrix = distance_matrix
   )
 
-  .partition
+  .partition_step
 }
 
-direct_k_cluster <- function(.partition, search = c("binary", "linear")) {
-  search_method <- match.arg(search)
-  if (is.null(.partition$k)) .partition$k <- guess_init_k(.partition)
+#' @export
+#' @rdname direct_distance
+direct_distance_pearson <- function(.partition_step) {
+  direct_distance(.partition_step, spearman = FALSE)
+}
 
-  if (k_exhausted(.partition)) {
-    .partition$metric <- 0
-    return(all_done(.partition))
+#' @export
+#' @rdname direct_distance
+direct_distance_spearman <- function(.partition_step) {
+  direct_distance(.partition_step, spearman = TRUE)
+}
+
+#' Target based on K-means clustering
+#'
+#' @template describe_director
+#'
+#' @description `direct_k_cluster()` assigns each variable to a cluster using
+#'  K-means. As the partition looks for the best reduction,
+#'  `direct_k_cluster()` iterates through values of `k` to assign clusters.
+#'  This search is handled by the binary search method by default and thus
+#'  does not necessarily need to fit every value of k.
+#'
+#' @template partition_step
+#' @param search The search method. Binary search is generally more efficient
+#'   but linear search can be faster in very low dimensions.
+#'
+#' @export
+#'
+#' @examples
+direct_k_cluster <- function(.partition_step, search = c("binary", "linear")) {
+  search_method <- match.arg(search)
+  if (is.null(.partition_step$k)) .partition_step$k <- guess_init_k(.partition_step)
+
+  if (k_exhausted(.partition_step)) {
+    .partition_step$metric <- 0
+    return(all_done(.partition_step))
   }
 
-  .partition$target <- kmean_assignment(as.matrix(.partition$.df), .partition$k)
+  .partition_step$target <- kmean_assignment(as.matrix(.partition_step$.df), .partition_step$k)
 
-  if (length(.partition$last_target) == 1 && is.na(.partition$last_target)) {
-    .partition$last_target <- list(
-      target = .partition$target,
-      k = .partition$k
+  if (length(.partition_step$last_target) == 1 && is.na(.partition_step$last_target)) {
+    .partition_step$last_target <- list(
+      target = .partition_step$target,
+      k = .partition_step$k
     )
   }
 
   if (search_method == "binary") {
-    .partition$target_k1 <- kmean_assignment(as.matrix(.partition$.df), .partition$k - 1)
+    .partition_step$target_k1 <- kmean_assignment(as.matrix(.partition_step$.df), .partition_step$k - 1)
   }
 
-  .partition
+  .partition_step
 }
 
-fit_distance_matrix <- function(.partition, spearman = FALSE) {
-  if (is_not_empty_or_na(.partition$last_target)) {
-    return(update_dist(.partition, spearman = spearman))
+
+#' Efficiently fit correlation coefficient for matrix or two vectors
+#'
+#' @param x a matrix or vector
+#' @param y a vector. Optional.
+#' @param spearman Logical. Use Spearman's correlation?
+#'
+#' @return a numeric vector, the correlation coefficient
+#' @export
+#'
+#' @examples
+#' library(dplyr)
+#' # fit for entire data set
+#' iris %>%
+#'   select_if(is.numeric) %>%
+#'   corr()
+#'
+#' # just fit for two vectors
+#' corr(iris$Sepal.Length, iris$Sepal.Width)
+#'
+  corr <- function(x, y = NULL, spearman = FALSE) {
+    if (is.null(y)) {
+      dim_names <- names(x)
+      if (spearman) {
+        x <- apply_rank(as.matrix(x))
+      }
+
+      correlation <- corr_c_mat(as.matrix(x))
+
+      attr(correlation, "dimnames") <- list(dim_names, dim_names)
+      return(correlation)
+    }
+
+    if (spearman) {
+      x <- rank_c(x)
+      y <- rank_c(y)
+    }
+
+    corr_c_2vec(x, y)
   }
 
-  distance_matrix <- 1 - corr(.partition$.df, spearman = spearman)
+#' Fit a distance matrix using correlation coefficients
+#'
+#' @template partition_step_param
+#' @param spearman Logical. Use Spearman's correlation?
+#'
+#' @return a `matrix` of size `p` by `p`
+#' @keywords internal
+fit_distance_matrix <- function(.partition_step, spearman = FALSE) {
+  if (is_not_empty_or_na(.partition_step$last_target)) {
+    return(update_dist(.partition_step, spearman = spearman))
+  }
+
+  distance_matrix <- 1 - corr(.partition_step$.df, spearman = spearman)
   lower_triangle <- lower.tri(distance_matrix, diag = TRUE)
   distance_matrix[lower_triangle] <- NA
 
   distance_matrix
 }
 
+#' Find the index of the pair with the smallest distance
+#'
+#' @param .x a distance matrix
+#'
+#' @return a character vector with the names of the minimum pair
+#' @keywords internal
 find_min_distance_variables <- function(.x) {
   indices <- arrayInd(which.min(.x), dim(.x))
 
@@ -75,22 +197,28 @@ find_min_distance_variables <- function(.x) {
   )
 }
 
-# only find the distances for the new variable
-update_dist <- function(.partition, spearman = FALSE) {
-  target <- .partition$last_target$target
-  distance_matrix <- .partition$last_target$distance_matrix
+#' Only fit the distances for a new variable
+#'
+#' @template partition_step_param
+#' @param spearman Logical. Use Spearman's correlation?
+#'
+#' @return a `matrix`
+#' @keywords internal
+update_dist <- function(.partition_step, spearman = FALSE) {
+  target <- .partition_step$last_target$target
+  distance_matrix <- .partition_step$last_target$distance_matrix
 
   column_names <- colnames(distance_matrix)
-  variable_names <- names(.partition$reduced_data)
+  variable_names <- names(.partition_step$reduced_data)
   if (identical(column_names, variable_names)) {
     return(distance_matrix)
   }
 
   # just refit new variable
   x <- variable_names[length(variable_names)]
-  reduced_variable <- .partition$reduced_data[[ncol(.partition$reduced_data)]]
+  reduced_variable <- .partition_step$reduced_data[[ncol(.partition_step$reduced_data)]]
 
-  subset_data <- .partition$reduced_data[, -ncol(.partition$reduced_data)]
+  subset_data <- .partition_step$reduced_data[, -ncol(.partition_step$reduced_data)]
 
   updated_distances <- purrr::map_dbl(
     subset_data,
@@ -115,21 +243,39 @@ update_dist <- function(.partition, spearman = FALSE) {
   updated_dist_matrix
 }
 
-matrix_is_exhausted <- function(.partition) {
-  last_target_exists <- is_not_empty_or_na(.partition$last_target)
+#' Have all pairs of variables been checked for metric?
+#'
+#' @template partition_step_param
+#'
+#' @return logical: `TRUE` or `FALSE`
+#' @keywords internal
+matrix_is_exhausted <- function(.partition_step) {
+  last_target_exists <- is_not_empty_or_na(.partition_step$last_target)
   if (!last_target_exists) return(last_target_exists)
 
   # is matrix all NA?
-  all(is.na(.partition$last_target$distance_matrix))
+  all(is.na(.partition_step$last_target$distance_matrix))
 }
 
-guess_init_k <- function(.partition) {
-  round(.partition$threshold * ncol(.partition$.df))
+#' Guess initial `k` based on threshold and `p`
+#'
+#' @template partition_step_param
+#'
+#' @return an integer
+#' @keywords internal
+guess_init_k <- function(.partition_step) {
+  round(.partition_step$threshold * ncol(.partition_step$.df))
 }
 
-k_exhausted <- function(.partition) {
-  k_0 <- .partition$k == 0
-  k_max <- .partition$k == ncol(.partition$.df)
+#' Have all values of `k` been checked for metric?
+#'
+#' @template partition_step_param
+#'
+#' @return logical: `TRUE` or `FALSE`
+#' @keywords internal
+k_exhausted <- function(.partition_step) {
+  k_0 <- .partition_step$k == 0
+  k_max <- .partition_step$k == ncol(.partition_step$.df)
 
   k_0 || k_max
 }

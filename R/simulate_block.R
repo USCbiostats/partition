@@ -1,4 +1,30 @@
-# is this a little slow?
+#' Simulate correlated blocks of variables
+#'
+#' `simulate_block_data()` creates a dataset of blocks of data where variables
+#' within each block are correlated. The correlation for each pair of variables
+#' is sampled uniformly from `lower_corr` to `upper_corr`, and the values of
+#' each are sampled using [MASS::mvrnorm()].
+#'
+#' @param block_sizes a vector of block sizes. The size of each block is the
+#'   number of variables within it.
+#' @param lower_corr the lower bound of the correlation within each block
+#' @param upper_corr the upper bound of the correlation within each block
+#' @param n the number of observations or rows
+#' @param block_name description prepended to the variable to indicate the block it belongs to
+#' @param sep a character, what to separate the variable names with
+#' @param var_name the name of the variable within the block
+#'
+#' @return a `tibble` with `sum(block_sizes)` columns and `n` rows.
+#' @export
+#'
+#' @examples
+#' # create a 100 x 15 data set with 3 blocks
+#' simulate_block_data(
+#'   block_sizes = rep(5, 3),
+#'   lower_corr = .4,
+#'   upper_corr = .6,
+#'   n = 100
+#' )
 simulate_block_data <- function(block_sizes, lower_corr, upper_corr, n, block_name = "block",
                              sep = "_", var_name = "x") {
 
