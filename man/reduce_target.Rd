@@ -15,7 +15,8 @@ map_data(.partition_step, .f, first_match = FALSE)
 \item{.f}{a function to reduce the data to either a vector or a data.frame}
 
 \item{first_match}{logical. Should the partition algorithm stop when it finds
-a reduction that is equal to the threshold?}
+a reduction that is equal to the threshold? Default is \code{TRUE} for reducers
+that return a \code{data.frame} and \code{FALSE} for reducers that return a vector}
 }
 \value{
 a \code{partition_step} object

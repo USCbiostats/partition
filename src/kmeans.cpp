@@ -1,25 +1,3 @@
-// #include "RcppMLPACK.h"
-//
-// using namespace mlpack::kmeans;
-// using namespace Rcpp;
-//
-// // [[Rcpp::depends(RcppMLPACK)]]
-// // [[Rcpp::export]]
-// List kmeans_c(SEXP x, const int& clusters) {
-//
-//   NumericMatrix Xr(x);
-//   arma::mat X(Xr.begin(), Xr.nrow(), Xr.ncol(), false);
-//   arma::Col<size_t> assignments;
-//
-//   // Initialize with the default arguments.
-//   KMeans<> k;
-//
-//   k.Cluster(X, clusters, assignments);
-//
-//   return List::create(_["k"]	= clusters,
-//                       _["cluster"]		= assignments);
-// }
-
 // [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 using namespace Rcpp;
@@ -45,8 +23,6 @@ arma::mat kmeans_c(arma::mat& x, int k, int n_iter = 10, bool verbose = false, i
 
   return means.t();
 }
-
-// code from ClusteR
 
 int minimum_cluster(arma::vec x) {
 

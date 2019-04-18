@@ -17,7 +17,12 @@ minimum_information(.partition, .round = TRUE, digits = 3)
 }
 \arguments{
 \item{.partition}{a \code{partition} object}
+
+\item{.round}{Should the minimum information be rounded?}
+
+\item{digits}{If \code{.round} is \code{TRUE}, to what digit should it be rounded?}
 }
 \description{
 Helper functions to print \code{partition} summary
 }
+\keyword{internal}

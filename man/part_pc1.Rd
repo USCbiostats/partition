@@ -4,7 +4,10 @@
 \alias{part_pc1}
 \title{Partitioner: distance, first principal component, scaled means}
 \usage{
-part_pc1()
+part_pc1(spearman = FALSE)
+}
+\arguments{
+\item{spearman}{logical. Use Spearman's correlation for distance matrix?}
 }
 \value{
 a \code{partitioner}

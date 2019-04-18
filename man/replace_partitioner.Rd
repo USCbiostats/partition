@@ -4,17 +4,17 @@
 \alias{replace_partitioner}
 \title{Replace the director, metric, or reducer for a partitioner}
 \usage{
-replace_partitioner(partitioner, director = NULL, metric = NULL,
-  reducer = NULL)
+replace_partitioner(partitioner, direct = NULL, measure = NULL,
+  reduce = NULL)
 }
 \arguments{
 \item{partitioner}{a \code{partitioner}}
 
-\item{director}{a function that directs, possibly created by \code{\link[=as_director]{as_director()}}}
+\item{direct}{a function that directs, possibly created by \code{\link[=as_director]{as_director()}}}
 
-\item{metric}{a function that measures, possibly created by \code{\link[=as_metric]{as_metric()}}}
+\item{measure}{a function that measures, possibly created by \code{\link[=as_metric]{as_metric()}}}
 
-\item{reducer}{a function that reduces, possibly created by \code{\link[=as_reducer]{as_reducer()}}}
+\item{reduce}{a function that reduces, possibly created by \code{\link[=as_reducer]{as_reducer()}}}
 }
 \value{
 a \code{partitioner}
@@ -26,7 +26,7 @@ Replace the director, metric, or reducer for a partitioner
 
 replace_partitioner(
   part_icc,
-  reducer = as_reducer(rowMeans)
+  reduce = as_reducer(rowMeans)
 )
 
 }

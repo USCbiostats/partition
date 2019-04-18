@@ -4,14 +4,14 @@
 \alias{as_partitioner}
 \title{Create a partitioner}
 \usage{
-as_partitioner(director, metric, reducer)
+as_partitioner(direct, measure, reduce)
 }
 \arguments{
-\item{director}{a function that directs, possibly created by \code{\link[=as_director]{as_director()}}}
+\item{direct}{a function that directs, possibly created by \code{\link[=as_director]{as_director()}}}
 
-\item{metric}{a function that measures, possibly created by \code{\link[=as_metric]{as_metric()}}}
+\item{measure}{a function that measures, possibly created by \code{\link[=as_metric]{as_metric()}}}
 
-\item{reducer}{a function that reduces, possibly created by \code{\link[=as_reducer]{as_reducer()}}}
+\item{reduce}{a function that reduces, possibly created by \code{\link[=as_reducer]{as_reducer()}}}
 }
 \value{
 a \code{partitioner}
@@ -28,9 +28,9 @@ Custom partitioners can be created with \code{\link[=as_partitioner]{as_partitio
 \examples{
 
 as_partitioner(
-  director = direct_distance_pearson(),
-  metric = metric_icc(),
-  reducer = reduce_scaled_means()
+  direct = direct_distance_pearson(),
+  measure = metric_icc(),
+  reduce = reduce_scaled_means()
 )
 
 }

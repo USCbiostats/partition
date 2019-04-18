@@ -4,18 +4,19 @@
 \alias{direct_measure_reduce}
 \title{Apply a partitioner}
 \usage{
-direct_measure_reduce(.x, partitioner)
+direct_measure_reduce(.partition_step, partitioner)
 }
 \arguments{
-\item{partitioner}{a partitioner, as created from \code{\link[=as_partitioner]{as_partitioner()}}.}
-
 \item{.partition_step}{a \code{partition_step} object}
+
+\item{partitioner}{a partitioner, as created from \code{\link[=as_partitioner]{as_partitioner()}}.}
 }
 \value{
 a \code{partition_step} object
 }
 \description{
-Apply a partitioner
+\code{direct_measure_reduce()} works through the direct, measure, reduce steps of
+the partition algorithm, applying the \code{partitioner} to the \code{partition_step}.
 }
 \seealso{
 \code{\link[=as_partitioner]{as_partitioner()}}

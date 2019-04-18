@@ -42,8 +42,7 @@ Encoding: UTF-8
 LazyData: true
 LinkingTo: 
     Rcpp, 
-    RcppArmadillo, 
-    RcppMLPACK
+    RcppArmadillo
 Imports: 
     Rcpp,
     purrr,

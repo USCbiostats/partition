@@ -7,7 +7,7 @@
 is_same_function(x, y)
 }
 \arguments{
-\item{x, y}{a function}
+\item{x, y}{functions to compare}
 }
 \value{
 logical: \code{TRUE} or \code{FALSE}

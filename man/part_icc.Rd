@@ -4,7 +4,10 @@
 \alias{part_icc}
 \title{Partitioner: distance, ICC, scaled means}
 \usage{
-part_icc()
+part_icc(spearman = FALSE)
+}
+\arguments{
+\item{spearman}{logical. Use Spearman's correlation for distance matrix?}
 }
 \value{
 a \code{partitioner}

@@ -4,7 +4,7 @@
 \alias{as_reducer}
 \title{Create a custom reducer}
 \usage{
-as_reducer(.f, ..., returns_vector = TRUE)
+as_reducer(.f, ..., returns_vector = TRUE, first_match = NULL)
 }
 \arguments{
 \item{.f}{a function that returns either a numeric vector or a \code{data.frame}}
@@ -13,6 +13,10 @@ as_reducer(.f, ..., returns_vector = TRUE)
 
 \item{returns_vector}{logical. Does \code{.f} return a vector? \code{TRUE} by default.
 If \code{FALSE}, assumes that \code{.f} returns a \code{data.frame}.}
+
+\item{first_match}{logical. Should the partition algorithm stop when it finds
+a reduction that is equal to the threshold? Default is \code{TRUE} for reducers
+that return a \code{data.frame} and \code{FALSE} for reducers that return a vector}
 }
 \value{
 a function to use in \code{\link[=as_partitioner]{as_partitioner()}}

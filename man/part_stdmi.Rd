@@ -4,7 +4,10 @@
 \alias{part_stdmi}
 \title{Partitioner: distance, mutual information, scaled means}
 \usage{
-part_stdmi()
+part_stdmi(spearman = FALSE)
+}
+\arguments{
+\item{spearman}{logical. Use Spearman's correlation for distance matrix?}
 }
 \value{
 a \code{partitioner}

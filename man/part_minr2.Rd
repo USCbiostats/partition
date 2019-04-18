@@ -4,7 +4,10 @@
 \alias{part_minr2}
 \title{Partitioner: distance, minimum R-squared, scaled means}
 \usage{
-part_minr2()
+part_minr2(spearman = FALSE)
+}
+\arguments{
+\item{spearman}{logical. Use Spearman's correlation for distance matrix?}
 }
 \value{
 a \code{partitioner}

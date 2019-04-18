@@ -4,13 +4,23 @@
 \alias{direct_k_cluster}
 \title{Target based on K-means clustering}
 \usage{
-direct_k_cluster(.partition_step, search = c("binary", "linear"))
+direct_k_cluster(.partition_step, algorithm = c("armadillo",
+  "Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"), search = c("binary",
+  "linear"), init_k = NULL)
 }
 \arguments{
 \item{.partition_step}{a \code{partition_step} object}
 
+\item{algorithm}{The K-Means algorithm to use. The default is a fast version
+of the LLoyd algorithm written in armadillo. The rest are options in
+\code{\link[=kmeans]{kmeans()}}. In general, armadillo is fastest, but the other algorithms can
+be faster in high dimensions.}
+
 \item{search}{The search method. Binary search is generally more efficient
 but linear search can be faster in very low dimensions.}
+
+\item{init_k}{The initial k to test. If \code{NULL}, then the initial k is the
+threshold times the number of variables.}
 }
 \value{
 a \code{partition_step} object
