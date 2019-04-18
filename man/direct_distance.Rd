@@ -21,6 +21,11 @@ direct_distance_spearman(.partition_step)
 a \code{partition_step} object
 }
 \description{
+Directors are functions that tell the partition algorithm what
+to try to reduce.  \code{\link[=as_director]{as_director()}} is a helper function to create new
+directors to be used in \code{partitioner}s. \code{partitioner}s can be created with
+\code{\link[=as_partitioner]{as_partitioner()}}.
+
 \code{direct_distance()} fits a distance matrix using either Pearson's or
 Spearman's correlation and finds the pair with the smallest distance to
 target. If the distance matrix already exists, \code{direct_distance()} only

@@ -1,12 +1,6 @@
 #' Create a partitioner
 #'
-#' @description Partitioners are functions that tell the partition algorithm 1)
-#'   what to try to reduce 2) how to measure how much information is lost from
-#'   the reduction and 3) how to reduce the data. In partition, functions that
-#'   handle 1) are called directors, functions that handle 2) are called
-#'   metrics,  and functions that handle 3) are called reducers. partition has a
-#'   number of pre-specificed partitioners for agglomerative data reduction.
-#'   Custom partitioners can be created with [as_partitioner()].
+#' @template describe_as_partitioner
 #'
 #' @param direct a function that directs, possibly created by [as_director()]
 #' @param measure a function that measures, possibly created by [as_metric()]
@@ -18,9 +12,9 @@
 #' @examples
 #'
 #' as_partitioner(
-#'   direct = direct_distance_pearson(),
-#'   measure = metric_icc(),
-#'   reduce = reduce_scaled_means()
+#'   direct = direct_distance_pearson,
+#'   measure = metric_icc,
+#'   reduce = reduce_scaled_mean
 #' )
 #'
 as_partitioner <- function(direct, measure, reduce) {
@@ -50,15 +44,26 @@ as_partitioner <- function(direct, measure, reduce) {
 #' )
 #'
 replace_partitioner <- function(partitioner, direct = NULL, measure = NULL, reduce = NULL) {
+  if (!is_partitioner(partitioner) && is.function(partitioner)) partitioner <- partitioner()
+
   if (!is.null(direct)) partitioner$direct <- direct
-  if (!is.null(measure)) partitioner$meausure <- measure
+  if (!is.null(measure)) partitioner$measure <- measure
   if (!is.null(reduce)) partitioner$reduce <- reduce
 
   partitioner
 }
 
+#' Is this object a partitioner?
+#'
+#' @param x an object to be tested
+#'
+#' @return logical: `TRUE` or `FALSE`
+#' @export
+is_partitioner <- function(x) inherits(x, "partitioner")
+
 #' Partitioner: distance, ICC, scaled means
 #'
+#' @template describe_as_partitioner
 #' @templateVar func `part_icc()`
 #' @templateVar director `direct_distance()`, Miniumum Distance
 #' @templateVar metric `metric_icc()`, Intraclass Correlation
@@ -80,6 +85,7 @@ part_icc <- function(spearman = FALSE) {
 
 #' Partitioner: distance, mutual information, scaled means
 #'
+#' @template describe_as_partitioner
 #' @templateVar func `part_stdmi()`
 #' @templateVar director `direct_distance()`, Miniumum Distance
 #' @templateVar metric `metric_std_mutualinfo()`, Standardized Mutual Information
@@ -101,6 +107,7 @@ part_stdmi <- function(spearman = FALSE) {
 
 #' Partitioner: distance, minimum R-squared, scaled means
 #'
+#' @template describe_as_partitioner
 #' @templateVar func `part_minr2()`
 #' @templateVar director `direct_distance()`, Miniumum Distance
 #' @templateVar metric `metric_min_r2()`, Minimum R-Squared
@@ -122,6 +129,7 @@ part_minr2 <- function(spearman = FALSE) {
 
 #' Partitioner: distance, first principal component, scaled means
 #'
+#' @template describe_as_partitioner
 #' @templateVar func `part_minr2()`
 #' @templateVar director `direct_distance()`, Miniumum Distance
 #' @templateVar metric `metric_variance_explained()`, Variance Explained (PCA)
@@ -143,6 +151,7 @@ part_pc1 <- function(spearman = FALSE) {
 
 #' Partitioner: K-means, ICC, scaled means
 #'
+#' @template describe_as_partitioner
 #' @templateVar func `part_minr2()`
 #' @templateVar director `direct_distance()`, Miniumum Distance
 #' @templateVar metric `metric_min_icc()`, Minimum Intraclass Correlation

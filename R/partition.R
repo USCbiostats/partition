@@ -1,6 +1,23 @@
-#' Agglomerative partitioning dimension reduction
+#' Agglomerative partitioning
 #'
+#' @description `partition()` reduces data while minmizing information loss
+#'   using an agglomerative partitioning algorithm. The partition algorithm is
+#'   fast and flexible: at every iteration, `partition()` uses an approach
+#'   called direct, measure, reduce (see Details) to create new variables that
+#'   maintain the user-specificed minimum level of information. Each reduced
+#'   variable is also interpretable: the original variables map to one and only
+#'   one variable in the reduced data set.
 #'
+#' @details  `partition()` uses an approach called direct, measure, reduce.
+#'   Directors tell the partition algorithm what to reduce, metrics tell it
+#'   whether or not there will be enough information left after the reduction,
+#'   and reducers tell it how to reduce the data. Together these are called a
+#'   partitioner. The default partitioner for `partition()` is [`part_icc()`]:
+#'   it finds pairs of variables to reduce by finding the pair with the minimum
+#'   distance between them, it measures information loss through ICC, and it
+#'   reduces data using scaled row means. There are several other partitioners
+#'   available (`part_*()` functions), and you can create custom partitioners
+#'   with [`as_partitioner()`] and [`replace_partitioner()`].
 #'
 #' @param .data a data.frame to partition
 #' @param threshold the minimum information loss acceptable
@@ -11,12 +28,37 @@
 #' @param niter the number of iterations. By default, it is calculated as 20% of
 #'   the number of variables or 10, whichever is larger.
 #' @param x the prefix of the new variable names
-#' @param .sep a character vector that separates `x` from the number (e.g. "reduced_var_1").
+#' @param .sep a character vector that separates `x` from the number (e.g.
+#'   "reduced_var_1").
 #'
 #' @return a `partition` object
 #' @export
 #'
 #' @examples
+#'
+#' set.seed(123)
+#' df <- simulate_block_data(c(3, 4, 5), .4, .6, 100)
+#'
+#' #  don't accept reductions where information < .6
+#' prt <- partition(df, threshold = .6)
+#' prt
+#'
+#' # return reduced data
+#' partition_scores(prt)
+#'
+#' # access mapping keys
+#' mapping_key(prt)
+#' unnest_mappings(prt)
+#'
+#' # use a lower threshold of information loss
+#' partition(df, threshold = .5, partitioner = part_kmeans())
+#'
+#' # use a custom partitioner
+#' part_icc_rowmeans <- replace_partitioner(part_icc, reduce = as_reducer(rowMeans))
+#' partition(df, threshold = .6, partitioner = part_icc_rowmeans)
+#'
+#' @seealso [part_icc()], [part_kmeans()], [part_minr2()], [part_pc1()],
+#'   [part_stdmi()], [as_partitioner()], [replace_partitioner()]
 partition <- function(.data, threshold, partitioner = part_icc(), tolerance = .01, niter = NULL, x = "reduced_var", .sep = "_") {
   # set number of unsuccesful iterations allowed in a row to be ~20% of the
   # number of variables but at least 10

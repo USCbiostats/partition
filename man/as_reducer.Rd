@@ -22,9 +22,7 @@ that return a \code{data.frame} and \code{FALSE} for reducers that return a vect
 a function to use in \code{\link[=as_partitioner]{as_partitioner()}}
 }
 \description{
-Create a custom reducer
-
-@description Reducers are functions that tell the partition algorithm how
+Reducers are functions that tell the partition algorithm how
 to reduce the data. \code{\link[=as_reducer]{as_reducer()}} is a helper function to create new
 reducers to be used in \code{partitioner}s. \code{partitioner}s can be created with
 \code{\link[=as_partitioner]{as_partitioner()}}.

@@ -15,11 +15,9 @@ as_director(.f, ...)
 a function to use in \code{\link[=as_partitioner]{as_partitioner()}}
 }
 \description{
-Create a custom director
-
-@description Directors are functions that tell the partition algorithm what to try to
-reduce.  \code{\link[=as_director]{as_director()}} is a helper function to create new directors to
-be used in \code{partitioner}s. \code{partitioner}s can be created with
+Directors are functions that tell the partition algorithm what
+to try to reduce.  \code{\link[=as_director]{as_director()}} is a helper function to create new
+directors to be used in \code{partitioner}s. \code{partitioner}s can be created with
 \code{\link[=as_partitioner]{as_partitioner()}}.
 }
 \examples{

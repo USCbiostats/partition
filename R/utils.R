@@ -2,6 +2,18 @@
 #' @importFrom Rcpp sourceCpp
 NULL
 
+#  variables used in various NSE calls
+utils::globalVariables(
+  c(
+    ":=",
+    "indices",
+    "is_reduced",
+    "mapping",
+    "old_vars",
+    "variable"
+  )
+)
+
 `%nin%` <- function(x, table) {
   #  is x not in table
   match(x, table, nomatch = 0L) == 0L

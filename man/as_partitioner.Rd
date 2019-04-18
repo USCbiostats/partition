@@ -28,9 +28,9 @@ Custom partitioners can be created with \code{\link[=as_partitioner]{as_partitio
 \examples{
 
 as_partitioner(
-  direct = direct_distance_pearson(),
-  measure = metric_icc(),
-  reduce = reduce_scaled_means()
+  direct = direct_distance_pearson,
+  measure = metric_icc,
+  reduce = reduce_scaled_mean
 )
 
 }

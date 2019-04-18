@@ -16,6 +16,11 @@ but linear search can be faster in very low dimensions.}
 a \code{partition_step} object
 }
 \description{
+Reducers are functions that tell the partition algorithm how
+to reduce the data. \code{\link[=as_reducer]{as_reducer()}} is a helper function to create new
+reducers to be used in \code{partitioner}s. \code{partitioner}s can be created with
+\code{\link[=as_partitioner]{as_partitioner()}}.
+
 \code{reduce_kmeans()} is efficient in that it doesn't reduce until
 the closest \code{k} to the information threshold is found.
 }

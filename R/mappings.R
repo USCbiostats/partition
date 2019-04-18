@@ -1,8 +1,11 @@
 #' Return partition mapping key
 #'
-#' `mappings()` returns a tidy data frame with each reduced variable and its
-#' mapping and information loss. `mapping_groups()` returns a list of mappings
-#' (either the variable names or their column position).
+#' `mapping_key()` returns a data frame with each reduced variable and its
+#' mapping and information loss; the mapping and indices are represented as
+#' `list-cols` (so there is one row per variable in the reduced data set).
+#' `unnest_mappings()` unnests the list columns to return a tidy data frame.
+#' `mapping_groups()` returns a list of mappings (either the variable names or
+#' their column position).
 #'
 #' @template partition_param
 #' @param indices logical. Return just the indices instead of the names? Default is `FALSE`.
@@ -11,14 +14,20 @@
 #' @export
 #'
 #' @examples
-#'
-#'
 #' @rdname mapping_key
-mappings <- function(.partition) {
-  # return df of mappings
+mapping_key <- function(.partition) {
+  # return mapping key
+  .partition$mapping_key
+}
+
+#' @export
+#' @rdname mapping_key
+unnest_mappings <- function(.partition) {
+  # return unnested df of mappings
   tidyr::unnest(.partition$mapping_key)
 }
 
+#' @export
 #' @rdname mapping_key
 mapping_groups <- function(.partition, indices = FALSE) {
   # return list of variable names or indices in mapping
@@ -77,15 +86,16 @@ unnest_reduced <- function(.partition) {
 
 #' Return the reduced data from a partition
 #'
-#' @template partition_param
+#' @param object a `partition` object
+#' @param ... not currently used (for S3 consistency with `fitted()`)
 #'
 #' @return a tibble containing the reduced data for the partition
 #' @export
 #'
 #' @examples
 #' @rdname partition_scores
-partition_scores <- function(.partition) {
- .partition$reduced_data
+partition_scores <- function(object, ...) {
+  object$reduced_data
 }
 
 #' @export

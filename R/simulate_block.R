@@ -25,6 +25,7 @@
 #'   upper_corr = .6,
 #'   n = 100
 #' )
+#' @importFrom stats runif
 simulate_block_data <- function(block_sizes, lower_corr, upper_corr, n, block_name = "block",
                              sep = "_", var_name = "x") {
   #  simulate length(block_sizes) blocks and bind them in a data.frame

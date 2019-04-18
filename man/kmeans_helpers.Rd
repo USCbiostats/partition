@@ -2,9 +2,12 @@
 % Please edit documentation in R/directors.R
 \name{find_algorithm}
 \alias{find_algorithm}
+\alias{kmean_assignment_r}
 \title{Which kmeans algorithm to use?}
 \usage{
 find_algorithm(algorithm)
+
+kmean_assignment_r(.data, k, algorithm = "Hartigan-Wong")
 }
 \arguments{
 \item{algorithm}{the kmeans algorithm to use}
@@ -13,6 +16,8 @@ find_algorithm(algorithm)
 a kmeans function
 }
 \description{
-Which kmeans algorithm to use?
+\code{find_algorithm()} returns a function to assign k-means cluster.
+\code{kmean_assignment_r()} wraps around \code{\link[=kmeans]{kmeans()}} to pull the correct
+assignments.
 }
 \keyword{internal}

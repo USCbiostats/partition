@@ -14,6 +14,11 @@ metric_icc(.partition_step)
 a \code{partition_step} object
 }
 \description{
+Metrics are functions that tell how much information would be
+lost for a given reduction in the data. reduce.  \code{\link[=as_metric]{as_metric()}} is a
+helper function to create new metrics to be used in \code{partitioner}s.
+\code{partitioner}s can be created with \code{\link[=as_partitioner]{as_partitioner()}}.
+
 \code{metric_icc()} assesses information loss by calculating the
 intraclass correlation coefficient for the target variables.
 }

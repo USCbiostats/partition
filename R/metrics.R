@@ -210,7 +210,9 @@ metric_std_mutualinfo <- function(.partition_step) {
 #'   icc()
 icc <- function(.x, method = c("r", "c")) {
   method <- match.arg(method)
-  if (method == "c") return(icc_c(as.matrix(.x)))
+  .x <- as.matrix(.x)
+
+  if (method == "c") return(icc_c(.x))
 
   icc_r(.x)
 }

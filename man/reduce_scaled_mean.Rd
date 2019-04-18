@@ -13,6 +13,11 @@ reduce_scaled_mean(.partition_step)
 a \code{partition_step} object
 }
 \description{
+Reducers are functions that tell the partition algorithm how
+to reduce the data. \code{\link[=as_reducer]{as_reducer()}} is a helper function to create new
+reducers to be used in \code{partitioner}s. \code{partitioner}s can be created with
+\code{\link[=as_partitioner]{as_partitioner()}}.
+
 \code{reduce_scaled_mean()} returns the scaled row means of the
 target variables to reduce.
 }

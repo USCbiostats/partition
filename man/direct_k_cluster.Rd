@@ -26,6 +26,11 @@ threshold times the number of variables.}
 a \code{partition_step} object
 }
 \description{
+Directors are functions that tell the partition algorithm what
+to try to reduce.  \code{\link[=as_director]{as_director()}} is a helper function to create new
+directors to be used in \code{partitioner}s. \code{partitioner}s can be created with
+\code{\link[=as_partitioner]{as_partitioner()}}.
+
 \code{direct_k_cluster()} assigns each variable to a cluster using
 K-means. As the partition looks for the best reduction,
 \code{direct_k_cluster()} iterates through values of \code{k} to assign clusters.

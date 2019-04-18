@@ -13,12 +13,18 @@ part_stdmi(spearman = FALSE)
 a \code{partitioner}
 }
 \description{
-\code{part_stdmi()} uses the following functions:
-\itemize{
-\item \strong{director}: \code{direct_distance()}, Miniumum Distance
-\item \strong{metric}: \code{metric_std_mutualinfo()}, Standardized Mutual Information
-\item \strong{reducer}: \code{reduce_scaled_mean()}, Scaled Row Means
+Partitioners are functions that tell the partition algorithm 1)
+what to try to reduce 2) how to measure how much information is lost from
+the reduction and 3) how to reduce the data. In partition, functions that
+handle 1) are called directors, functions that handle 2) are called
+metrics,  and functions that handle 3) are called reducers. partition has a
+number of pre-specificed partitioners for agglomerative data reduction.
+Custom partitioners can be created with \code{\link[=as_partitioner]{as_partitioner()}}.
 
-@md
+\code{part_stdmi()} uses the following direct, measure, reduce approach:
+\itemize{
+\item \strong{direct}: \code{direct_distance()}, Miniumum Distance
+\item \strong{measure}: \code{metric_std_mutualinfo()}, Standardized Mutual Information
+\item \strong{reduce}: \code{reduce_scaled_mean()}, Scaled Row Means
 }
 }

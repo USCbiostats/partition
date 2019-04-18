@@ -36,7 +36,7 @@ reduce_row_means <- function(.partition_step, .data) {
 
 replace_partitioner(
   part_icc,
-  reducer = reduce_row_means
+  reduce = reduce_row_means
 )
 
 }

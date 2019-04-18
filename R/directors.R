@@ -313,17 +313,28 @@ k_exhausted <- function(.partition_step) {
 
 #' Which kmeans algorithm to use?
 #'
+#' `find_algorithm()` returns a function to assign k-means cluster.
+#' `kmean_assignment_r()` wraps around [kmeans()] to pull the correct
+#' assignments.
+#'
 #' @param algorithm the kmeans algorithm to use
 #'
 #' @return a kmeans function
 #' @keywords internal
+#' @rdname kmeans_helpers
 find_algorithm <- function(algorithm) {
   switch(
     algorithm,
     "armadillo" = kmean_assignment,
-    "Hartigan-Wong" = kmeans,
-    "Lloyd" = purrr::partial(kmeans, algorithm = "Lloyd"),
-    "Forgy" = purrr::partial(kmeans, algorithm = "Forgy"),
-    "MacQueen" = purrr::partial(kmeans, algorithm = "MacQueen"),
+    "Hartigan-Wong" = kmean_assignment_r,
+    "Lloyd" = purrr::partial(kmean_assignment_r, algorithm = "Lloyd"),
+    "Forgy" = purrr::partial(kmean_assignment_r, algorithm = "Forgy"),
+    "MacQueen" = purrr::partial(kmean_assignment_r, algorithm = "MacQueen"),
   )
+}
+
+#' @rdname kmeans_helpers
+#' @importFrom stats kmeans
+kmean_assignment_r <- function(.data, k, algorithm = "Hartigan-Wong") {
+  kmeans(t(.data), centers = k, algorithm = algorithm)[["cluster"]]
 }

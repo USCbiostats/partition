@@ -5,12 +5,14 @@
 \alias{fitted.partition}
 \title{Return the reduced data from a partition}
 \usage{
-partition_scores(.partition)
+partition_scores(object, ...)
 
-\method{fitted}{partition}(.partition)
+\method{fitted}{partition}(object, ...)
 }
 \arguments{
-\item{.partition}{a \code{partition} object}
+\item{object}{a \code{partition} object}
+
+\item{...}{not currently used (for S3 consistency with \code{fitted()})}
 }
 \value{
 a tibble containing the reduced data for the partition

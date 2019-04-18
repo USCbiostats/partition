@@ -14,6 +14,11 @@ metric_std_mutualinfo(.partition_step)
 a \code{partition_step} object
 }
 \description{
+Metrics are functions that tell how much information would be
+lost for a given reduction in the data. reduce.  \code{\link[=as_metric]{as_metric()}} is a
+helper function to create new metrics to be used in \code{partitioner}s.
+\code{partitioner}s can be created with \code{\link[=as_partitioner]{as_partitioner()}}.
+
 \code{metric_std_mutualinfo()} assesses information loss by
 calculating the standardized mutual information for the target variables.
 See \code{\link[=mutual_information]{mutual_information()}}.

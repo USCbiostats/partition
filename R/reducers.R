@@ -103,7 +103,7 @@ reduce_first_component <- function(.partition_step) {
 #'
 #' replace_partitioner(
 #'   part_icc,
-#'   reducer = reduce_row_means
+#'   reduce = reduce_row_means
 #' )
 #'
 #' @rdname reduce_target
@@ -154,7 +154,7 @@ map_data <- function(.partition_step, .f, first_match = FALSE) {
   #  reduce anything with more than one variable
   #  TODO: oppurtunity for parallelization
   #  Although this only gets called once in kmeans
-  .partition_step$reduced_data <- purrr:::map_dfc(
+  .partition_step$reduced_data <- purrr::map_dfc(
     target_list,
     ~return_if_single(.partition_step$.df[, .x], .f)
   )
@@ -180,6 +180,7 @@ map_data <- function(.partition_step, .f, first_match = FALSE) {
 #'   but linear search can be faster in very low dimensions.
 #'
 #' @keywords internal
+#' @importFrom stats median
 search_k <- function(.partition_step, search_method = c("binary", "linear")) {
   search_method <- match.arg(search_method)
 
