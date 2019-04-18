@@ -8,9 +8,9 @@
 #'   number of pre-specificed partitioners for agglomerative data reduction.
 #'   Custom partitioners can be created with [as_partitioner()].
 #'
-#' @param director a function that directs, possibly created by [as_director()]
-#' @param metric a function that measures, possibly created by [as_metric()]
-#' @param reducer a function that reduces, possibly created by [as_reducer()]
+#' @param direct a function that directs, possibly created by [as_director()]
+#' @param measure a function that measures, possibly created by [as_metric()]
+#' @param reduce a function that reduces, possibly created by [as_reducer()]
 #'
 #' @return a `partitioner`
 #' @export
@@ -18,17 +18,17 @@
 #' @examples
 #'
 #' as_partitioner(
-#'   director = direct_distance_pearson(),
-#'   metric = metric_icc(),
-#'   reducer = reduce_scaled_means()
+#'   direct = direct_distance_pearson(),
+#'   measure = metric_icc(),
+#'   reduce = reduce_scaled_means()
 #' )
 #'
-as_partitioner <- function(director, metric, reducer) {
+as_partitioner <- function(direct, measure, reduce) {
   structure(
     list(
-      director = director,
-      metric = metric,
-      reducer = reducer
+      direct = direct,
+      measure = measure,
+      reduce = reduce
     ),
     class = "partitioner"
   )
@@ -46,13 +46,13 @@ as_partitioner <- function(director, metric, reducer) {
 #'
 #' replace_partitioner(
 #'   part_icc,
-#'   reducer = as_reducer(rowMeans)
+#'   reduce = as_reducer(rowMeans)
 #' )
 #'
-replace_partitioner <- function(partitioner, director = NULL, metric = NULL, reducer = NULL){
-  if (!is.null(director)) partitioner$director <- director
-  if (!is.null(metric)) partitioner$metric <- metric
-  if (!is.null(reducer)) partitioner$reducer <- reducer
+replace_partitioner <- function(partitioner, direct = NULL, measure = NULL, reduce = NULL){
+  if (!is.null(director)) partitioner$direct <- direct
+  if (!is.null(metric)) partitioner$meausure <- measure
+  if (!is.null(reducer)) partitioner$reduce <- reduce
 
   partitioner
 }
@@ -71,9 +71,9 @@ replace_partitioner <- function(partitioner, director = NULL, metric = NULL, red
 #' @examples
 part_icc <- function() {
   as_partitioner(
-    director = direct_distance_pearson,
-    metric = metric_icc,
-    reducer = reduce_scaled_mean
+    direct = direct_distance_pearson,
+    measure = metric_icc,
+    reduce = reduce_scaled_mean
   )
 }
 
@@ -91,9 +91,9 @@ part_icc <- function() {
 #' @examples
 part_stdmi <- function() {
   as_partitioner(
-    director = direct_distance_pearson,
-    metric = metric_std_mutualinfo,
-    reducer = reduce_scaled_mean
+    direct = direct_distance_pearson,
+    measure = metric_std_mutualinfo,
+    reduce = reduce_scaled_mean
   )
 }
 
@@ -111,9 +111,9 @@ part_stdmi <- function() {
 #' @examples
 part_minr2 <- function() {
   as_partitioner(
-    metric = metric_min_r2,
-    director = direct_distance_pearson,
-    reducer = reduce_scaled_mean
+    direct = direct_distance_pearson,
+    measure = metric_min_r2,
+    reduce = reduce_scaled_mean
   )
 }
 
@@ -131,9 +131,9 @@ part_minr2 <- function() {
 #' @examples
 part_pc1 <- function() {
   as_partitioner(
-    director = direct_distance_pearson,
-    metric = metric_variance_explained,
-    reducer = reduce_first_component
+    direct = direct_distance_pearson,
+    measure = metric_variance_explained,
+    reduce = reduce_first_component
   )
 }
 
@@ -152,8 +152,8 @@ part_pc1 <- function() {
 #' @examples
 part_kmeans <- function() {
   as_partitioner(
-    metric = metric_min_icc,
-    director = direct_k_cluster,
-    reducer = reduce_kmeans
+    direct = direct_k_cluster,
+    measure = metric_min_icc,
+    reduce = reduce_kmeans
   )
 }

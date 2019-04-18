@@ -74,6 +74,9 @@ paste_subtle <- function(...) {
 #' Helper functions to print `partition` summary
 #'
 #' @template partition_param
+#' @param .round Should the minimum information be rounded?
+#' @param digits If `.round` is `TRUE`, to what digit should it be rounded?
+#' @keywords internal
 #' @rdname print_helpers
 count_clusters <- function(.partition) {
   reduced <- filter_reduced(.partition)
@@ -118,9 +121,9 @@ minimum_information <- function(.partition, .round = TRUE, digits = 3) {
 #' @rdname paste_partitioners
 paste_director <- function(x) {
   director <- dplyr::case_when(
-    is_same_function(x$director, direct_distance_pearson) ~ "Miniumum Distance (Pearson)",
-    is_same_function(x$director, direct_distance_spearman) ~ "Miniumum Distance (Spearman)",
-    is_same_function(x$director, direct_k_cluster) ~ "K-Means Clusters",
+    is_same_function(x$direct, direct_distance_pearson) ~ "Miniumum Distance (Pearson)",
+    is_same_function(x$direct, direct_distance_spearman) ~ "Miniumum Distance (Spearman)",
+    is_same_function(x$direct, direct_k_cluster) ~ "K-Means Clusters",
     TRUE ~ paste_subtle("<custom director>")
   )
 
@@ -130,11 +133,11 @@ paste_director <- function(x) {
 #' @rdname paste_partitioners
 paste_metric <- function(x) {
   metric <- dplyr::case_when(
-    is_same_function(x$metric, metric_icc) ~ "Intraclass Correlation",
-    is_same_function(x$metric, metric_min_icc) ~ "Minimum Intraclass Correlation",
-    is_same_function(x$metric, metric_variance_explained) ~ "Variance Explained (PCA)",
-    is_same_function(x$metric, metric_min_r2) ~ "Minimum R-Squared",
-    is_same_function(x$metric, metric_std_mutualinfo) ~ "Standardized Mutual Information",
+    is_same_function(x$measure, metric_icc) ~ "Intraclass Correlation",
+    is_same_function(x$measure, metric_min_icc) ~ "Minimum Intraclass Correlation",
+    is_same_function(x$measure, metric_variance_explained) ~ "Variance Explained (PCA)",
+    is_same_function(x$measure, metric_min_r2) ~ "Minimum R-Squared",
+    is_same_function(x$measure, metric_std_mutualinfo) ~ "Standardized Mutual Information",
     TRUE ~ paste_subtle("<custom metric>")
   )
 
@@ -144,9 +147,9 @@ paste_metric <- function(x) {
 #' @rdname paste_partitioners
 paste_reducer <- function(x) {
   reducer <- dplyr::case_when(
-    is_same_function(x$reducer, reduce_scaled_mean) ~ "Scaled Mean",
-    is_same_function(x$reducer, reduce_kmeans) ~ "Scaled Mean",
-    is_same_function(x$reducer, reduce_first_component) ~ "First Principal Component",
+    is_same_function(x$reduce, reduce_scaled_mean) ~ "Scaled Mean",
+    is_same_function(x$reduce, reduce_kmeans) ~ "Scaled Mean",
+    is_same_function(x$reduce, reduce_first_component) ~ "First Principal Component",
     TRUE ~ paste_subtle("<custom reducer>")
   )
 
@@ -157,7 +160,7 @@ paste_reducer <- function(x) {
 #'
 #' `is_same_function()` compares functions correctly even if they are partialized.
 #'
-#' @param x,y a function
+#' @param x,y functions to compare
 #'
 #' @return logical: `TRUE` or `FALSE`
 #' @keywords internal

@@ -43,16 +43,19 @@ partition <- function(.data, threshold, partitioner = part_icc(), tolerance = .0
 
 #' Apply a partitioner
 #'
+#' `direct_measure_reduce()` works through the direct, measure, reduce steps of
+#' the partition algorithm, applying the `partitioner` to the `partition_step`.
+#'
 #' @template partition_step
 #' @param partitioner a partitioner, as created from [as_partitioner()].
 #'
 #' @keywords internal
 #' @seealso [as_partitioner()]
-direct_measure_reduce <- function(.x, partitioner) {
-  .x %>%
-    partitioner$director() %>%
-    partitioner$metric() %>%
-    partitioner$reducer()
+direct_measure_reduce <- function(.partition_step, partitioner) {
+  .partition_step %>%
+    partitioner$direct() %>%
+    partitioner$measure() %>%
+    partitioner$reduce()
 }
 
 #' Is this object a `partition_step`?
