@@ -6,6 +6,7 @@
 #' @param ... Extra arguments passed to `.f`.
 #' @param returns_vector logical. Does `.f` return a vector? `TRUE` by default.
 #'   If `FALSE`, assumes that `.f` returns a `data.frame`.
+#' @inheritParams reduce_data
 #'
 #' @return a function to use in [`as_partitioner()`]
 #' @export
@@ -15,11 +16,15 @@
 #' reduce_row_means <- as_reducer(rowMeans)
 #' reduce_row_means
 #'
-as_reducer <- function(.f, ..., returns_vector = TRUE) {
+as_reducer <- function(.f, ..., returns_vector = TRUE, first_match = NULL) {
   if (returns_vector) {
     mapping_f <- reduce_data
   } else {
     mapping_f <- map_data
+  }
+
+  if (!is.null(first_match)) {
+    purrr::partial(mapping_f, first_match = first_match)
   }
 
   function(.partition_step, ...) {
@@ -85,7 +90,8 @@ reduce_first_component <- function(.partition_step) {
 #' @template partition_step
 #' @param .f a function to reduce the data to either a vector or a data.frame
 #' @param first_match logical. Should the partition algorithm stop when it finds
-#'   a reduction that is equal to the threshold?
+#'   a reduction that is equal to the threshold? Default is `TRUE` for reducers
+#'   that return a `data.frame` and `FALSE` for reducers that return a vector
 #'
 #' @export
 #'
@@ -102,20 +108,27 @@ reduce_first_component <- function(.partition_step) {
 #'
 #' @rdname reduce_target
 reduce_data <- function(.partition_step, .f, first_match = TRUE) {
+  #  if partitioning complete or threshold not met, skip reduce
   if (.partition_step$all_done) return(.partition_step)
   if (under_threshold(.partition_step)) return(.partition_step)
 
+  #  if the variable is stored already, pull it. Otherwise calculate it.
   new_variable <- calculate_new_variable(.partition_step, .f)
 
+  #  create new name and add `new_variable` to `reduced_data`
   new_x <- build_next_name(.partition_step)
   .partition_step$reduced_data <- .partition_step$reduced_data %>%
     dplyr::select(-!!.partition_step$target) %>%
     dplyr::mutate(!!new_x := new_variable)
 
+  #  clean up the mapping key and add the new reduced variable
   .partition_step$mapping_key <- append_mappings(.partition_step, new_x = new_x)
 
+  #  if there's a match with the tolerance and `first_match` is `TRUE`, then
+  #  mark partitioning as complete
   exit_on_match <- first_match && metric_within_tolerance(.partition_step)
   if (exit_on_match) return(all_done(.partition_step))
+  #  if there's only one column left, mark partitioning as complete
   if (all_columns_reduced(.partition_step)) return(all_done(.partition_step))
 
   .partition_step
@@ -124,29 +137,37 @@ reduce_data <- function(.partition_step, .f, first_match = TRUE) {
 #' @export
 #' @rdname reduce_target
 map_data <- function(.partition_step, .f, first_match = FALSE) {
+  #  if partitioning complete or threshold not met, skip reduce
   if (.partition_step$all_done) return(.partition_step)
   if (under_threshold(.partition_step)) return(.partition_step)
 
+  #  create a list of the components of each cluster
   target_list <- purrr::map(
     sort(unique(.partition_step$target)),
     ~which(.partition_step$target == .x)
   )
 
+  #  get the names of the component variables if needed
   named_targets <- all(is.character(target_list[[1]]))
   if (!named_targets) target_list <- get_names(.partition_step, target_list)
 
-  # TODO: oppurtunity for parallelization
-  # Although this only gets called once in kmeans
+  #  reduce anything with more than one variable
+  #  TODO: oppurtunity for parallelization
+  #  Although this only gets called once in kmeans
   .partition_step$reduced_data <- purrr:::map_dfc(
     target_list,
     ~return_if_single(.partition_step$.df[, .x], .f)
   )
 
+  #  create the mapping key and name reduced variables in `reduced_data`
   .partition_step$mapping_key <- reduce_mappings(.partition_step, target_list)
   names(.partition_step$reduced_data) <- .partition_step$mapping_key$variable
 
+  #  if there's a match with the tolerance and `first_match` is `TRUE`, then
+  #  mark partitioning as complete
   exit_on_match <- first_match && metric_within_tolerance(.partition_step)
   if (exit_on_match) return(all_done(.partition_step))
+  #  if there's only one column left, mark partitioning as complete
   if (all_columns_reduced(.partition_step)) return(all_done(.partition_step))
 
   .partition_step
@@ -207,7 +228,10 @@ binary_k_search <- function(.partition_step) {
     return(all_done(.partition_step))
   }
 
+  #  find the next k to assess
   .partition_step <- search_k(.partition_step, "binary")
+
+  #  store last clusters, metrics, and k for later use
   .partition_step$last_target <- list(
     target = .partition_step$target,
     metric = .partition_step$metric_vector,
@@ -235,16 +259,18 @@ linear_k_search <- function(.partition_step) {
     return(all_done(.partition_step))
   }
 
-  # if we're searching backward, check if we've gone under the threshold. if so,
-  # use the last targets.
+  #   if we're searching backward, check if we've gone under the threshold. if
+  #   so, use the last targets.
   if (k_searching_backward(.partition_step) && under_threshold(.partition_step)) {
     .partition_step <- rewind_target(.partition_step)
     .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
     return(all_done(.partition_step))
   }
 
+  #  find the next k to assess
   .partition_step <- search_k(.partition_step, "linear")
 
+  #  store last clusters, metrics, and k for later use
   .partition_step$last_target <- list(
     target = .partition_step$target,
     metric = .partition_step$metric_vector,

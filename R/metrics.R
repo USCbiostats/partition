@@ -29,7 +29,6 @@ as_metric <- function(.f, ...) {
     .partition_step$metric <- .f(target_data, ...)
 
     .partition_step
-
   }
 }
 
@@ -78,6 +77,8 @@ metric_min_icc <- function(.partition_step, search_method = c("binary", "linear"
     ~which(.partition_step$target == .x) - 1
   )
 
+  # calculate ICC for each cluster
+  # (note: stops early when ICC under threshold, returning 0s for the rest)
   k_icc <- min_icc_c(
     indices,
     as.matrix(.partition_step$.df),
@@ -91,13 +92,15 @@ metric_min_icc <- function(.partition_step, search_method = c("binary", "linear"
   .partition_step$metric_vector <- k_icc
 
   if (search_method == "binary") {
-    # also find the metrics for k - 1
+    # for binary k search, also find the metrics for k - 1
     # get indices for each cluster as list and subtract by one for cpp indexing
     indices_k1 <- purrr::map(
       seq_len(.partition_step$k - 1),
       ~which(.partition_step$target_k1 == .x) - 1
     )
 
+    # calculate ICC for each cluster
+    # (note: stops early when ICC under threshold, returning 0s for the rest)
     k_icc_k1 <- min_icc_c(
       indices_k1,
       as.matrix(.partition_step$.df),

@@ -3,6 +3,7 @@
 NULL
 
 `%nin%` <- function(x, table) {
+  #  is x not in table
   match(x, table, nomatch = 0L) == 0L
 }
 

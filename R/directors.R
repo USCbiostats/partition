@@ -59,6 +59,7 @@ direct_distance <- function(.partition_step, spearman = FALSE) {
   # don't check this pair again
   distance_matrix[.partition_step$target[1], .partition_step$target[2]] <- NA
 
+  # store target and distance matrix to use later
   .partition_step$last_target <- list(
     target = .partition_step$target,
     distance_matrix = distance_matrix
@@ -92,21 +93,41 @@ direct_distance_spearman <- function(.partition_step) {
 #' @template partition_step
 #' @param search The search method. Binary search is generally more efficient
 #'   but linear search can be faster in very low dimensions.
+#' @param algorithm The K-Means algorithm to use. The default is a fast version
+#'   of the LLoyd algorithm written in armadillo. The rest are options in
+#'   [kmeans()]. In general, armadillo is fastest, but the other algorithms can
+#'   be faster in high dimensions.
+#' @param init_k The initial k to test. If `NULL`, then the initial k is the
+#'   threshold times the number of variables.
 #'
 #' @export
 #'
 #' @examples
-direct_k_cluster <- function(.partition_step, search = c("binary", "linear")) {
+direct_k_cluster <- function(.partition_step,
+                             algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"),
+                             search = c("binary", "linear"),
+                             init_k = NULL) {
   search_method <- match.arg(search)
+  algorithm <- match.arg(algorithm)
+
+  #  use initial k argument if specified
+  if (is.null(.partition_step$k) & !is.null(init_k)) .partition_step$k <- init_k
+  #  take an initial guess for `k` if not specified
   if (is.null(.partition_step$k)) .partition_step$k <- guess_init_k(.partition_step)
 
+  #  stop partition if all k checked
   if (k_exhausted(.partition_step)) {
     .partition_step$metric <- 0
     return(all_done(.partition_step))
   }
 
-  .partition_step$target <- kmean_assignment(as.matrix(.partition_step$.df), .partition_step$k)
+  #  pick kmeans algorithm
+  kmean_f <- find_algorithm(algorithm)
 
+  #  assign each variable to a cluster
+  .partition_step$target <- kmean_f(as.matrix(.partition_step$.df), .partition_step$k)
+
+  #  store most recent k and target if needed
   if (length(.partition_step$last_target) == 1 && is.na(.partition_step$last_target)) {
     .partition_step$last_target <- list(
       target = .partition_step$target,
@@ -114,8 +135,12 @@ direct_k_cluster <- function(.partition_step, search = c("binary", "linear")) {
     )
   }
 
+  #  the binary search method requires assigning k-1 clusters to check boundary
   if (search_method == "binary") {
-    .partition_step$target_k1 <- kmean_assignment(as.matrix(.partition_step$.df), .partition_step$k - 1)
+    .partition_step$target_k1 <- kmean_f(
+      as.matrix(.partition_step$.df),
+      .partition_step$k - 1
+    )
   }
 
   .partition_step
@@ -145,9 +170,11 @@ direct_k_cluster <- function(.partition_step, search = c("binary", "linear")) {
     if (is.null(y)) {
       dim_names <- names(x)
       if (spearman) {
+        #  use ranks
         x <- apply_rank(as.matrix(x))
       }
 
+      #  correlation for matrices
       correlation <- corr_c_mat(as.matrix(x))
 
       attr(correlation, "dimnames") <- list(dim_names, dim_names)
@@ -155,10 +182,12 @@ direct_k_cluster <- function(.partition_step, search = c("binary", "linear")) {
     }
 
     if (spearman) {
+      #  use ranks
       x <- rank_c(x)
       y <- rank_c(y)
     }
 
+    #  correlation for two vectors
     corr_c_2vec(x, y)
   }
 
@@ -170,10 +199,12 @@ direct_k_cluster <- function(.partition_step, search = c("binary", "linear")) {
 #' @return a `matrix` of size `p` by `p`
 #' @keywords internal
 fit_distance_matrix <- function(.partition_step, spearman = FALSE) {
+  #  if the distance matrix exists, just update it
   if (is_not_empty_or_na(.partition_step$last_target)) {
     return(update_dist(.partition_step, spearman = spearman))
   }
 
+  #  fit the distance matrix using 1 - correlation
   distance_matrix <- 1 - corr(.partition_step$.df, spearman = spearman)
   lower_triangle <- lower.tri(distance_matrix, diag = TRUE)
   distance_matrix[lower_triangle] <- NA
@@ -280,3 +311,19 @@ k_exhausted <- function(.partition_step) {
   k_0 || k_max
 }
 
+#' Which kmeans algorithm to use?
+#'
+#' @param algorithm the kmeans algorithm to use
+#'
+#' @return a kmeans function
+#' @keywords internal
+find_algorithm <- function(algorithm) {
+  switch(
+    algorithm,
+    "armadillo" = kmean_assignment,
+    "Hartigan-Wong" = kmeans,
+    "Lloyd" = purrr::partial(kmeans, algorithm = "Lloyd"),
+    "Forgy" = purrr::partial(kmeans, algorithm = "Forgy"),
+    "MacQueen" = purrr::partial(kmeans, algorithm = "MacQueen"),
+  )
+}

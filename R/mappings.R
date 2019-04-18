@@ -21,8 +21,7 @@ mappings <- function(.partition) {
 
 #' @rdname mapping_key
 mapping_groups <- function(.partition, indices = FALSE) {
-  # return efficiently stored mappings (tibble with name of variable,
-  # vector of contained vars (probably named vector for index e.g. "x1" = 1))
+  # return list of variable names or indices in mapping
   if (indices) return(.partition$mapping_key$indices)
   .partition$mapping_key$mapping
 }
@@ -131,9 +130,7 @@ reduce_mappings <- function(.partition_step, target_list) {
     dplyr::mutate(variable = purrr::map2_chr(
       mapping,
       variable,
-      # if there's only a single variable,
-      # call it by it's name rather than
-      # the reduced variable name
+      # if there's only a single variable, call it by its name
       ~ ifelse(length(.x) > 1, .y, .x[[1]])
     ))
 }

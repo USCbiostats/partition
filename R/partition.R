@@ -92,17 +92,20 @@ is_partition_step <- function(x) inherits(x, "partition_step")
 #' .df <- data.frame(x = rnorm(100), y = rnorm(100))
 #' as_partition_step(.df, threshold = .6)
 as_partition_step <- function(.x, threshold = NA, reduced_data = NA, target = NA, metric = NA, tolerance = .01, var_prefix = NA, partitioner = NA, ...) {
-  # do I want to swap reduced_data for .df here? or do I need the full data? update_partition_step()
   if (is_partition_step(.x)) return(.x)
 
+  # on first iteration, create a one to one mapping key where number of rows is
+  # the number of variables in the original data
   mapping_key <- tibble::tibble(
     variable = names(.x),
     mapping = purrr::map(names(.x), ~.x),
     information = 1.0
   )
 
+  #  on first iteration, set reduced data to the original data
   if (!is_not_empty_or_na(reduced_data)) reduced_data <- .x
 
+  # create the partition_step object, tools and information for partitioning
   structure(
       list(
         .df = .x,
@@ -116,6 +119,7 @@ as_partition_step <- function(.x, threshold = NA, reduced_data = NA, target = NA
         var_prefix = var_prefix,
         all_done = FALSE,
         partitioner = partitioner,
+        # store additional objects as needed
         ...
       ),
       class = "partition_step"
@@ -148,7 +152,7 @@ assign_partition <- function(.x, partitioner, .data, threshold, tolerance, var_p
     )
   }
 
-  #  apply the partitioner to the data
+  #  apply the partitioner to the data: direct, measure, reduce
   direct_measure_reduce(.x, partitioner)
 }
 
@@ -166,7 +170,6 @@ assign_partition <- function(.x, partitioner, .data, threshold, tolerance, var_p
 #' @examples
 as_partition <- function(partition_step) {
   # Scrub partition_step:
-  #
   # * clean reduced names and mappings
   partition_step <- simplify_names(partition_step)
   # * add variable positions (indices) to mapping
@@ -193,8 +196,8 @@ as_partition <- function(partition_step) {
 #' @importFrom rlang !! !!!
 simplify_names <- function(.partition_step) {
   #  get reduced variable names
-  var_names <- .partition_step$mapping_key %>%
-    dplyr::filter(purrr::map_lgl(mapping, ~ length(.x) > 1)) %>%
+  var_names <- .partition_step %>%
+    filter_reduced() %>%
     dplyr::pull(variable)
 
   #  return if no data reduction happened
@@ -228,16 +231,17 @@ get_indices <- function(.partition_step) {
   .partition_step$mapping_key$mapping %>%
     # take list of mappings
     purrr::map(
-      # in each element is a vector of variable names
-      # get the
+      # in each element is a vector of variable names:
+      # get their position in the original data
       ~ which(names(.partition_step$.df) %in% .x)
     )
 }
 
 #' @rdname as_partition_helpers
 add_indices <- function(.partition_step) {
-   .partition_step$mapping_key <- .partition_step$mapping_key %>%
-     dplyr::mutate(indices = get_indices(.partition_step))
+  #  add indices to mapping key
+  .partition_step$mapping_key <- .partition_step$mapping_key %>%
+    dplyr::mutate(indices = get_indices(.partition_step))
 
   .partition_step
 }
