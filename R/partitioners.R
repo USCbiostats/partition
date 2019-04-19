@@ -65,7 +65,7 @@ is_partitioner <- function(x) inherits(x, "partitioner")
 #'
 #' @template describe_as_partitioner
 #' @templateVar func `part_icc()`
-#' @templateVar director `direct_distance()`, Miniumum Distance
+#' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `metric_icc()`, Intraclass Correlation
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
 #' @template describe_partitioner
@@ -87,7 +87,7 @@ part_icc <- function(spearman = FALSE) {
 #'
 #' @template describe_as_partitioner
 #' @templateVar func `part_stdmi()`
-#' @templateVar director `direct_distance()`, Miniumum Distance
+#' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `metric_std_mutualinfo()`, Standardized Mutual Information
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
 #' @template describe_partitioner
@@ -109,7 +109,7 @@ part_stdmi <- function(spearman = FALSE) {
 #'
 #' @template describe_as_partitioner
 #' @templateVar func `part_minr2()`
-#' @templateVar director `direct_distance()`, Miniumum Distance
+#' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `metric_min_r2()`, Minimum R-Squared
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
 #' @template describe_partitioner
@@ -131,7 +131,7 @@ part_minr2 <- function(spearman = FALSE) {
 #'
 #' @template describe_as_partitioner
 #' @templateVar func `part_minr2()`
-#' @templateVar director `direct_distance()`, Miniumum Distance
+#' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `metric_variance_explained()`, Variance Explained (PCA)
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
 #' @template describe_partitioner
@@ -153,7 +153,7 @@ part_pc1 <- function(spearman = FALSE) {
 #'
 #' @template describe_as_partitioner
 #' @templateVar func `part_minr2()`
-#' @templateVar director `direct_distance()`, Miniumum Distance
+#' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `metric_min_icc()`, Minimum Intraclass Correlation
 #' @templateVar director `direct_k_cluster()`, K-Means Clusters
 #' @templateVar reducer `reduce_kmeans()`, Scaled Row Means

@@ -22,7 +22,7 @@ what to try to reduce 2) how to measure how much information is lost from
 the reduction and 3) how to reduce the data. In partition, functions that
 handle 1) are called directors, functions that handle 2) are called
 metrics,  and functions that handle 3) are called reducers. partition has a
-number of pre-specificed partitioners for agglomerative data reduction.
+number of pre-specified partitioners for agglomerative data reduction.
 Custom partitioners can be created with \code{\link[=as_partitioner]{as_partitioner()}}.
 }
 \examples{

@@ -17,7 +17,7 @@ Author: c(
 Maintainer: Malcolm Barrett <malcolmbarrett@gmail.com>
 Description: A fast and flexible framework for agglomerative partitioning. partition uses an approach 
   called direct, measure, reduce to create new variables that maintain the 
-  user-specificed minimum level of information. Each reduced variable is also interpretable:
+  user-specified minimum level of information. Each reduced variable is also interpretable:
   the original variables map to one and only one variable in the reduced data set. partition 
   is flexible, as well: how variables are selected to reduce, how information loss is measured, 
   and the way data is reduced can all be customized.  
@@ -43,8 +43,11 @@ Imports:
     infotheo,
     MASS
 Suggests: 
-    covr
+    covr,
+    spelling,
+    testthat
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 URL: https://github.com/malcolmbarrett/partition2
 BugReports: https://github.com/malcolmbarrett/partition2/issues
+Language: en-US

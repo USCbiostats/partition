@@ -18,12 +18,12 @@ what to try to reduce 2) how to measure how much information is lost from
 the reduction and 3) how to reduce the data. In partition, functions that
 handle 1) are called directors, functions that handle 2) are called
 metrics,  and functions that handle 3) are called reducers. partition has a
-number of pre-specificed partitioners for agglomerative data reduction.
+number of pre-specified partitioners for agglomerative data reduction.
 Custom partitioners can be created with \code{\link[=as_partitioner]{as_partitioner()}}.
 
 \code{part_minr2()} uses the following direct, measure, reduce approach:
 \itemize{
-\item \strong{direct}: \code{direct_distance()}, Miniumum Distance
+\item \strong{direct}: \code{direct_distance()}, Minimum Distance
 \item \strong{measure}: \code{metric_variance_explained()}, Variance Explained (PCA)
 \item \strong{reduce}: \code{reduce_scaled_mean()}, Scaled Row Means
 }

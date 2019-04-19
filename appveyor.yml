@@ -17,6 +17,8 @@ cache:
 
 build_script:
   - travis-tool.sh install_deps
+  - travis-tool.sh install_r Rcpp
+  - travis-tool.sh install_r RcppArmadillo
 
 test_script:
   - travis-tool.sh run_tests

@@ -121,8 +121,8 @@ minimum_information <- function(.partition, .round = TRUE, digits = 3) {
 #' @rdname paste_partitioners
 paste_director <- function(x) {
   director <- dplyr::case_when(
-    is_same_function(x$direct, direct_distance_pearson) ~ "Miniumum Distance (Pearson)",
-    is_same_function(x$direct, direct_distance_spearman) ~ "Miniumum Distance (Spearman)",
+    is_same_function(x$direct, direct_distance_pearson) ~ "Minimum Distance (Pearson)",
+    is_same_function(x$direct, direct_distance_spearman) ~ "Minimum Distance (Spearman)",
     is_same_function(x$direct, direct_k_cluster) ~ "K-Means Clusters",
     TRUE ~ paste_subtle("<custom director>")
   )
