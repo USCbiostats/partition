@@ -68,7 +68,7 @@ cat_subtle <- function(...) {
 
 #' @rdname print_color
 paste_subtle <- function(...) {
-  paste0("\033[90m", ..., "\033[39m")
+  pillar::style_subtle(paste(...))
 }
 
 #' Helper functions to print `partition` summary

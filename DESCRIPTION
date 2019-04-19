@@ -40,6 +40,7 @@ Imports:
     stringr,
     magrittr,
     crayon,
+    pillar,
     infotheo,
     MASS
 Suggests: 

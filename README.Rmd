@@ -53,6 +53,6 @@ part_icc_rowmeans <- replace_partitioner(
   part_icc, 
   reduce = as_reducer(rowMeans)
 )
-partition(df, threshold = .6, partitioner = part_icc_rowmeans)
+partition(df, threshold = .6, partitioner = part_icc_rowmeans) 
 ```
 
