@@ -17,9 +17,8 @@ arma::mat kmeans_c(arma::mat& x, int k, int n_iter = 10, bool verbose = false, i
   set_seed(seed);
 
   mat means;
-  bool status;
 
-  status = kmeans(means, x.t(), k, arma::random_subset, n_iter, verbose);
+  kmeans(means, x.t(), k, arma::random_subset, n_iter, verbose);
 
   return means.t();
 }
@@ -29,7 +28,7 @@ int minimum_cluster(arma::vec x) {
   double out = arma::datum::inf;
   int idx = 0;
 
-  for (int i = 0; i < x.n_elem; i++) {
+  for (unsigned int i = 0; i < x.n_elem; i++) {
     if (x(i) < out) {
       out = x(i);
       idx = i + 1;
@@ -42,7 +41,7 @@ int minimum_cluster(arma::vec x) {
 arma::vec wcss(arma::rowvec vec, arma::mat centroids) {
   arma::vec row_wcss(centroids.n_rows);
 
-  for (int i = 0; i < centroids.n_rows; i++) {
+  for (unsigned int i = 0; i < centroids.n_rows; i++) {
     row_wcss(i) = arma::as_scalar(arma::accu(arma::pow(vec - centroids.row(i), 2)));
   }
 
@@ -54,7 +53,7 @@ NumericVector assign_cluster(arma::mat& x, arma::mat init_centroids) {
 
   arma::vec assignments(x.n_rows);
 
-  for (int k = 0; k < x.n_rows; k++) {
+  for (unsigned int k = 0; k < x.n_rows; k++) {
     arma::vec wcss_vec = wcss(arma::conv_to< arma::rowvec >::from(x.row(k)), init_centroids);
     assignments(k) = minimum_cluster(wcss_vec);
   }
