@@ -32,3 +32,17 @@ metric_iir <- as_metric(inter_item_reliability)
 metric_iir
 
 }
+\seealso{
+Other metrics: \code{\link{metric_icc}},
+  \code{\link{metric_min_icc}},
+  \code{\link{metric_min_r2}},
+  \code{\link{metric_std_mutualinfo}},
+  \code{\link{metric_variance_explained}}
+
+Other metrics: \code{\link{metric_icc}},
+  \code{\link{metric_min_icc}},
+  \code{\link{metric_min_r2}},
+  \code{\link{metric_std_mutualinfo}},
+  \code{\link{metric_variance_explained}}
+}
+\concept{metrics}

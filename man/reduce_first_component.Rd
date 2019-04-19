@@ -21,3 +21,9 @@ reducers to be used in \code{partitioner}s. \code{partitioner}s can be created w
 \code{reduce_first_component()} returns the first component from the
 principal components analysis of the target variables.
 }
+\seealso{
+Other reducers: \code{\link{as_reducer}},
+  \code{\link{reduce_kmeans}},
+  \code{\link{reduce_scaled_mean}}
+}
+\concept{reducers}

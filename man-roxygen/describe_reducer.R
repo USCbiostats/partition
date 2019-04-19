@@ -3,4 +3,6 @@
 #'  reducers to be used in `partitioner`s. `partitioner`s can be created with
 #'  [as_partitioner()].
 #'
+#' @family reducers
+#'
 #' @md

@@ -24,6 +24,8 @@ handle 1) are called directors, functions that handle 2) are called
 metrics,  and functions that handle 3) are called reducers. partition has a
 number of pre-specified partitioners for agglomerative data reduction.
 Custom partitioners can be created with \code{\link[=as_partitioner]{as_partitioner()}}.
+
+Pass \code{partitioner} objects to the \code{partitioner} argument of \code{\link[=partition]{partition()}}.
 }
 \examples{
 
@@ -34,3 +36,10 @@ as_partitioner(
 )
 
 }
+\seealso{
+Other partitioners: \code{\link{part_icc}},
+  \code{\link{part_kmeans}}, \code{\link{part_minr2}},
+  \code{\link{part_pc1}}, \code{\link{part_stdmi}},
+  \code{\link{replace_partitioner}}
+}
+\concept{partitioners}

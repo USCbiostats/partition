@@ -21,3 +21,17 @@ quickly retrieve the mappings for only the reduced variables.
 \code{filter_reduced()} returns a nested \code{tibble} while \code{unnest_reduced()} unnests
 it.
 }
+\examples{
+set.seed(123)
+df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
+# fit partition
+prt <- partition(df, threshold = .6)
+
+
+# A tibble: 3 x 4
+filter_reduced(prt)
+
+# A tibble: 9 x 4
+unnest_reduced(prt)
+
+}

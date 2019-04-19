@@ -22,3 +22,11 @@ helper function to create new metrics to be used in \code{partitioner}s.
 \code{metric_icc()} assesses information loss by calculating the
 intraclass correlation coefficient for the target variables.
 }
+\seealso{
+Other metrics: \code{\link{as_metric}},
+  \code{\link{metric_min_icc}},
+  \code{\link{metric_min_r2}},
+  \code{\link{metric_std_mutualinfo}},
+  \code{\link{metric_variance_explained}}
+}
+\concept{metrics}

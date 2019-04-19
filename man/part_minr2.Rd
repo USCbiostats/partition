@@ -21,6 +21,8 @@ metrics,  and functions that handle 3) are called reducers. partition has a
 number of pre-specified partitioners for agglomerative data reduction.
 Custom partitioners can be created with \code{\link[=as_partitioner]{as_partitioner()}}.
 
+Pass \code{partitioner} objects to the \code{partitioner} argument of \code{\link[=partition]{partition()}}.
+
 \code{part_minr2()} uses the following direct, measure, reduce approach:
 \itemize{
 \item \strong{direct}: \code{direct_distance()}, Minimum Distance
@@ -28,3 +30,18 @@ Custom partitioners can be created with \code{\link[=as_partitioner]{as_partitio
 \item \strong{reduce}: \code{reduce_scaled_mean()}, Scaled Row Means
 }
 }
+\examples{
+set.seed(123)
+df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
+
+# fit partition using part_minr2()
+partition(df, threshold = .6, partitioner = part_minr2())
+
+}
+\seealso{
+Other partitioners: \code{\link{as_partitioner}},
+  \code{\link{part_icc}}, \code{\link{part_kmeans}},
+  \code{\link{part_pc1}}, \code{\link{part_stdmi}},
+  \code{\link{replace_partitioner}}
+}
+\concept{partitioners}

@@ -21,3 +21,9 @@ reducers to be used in \code{partitioner}s. \code{partitioner}s can be created w
 \code{reduce_scaled_mean()} returns the scaled row means of the
 target variables to reduce.
 }
+\seealso{
+Other reducers: \code{\link{as_reducer}},
+  \code{\link{reduce_first_component}},
+  \code{\link{reduce_kmeans}}
+}
+\concept{reducers}

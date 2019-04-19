@@ -23,3 +23,10 @@ helper function to create new metrics to be used in \code{partitioner}s.
 calculating the standardized mutual information for the target variables.
 See \code{\link[=mutual_information]{mutual_information()}}.
 }
+\seealso{
+Other metrics: \code{\link{as_metric}},
+  \code{\link{metric_icc}}, \code{\link{metric_min_icc}},
+  \code{\link{metric_min_r2}},
+  \code{\link{metric_variance_explained}}
+}
+\concept{metrics}

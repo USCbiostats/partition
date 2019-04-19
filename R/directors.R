@@ -18,6 +18,7 @@
 #' direct_hclust <- as_director(assign_hclust)
 #' direct_hclust
 #'
+#' @family directors
 as_director <- function(.f, ...) {
   function(.partition_step, ...) {
     .partition_step$target <- .f(.partition_step$reduced_data, ...)
@@ -101,8 +102,6 @@ direct_distance_spearman <- function(.partition_step) {
 #'   threshold times the number of variables.
 #'
 #' @export
-#'
-#' @examples
 direct_k_cluster <- function(.partition_step,
                              algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"),
                              search = c("binary", "linear"),

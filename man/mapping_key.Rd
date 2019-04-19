@@ -28,3 +28,19 @@ mapping and information loss; the mapping and indices are represented as
 \code{mapping_groups()} returns a list of mappings (either the variable names or
 their column position).
 }
+\examples{
+set.seed(123)
+df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
+# fit partition
+prt <- partition(df, threshold = .6)
+
+# tibble: 6 x 4
+mapping_key(prt)
+
+# tibble: 12 x 4
+unnest_mappings(prt)
+
+# list: length 6
+mapping_groups(prt)
+
+}

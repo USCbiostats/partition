@@ -19,6 +19,7 @@
 #' metric_iir <- as_metric(inter_item_reliability)
 #' metric_iir
 #'
+#' @family metrics
 as_metric <- function(.f, ...) {
   function(.partition_step, ...) {
     if (.partition_step$all_done) return(.partition_step)
@@ -136,8 +137,8 @@ metric_variance_explained <- function(.partition_step) {
   .partition_step$metric <- pca1[["pct_var"]]
   # PCA and variance explained are calculated at the same time for efficiency
   # so store the first PC to use later as the reduced variable
-  uses_scaled_mean <- is_same_function(.partition_step$partitioner$reduce, reduce_scaled_mean)
-  if (uses_scaled_mean) .partition_step$new_variable <- as.numeric(pca1[["pc1"]])
+  uses_first_component <- is_same_function(.partition_step$partitioner$reduce, reduce_first_component)
+  if (uses_first_component) .partition_step$new_variable <- as.numeric(pca1[["pc1"]])
 
   .partition_step
 }

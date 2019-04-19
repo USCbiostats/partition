@@ -18,5 +18,20 @@ partition_scores(object, ...)
 a tibble containing the reduced data for the partition
 }
 \description{
-Return the reduced data from a partition
+The reduced data is stored as \code{reduced_data} in the partition object and can
+thus be returned by subsetting \code{object$reduced_data}. Alternatively, the
+functions \code{partition_score()} and \code{fitted()} also return the reduced data.
+}
+\examples{
+set.seed(123)
+df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
+# fit partition
+prt <- partition(df, threshold = .6)
+
+
+# three ways to retrieve reduced data
+partition_scores(prt)
+fitted(prt)
+prt$reduced_data
+
 }

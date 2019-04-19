@@ -33,3 +33,8 @@ fits the distances for any new reduced variables.
 \code{direct_distance_pearson()} and \code{direct_distance_spearman()} are
 convenience functions that directly call the type of distance matrix.
 }
+\seealso{
+Other directors: \code{\link{as_director}},
+  \code{\link{direct_k_cluster}}
+}
+\concept{directors}

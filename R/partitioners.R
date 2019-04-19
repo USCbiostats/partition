@@ -43,6 +43,7 @@ as_partitioner <- function(direct, measure, reduce) {
 #'   reduce = as_reducer(rowMeans)
 #' )
 #'
+#' @family partitioners
 replace_partitioner <- function(partitioner, direct = NULL, measure = NULL, reduce = NULL) {
   if (!is_partitioner(partitioner) && is.function(partitioner)) partitioner <- partitioner()
 
@@ -64,7 +65,7 @@ is_partitioner <- function(x) inherits(x, "partitioner")
 #' Partitioner: distance, ICC, scaled means
 #'
 #' @template describe_as_partitioner
-#' @templateVar func `part_icc()`
+#' @templateVar func part_icc()
 #' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `metric_icc()`, Intraclass Correlation
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
@@ -73,8 +74,6 @@ is_partitioner <- function(x) inherits(x, "partitioner")
 #'
 #' @return a `partitioner`
 #' @export
-#'
-#' @examples
 part_icc <- function(spearman = FALSE) {
   as_partitioner(
     direct = direct_dist(spearman = spearman),
@@ -86,7 +85,7 @@ part_icc <- function(spearman = FALSE) {
 #' Partitioner: distance, mutual information, scaled means
 #'
 #' @template describe_as_partitioner
-#' @templateVar func `part_stdmi()`
+#' @templateVar func part_stdmi()
 #' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `metric_std_mutualinfo()`, Standardized Mutual Information
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
@@ -95,8 +94,6 @@ part_icc <- function(spearman = FALSE) {
 #'
 #' @return a `partitioner`
 #' @export
-#'
-#' @examples
 part_stdmi <- function(spearman = FALSE) {
   as_partitioner(
     direct = direct_dist(spearman = spearman),
@@ -108,7 +105,7 @@ part_stdmi <- function(spearman = FALSE) {
 #' Partitioner: distance, minimum R-squared, scaled means
 #'
 #' @template describe_as_partitioner
-#' @templateVar func `part_minr2()`
+#' @templateVar func part_minr2()
 #' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `metric_min_r2()`, Minimum R-Squared
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
@@ -117,8 +114,6 @@ part_stdmi <- function(spearman = FALSE) {
 #'
 #' @return a `partitioner`
 #' @export
-#'
-#' @examples
 part_minr2 <- function(spearman = FALSE) {
   as_partitioner(
     direct = direct_dist(spearman = spearman),
@@ -130,7 +125,7 @@ part_minr2 <- function(spearman = FALSE) {
 #' Partitioner: distance, first principal component, scaled means
 #'
 #' @template describe_as_partitioner
-#' @templateVar func `part_minr2()`
+#' @templateVar func part_pc1()
 #' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `metric_variance_explained()`, Variance Explained (PCA)
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
@@ -139,8 +134,6 @@ part_minr2 <- function(spearman = FALSE) {
 #'
 #' @return a `partitioner`
 #' @export
-#'
-#' @examples
 part_pc1 <- function(spearman = FALSE) {
   as_partitioner(
     direct = direct_dist(spearman = spearman),
@@ -152,7 +145,7 @@ part_pc1 <- function(spearman = FALSE) {
 #' Partitioner: K-means, ICC, scaled means
 #'
 #' @template describe_as_partitioner
-#' @templateVar func `part_minr2()`
+#' @templateVar func part_kmeans()
 #' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `metric_min_icc()`, Minimum Intraclass Correlation
 #' @templateVar director `direct_k_cluster()`, K-Means Clusters
@@ -162,8 +155,6 @@ part_pc1 <- function(spearman = FALSE) {
 #'
 #' @return a `partitioner`
 #' @export
-#'
-#' @examples
 part_kmeans <- function(algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"),
                         search = c("binary", "linear"),
                         init_k = NULL) {

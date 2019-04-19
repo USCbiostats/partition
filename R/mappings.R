@@ -13,7 +13,17 @@
 #' @return a `tibble`
 #' @export
 #'
+#' @template example_header
 #' @examples
+#' # tibble: 6 x 4
+#' mapping_key(prt)
+#'
+#' # tibble: 12 x 4
+#' unnest_mappings(prt)
+#'
+#' # list: length 6
+#' mapping_groups(prt)
+#'
 #' @rdname mapping_key
 mapping_key <- function(.partition) {
   # return mapping key
@@ -67,7 +77,15 @@ replicate_partition <- function(new_data, .partition) {
 #' @return a `tibble` with mapping key
 #' @export
 #'
+#' @template example_header
 #' @examples
+#'
+#' # A tibble: 3 x 4
+#' filter_reduced(prt)
+#'
+#' # A tibble: 9 x 4
+#' unnest_reduced(prt)
+#'
 #' @rdname filter_reduced
 filter_reduced <- function(.partition) {
   .partition$mapping_key %>%
@@ -86,13 +104,24 @@ unnest_reduced <- function(.partition) {
 
 #' Return the reduced data from a partition
 #'
+#' The reduced data is stored as `reduced_data` in the partition object and can
+#' thus be returned by subsetting `object$reduced_data`. Alternatively, the
+#' functions `partition_score()` and `fitted()` also return the reduced data.
+#'
 #' @param object a `partition` object
 #' @param ... not currently used (for S3 consistency with `fitted()`)
 #'
 #' @return a tibble containing the reduced data for the partition
 #' @export
 #'
+#' @template example_header
 #' @examples
+#'
+#' # three ways to retrieve reduced data
+#' partition_scores(prt)
+#' fitted(prt)
+#' prt$reduced_data
+#'
 #' @rdname partition_scores
 partition_scores <- function(object, ...) {
   object$reduced_data

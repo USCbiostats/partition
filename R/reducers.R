@@ -16,6 +16,7 @@
 #' reduce_row_means <- as_reducer(rowMeans)
 #' reduce_row_means
 #'
+#' @family reducers
 as_reducer <- function(.f, ..., returns_vector = TRUE, first_match = NULL) {
   if (returns_vector) {
     mapping_f <- reduce_data

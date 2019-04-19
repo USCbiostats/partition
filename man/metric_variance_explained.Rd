@@ -21,3 +21,10 @@ helper function to create new metrics to be used in \code{partitioner}s.
 \code{metric_variance_explained()} assesses information loss by calculating the
 variance explained by the first component of a principal components analysis.
 }
+\seealso{
+Other metrics: \code{\link{as_metric}},
+  \code{\link{metric_icc}}, \code{\link{metric_min_icc}},
+  \code{\link{metric_min_r2}},
+  \code{\link{metric_std_mutualinfo}}
+}
+\concept{metrics}

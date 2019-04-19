@@ -208,8 +208,6 @@ assign_partition <- function(.x, partitioner, .data, threshold, tolerance, var_p
 #'
 #' @return a `partition` object
 #' @keywords internal
-#'
-#' @examples
 as_partition <- function(partition_step) {
   # Scrub partition_step:
   # * clean reduced names and mappings

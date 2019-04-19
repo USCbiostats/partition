@@ -37,3 +37,8 @@ K-means. As the partition looks for the best reduction,
 This search is handled by the binary search method by default and thus
 does not necessarily need to fit every value of k.
 }
+\seealso{
+Other directors: \code{\link{as_director}},
+  \code{\link{direct_distance}}
+}
+\concept{directors}

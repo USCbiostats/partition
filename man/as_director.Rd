@@ -31,3 +31,11 @@ direct_hclust <- as_director(assign_hclust)
 direct_hclust
 
 }
+\seealso{
+Other directors: \code{\link{direct_distance}},
+  \code{\link{direct_k_cluster}}
+
+Other directors: \code{\link{direct_distance}},
+  \code{\link{direct_k_cluster}}
+}
+\concept{directors}

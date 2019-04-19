@@ -24,3 +24,9 @@ reducers to be used in \code{partitioner}s. \code{partitioner}s can be created w
 \code{reduce_kmeans()} is efficient in that it doesn't reduce until
 the closest \code{k} to the information threshold is found.
 }
+\seealso{
+Other reducers: \code{\link{as_reducer}},
+  \code{\link{reduce_first_component}},
+  \code{\link{reduce_scaled_mean}}
+}
+\concept{reducers}

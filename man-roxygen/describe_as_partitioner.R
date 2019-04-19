@@ -6,4 +6,8 @@
 #'   number of pre-specified partitioners for agglomerative data reduction.
 #'   Custom partitioners can be created with [as_partitioner()].
 #'
+#' @description Pass `partitioner` objects to the `partitioner` argument of [partition()].
+#'
+#' @family partitioners
+#'
 #' @md
