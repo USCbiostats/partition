@@ -38,8 +38,8 @@ cache:
 # Adapt as necessary starting from here
 
 build_script:
+  - R -e install.packages(c('testthat','Rcpp','RcppArmadillo'),head(.libPaths(),1),'http://cran.wustl.edu')
   - travis-tool.sh install_deps
-  - R -e install.packages(c('testthat','Rcpp','RcppArmadillo'),repos = "https://cloud.r-project.org/")
 
 test_script:
   - travis-tool.sh run_tests
