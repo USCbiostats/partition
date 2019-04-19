@@ -42,7 +42,7 @@ cache:
 # Adapt as necessary starting from here
 
 build_script:
-  - R -e install.packages(c("testthat","Rcpp","RcppArmadillo"),head(.libPaths(),1),"https://cloud.r-project.org/")
+  - R -e install.packages(c('testthat','Rcpp','RcppArmadillo'),head(.libPaths(),1),'https://cloud.r-project.org/')
   - travis-tool.sh install_deps
 
 test_script:
