@@ -39,7 +39,7 @@ cache:
 
 build_script:
   - travis-tool.sh install_deps
-  - R -e install.packages(c('testthat','Rcpp','RcppArmadillo'))
+  - R -e install.packages(c('testthat','Rcpp','RcppArmadillo'), repos = "https://cloud.r-project.org/")
 
 test_script:
   - travis-tool.sh run_tests
