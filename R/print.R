@@ -7,7 +7,7 @@ print.partition <- function(x, ...) {
   cat("\n\n")
 
   # number of clusters
-  cat_bold("Number of Reduced Variables:")
+  cat_bold("Reduced Variables:")
   cat("\n")
   cat(
     crayon::green(count_clusters(x)),

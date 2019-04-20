@@ -34,7 +34,7 @@ Imports:
     rlang,
     purrr,
     tibble,
-    dplyr,
+    dplyr (>= 0.8.0),
     tidyr,
     ggplot2,
     stringr,
