@@ -42,7 +42,8 @@ Imports:
     crayon,
     pillar,
     infotheo,
-    MASS
+    MASS,
+    forcats
 Suggests: 
     covr,
     spelling,

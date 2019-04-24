@@ -6,7 +6,7 @@
 #'
 #' @param .data a `data.frame`
 #'
-#' @return a permutted `data.frame`
+#' @return a permuted `data.frame`
 #' @export
 #'
 #' @examples
@@ -77,7 +77,7 @@ map_partition <- function(.data, partitioner = part_icc(), ..., information = se
 #'
 #' `summarize_partitions()` summarizes a `partition` and attaches it in a
 #' `list-col`. `map_permutations()` processes [map_partition()] for a set of
-#' permutted data sets.
+#' permuted data sets.
 #'
 #' @inheritParams test_permutation
 #' @return a tibble

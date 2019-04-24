@@ -10,7 +10,7 @@ permute_df(.data)
 \item{.data}{a \code{data.frame}}
 }
 \value{
-a permutted \code{data.frame}
+a permuted \code{data.frame}
 }
 \description{
 \code{permute_df()} permutes a data set: it randomizes the order within each

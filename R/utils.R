@@ -7,15 +7,17 @@ utils::globalVariables(
   c(
     ":=",
     "indices",
+    "information",
     "is_reduced",
     "mapping",
-    "old_vars",
-    "variable",
+    "n",
     "nclusters",
     "nreduced",
     "observed_info",
+    "old_vars",
     "permutation",
-    "target_info"
+    "target_info",
+    "variable"
   )
 )
 

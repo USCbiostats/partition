@@ -27,6 +27,6 @@ a tibble
 \description{
 \code{summarize_partitions()} summarizes a \code{partition} and attaches it in a
 \code{list-col}. \code{map_permutations()} processes \code{\link[=map_partition]{map_partition()}} for a set of
-permutted data sets.
+permuted data sets.
 }
 \keyword{internal}

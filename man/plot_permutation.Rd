@@ -6,7 +6,8 @@
 \usage{
 plot_permutation(permutations, .plot = c("information", "nclusters",
   "nreduced"), labeller = "target information:",
-  perm_color = "#56B4EA", obs_color = "#CC78A8", geom = geom_density)
+  perm_color = "#56B4EA", obs_color = "#CC78A8",
+  geom = ggplot2::geom_density)
 }
 \arguments{
 \item{permutations}{a \code{tibble}, the result of \code{\link[=test_permutation]{test_permutation()}}}
@@ -27,7 +28,7 @@ a ggplot
 }
 \description{
 \code{plot_permutation()} takes the results of \code{\link[=test_permutation]{test_permutation()}} and plots the
-distribution of permutted partitions compared to the observed partition.
+distribution of permuted partitions compared to the observed partition.
 }
 \examples{
 set.seed(123)
