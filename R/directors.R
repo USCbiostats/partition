@@ -135,7 +135,8 @@ direct_k_cluster <- function(.partition_step,
   }
 
   #  the binary search method requires assigning k-1 clusters to check boundary
-  if (search_method == "binary") {
+  #  unless k = 1 (so don't check k = 0)
+  if (search_method == "binary" && .partition_step$k != 1) {
     .partition_step$target_k1 <- kmean_f(
       as.matrix(.partition_step$.df),
       .partition_step$k - 1
