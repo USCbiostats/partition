@@ -65,7 +65,13 @@ NumericVector assign_cluster(arma::mat& x, arma::mat init_centroids) {
 
 // [[Rcpp::export]]
 NumericVector kmean_assignment(arma::mat& x, int k, int n_iter = 10, bool verbose = false, int seed = 1) {
+  if (k <= 1) {
+    NumericVector all_ones(x.n_cols, 1);
+    return all_ones;
+  }
+
   NumericVector assignments(x.n_cols);
+
   arma::mat centroids;
   arma::mat transposed_data = x.t();
 

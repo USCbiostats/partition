@@ -92,6 +92,15 @@ metric_min_icc <- function(.partition_step, search_method = c("binary", "linear"
   # store vector of icc for mappings if min icc > threshold
   .partition_step$metric_vector <- k_icc
 
+  if (.partition_step$k == 1 && under_threshold(.partition_step)) {
+    return(all_done(.partition_step))
+  }
+
+  if (.partition_step$k == 1 && search_method == "binary") {
+    .partition_step$metric_k1 <- 0
+    return(.partition_step)
+  }
+
   if (search_method == "binary") {
     # for binary k search, also find the metrics for k - 1
     # get indices for each cluster as list and subtract by one for cpp indexing

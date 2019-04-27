@@ -137,7 +137,7 @@ reduce_data <- function(.partition_step, .f, first_match = FALSE) {
 
 #' @export
 #' @rdname reduce_target
-map_data <- function(.partition_step, .f, first_match = TRUE) {
+map_data <- function(.partition_step, .f, first_match = FALSE) {
   #  if partitioning complete or threshold not met, skip reduce
   if (.partition_step$all_done) return(.partition_step)
   if (under_threshold(.partition_step)) return(.partition_step)
@@ -201,9 +201,9 @@ search_k <- function(.partition_step, search_method = c("binary", "linear")) {
   new_k <- ifelse(
     .partition_step$metric > .partition_step$threshold,
     #  if above threshold, search between minimum k and current k
-    round(median(.partition_step$min_k:.partition_step$k)),
+    floor(median(.partition_step$min_k:.partition_step$k)),
     #  if below threshold, search between current k and maximum k
-    round(median(.partition_step$k:.partition_step$max_k))
+    ceiling(median(.partition_step$k:.partition_step$max_k))
   )
 
   if (.partition_step$metric > .partition_step$threshold) {
@@ -225,7 +225,8 @@ search_k <- function(.partition_step, search_method = c("binary", "linear")) {
 #' @keywords internal
 binary_k_search <- function(.partition_step) {
   # check if we've found the threshold boundary
-  if (boundary_found(.partition_step)) {
+  reduced_to_1 <- .partition_step$k == 1 && above_threshold(.partition_step)
+  if (boundary_found(.partition_step) || reduced_to_1) {
     .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
     return(all_done(.partition_step))
   }
@@ -263,7 +264,7 @@ linear_k_search <- function(.partition_step) {
 
   #   if we're searching backward, check if we've gone under the threshold. if
   #   so, use the last targets.
-  if (k_searching_backward(.partition_step) && under_threshold(.partition_step)) {
+  if (k_searching_backward(.partition_step) && under_threshold(.partition_step) || .partition_step$k == 0) {
     .partition_step <- rewind_target(.partition_step)
     .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
     return(all_done(.partition_step))

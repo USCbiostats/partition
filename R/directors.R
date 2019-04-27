@@ -294,7 +294,7 @@ matrix_is_exhausted <- function(.partition_step) {
 #' @return an integer
 #' @keywords internal
 guess_init_k <- function(.partition_step) {
-  round(.partition_step$threshold * ncol(.partition_step$.df))
+  ceiling(.partition_step$threshold * ncol(.partition_step$.df))
 }
 
 #' Have all values of `k` been checked for metric?

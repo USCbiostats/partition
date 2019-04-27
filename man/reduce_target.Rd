@@ -7,7 +7,7 @@
 \usage{
 reduce_data(.partition_step, .f, first_match = FALSE)
 
-map_data(.partition_step, .f, first_match = TRUE)
+map_data(.partition_step, .f, first_match = FALSE)
 }
 \arguments{
 \item{.partition_step}{a \code{partition_step} object}
