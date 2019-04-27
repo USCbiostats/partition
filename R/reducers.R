@@ -108,7 +108,7 @@ reduce_first_component <- function(.partition_step) {
 #' )
 #'
 #' @rdname reduce_target
-reduce_data <- function(.partition_step, .f, first_match = TRUE) {
+reduce_data <- function(.partition_step, .f, first_match = FALSE) {
   #  if partitioning complete or threshold not met, skip reduce
   if (.partition_step$all_done) return(.partition_step)
   if (under_threshold(.partition_step)) return(.partition_step)
@@ -137,7 +137,7 @@ reduce_data <- function(.partition_step, .f, first_match = TRUE) {
 
 #' @export
 #' @rdname reduce_target
-map_data <- function(.partition_step, .f, first_match = FALSE) {
+map_data <- function(.partition_step, .f, first_match = TRUE) {
   #  if partitioning complete or threshold not met, skip reduce
   if (.partition_step$all_done) return(.partition_step)
   if (under_threshold(.partition_step)) return(.partition_step)
@@ -153,7 +153,7 @@ map_data <- function(.partition_step, .f, first_match = FALSE) {
   if (!named_targets) target_list <- get_names(.partition_step, target_list)
 
   #  reduce anything with more than one variable
-  #  TODO: oppurtunity for parallelization
+  #  TODO: opportunity for parallelization
   #  Although this only gets called once in kmeans
   .partition_step$reduced_data <- purrr::map_dfc(
     target_list,
