@@ -168,8 +168,14 @@ part_kmeans <- function(algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Fo
       search = search,
       init_k = init_k
     ),
-    measure = metric_min_icc,
-    reduce = reduce_kmeans
+    measure = purrr::partial(
+      metric_min_icc,
+      search = search
+    ),
+    reduce = purrr::partial(
+      reduce_kmeans,
+      search = search
+    )
   )
 }
 

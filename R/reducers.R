@@ -262,9 +262,21 @@ linear_k_search <- function(.partition_step) {
     return(all_done(.partition_step))
   }
 
+  #   if we're searching backward, check if we've hit k = 1. Reduce if still above threshold
+  #   and otherwise use k = 2
+  if (k_searching_backward(.partition_step) && .partition_step$k == 1) {
+    if (above_threshold(.partition_step)) {
+      .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+    } else {
+      .partition_step <- rewind_target(.partition_step)
+      .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+    }
+    return(all_done(.partition_step))
+  }
+
   #   if we're searching backward, check if we've gone under the threshold. if
   #   so, use the last targets.
-  if (k_searching_backward(.partition_step) && under_threshold(.partition_step) || .partition_step$k == 0) {
+  if (k_searching_backward(.partition_step) && under_threshold(.partition_step)) {
     .partition_step <- rewind_target(.partition_step)
     .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
     return(all_done(.partition_step))
@@ -383,7 +395,7 @@ under_threshold <- function(.partition_step) {
 
 #' @rdname compare_metric
 above_threshold <- function(.partition_step) {
-  .partition_step$metric > (.partition_step$threshold + .partition_step$tolerance)
+  .partition_step$metric > (.partition_step$threshold - .partition_step$tolerance)
 }
 
 #' @rdname compare_metric
@@ -403,9 +415,9 @@ metric_within_tolerance <- function(.partition_step){
 #' @keywords internal
 rewind_target <- function(.partition_step) {
   .partition_step$target <- .partition_step$last_target$target
-  .partition_step$metric_vector <- .partition_step$last_target$metric_vector
-  .partition_step$metric <- min(.partition_step$metric)
-  .partition_step$k <- .partition_step$k - 1
+  .partition_step$metric_vector <- .partition_step$last_target$metric
+  .partition_step$metric <- min(.partition_step$metric_vector)
+  .partition_step$k <- .partition_step$k - .partition_step$k_search
 
   .partition_step
 }
