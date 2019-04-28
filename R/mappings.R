@@ -47,11 +47,26 @@ mapping_groups <- function(.partition, indices = FALSE) {
 
 set_mappings <- function(.mappings) {
   # return partition_map, an empty partition obj
+
 }
 
+replicate_partition_step2 <- function(.target, .partition_step) {
+  .partition_step$target <- .target
 
-replicate_partition <- function(new_data, .partition) {
-  .mappings <- mapping_groups(.partition)
+  .partition_step %>%
+    .partition_step$partitioner$reduce()
+}
+
+replicate_partition2 <- function(new_data, .partition = NULL, .mappings = NULL, .partitioner = NULL) {
+  all_null <- all(purrr::map_lgl(c(.partition, .mappings, .partitioner), is.null))
+  if (all_null) stop("must provide either `.partition` or `.mappings` and `.partitioner`", call. = FALSE)
+
+  if (!is.null(.partition)) .mappings <- mapping_groups(.partition)
+
+  if (!is.null(.mappings) && !is.null(.partitioner)) {
+    .partition <- set_mappings(.mappings)
+    .partition$.partitioner <- .partitioner
+  }
 
   #  double check if names are in new data
   #  use variable positions if not
@@ -61,7 +76,19 @@ replicate_partition <- function(new_data, .partition) {
     .mappings <- mapping_groups(.partition, indices = TRUE)
   }
 
-  # replicate parition exactly
+  targets <- .mappings %>%
+    purrr::discard(~length(.x) == 1)
+
+  # replicate partition exactly
+  rep_partition_step <- as_partition_step(
+    .x = new_data,
+    threshold = 0,
+    metric = 1,
+    var_prefix = .partition$var_prefix
+  )
+
+  purrr::reduce(targets, replicate_partition_step2, .init = rep_partition_step) %>%
+    as_partition()
 }
 
 
@@ -161,17 +188,29 @@ reduce_mappings <- function(.partition_step, target_list) {
   named_targets <- all(is.character(target_list[[1]]))
   if (!named_targets) target_list <- get_names(.partition_step, target_list)
 
-  tibble::tibble(
-    variable = paste0(.partition_step$var_prefix, seq_along(target_list)),
+
+  mapping_key <- tibble::tibble(
     mapping = target_list,
     information = .partition_step$metric_vector
   ) %>%
-    dplyr::mutate(variable = purrr::map2_chr(
-      mapping,
-      variable,
-      # if there's only a single variable, call it by its name
-      ~ ifelse(length(.x) > 1, .y, .x[[1]])
-    ))
+    dplyr::arrange(information) %>%
+    dplyr::mutate(
+      variable = paste0(.partition_step$var_prefix, seq_along(target_list)),
+      variable = purrr::map2_chr(
+        mapping,
+        variable,
+        # if there's only a single variable, call it by its name
+        ~ ifelse(length(.x) > 1, .y, .x[[1]])
+      ))
+
+  # sort by position in data and information
+  tibble::tibble(
+    variable = names(.partition_step[[".df"]]),
+    position = seq_along(variable)
+  ) %>%
+    dplyr::right_join(mapping_key, by = "variable") %>%
+    dplyr::arrange(position, variable) %>%
+    dplyr::select(-position)
 }
 
 
