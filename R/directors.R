@@ -18,15 +18,27 @@
 #' direct_hclust <- as_director(assign_hclust)
 #' direct_hclust
 #'
-#' @family directors
-as_director <- function(.f, ...) {
+as_director <- function(.pairs, .target, ...) {
   function(.partition_step, ...) {
-    .partition_step$target <- .f(.partition_step$reduced_data, ...)
-
+    # stop partition if all pairs checked
+    if (ncol(.partition_step$reduced_data) == 1) {
+      .partition_step$metric <- 0
+      return(all_done(.partition_step))
+    }
+    pairwise <- .pairs(.partition_step$reduced_data, ...)
+    pairwise <- tag_previous_targets(pairwise, .partition_step$target_history)
+    .partition_step$target <- .target(pairwise)
+    .partition_step$target_history
     .partition_step$last_target <- list(target = .partition_step$target)
 
     .partition_step
   }
+}
+
+tag_previous_targets <- function(.matrix, .history) {
+  .matrix[upper.tri(.matrix, diag = TRUE)] <- NA
+  if (!is.null(.history)) .matrix[.history$first, .history$second] <- NA
+  .matrix
 }
 
 #' Target based on minimum distance matrix
@@ -249,7 +261,7 @@ update_dist <- function(.partition_step, spearman = FALSE) {
   x <- variable_names[length(variable_names)]
   reduced_variable <- .partition_step$reduced_data[[ncol(.partition_step$reduced_data)]]
 
-  subset_data <- .partition_step$reduced_data[, -ncol(.partition_step$reduced_data)]
+  subset_data <- .partition_step$reduced_data[, -ncol(.partition_step$reduced_data), drop = FALSE]
 
   updated_distances <- purrr::map_dbl(
     subset_data,
