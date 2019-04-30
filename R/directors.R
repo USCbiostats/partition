@@ -18,7 +18,7 @@
 #' direct_hclust <- as_director(assign_hclust)
 #' direct_hclust
 #'
-as_director <- function(.pairs, .target, ...) {
+as_director <- function(.pairs, .target = NULL, ...) {
   function(.partition_step, ...) {
     # stop partition if all pairs checked
     if (ncol(.partition_step$reduced_data) == 1) {
