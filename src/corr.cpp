@@ -7,9 +7,9 @@ class SortRanks {
 private:
     const Rcpp::NumericVector& ref;
 
-    bool is_na(double x) const 
+    bool is_na(double x) const
     {
-        return Rcpp::traits::is_na<REALSXP>(x);    
+        return Rcpp::traits::is_na<REALSXP>(x);
     }
 
 public:
@@ -19,7 +19,7 @@ public:
 
     bool operator()(const int ilhs, const int irhs) const
     {
-        double lhs = ref[ilhs], rhs = ref[irhs]; 
+        double lhs = ref[ilhs], rhs = ref[irhs];
         if (is_na(lhs)) return false;
         if (is_na(rhs)) return true;
         return lhs < rhs;
@@ -50,12 +50,12 @@ arma::mat apply_rank(arma::mat x) {
   NumericVector temp_vec;
   NumericMatrix out(x.n_rows, x.n_cols);
   NumericMatrix y = wrap(x);
-  
+
   for(int i = 0; i < y.ncol(); ++i) {
     temp_vec = y(_, i);
     out(_, i) = rank_c(temp_vec);
   }
-  
+
   return as<arma::mat>(out);
 }
 
@@ -71,6 +71,10 @@ arma::mat corr_c_2mat(arma::mat x, arma::mat y) {
 
 // [[Rcpp::export]]
 double corr_c_2vec(arma::vec x, arma::vec y) {
+  if (size(x) != size(y)) {
+    throw Rcpp::exception("cor(): x and y are not the same length!", false);
+  }
+
   arma::mat out;
   out = arma::cor(x, y);
   return out(0);
