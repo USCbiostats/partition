@@ -146,6 +146,7 @@ as_partition_step <- function(.x, threshold = NA, reduced_data = NA, target = NA
 
   #  on first iteration, set reduced data to the original data
   if (!is_not_empty_or_na(reduced_data)) reduced_data <- .x
+  if (!tibble::is_tibble(reduced_data)) reduced_data <- tibble::as_tibble(reduced_data)
 
   # create the partition_step object, tools and information for partitioning
   structure(

@@ -157,7 +157,7 @@ map_data <- function(.partition_step, .f, first_match = FALSE) {
   #  Although this only gets called once in kmeans
   .partition_step$reduced_data <- purrr::map_dfc(
     target_list,
-    ~return_if_single(.partition_step$.df[, .x], .f)
+    ~return_if_single(.partition_step$.df[, .x, drop = FALSE], .f)
   )
 
   #  create the mapping key and name reduced variables in `reduced_data`

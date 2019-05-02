@@ -25,7 +25,7 @@ as_metric <- function(.f, ...) {
     if (.partition_step$all_done) return(.partition_step)
 
     composite_variables <- pull_composite_variables(.partition_step)
-    target_data <- .partition_step$.df[, composite_variables]
+    target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
 
     .partition_step$metric <- .f(target_data, ...)
 
@@ -47,7 +47,7 @@ metric_icc <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
   composite_variables <- pull_composite_variables(.partition_step)
-  target_data <- .partition_step$.df[, composite_variables]
+  target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
 
   .partition_step$metric <- icc_r(as.matrix(target_data))
 
@@ -140,7 +140,7 @@ metric_variance_explained <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
   composite_variables <- pull_composite_variables(.partition_step)
-  target_data <- .partition_step$.df[, composite_variables]
+  target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
 
   pca1 <- pca_c(as.matrix(target_data))
   .partition_step$metric <- pca1[["pct_var"]]
@@ -165,7 +165,7 @@ metric_min_r2 <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
   composite_variables <- pull_composite_variables(.partition_step)
-  target_data <- .partition_step$.df[, composite_variables]
+  target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
 
   minr2 <- minR2_c(as.matrix(target_data))
   .partition_step$metric <- minr2[["minr2"]]
@@ -191,7 +191,7 @@ metric_std_mutualinfo <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
   composite_variables <- pull_composite_variables(.partition_step)
-  target_data <- .partition_step$.df[, composite_variables]
+  target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
 
   mi <- mutual_information(target_data)
   .partition_step$metric <- mi[["standardized_mi"]]
