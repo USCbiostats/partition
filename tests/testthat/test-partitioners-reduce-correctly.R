@@ -1,4 +1,6 @@
 context("test-partitioners-reduce-correctly")
+skip_on_appveyor()
+
 set.seed(1234)
 df <- simulate_block_data(5, lower_corr = .5, upper_corr = .65, n = 100)
 ind_df <- purrr::map_dfc(1:10, ~rnorm(30))

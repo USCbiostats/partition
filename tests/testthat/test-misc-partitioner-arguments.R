@@ -1,4 +1,6 @@
 context("test-misc-partitioner-arguments")
+skip_on_appveyor()
+
 set.seed(1234)
 df <- simulate_block_data(8, lower_corr = .6, upper_corr = .65, n = 100)
 

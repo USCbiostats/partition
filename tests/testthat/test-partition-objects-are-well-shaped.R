@@ -1,4 +1,5 @@
 context("test-partition-objects-are-well-shaped")
+skip_on_appveyor()
 
 set.seed(123)
 df <- simulate_block_data(5, lower_corr = .6, upper_corr = .65, n = 100)
