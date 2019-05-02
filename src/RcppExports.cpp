@@ -63,30 +63,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// pearson_distance
-NumericMatrix pearson_distance(NumericMatrix x, NumericMatrix y);
-RcppExport SEXP _partition2_pearson_distance(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(pearson_distance(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// spearman_distance
-NumericMatrix spearman_distance(NumericMatrix x, NumericMatrix y);
-RcppExport SEXP _partition2_spearman_distance(SEXP xSEXP, SEXP ySEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    Rcpp::traits::input_parameter< NumericMatrix >::type y(ySEXP);
-    rcpp_result_gen = Rcpp::wrap(spearman_distance(x, y));
-    return rcpp_result_gen;
-END_RCPP
-}
 // icc_c
 double icc_c(const NumericMatrix& x);
 RcppExport SEXP _partition2_icc_c(SEXP xSEXP) {
@@ -106,17 +82,6 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(scale_rowmeans(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// ICC_c
-List ICC_c(NumericMatrix x);
-RcppExport SEXP _partition2_ICC_c(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(ICC_c(x));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -236,11 +201,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_partition2_corr_c_mat", (DL_FUNC) &_partition2_corr_c_mat, 1},
     {"_partition2_corr_c_2mat", (DL_FUNC) &_partition2_corr_c_2mat, 2},
     {"_partition2_corr_c_2vec", (DL_FUNC) &_partition2_corr_c_2vec, 2},
-    {"_partition2_pearson_distance", (DL_FUNC) &_partition2_pearson_distance, 2},
-    {"_partition2_spearman_distance", (DL_FUNC) &_partition2_spearman_distance, 2},
     {"_partition2_icc_c", (DL_FUNC) &_partition2_icc_c, 1},
     {"_partition2_scale_rowmeans", (DL_FUNC) &_partition2_scale_rowmeans, 1},
-    {"_partition2_ICC_c", (DL_FUNC) &_partition2_ICC_c, 1},
     {"_partition2_subset_matrix", (DL_FUNC) &_partition2_subset_matrix, 3},
     {"_partition2_min_icc_c", (DL_FUNC) &_partition2_min_icc_c, 4},
     {"_partition2_kmeans_c", (DL_FUNC) &_partition2_kmeans_c, 5},

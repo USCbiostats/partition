@@ -4,10 +4,12 @@
 \alias{as_director}
 \title{Create a custom director}
 \usage{
-as_director(.f, ...)
+as_director(.pairs, .target = NULL, ...)
 }
 \arguments{
-\item{.f}{a function that returns a target (e.g. an integer vector of variable positions)}
+\item{.pairs}{a function that returns a matrix of targets (e.g. a distance matrix of variables)}
+
+\item{.target}{a function that returns a vector of targets (e.g. the minimum pair)}
 
 \item{...}{Extra arguments passed to \code{.f}.}
 }
@@ -32,9 +34,6 @@ direct_hclust
 
 }
 \seealso{
-Other directors: \code{\link{direct_distance}},
-  \code{\link{direct_k_cluster}}
-
 Other directors: \code{\link{direct_distance}},
   \code{\link{direct_k_cluster}}
 }

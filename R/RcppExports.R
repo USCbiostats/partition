@@ -21,24 +21,12 @@ corr_c_2vec <- function(x, y) {
     .Call(`_partition2_corr_c_2vec`, x, y)
 }
 
-pearson_distance <- function(x, y) {
-    .Call(`_partition2_pearson_distance`, x, y)
-}
-
-spearman_distance <- function(x, y) {
-    .Call(`_partition2_spearman_distance`, x, y)
-}
-
 icc_c <- function(x) {
     .Call(`_partition2_icc_c`, x)
 }
 
 scale_rowmeans <- function(x) {
     .Call(`_partition2_scale_rowmeans`, x)
-}
-
-ICC_c <- function(x) {
-    .Call(`_partition2_ICC_c`, x)
 }
 
 subset_matrix <- function(x, i, m) {

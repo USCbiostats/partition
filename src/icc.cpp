@@ -45,12 +45,6 @@ NumericVector scale_rowmeans(NumericMatrix x) {
 }
 
 // [[Rcpp::export]]
-List ICC_c(NumericMatrix x) {
-  return List::create(Named("ICC", icc_c(x)),
-                      Named("row_means", scale_rowmeans(x)));
-}
-
-// [[Rcpp::export]]
 NumericMatrix subset_matrix(List& x, int& i, arma::mat& m) {
   IntegerVector y = x[i];
   arma::uvec y_u = as<arma::uvec>(y);

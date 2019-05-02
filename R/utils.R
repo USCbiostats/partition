@@ -11,11 +11,13 @@ utils::globalVariables(
     "is_reduced",
     "mapping",
     "n",
+    "name",
     "nclusters",
     "nreduced",
     "observed_info",
     "old_vars",
     "permutation",
+    "position",
     "target_info",
     "variable"
   )

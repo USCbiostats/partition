@@ -2,7 +2,8 @@
 #'
 #' @template describe_director
 #'
-#' @param .f a function that returns a target (e.g. an integer vector of variable positions)
+#' @param .pairs a function that returns a matrix of targets (e.g. a distance matrix of variables)
+#' @param .target a function that returns a vector of targets (e.g. the minimum pair)
 #' @param ... Extra arguments passed to `.f`.
 #'
 #' @return a function to use in [`as_partitioner()`]

@@ -79,13 +79,3 @@ double corr_c_2vec(arma::vec x, arma::vec y) {
   out = arma::cor(x, y);
   return out(0);
 }
-
-// [[Rcpp::export]]
-NumericMatrix pearson_distance(NumericMatrix x, NumericMatrix y) {
-  return wrap(1 - corr_c_2mat(as<arma::mat>(x), as<arma::mat>(y)));
-}
-
-// [[Rcpp::export]]
-NumericMatrix spearman_distance(NumericMatrix x, NumericMatrix y) {
-  return wrap(1 - corr_c_2mat(apply_rank(as<arma::mat>(x)), apply_rank(as<arma::mat>(y))));
-}
