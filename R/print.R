@@ -76,6 +76,8 @@ paste_subtle <- function(...) {
 #' @template partition_param
 #' @param .round Should the minimum information be rounded?
 #' @param digits If `.round` is `TRUE`, to what digit should it be rounded?
+#' @param n_composite number of composite variables to print before summarizing
+#' @param n_reduced  number of reduced variables to print before summarizing
 #' @keywords internal
 #' @rdname print_helpers
 count_clusters <- function(.partition) {
@@ -110,7 +112,7 @@ paste_map_summary <- function(.x, n_reduced) {
     return(paste0(map_summary, "\n", paste_subtle("...with", n_additional, "more", variables)))
   }
 
-  paste(.x, collapse = ", ")
+  paste(.x, collapse = "\n")
 }
 
 #' @rdname print_helpers

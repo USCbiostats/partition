@@ -11,12 +11,16 @@ count_clusters(.partition)
 
 total_reduced(.partition)
 
-summarize_mapping(.partition)
+summarize_mapping(.partition, n_composite = 5, n_reduced = 10)
 
 minimum_information(.partition, .round = TRUE, digits = 3)
 }
 \arguments{
 \item{.partition}{a \code{partition} object}
+
+\item{n_composite}{number of composite variables to print before summarizing}
+
+\item{n_reduced}{number of reduced variables to print before summarizing}
 
 \item{.round}{Should the minimum information be rounded?}
 
