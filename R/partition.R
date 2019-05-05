@@ -20,7 +20,10 @@
 #'   with [`as_partitioner()`] and [`replace_partitioner()`].
 #'
 #' @param .data a data.frame to partition
-#' @param threshold the minimum information loss acceptable
+#' @param threshold the minimum proportion of information explained by a reduced
+#'   variable; `threshold` sets a boundary for information loss because each
+#'   reduced variable must explain at least as much as `threshold` as measured
+#'   by the metric.
 #' @param partitioner a `partitioner`. See the `part_*()` functions and
 #'   [`as_partitioner()`].
 #' @param tolerance a small tolerance within the threshold; if a reduction is
@@ -59,7 +62,7 @@
 #'
 #' @seealso [part_icc()], [part_kmeans()], [part_minr2()], [part_pc1()],
 #'   [part_stdmi()], [as_partitioner()], [replace_partitioner()]
-partition <- function(.data, threshold, partitioner = part_icc(), tolerance = .01, niter = NULL, x = "reduced_var", .sep = "_") {
+partition <- function(.data, threshold, partitioner = part_icc(), tolerance = .0001, niter = NULL, x = "reduced_var", .sep = "_") {
   # set number of unsuccesful iterations allowed in a row to be ~20% of the
   # number of variables but at least 10
   if (is.null(niter)) {

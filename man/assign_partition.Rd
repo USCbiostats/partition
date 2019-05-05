@@ -14,7 +14,10 @@ assign_partition(.x, partitioner, .data, threshold, tolerance, var_prefix)
 
 \item{.data}{a data.frame to partition}
 
-\item{threshold}{the minimum information loss acceptable}
+\item{threshold}{the minimum proportion of information explained by a reduced
+variable; \code{threshold} sets a boundary for information loss because each
+reduced variable must explain at least as much as \code{threshold} as measured
+by the metric.}
 
 \item{tolerance}{a small tolerance within the threshold; if a reduction is
 within the threshold plus/minus the tolerance, it will reduce.}

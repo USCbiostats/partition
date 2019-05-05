@@ -4,13 +4,16 @@
 \alias{partition}
 \title{Agglomerative partitioning}
 \usage{
-partition(.data, threshold, partitioner = part_icc(), tolerance = 0.01,
-  niter = NULL, x = "reduced_var", .sep = "_")
+partition(.data, threshold, partitioner = part_icc(),
+  tolerance = 1e-04, niter = NULL, x = "reduced_var", .sep = "_")
 }
 \arguments{
 \item{.data}{a data.frame to partition}
 
-\item{threshold}{the minimum information loss acceptable}
+\item{threshold}{the minimum proportion of information explained by a reduced
+variable; \code{threshold} sets a boundary for information loss because each
+reduced variable must explain at least as much as \code{threshold} as measured
+by the metric.}
 
 \item{partitioner}{a \code{partitioner}. See the \code{part_*()} functions and
 \code{\link[=as_partitioner]{as_partitioner()}}.}
