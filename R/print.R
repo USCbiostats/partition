@@ -89,11 +89,35 @@ total_reduced <- function(.partition) {
     nrow()
 }
 
+paste_var_summary <- function(.x, n_composite) {
+  if (length(.x) > n_composite) {
+    show <- .x[1:n_composite]
+    n_additional <- length(.x) - n_composite
+    var_summary <- paste(show, collapse = ", ")
+    variables <- ifelse(n_additional > 1, "variables", "variable")
+    return(paste0(var_summary, paste_subtle(", and", n_additional, "more", variables)))
+  }
+
+  paste(.x, collapse = ", ")
+}
+
+paste_map_summary <- function(.x, n_reduced) {
+  if (length(.x) > n_reduced) {
+    show <- .x[1:n_reduced]
+    n_additional <- length(.x) - n_reduced
+    map_summary <- paste(show, collapse = "\n")
+    variables <- ifelse(n_additional > 1, "reduced variables", "reduced variable")
+    return(paste0(map_summary, "\n", paste_subtle("...with", n_additional, "more", variables)))
+  }
+
+  paste(.x, collapse = ", ")
+}
+
 #' @rdname print_helpers
-summarize_mapping <- function(.partition) {
+summarize_mapping <- function(.partition, n_composite = 5, n_reduced = 10) {
   summary <- filter_reduced(.partition) %>%
     dplyr::mutate(
-      old_vars = purrr::map_chr(mapping, ~paste(.x, collapse = ", ")),
+      old_vars = purrr::map_chr(mapping, ~paste_var_summary(.x, n_composite)),
       summary = paste0(
         crayon::green(variable),
         crayon::silver(" = {"),
@@ -102,7 +126,7 @@ summarize_mapping <- function(.partition) {
       )
     )
 
-    paste(summary$summary, collapse = "\n")
+    paste_map_summary(summary$summary, n_reduced)
 }
 
 #' @rdname print_helpers
