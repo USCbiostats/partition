@@ -359,9 +359,9 @@ calculate_new_variable <- function(.partition_step, .f) {
     return(new_variable)
   }
 
-  #  apply the reduction to the targetted variables
-  .partition_step$reduced_data %>%
-    dplyr::select(.partition_step$target) %>%
+  #  apply the reduction to the targeted variables
+  .partition_step$.df %>%
+    dplyr::select(pull_composite_variables(.partition_step)) %>%
     .f()
 }
 

@@ -308,7 +308,8 @@ matrix_is_exhausted <- function(.partition_step) {
 #' @return an integer
 #' @keywords internal
 guess_init_k <- function(.partition_step) {
-  ceiling(.partition_step$threshold * ncol(.partition_step$.df))
+  k <- round(.partition_step$threshold * ncol(.partition_step$.df))
+  ifelse(k < 1, 1, k)
 }
 
 #' Have all values of `k` been checked for metric?
@@ -349,5 +350,5 @@ find_algorithm <- function(algorithm) {
 #' @rdname kmeans_helpers
 #' @importFrom stats kmeans
 kmean_assignment_r <- function(.data, k, algorithm = "Hartigan-Wong") {
-  kmeans(t(.data), centers = k, algorithm = algorithm)[["cluster"]]
+  kmeans(t(.data), centers = k, algorithm = algorithm, nstart = 25)[["cluster"]]
 }
