@@ -11,9 +11,9 @@ print.partition <- function(x, ...) {
   cat("\n")
   cat(
     crayon::green(count_clusters(x)),
-    crayon::white("reduced variables created from"),
+    "reduced variables created from",
     crayon::yellow(total_reduced(x)),
-    crayon::white("observed variables")
+    "observed variables"
   )
 
   if (count_clusters(x) == 0) return(invisible(x))
@@ -29,7 +29,7 @@ print.partition <- function(x, ...) {
   # summary of information
   cat_bold("Minimum information:")
   cat("\n")
-  cat_white(minimum_information(x))
+  cat(minimum_information(x))
 
   # return partition object
   invisible(x)
@@ -38,7 +38,7 @@ print.partition <- function(x, ...) {
 #' @export
 print.partitioner <- function(x, ...) {
   #  methods used
-  cat_white(
+  cat(
     "  ",
     paste_director(x),
     " ",
