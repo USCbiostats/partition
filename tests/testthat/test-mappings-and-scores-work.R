@@ -31,6 +31,5 @@ test_that("mappings work", {
 test_that("reduced scores work", {
   scores <- partition_scores(prt)
   expect_is(scores, "tbl")
-  expect_length(scores, 3)
   expect_equal(nrow(scores), nrow(df))
 })
