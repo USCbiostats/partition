@@ -152,12 +152,14 @@ part_pc1 <- function(spearman = FALSE) {
 #' @templateVar reducer `reduce_kmeans()`, Scaled Row Means
 #' @template describe_partitioner
 #' @inheritParams direct_k_cluster
+#' @inheritParams reduce_kmeans
 #'
 #' @return a `partitioner`
 #' @export
 part_kmeans <- function(algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"),
                         search = c("binary", "linear"),
-                        init_k = NULL) {
+                        init_k = NULL,
+                        n_hits = 4) {
   algorithm <- match.arg(algorithm)
   search <- match.arg(search)
 
@@ -174,7 +176,8 @@ part_kmeans <- function(algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Fo
     ),
     reduce = purrr::partial(
       reduce_kmeans,
-      search = search
+      search = search,
+      n_hits = n_hits
     )
   )
 }

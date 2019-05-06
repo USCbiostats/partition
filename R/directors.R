@@ -139,14 +139,6 @@ direct_k_cluster <- function(.partition_step,
   #  assign each variable to a cluster
   .partition_step$target <- kmean_f(as.matrix(.partition_step$.df), .partition_step$k)
 
-  #  store most recent k and target if needed
-  if (length(.partition_step$last_target) == 1 && is.na(.partition_step$last_target)) {
-    .partition_step$last_target <- list(
-      target = .partition_step$target,
-      k = .partition_step$k
-    )
-  }
-
   #  the binary search method requires assigning k-1 clusters to check boundary
   #  unless k = 1 (so don't check k = 0)
   if (search_method == "binary" && .partition_step$k != 1) {

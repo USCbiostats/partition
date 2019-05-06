@@ -5,7 +5,8 @@
 \title{Partitioner: K-means, ICC, scaled means}
 \usage{
 part_kmeans(algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Forgy",
-  "MacQueen"), search = c("binary", "linear"), init_k = NULL)
+  "MacQueen"), search = c("binary", "linear"), init_k = NULL,
+  n_hits = 4)
 }
 \arguments{
 \item{algorithm}{The K-Means algorithm to use. The default is a fast version
@@ -18,6 +19,10 @@ but linear search can be faster in very low dimensions.}
 
 \item{init_k}{The initial k to test. If \code{NULL}, then the initial k is the
 threshold times the number of variables.}
+
+\item{n_hits}{In linear search method, the number of iterations that should
+be under the threshold before reducing; useful for preventing false
+positives.}
 }
 \value{
 a \code{partitioner}

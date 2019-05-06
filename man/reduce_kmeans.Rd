@@ -4,13 +4,18 @@
 \alias{reduce_kmeans}
 \title{Reduce selected variables to scaled means}
 \usage{
-reduce_kmeans(.partition_step, search = c("binary", "linear"))
+reduce_kmeans(.partition_step, search = c("binary", "linear"),
+  n_hits = 4)
 }
 \arguments{
 \item{.partition_step}{a \code{partition_step} object}
 
 \item{search}{The search method. Binary search is generally more efficient
 but linear search can be faster in very low dimensions.}
+
+\item{n_hits}{In linear search method, the number of iterations that should
+be under the threshold before reducing; useful for preventing false
+positives.}
 }
 \value{
 a \code{partition_step} object

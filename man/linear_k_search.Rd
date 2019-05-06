@@ -4,7 +4,7 @@
 \alias{linear_k_search}
 \title{Search for best \code{k} using the linear search method}
 \usage{
-linear_k_search(.partition_step)
+linear_k_search(.partition_step, n_hits = 4)
 }
 \arguments{
 \item{.partition_step}{a \code{partition_step} object}

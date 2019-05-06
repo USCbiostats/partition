@@ -56,12 +56,15 @@ reduce_scaled_mean <- function(.partition_step) {
 #' @template partition_step
 #' @param search  The search method. Binary search is generally more efficient
 #'   but linear search can be faster in very low dimensions.
+#' @param n_hits In linear search method, the number of iterations that should
+#'   be under the threshold before reducing; useful for preventing false
+#'   positives.
 #' @export
-reduce_kmeans <- function(.partition_step, search = c("binary", "linear")) {
+reduce_kmeans <- function(.partition_step, search = c("binary", "linear"), n_hits = 4) {
   search <- match.arg(search)
 
   #  find next `k`
-  if (search == "linear") return(linear_k_search(.partition_step))
+  if (search == "linear") return(linear_k_search(.partition_step, n_hits = n_hits))
   binary_k_search(.partition_step)
 }
 
@@ -248,7 +251,7 @@ binary_k_search <- function(.partition_step) {
 #'
 #' @template partition_step
 #' @keywords internal
-linear_k_search <- function(.partition_step) {
+linear_k_search <- function(.partition_step, n_hits = 4) {
   if (is.null(.partition_step$k_search)) {
     #  if initial metric is smaller than threshold, search forward through k to
     #  capture more information. if it's larger, search backwards to minimize it
@@ -276,7 +279,10 @@ linear_k_search <- function(.partition_step) {
 
   #   if we're searching backward, check if we've gone under the threshold. if
   #   so, use the last targets.
-  if (k_searching_backward(.partition_step) && under_threshold(.partition_step)) {
+  if (k_searching_backward(.partition_step) && under_threshold(.partition_step) && get_hits(.partition_step) == n_hits)  {
+    #  if none have been above boundary, don't reduce
+    if (length(.partition_step$last_target) == 1 && is.na(.partition_step$last_target)) return(all_done(.partition_step))
+    #  rewind to last target above boundary
     .partition_step <- rewind_target(.partition_step)
     .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
     return(all_done(.partition_step))
@@ -284,13 +290,6 @@ linear_k_search <- function(.partition_step) {
 
   #  find the next k to assess
   .partition_step <- search_k(.partition_step, "linear")
-
-  #  store last clusters, metrics, and k for later use
-  .partition_step$last_target <- list(
-    target = .partition_step$target,
-    metric = .partition_step$metric_vector,
-    k = .partition_step$k
-  )
 
   .partition_step
 }
@@ -445,7 +444,11 @@ k_searching_backward <- function(.partition_step) {
 #' @rdname compare_k
 boundary_found <- function(.partition_step) {
   k_above <- .partition_step$metric > .partition_step$threshold
-  k1_below <- .partition_step$metric_k1 < .partition_step$threshold
+  if (!is.null(.partition_step$metric_k1)) {
+    k1_below <- .partition_step$metric_k1 < .partition_step$threshold
+  } else {
+    k1_below <- min(.partition_step$last_target$metric) < .partition_step$threshold
+  }
   k_above && k1_below
 }
 

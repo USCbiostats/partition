@@ -91,6 +91,16 @@ metric_min_icc <- function(.partition_step, search_method = c("binary", "linear"
   .partition_step$metric <- min(k_icc)
   # store vector of icc for mappings if min icc > threshold
   .partition_step$metric_vector <- k_icc
+  # check number of hits below threshold
+  if (under_threshold(.partition_step)) .partition_step <- increase_hits(.partition_step)
+  #  store iteration if above threshold
+  if (above_threshold(.partition_step)) {
+    .partition_step$last_target <- list(
+      target = .partition_step$target,
+      k = .partition_step$k,
+      metric = .partition_step$metric_vector
+    )
+  }
 
   if (.partition_step$k == 1 && under_threshold(.partition_step)) {
     return(all_done(.partition_step))
@@ -250,4 +260,23 @@ icc_r <- function(.x) {
   variance <- (ms1 - ms2) / ncols
 
   variance / (variance + ms2)
+}
+
+
+#' Count and retrieve the number of metrics below threshold
+#'
+#' @template partition_step
+#' @rdname hits
+increase_hits <- function(.partition_step) {
+  if (is.null(.partition_step$hits)) .partition_step$hits <- 0
+  .partition_step$hits <- .partition_step$hits + 1
+
+  .partition_step
+}
+
+
+#' @rdname hits
+get_hits <- function(.partition_step) {
+  if (is.null(.partition_step$hits)) return(0)
+  .partition_step$hits
 }
