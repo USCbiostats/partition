@@ -68,7 +68,7 @@ partition <- function(.data, threshold, partitioner = part_icc(), tolerance = .0
   if (is.null(niter)) {
     niter <- round(.2 * ncol(.data))
     niter <- ifelse(niter < 10, 10, niter)
-    if (is_same_function(direct_k_cluster, partitioner$direct)) niter <- ncol(.data)
+    if (is_same_function(partitioner$direct, direct_k_cluster)) niter <- ncol(.data)
   }
 
   # iteratively reduce data using partition algorithm

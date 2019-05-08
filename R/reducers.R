@@ -141,9 +141,8 @@ reduce_data <- function(.partition_step, .f, first_match = FALSE) {
 #' @export
 #' @rdname reduce_target
 map_data <- function(.partition_step, .f, first_match = FALSE) {
-  #  if partitioning complete or threshold not met, skip reduce
+  #  if partitioning complete, skip reduce
   if (.partition_step$all_done) return(.partition_step)
-  if (under_threshold(.partition_step)) return(.partition_step)
 
   #  create a list of the components of each cluster
   target_list <- purrr::map(
@@ -165,7 +164,19 @@ map_data <- function(.partition_step, .f, first_match = FALSE) {
 
   #  create the mapping key and name reduced variables in `reduced_data`
   .partition_step$mapping_key <- reduce_mappings(.partition_step, target_list)
-  names(.partition_step$reduced_data) <- .partition_step$mapping_key$variable
+
+  #  match mapping names to reduced variables in `reduced_data`
+  df_names_map <- .partition_step$mapping_key %>%
+    dplyr::mutate(mapping = purrr::map_chr(mapping, ~paste(.x, collapse = "_")))
+  df_names <- tibble::tibble(
+    name = names(.partition_step$reduced_data),
+    mapping = purrr::map_chr(target_list, ~paste(.x, collapse = "_"))
+  ) %>%
+    dplyr::left_join(df_names_map, by = "mapping")
+  #  set names to mapping key variable names
+  names(.partition_step$reduced_data) <- df_names$variable
+  #  reorder `reduced_data` by mapping key
+  .partition_step$reduced_data <- .partition_step$reduced_data[, .partition_step$mapping_key$variable]
 
   #  if there's a match with the tolerance and `first_match` is `TRUE`, then
   #  mark partitioning as complete
@@ -416,7 +427,7 @@ rewind_target <- function(.partition_step) {
   .partition_step$target <- .partition_step$last_target$target
   .partition_step$metric_vector <- .partition_step$last_target$metric
   .partition_step$metric <- min(.partition_step$metric_vector)
-  .partition_step$k <- .partition_step$k - .partition_step$k_search
+  .partition_step$k <- .partition_step$last_target$k
 
   .partition_step
 }

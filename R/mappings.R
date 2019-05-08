@@ -210,7 +210,8 @@ reduce_mappings <- function(.partition_step, target_list) {
   ) %>%
     dplyr::right_join(mapping_key, by = "variable") %>%
     dplyr::arrange(position, variable) %>%
-    dplyr::select(-position)
+    dplyr::select(-position) %>%
+    dplyr::arrange(information)
 }
 
 

@@ -39,8 +39,8 @@ test_that("part_icc() reduces correctly, independent data", {
 
 test_that("part_kmeans() reduces correctly, high threshold", {
   prt <- partition(df, threshold = .6, partitioner = part_kmeans())
-  expect_mapping_names(c("block1_x2", "block1_x3", "block1_x5", "reduced_var_1"), prt)
-  expect_mapping_info(c(1, 1, 1, 0.6732932), prt)
+  expect_mapping_names(c("reduced_var_1", "block1_x2", "block1_x3", "block1_x5"), prt)
+  expect_mapping_info(c(0.6732932, 1, 1, 1), prt)
 })
 
 test_that("part_kmeans() reduces correctly, low threshold", {
