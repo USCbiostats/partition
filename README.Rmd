@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # partition2
 
-partition2 is a fast and flexible framework for agglomerative partitioning. partition uses an approach  called direct, measure, reduce to create new variables that maintain the user-specified minimum level of information. Each reduced variable is also interpretable: the original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized.  
+partition2 is a fast and flexible framework for agglomerative partitioning. partition uses an approach  called Direct-Measure-Reduce to create new variables that maintain the user-specified minimum level of information. Each reduced variable is also interpretable: the original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized.  
 
 ## Installation
 
@@ -54,5 +54,12 @@ part_icc_rowmeans <- replace_partitioner(
   reduce = as_reducer(rowMeans)
 )
 partition(df, threshold = .6, partitioner = part_icc_rowmeans) 
+```
+
+partition also supports a number of ways to visualize partitions and permutation tests; these functions all start with `plot_*()`. These functions all return ggplots and can thus be extended using ggplot2.
+
+```{r, dpi = 320}
+plot_stacked_area_clusters(df) +
+  ggplot2::theme_minimal(14)
 ```
 

@@ -111,8 +111,7 @@ test_that("pure data frames work as well", {
   subset_var_no_drop <- ind_df[, 2, drop = FALSE]
 
   expect_error(
-    purrr::map(subset_var_drop, corr, ind_df$V1),
-    "x and y are not the same length!"
+    purrr::map(subset_var_drop, corr, ind_df$V1)
   )
 
   expect_equal(
@@ -130,4 +129,28 @@ test_that("pure data frames work as well", {
 
   ind_prt <- partition(ind_df, threshold = .8)
   expect_no_reduction(ind_prt, ind_df)
+})
+
+test_that("Data with missing values still reduces", {
+  # set random values to NA
+  df[sample(seq_len(nrow(df)), size = 10), sample(seq_len(ncol(df)), size = 5)] <- NA
+
+  prt_icc <- partition(df, threshold = .6)
+  prt_kmeans <- partition(df, threshold = .6, part_kmeans())
+  prt_mi <- partition(df, threshold = .6, part_stdmi())
+  prt_pc1 <- partition(df, threshold = .6, part_pc1())
+  prt_minr2 <- partition(df, threshold = .6, part_minr2())
+
+  expect_s3_class(prt_icc, "partition")
+  expect_s3_class(prt_kmeans, "partition")
+  expect_s3_class(prt_mi, "partition")
+  expect_s3_class(prt_pc1, "partition")
+  expect_s3_class(prt_minr2, "partition")
+
+  # expect same number of rows as `df`
+  expect_equal(nrow(partition_scores(prt_icc)), nrow(df))
+  expect_equal(nrow(partition_scores(prt_kmeans)), nrow(df))
+  expect_equal(nrow(partition_scores(prt_mi)), nrow(df))
+  expect_equal(nrow(partition_scores(prt_pc1)), nrow(df))
+  expect_equal(nrow(partition_scores(prt_minr2)), nrow(df))
 })

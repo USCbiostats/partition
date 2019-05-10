@@ -6,6 +6,9 @@ NULL
 utils::globalVariables(
   c(
     ":=",
+    "counts",
+    "first",
+    "groups",
     "indices",
     "information",
     "is_reduced",
@@ -18,7 +21,9 @@ utils::globalVariables(
     "old_vars",
     "permutation",
     "position",
+    "second",
     "target_info",
+    "target_information",
     "variable"
   )
 )

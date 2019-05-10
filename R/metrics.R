@@ -16,11 +16,11 @@
 #'     mean()
 #' }
 #'
-#' metric_iir <- as_metric(inter_item_reliability)
-#' metric_iir
+#' measure_iir <- as_measure(inter_item_reliability)
+#' measure_iir
 #'
 #' @family metrics
-as_metric <- function(.f, ...) {
+as_measure <- function(.f, ...) {
   function(.partition_step, ...) {
     if (.partition_step$all_done) return(.partition_step)
 
@@ -38,12 +38,12 @@ as_metric <- function(.f, ...) {
 #'
 #' @template describe_metric
 #'
-#' @description `metric_icc()` assesses information loss by calculating the
+#' @description `measure_icc()` assesses information loss by calculating the
 #'   intraclass correlation coefficient for the target variables.
 #'
 #' @template partition_step
 #' @export
-metric_icc <- function(.partition_step) {
+measure_icc <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
   composite_variables <- pull_composite_variables(.partition_step)
@@ -59,7 +59,7 @@ metric_icc <- function(.partition_step) {
 #'
 #' @template describe_metric
 #'
-#' @description `metric_min_icc()` assesses information loss by calculating the
+#' @description `measure_min_icc()` assesses information loss by calculating the
 #'   intraclass correlation coefficient for each set of the target variables and
 #'   finding their minimum.
 #'
@@ -68,7 +68,7 @@ metric_icc <- function(.partition_step) {
 #'   but linear search can be faster in very low dimensions.
 #'
 #' @export
-metric_min_icc <- function(.partition_step, search_method = c("binary", "linear")) {
+measure_min_icc <- function(.partition_step, search_method = c("binary", "linear")) {
   search_method <- match.arg(search_method)
   if (.partition_step$all_done) return(.partition_step)
 
@@ -141,23 +141,28 @@ metric_min_icc <- function(.partition_step, search_method = c("binary", "linear"
 #'
 #' @template describe_metric
 #'
-#' @description `metric_variance_explained()` assesses information loss by calculating the
+#' @description `measure_variance_explained()` assesses information loss by calculating the
 #'   variance explained by the first component of a principal components analysis.
 #'
 #' @template partition_step
 #' @export
-metric_variance_explained <- function(.partition_step) {
+measure_variance_explained <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
   composite_variables <- pull_composite_variables(.partition_step)
   target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
 
-  pca1 <- pca_c(as.matrix(target_data))
+  pca1 <- pca_c(as.matrix(na.omit(target_data)))
   .partition_step$metric <- pca1[["pct_var"]]
   # PCA and variance explained are calculated at the same time for efficiency
   # so store the first PC to use later as the reduced variable
   uses_first_component <- is_same_function(.partition_step$partitioner$reduce, reduce_first_component)
-  if (uses_first_component) .partition_step$new_variable <- as.numeric(pca1[["pc1"]])
+  if (uses_first_component) {
+    .partition_step$new_variable <- as.numeric(pca1[["pc1"]])
+    missing_row <- is_missing_rowwise(target_data)
+    #  return same number of rows as original data with missing values where not complete
+    if (any(missing_row)) .partition_step$new_variable <- fill_in_missing(.partition_step$new_variable, missing_row)
+  }
 
   .partition_step
 }
@@ -166,22 +171,33 @@ metric_variance_explained <- function(.partition_step) {
 #'
 #' @template describe_metric
 #'
-#' @description `metric_variance_explained()` assesses information loss by
+#' @description `measure_min_r2()` assesses information loss by
 #'   calculating the minimum R-squared for the target variables.
 #'
 #' @template partition_step
 #' @export
-metric_min_r2 <- function(.partition_step) {
+measure_min_r2 <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
   composite_variables <- pull_composite_variables(.partition_step)
   target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
 
-  minr2 <- minR2_c(as.matrix(target_data))
+  minr2 <- minR2_c(as.matrix(na.omit(target_data)))
   .partition_step$metric <- minr2[["minr2"]]
   # we need scaled means for min r2 calculation; store it to use for reducing
   uses_scaled_mean <- is_same_function(.partition_step$partitioner$reduce, reduce_scaled_mean)
-  if (uses_scaled_mean) .partition_step$new_variable <- minr2[["row_means"]]
+  if (uses_scaled_mean) {
+    .partition_step$new_variable <- minr2[["row_means"]]
+    missing_rows <- is_missing_rowwise(target_data)
+    if (any(missing_rows)) {
+      missing_means <- scaled_mean_r(target_data[missing_rows, ])
+      .partition_step$new_variable <- fill_in_missing(
+        .partition_step$new_variable,
+        missing_rows,
+        missing_means
+      )
+    }
+  }
 
   .partition_step
 }
@@ -191,13 +207,13 @@ metric_min_r2 <- function(.partition_step) {
 #'
 #' @template describe_metric
 #'
-#' @description `metric_std_mutualinfo()` assesses information loss by
+#' @description `measure_std_mutualinfo()` assesses information loss by
 #'   calculating the standardized mutual information for the target variables.
 #'   See [mutual_information()].
 #'
 #' @template partition_step
 #' @export
-metric_std_mutualinfo <- function(.partition_step) {
+measure_std_mutualinfo <- function(.partition_step) {
   if (.partition_step$all_done) return(.partition_step)
 
   composite_variables <- pull_composite_variables(.partition_step)
@@ -248,14 +264,14 @@ icc_r <- function(.x) {
   ncols <- ncol(.x)
   nrows <- nrow(.x)
 
-  rowmeans <- rowMeans(.x)
+  rowmeans <- rowMeans(.x, na.rm = TRUE)
   long_means <- rep(rowmeans, ncols)
 
   within <- (as.numeric(.x) - long_means)^2
-  among <- (long_means - mean(.x))^2
+  among <- (long_means - mean(.x, na.rm = TRUE))^2
 
-  ms1 <- sum(among) / (nrows - 1)
-  ms2 <- sum(within) / (nrows * (ncols - 1))
+  ms1 <- sum(among, na.rm = TRUE) / (nrows - 1)
+  ms2 <- sum(within, na.rm = TRUE) / (nrows * (ncols - 1))
 
   variance <- (ms1 - ms2) / ncols
 
@@ -280,3 +296,33 @@ get_hits <- function(.partition_step) {
   if (is.null(.partition_step$hits)) return(0)
   .partition_step$hits
 }
+
+is_missing_rowwise <- function(.df) {
+  as.logical(rowSums(is.na(.df)))
+}
+
+#' Process reduced variables when missing data
+#'
+#' @param x a vector, the reduced variable
+#' @param .na a logical vector marking which are missing
+#' @param .fill what to fill the missing locations with
+#'
+#' @return a vector of length nrow(original data)
+#'
+#' @return a character vector
+#' @keywords internal
+#' @rdname handle_missing
+fill_in_missing <- function(x, .na, .fill = NA) {
+  expanded_x <- vector("numeric", length = length(.na))
+  expanded_x[!.na] <- x
+  expanded_x[.na] <- .fill
+  expanded_x
+}
+
+#' @rdname handle_missing
+swap_nans <- function(.x) {
+  nans <- is.nan(.x)
+  if (any(nans)) .x <- fill_in_missing(.x[!nans], nans)
+  .x
+}
+

@@ -26,7 +26,7 @@ Pass \code{partitioner} objects to the \code{partitioner} argument of \code{\lin
 \code{part_minr2()} uses the following direct, measure, reduce approach:
 \itemize{
 \item \strong{direct}: \code{direct_distance()}, Minimum Distance
-\item \strong{measure}: \code{metric_min_r2()}, Minimum R-Squared
+\item \strong{measure}: \code{measure_min_r2()}, Minimum R-Squared
 \item \strong{reduce}: \code{reduce_scaled_mean()}, Scaled Row Means
 }
 }

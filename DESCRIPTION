@@ -36,7 +36,7 @@ Imports:
     tibble,
     dplyr (>= 0.8.0),
     tidyr,
-    ggplot2,
+    ggplot2 (>= 3.0.0),
     stringr,
     magrittr,
     crayon,

@@ -4,7 +4,7 @@
 \alias{as_director}
 \title{Create a custom director}
 \usage{
-as_director(.pairs, .target = NULL, ...)
+as_director(.pairs, .target, ...)
 }
 \arguments{
 \item{.pairs}{a function that returns a matrix of targets (e.g. a distance matrix of variables)}
@@ -23,14 +23,21 @@ directors to be used in \code{partitioner}s. \code{partitioner}s can be created 
 \code{\link[=as_partitioner]{as_partitioner()}}.
 }
 \examples{
+# use euclidean distance to calculate distances
+euc_dist <- function(.data) as.matrix(dist(t(.data)))
 
-assign_hclust <- function(.data, k) {
-  hc <- hclust(dist(.data))
-  cutree(hc, k = k)
+# find the pair with the minimum distance
+min_dist <- function(.x) {
+  indices <- arrayInd(which.min(.x), dim(as.matrix(.x)))
+
+  #  get variable names with minimum distance
+  c(
+    colnames(.x)[indices[1]],
+    colnames(.x)[indices[2]]
+  )
 }
 
-direct_hclust <- as_director(assign_hclust)
-direct_hclust
+as_director(euc_dist, min_dist)
 
 }
 \seealso{

@@ -10,35 +10,77 @@
 #' @export
 #'
 #' @examples
+#' # use euclidean distance to calculate distances
+#' euc_dist <- function(.data) as.matrix(dist(t(.data)))
 #'
-#' assign_hclust <- function(.data, k) {
-#'   hc <- hclust(dist(.data))
-#'   cutree(hc, k = k)
+#' # find the pair with the minimum distance
+#' min_dist <- function(.x) {
+#'   indices <- arrayInd(which.min(.x), dim(as.matrix(.x)))
+#'
+#'   #  get variable names with minimum distance
+#'   c(
+#'     colnames(.x)[indices[1]],
+#'     colnames(.x)[indices[2]]
+#'   )
 #' }
 #'
-#' direct_hclust <- as_director(assign_hclust)
-#' direct_hclust
+#' as_director(euc_dist, min_dist)
 #'
-as_director <- function(.pairs, .target = NULL, ...) {
+as_director <- function(.pairs, .target, ...) {
   function(.partition_step, ...) {
-    # stop partition if all pairs checked
+    # stop partition if all variables reduced
     if (ncol(.partition_step$reduced_data) == 1) {
       .partition_step$metric <- 0
       return(all_done(.partition_step))
     }
     pairwise <- .pairs(.partition_step$reduced_data, ...)
     pairwise <- tag_previous_targets(pairwise, .partition_step$target_history)
+    # stop partition if all pairs checked
+    if (all(is.na(pairwise))) {
+      .partition_step$metric <- 0
+      return(all_done(.partition_step))
+    }
     .partition_step$target <- .target(pairwise)
-    .partition_step$target_history
+    .partition_step$target_history <- add_history(.partition_step)
     .partition_step$last_target <- list(target = .partition_step$target)
 
     .partition_step
   }
 }
 
+add_history <- function(.partition_step) {
+  if (is.null(.partition_step$target_history)) {
+    return(
+      data.frame(
+        first = .partition_step$target[1],
+        second = .partition_step$target[2],
+        stringsAsFactors = FALSE
+      )
+    )
+  }
+
+  rbind(
+    .partition_step$target_history,
+    data.frame(
+      first = .partition_step$target[1],
+      second = .partition_step$target[2],
+      stringsAsFactors = FALSE
+    )
+  )
+}
+
 tag_previous_targets <- function(.matrix, .history) {
   .matrix[upper.tri(.matrix, diag = TRUE)] <- NA
-  if (!is.null(.history)) .matrix[.history$first, .history$second] <- NA
+  if (!is.null(.history)) {
+    .history <- .history %>%
+      dplyr::filter(
+        first %in% rownames(.matrix),
+        second %in% colnames(.matrix)
+      )
+
+    if (nrow(.history) == 0) return(.matrix)
+    .matrix[.history$first, .history$second] <- NA
+  }
   .matrix
 }
 
@@ -113,12 +155,14 @@ direct_distance_spearman <- function(.partition_step) {
 #'   be faster in high dimensions.
 #' @param init_k The initial k to test. If `NULL`, then the initial k is the
 #'   threshold times the number of variables.
+#' @param seed The seed to set for reproducibility
 #'
 #' @export
 direct_k_cluster <- function(.partition_step,
                              algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"),
                              search = c("binary", "linear"),
-                             init_k = NULL) {
+                             init_k = NULL,
+                             seed = 1L) {
   search_method <- match.arg(search)
   algorithm <- match.arg(algorithm)
 
@@ -134,7 +178,7 @@ direct_k_cluster <- function(.partition_step,
   }
 
   #  pick kmeans algorithm
-  kmean_f <- find_algorithm(algorithm)
+  kmean_f <- find_algorithm(algorithm, seed = seed)
 
   #  assign each variable to a cluster
   .partition_step$target <- kmean_f(as.matrix(.partition_step$.df), .partition_step$k)
@@ -171,20 +215,25 @@ direct_k_cluster <- function(.partition_step,
 #' # just fit for two vectors
 #' corr(iris$Sepal.Length, iris$Sepal.Width)
 #'
+#' @importFrom stats complete.cases na.omit
   corr <- function(x, y = NULL, spearman = FALSE) {
     if (is.null(y)) {
       dim_names <- names(x)
       if (spearman) {
         #  use ranks
-        x <- apply_rank(as.matrix(x))
+        x <- apply_rank(as.matrix(na.omit(x)))
       }
 
       #  correlation for matrices
-      correlation <- corr_c_mat(as.matrix(x))
+      correlation <- corr_c_mat(na.omit(as.matrix(x)))
 
       attr(correlation, "dimnames") <- list(dim_names, dim_names)
       return(correlation)
     }
+    #  use pairwise complete cases if any missing
+    complete_cases <- complete.cases(x, y)
+    x <- x[complete_cases]
+    y <- y[complete_cases]
 
     if (spearman) {
       #  use ranks
@@ -328,19 +377,26 @@ k_exhausted <- function(.partition_step) {
 #' @return a kmeans function
 #' @keywords internal
 #' @rdname kmeans_helpers
-find_algorithm <- function(algorithm) {
+find_algorithm <- function(algorithm, seed) {
   switch(
     algorithm,
-    "armadillo" = kmean_assignment,
-    "Hartigan-Wong" = kmean_assignment_r,
-    "Lloyd" = purrr::partial(kmean_assignment_r, algorithm = "Lloyd"),
-    "Forgy" = purrr::partial(kmean_assignment_r, algorithm = "Forgy"),
-    "MacQueen" = purrr::partial(kmean_assignment_r, algorithm = "MacQueen"),
+    "armadillo" = purrr::partial(kmean_assignment_c, seed = seed),
+    "Hartigan-Wong" = purrr::partial(kmean_assignment_r, seed = seed),
+    "Lloyd" = purrr::partial(kmean_assignment_r, algorithm = "Lloyd", seed = seed),
+    "Forgy" = purrr::partial(kmean_assignment_r, algorithm = "Forgy", seed = seed),
+    "MacQueen" = purrr::partial(kmean_assignment_r, algorithm = "MacQueen", seed = seed),
   )
 }
 
 #' @rdname kmeans_helpers
 #' @importFrom stats kmeans
-kmean_assignment_r <- function(.data, k, algorithm = "Hartigan-Wong") {
-  kmeans(t(.data), centers = k, algorithm = algorithm, nstart = 25)[["cluster"]]
+kmean_assignment_c <- function(.data, k, n_iter = 10L, verbose = FALSE, seed = 1L) {
+  kmean_assignment(na.omit(.data), k = k, n_iter = n_iter, verbose = verbose, seed = seed)
+}
+
+#' @rdname kmeans_helpers
+#' @importFrom stats kmeans
+kmean_assignment_r <- function(.data, k, algorithm = "Hartigan-Wong", seed = 1L) {
+  set.seed(seed)
+  kmeans(t(na.omit(.data)), centers = k, algorithm = algorithm, nstart = 25)[["cluster"]]
 }

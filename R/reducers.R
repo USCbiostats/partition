@@ -330,11 +330,13 @@ scaled_mean <- function(.x, method = c("r", "c")) {
 }
 
 scaled_mean_c <- function(.x) {
-  scale_rowmeans(as.matrix(.x))
+  .x <- scale_rowmeans(as.matrix(.x))
+  swap_nans(.x)
 }
 
 scaled_mean_r <- function(.x) {
-  as.numeric(scale(rowMeans(.x)))
+  .x <- as.numeric(scale(rowMeans(.x, na.rm = TRUE)))
+  swap_nans(.x)
 }
 
 #' Create new variable name based on prefix and previous reductions

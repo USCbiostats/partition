@@ -3,7 +3,7 @@
 #' @template describe_as_partitioner
 #'
 #' @param direct a function that directs, possibly created by [as_director()]
-#' @param measure a function that measures, possibly created by [as_metric()]
+#' @param measure a function that measures, possibly created by [as_measure()]
 #' @param reduce a function that reduces, possibly created by [as_reducer()]
 #'
 #' @return a `partitioner`
@@ -13,7 +13,7 @@
 #'
 #' as_partitioner(
 #'   direct = direct_distance_pearson,
-#'   measure = metric_icc,
+#'   measure = measure_icc,
 #'   reduce = reduce_scaled_mean
 #' )
 #'
@@ -67,7 +67,7 @@ is_partitioner <- function(x) inherits(x, "partitioner")
 #' @template describe_as_partitioner
 #' @templateVar func part_icc()
 #' @templateVar director `direct_distance()`, Minimum Distance
-#' @templateVar metric `metric_icc()`, Intraclass Correlation
+#' @templateVar metric `measure_icc()`, Intraclass Correlation
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
 #' @template describe_partitioner
 #' @param spearman logical. Use Spearman's correlation for distance matrix?
@@ -77,7 +77,7 @@ is_partitioner <- function(x) inherits(x, "partitioner")
 part_icc <- function(spearman = FALSE) {
   as_partitioner(
     direct = direct_dist(spearman = spearman),
-    measure = metric_icc,
+    measure = measure_icc,
     reduce = reduce_scaled_mean
   )
 }
@@ -87,7 +87,7 @@ part_icc <- function(spearman = FALSE) {
 #' @template describe_as_partitioner
 #' @templateVar func part_stdmi()
 #' @templateVar director `direct_distance()`, Minimum Distance
-#' @templateVar metric `metric_std_mutualinfo()`, Standardized Mutual Information
+#' @templateVar metric `measure_std_mutualinfo()`, Standardized Mutual Information
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
 #' @template describe_partitioner
 #' @inheritParams part_icc
@@ -97,7 +97,7 @@ part_icc <- function(spearman = FALSE) {
 part_stdmi <- function(spearman = FALSE) {
   as_partitioner(
     direct = direct_dist(spearman = spearman),
-    measure = metric_std_mutualinfo,
+    measure = measure_std_mutualinfo,
     reduce = reduce_scaled_mean
   )
 }
@@ -107,7 +107,7 @@ part_stdmi <- function(spearman = FALSE) {
 #' @template describe_as_partitioner
 #' @templateVar func part_minr2()
 #' @templateVar director `direct_distance()`, Minimum Distance
-#' @templateVar metric `metric_min_r2()`, Minimum R-Squared
+#' @templateVar metric `measure_min_r2()`, Minimum R-Squared
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
 #' @template describe_partitioner
 #' @inheritParams part_icc
@@ -117,7 +117,7 @@ part_stdmi <- function(spearman = FALSE) {
 part_minr2 <- function(spearman = FALSE) {
   as_partitioner(
     direct = direct_dist(spearman = spearman),
-    measure = metric_min_r2,
+    measure = measure_min_r2,
     reduce = reduce_scaled_mean
   )
 }
@@ -127,7 +127,7 @@ part_minr2 <- function(spearman = FALSE) {
 #' @template describe_as_partitioner
 #' @templateVar func part_pc1()
 #' @templateVar director `direct_distance()`, Minimum Distance
-#' @templateVar metric `metric_variance_explained()`, Variance Explained (PCA)
+#' @templateVar metric `measure_variance_explained()`, Variance Explained (PCA)
 #' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
 #' @template describe_partitioner
 #' @inheritParams part_icc
@@ -137,7 +137,7 @@ part_minr2 <- function(spearman = FALSE) {
 part_pc1 <- function(spearman = FALSE) {
   as_partitioner(
     direct = direct_dist(spearman = spearman),
-    measure = metric_variance_explained,
+    measure = measure_variance_explained,
     reduce = reduce_first_component
   )
 }
@@ -147,7 +147,7 @@ part_pc1 <- function(spearman = FALSE) {
 #' @template describe_as_partitioner
 #' @templateVar func part_kmeans()
 #' @templateVar director `direct_distance()`, Minimum Distance
-#' @templateVar metric `metric_min_icc()`, Minimum Intraclass Correlation
+#' @templateVar metric `measure_min_icc()`, Minimum Intraclass Correlation
 #' @templateVar director `direct_k_cluster()`, K-Means Clusters
 #' @templateVar reducer `reduce_kmeans()`, Scaled Row Means
 #' @template describe_partitioner
@@ -171,7 +171,7 @@ part_kmeans <- function(algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Fo
       init_k = init_k
     ),
     measure = purrr::partial(
-      metric_min_icc,
+      measure_min_icc,
       search = search
     ),
     reduce = purrr::partial(

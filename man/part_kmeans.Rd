@@ -41,7 +41,7 @@ Pass \code{partitioner} objects to the \code{partitioner} argument of \code{\lin
 \code{part_kmeans()} uses the following direct, measure, reduce approach:
 \itemize{
 \item \strong{direct}: \code{direct_k_cluster()}, K-Means Clusters
-\item \strong{measure}: \code{metric_min_icc()}, Minimum Intraclass Correlation
+\item \strong{measure}: \code{measure_min_icc()}, Minimum Intraclass Correlation
 \item \strong{reduce}: \code{reduce_kmeans()}, Scaled Row Means
 }
 }

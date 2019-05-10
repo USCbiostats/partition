@@ -2,12 +2,16 @@
 % Please edit documentation in R/directors.R
 \name{find_algorithm}
 \alias{find_algorithm}
+\alias{kmean_assignment_c}
 \alias{kmean_assignment_r}
 \title{Which kmeans algorithm to use?}
 \usage{
-find_algorithm(algorithm)
+find_algorithm(algorithm, seed)
 
-kmean_assignment_r(.data, k, algorithm = "Hartigan-Wong")
+kmean_assignment_c(.data, k, n_iter = 10L, verbose = FALSE,
+  seed = 1L)
+
+kmean_assignment_r(.data, k, algorithm = "Hartigan-Wong", seed = 1L)
 }
 \arguments{
 \item{algorithm}{the kmeans algorithm to use}

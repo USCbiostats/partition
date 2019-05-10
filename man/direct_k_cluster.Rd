@@ -6,7 +6,7 @@
 \usage{
 direct_k_cluster(.partition_step, algorithm = c("armadillo",
   "Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"), search = c("binary",
-  "linear"), init_k = NULL)
+  "linear"), init_k = NULL, seed = 1L)
 }
 \arguments{
 \item{.partition_step}{a \code{partition_step} object}
@@ -21,6 +21,8 @@ but linear search can be faster in very low dimensions.}
 
 \item{init_k}{The initial k to test. If \code{NULL}, then the initial k is the
 threshold times the number of variables.}
+
+\item{seed}{The seed to set for reproducibility}
 }
 \value{
 a \code{partition_step} object

@@ -18,6 +18,7 @@ mutual_information <- function(.data) {
   #  discretize data
   discretized_data <- infotheo::discretize(.data, disc = "equalfreq")
   row_means <- rowMeans(.data, na.rm = TRUE)
+  row_means <- swap_nans(row_means)
   discretized_means <- infotheo::discretize(row_means, disc = "equalfreq")
 
   #  calculate MI and entropy

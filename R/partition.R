@@ -8,7 +8,7 @@
 #'   variable is also interpretable: the original variables map to one and only
 #'   one variable in the reduced data set.
 #'
-#' @details  `partition()` uses an approach called direct, measure, reduce.
+#' @details  `partition()` uses an approach called Direct-Measure-Reduce.
 #'   Directors tell the partition algorithm what to reduce, metrics tell it
 #'   whether or not there will be enough information left after the reduction,
 #'   and reducers tell it how to reduce the data. Together these are called a
@@ -89,7 +89,7 @@ partition <- function(.data, threshold, partitioner = part_icc(), tolerance = .0
 
 #' Apply a partitioner
 #'
-#' `direct_measure_reduce()` works through the direct, measure, reduce steps of
+#' `direct_measure_reduce()` works through the direct-measure-reduce steps of
 #' the partition algorithm, applying the `partitioner` to the `partition_step`.
 #'
 #' @template partition_step

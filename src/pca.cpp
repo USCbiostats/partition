@@ -11,7 +11,7 @@ List pca_c(arma::mat x) {
   // scale each variable
   for(int i = 0; i < rcpp_x.ncol(); ++i) {
     col_vec = rcpp_x(_, i);
-    rcpp_x(_, i) = (col_vec - mean(noNA(col_vec))) / sd(noNA(col_vec));
+    rcpp_x(_, i) = (col_vec - mean(na_omit(col_vec))) / sd(na_omit(col_vec));
   }
 
  x = as<arma::mat>(rcpp_x);

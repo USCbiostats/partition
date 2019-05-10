@@ -159,11 +159,11 @@ paste_director <- function(x) {
 #' @rdname paste_partitioners
 paste_metric <- function(x) {
   metric <- dplyr::case_when(
-    is_same_function(x$measure, metric_icc) ~ "Intraclass Correlation",
-    is_same_function(x$measure, metric_min_icc) ~ "Minimum Intraclass Correlation",
-    is_same_function(x$measure, metric_variance_explained) ~ "Variance Explained (PCA)",
-    is_same_function(x$measure, metric_min_r2) ~ "Minimum R-Squared",
-    is_same_function(x$measure, metric_std_mutualinfo) ~ "Standardized Mutual Information",
+    is_same_function(x$measure, measure_icc) ~ "Intraclass Correlation",
+    is_same_function(x$measure, measure_min_icc) ~ "Minimum Intraclass Correlation",
+    is_same_function(x$measure, measure_variance_explained) ~ "Variance Explained (PCA)",
+    is_same_function(x$measure, measure_min_r2) ~ "Minimum R-Squared",
+    is_same_function(x$measure, measure_std_mutualinfo) ~ "Standardized Mutual Information",
     TRUE ~ paste_subtle("<custom metric>")
   )
 

@@ -45,53 +45,6 @@ mapping_groups <- function(.partition, indices = FALSE) {
   .partition$mapping_key$mapping
 }
 
-set_mappings <- function(.mappings) {
-  # return partition_map, an empty partition obj
-
-}
-
-replicate_partition_step2 <- function(.target, .partition_step) {
-  .partition_step$target <- .target
-
-  .partition_step %>%
-    .partition_step$partitioner$reduce()
-}
-
-replicate_partition2 <- function(new_data, .partition = NULL, .mappings = NULL, .partitioner = NULL) {
-  all_null <- all(purrr::map_lgl(c(.partition, .mappings, .partitioner), is.null))
-  if (all_null) stop("must provide either `.partition` or `.mappings` and `.partitioner`", call. = FALSE)
-
-  if (!is.null(.partition)) .mappings <- mapping_groups(.partition)
-
-  if (!is.null(.mappings) && !is.null(.partitioner)) {
-    .partition <- set_mappings(.mappings)
-    .partition$.partitioner <- .partitioner
-  }
-
-  #  double check if names are in new data
-  #  use variable positions if not
-  same_names <- all(purrr::flatten_chr(.mappings) %in% names(new_data))
-  if (!same_names) {
-    warning("variable names do not match partition; using variable positions")
-    .mappings <- mapping_groups(.partition, indices = TRUE)
-  }
-
-  targets <- .mappings %>%
-    purrr::discard(~length(.x) == 1)
-
-  # replicate partition exactly
-  rep_partition_step <- as_partition_step(
-    .x = new_data,
-    threshold = 0,
-    metric = 1,
-    var_prefix = .partition$var_prefix
-  )
-
-  purrr::reduce(targets, replicate_partition_step2, .init = rep_partition_step) %>%
-    as_partition()
-}
-
-
 #' Filter the reduced mappings
 #'
 #' `filter_reduced()` and `unnest_reduced()` are convenience functions to

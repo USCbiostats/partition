@@ -26,7 +26,7 @@ Pass \code{partitioner} objects to the \code{partitioner} argument of \code{\lin
 \code{part_stdmi()} uses the following direct, measure, reduce approach:
 \itemize{
 \item \strong{direct}: \code{direct_distance()}, Minimum Distance
-\item \strong{measure}: \code{metric_std_mutualinfo()}, Standardized Mutual Information
+\item \strong{measure}: \code{measure_std_mutualinfo()}, Standardized Mutual Information
 \item \strong{reduce}: \code{reduce_scaled_mean()}, Scaled Row Means
 }
 }

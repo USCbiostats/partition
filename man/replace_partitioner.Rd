@@ -12,7 +12,7 @@ replace_partitioner(partitioner, direct = NULL, measure = NULL,
 
 \item{direct}{a function that directs, possibly created by \code{\link[=as_director]{as_director()}}}
 
-\item{measure}{a function that measures, possibly created by \code{\link[=as_metric]{as_metric()}}}
+\item{measure}{a function that measures, possibly created by \code{\link[=as_measure]{as_measure()}}}
 
 \item{reduce}{a function that reduces, possibly created by \code{\link[=as_reducer]{as_reducer()}}}
 }

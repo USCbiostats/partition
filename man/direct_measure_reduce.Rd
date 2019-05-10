@@ -15,7 +15,7 @@ direct_measure_reduce(.partition_step, partitioner)
 a \code{partition_step} object
 }
 \description{
-\code{direct_measure_reduce()} works through the direct, measure, reduce steps of
+\code{direct_measure_reduce()} works through the direct-measure-reduce steps of
 the partition algorithm, applying the \code{partitioner} to the \code{partition_step}.
 }
 \seealso{

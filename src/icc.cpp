@@ -11,17 +11,17 @@ double icc_c(const NumericMatrix& x) {
   NumericVector row_vec(ncols), rowmeans(nrows), long_means(nrows * ncols), long_mat(nrows * ncols),
     among, within;
 
-  double matrix_mean = mean(x);
+  double matrix_mean = mean(na_omit(x));
 
-  rowmeans = rowMeans(x);
+  rowmeans = rowMeans(x, true);
   long_means = rep(rowmeans, ncols);
   long_mat = as<NumericVector>(x);
 
   within = pow(long_mat - long_means, 2);
   among = pow(long_means - matrix_mean, 2);
 
-  ms1 = sum(among) / (nrows - 1);
-  ms2 = sum(within) / (nrows * (ncols - 1));
+  ms1 = sum(na_omit(among)) / (nrows - 1);
+  ms2 = sum(na_omit(within)) / (nrows * (ncols - 1));
 
   variance = (ms1 - ms2) / ncols;
 
@@ -38,7 +38,7 @@ NumericVector scale_rowmeans(NumericMatrix x) {
 
   for(int i = 0; i < x.nrow(); ++i) {
     row_vec = x(i, _);
-    out[i] = mean(noNA(row_vec));
+    out[i] = mean(na_omit(row_vec));
   }
 
   return (out - mean(out)) / sd(out);

@@ -26,7 +26,7 @@ Pass \code{partitioner} objects to the \code{partitioner} argument of \code{\lin
 \code{part_icc()} uses the following direct, measure, reduce approach:
 \itemize{
 \item \strong{direct}: \code{direct_distance()}, Minimum Distance
-\item \strong{measure}: \code{metric_icc()}, Intraclass Correlation
+\item \strong{measure}: \code{measure_icc()}, Intraclass Correlation
 \item \strong{reduce}: \code{reduce_scaled_mean()}, Scaled Row Means
 }
 }

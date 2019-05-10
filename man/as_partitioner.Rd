@@ -9,7 +9,7 @@ as_partitioner(direct, measure, reduce)
 \arguments{
 \item{direct}{a function that directs, possibly created by \code{\link[=as_director]{as_director()}}}
 
-\item{measure}{a function that measures, possibly created by \code{\link[=as_metric]{as_metric()}}}
+\item{measure}{a function that measures, possibly created by \code{\link[=as_measure]{as_measure()}}}
 
 \item{reduce}{a function that reduces, possibly created by \code{\link[=as_reducer]{as_reducer()}}}
 }
@@ -31,7 +31,7 @@ Pass \code{partitioner} objects to the \code{partitioner} argument of \code{\lin
 
 as_partitioner(
   direct = direct_distance_pearson,
-  measure = metric_icc,
+  measure = measure_icc,
   reduce = reduce_scaled_mean
 )
 

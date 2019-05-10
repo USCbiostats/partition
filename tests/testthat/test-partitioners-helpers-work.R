@@ -13,7 +13,7 @@ test_that("all partitioners are partitioners", {
 test_that("custom partitioners are partitioners", {
   prtnr <- as_partitioner(
     direct = direct_distance_spearman,
-    measure = metric_min_icc,
+    measure = measure_min_icc,
     reduce = as_reducer(rowMeans)
   )
 
@@ -29,36 +29,40 @@ test_that("custom metric works", {
 
   part_iir <- replace_partitioner(
     part_icc,
-    measure = as_metric(inter_item_reliability)
+    measure = as_measure(inter_item_reliability)
   )
 
   prt <- partition(df, .8, partitioner = part_iir)
   expect_s3_class(prt, "partition")
 })
 
-# test_that("custom director works", {
-#   euc_dist <- function(.data) as.matrix(dist(t(.data)))
-#
-#   min_dist <- function(.x) {
-#     indices <- arrayInd(which.min(.x), dim(as.matrix(.x)))
-#
-#     #  get variable names with minimum distance
-#     c(
-#       attr(.x, "Labels")[indices[1]],
-#       attr(.x, "Labels")[indices[2]]
-#     )
-#   }
-#
-#   direct_euc_dist <- as_director(euc_dist, min_dist)
-#
-#   part_euc_dist <- replace_partitioner(
-#     part_icc,
-#     direct = as_director(direct_euc_dist)
-#   )
-#
-#   prt <- partition(df, .4, partitioner = part_euc_dist)
-#   expect_s3_class(prt, "partition")
-# })
+test_that("custom director works", {
+  euc_dist <- function(.data) as.matrix(dist(t(.data)))
+
+  min_dist <- function(.x) {
+    indices <- arrayInd(which.min(.x), dim(as.matrix(.x)))
+
+    #  get variable names with minimum distance
+    c(
+      colnames(.x)[indices[1]],
+      colnames(.x)[indices[2]]
+    )
+  }
+
+  direct_euc_dist <- as_director(euc_dist, min_dist)
+
+  part_euc_dist <- replace_partitioner(
+    part_icc,
+    direct = as_director(direct_euc_dist)
+  )
+
+  prt <- partition(
+    df,
+    .4,
+    partitioner = replace_partitioner(part_icc(), direct = as_director(euc_dist, min_dist))
+  )
+  expect_s3_class(prt, "partition")
+})
 
 test_that("custom reducer works", {
   part_rowmeans <- replace_partitioner(

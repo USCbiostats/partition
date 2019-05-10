@@ -23,4 +23,10 @@ test_that("plots are plotting", {
 
   expect_is(ggplot2::ggplot_build(g6), "ggplot_built")
   expect_is(ggplot2::ggplot_build(g7), "ggplot_built")
+
+  g8 <- plot_area_clusters(df, information = seq(0.1, 0.5, length.out = 10))
+  expect_is(ggplot2::ggplot_build(g8), "ggplot_built")
+
+  g9 <- plot_stacked_area_clusters(df, information = seq(0.1, 0.5, length.out = 10))
+  expect_is(ggplot2::ggplot_build(g8), "ggplot_built")
 })
