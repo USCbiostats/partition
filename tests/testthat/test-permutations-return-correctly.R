@@ -1,6 +1,6 @@
 context("test-permutations-return-correctly")
 set.seed(1234)
-df <- simulate_block_data(5, lower_corr = .5, upper_corr = .65, n = 100)
+source_test_helpers()
 
 test_that("permuted dfs are correct", {
   pdf <- permute_df(df)

@@ -1,9 +1,7 @@
 context("test-partition-objects-are-well-shaped")
-skip_on_os("windows")
 
 set.seed(123)
-df <- simulate_block_data(5, lower_corr = .6, upper_corr = .65, n = 100)
-ind_df <- purrr::map_dfc(1:10, ~rnorm(30))
+source_test_helpers()
 
 prt <- partition(df, threshold = .6)
 reduced_data <- prt[["reduced_data"]]
@@ -23,7 +21,7 @@ test_that("partition object is returning correctly", {
   # reduced data
   expect_is(reduced_data, c("tbl_df", "tbl", "data.frame"))
   expect_named(reduced_data)
-  expect_equal(names(reduced_data), c("block1_x2", "block1_x4", "block1_x5", "reduced_var_1"))
+  expect_equal(names(reduced_data), c("block1_x3", "block1_x5", "reduced_var_1"))
   all_numeric <- all(purrr::map_chr(reduced_data, class) == "numeric")
   expect_true(all_numeric)
 
@@ -54,7 +52,7 @@ test_that("dimensions are consistent", {
   expect_equal(nrow(reduced_data), 100)
 
   # reduced data
-  expect_length(reduced_data, 4)
+  expect_length(reduced_data, 3)
   expect_equal(nrow(reduced_data), 100)
   expect_lte(length(reduced_data), length(df))
   expect_equal(nrow(reduced_data), nrow(df))
@@ -62,10 +60,10 @@ test_that("dimensions are consistent", {
   # mapping key
   reduced_map <- filter_reduced(prt)
   expect_length(map_key, 4)
-  expect_equal(nrow(map_key), 4)
+  expect_equal(nrow(map_key), 3)
   expect_equal(nrow(reduced_map), 1)
   map_lengths <- purrr::map_int(map_key[["mapping"]], length)
-  expect_true(all(map_lengths == c(1, 1, 1, 2)))
+  expect_true(all(map_lengths == c(1, 1, 3)))
   index_lengths <- purrr::map_int(map_key[["indices"]], length)
   expect_true(all(index_lengths == map_lengths))
 

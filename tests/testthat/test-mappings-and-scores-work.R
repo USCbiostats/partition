@@ -1,6 +1,6 @@
 context("test-mappings-and-scores-work")
 set.seed(1234)
-df <- simulate_block_data(5, lower_corr = .5, upper_corr = .65, n = 100)
+source_test_helpers()
 prt <- partition(df, threshold = .6)
 
 test_that("mappings work", {
