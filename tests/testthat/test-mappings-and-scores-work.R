@@ -1,6 +1,5 @@
 context("test-mappings-and-scores-work")
 set.seed(1234)
-source_test_helpers()
 prt <- partition(df, threshold = .6)
 
 test_that("mappings work", {

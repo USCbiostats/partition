@@ -1,6 +1,5 @@
 context("test-misc-partitioner-arguments")
 set.seed(1234)
-source_test_helpers()
 
 expect_identical_partition <- function(.x, .y, same_partitioner = TRUE) {
   expect_identical(.x$reduced_data, .y$reduced_data)

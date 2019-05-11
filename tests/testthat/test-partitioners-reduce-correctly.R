@@ -1,7 +1,5 @@
 context("test-partitioners-reduce-correctly")
-
 set.seed(1234)
-source_test_helpers()
 
 expect_mapping_names <- function(nms, .prt) {
   expect_true(all(.prt[["mapping_key"]][["variable"]] == nms))

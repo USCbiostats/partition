@@ -1,6 +1,5 @@
 context("test-plots-are-plotting")
 set.seed(1234)
-source_test_helpers()
 perms <- test_permutation(df, nperm = 2)
 
 test_that("plots are plotting", {

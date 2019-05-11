@@ -1,7 +1,5 @@
 context("test-partition-objects-are-well-shaped")
-
 set.seed(123)
-source_test_helpers()
 
 prt <- partition(df, threshold = .6)
 reduced_data <- prt[["reduced_data"]]

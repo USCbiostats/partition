@@ -1,6 +1,5 @@
 context("test-permutations-return-correctly")
 set.seed(1234)
-source_test_helpers()
 
 test_that("permuted dfs are correct", {
   pdf <- permute_df(df)

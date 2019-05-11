@@ -7,8 +7,8 @@ context("test-helper-df")
 #  set.seed(1234)
 #  df8 <- datapasta::tribble_paste(simulate_block_data(8, lower_corr = .5, upper_corr = .65, n = 100))
 #
- set.seed(1234)
- ind_df <- datapasta::tribble_paste(purrr::map_dfc(1:10, ~rnorm(30)))
+# set.seed(1234)
+# ind_df <- datapasta::tribble_paste(purrr::map_dfc(1:10, ~rnorm(30)))
 
 df <- tibble::tribble(
            ~block1_x1,          ~block1_x2,          ~block1_x3,          ~block1_x4,          ~block1_x5,
