@@ -1,5 +1,5 @@
 context("test-partitioners-reduce-correctly")
-skip_on_appveyor()
+skip_on_os("windows")
 
 set.seed(1234)
 df <- simulate_block_data(5, lower_corr = .5, upper_corr = .65, n = 100)

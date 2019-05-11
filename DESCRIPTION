@@ -2,11 +2,11 @@ Package: partition2
 Type: Package
 Title: Agglomerative Partitioning Framework for Dimension Reduction
 Version: 0.1.0
-Author: c(
+Authors@R: c(
  person(
     "Joshua", 
     "Millstein", 
-    role = c("aut", "cre")
+    role = "aut",
     email = "joshua.millstein@usc.edu"),
   person(
     "Malcolm", 
@@ -16,7 +16,7 @@ Author: c(
     comment = c(ORCID = "0000-0003-0299-5825")))
 Maintainer: Malcolm Barrett <malcolmbarrett@gmail.com>
 Description: A fast and flexible framework for agglomerative partitioning. partition uses an approach 
-  called direct, measure, reduce to create new variables that maintain the 
+  called Direct-Measure-Reduce to create new variables that maintain the 
   user-specified minimum level of information. Each reduced variable is also interpretable:
   the original variables map to one and only one variable in the reduced data set. partition 
   is flexible, as well: how variables are selected to reduce, how information loss is measured, 
