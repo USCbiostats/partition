@@ -62,6 +62,7 @@ Each variable in the original data set maps to one reduced variable; in this par
 
 ```{r}
 plot_ncluster(prt) +
+  # plot_*() functions return ggplots, so they can be extended using ggplot2
   theme_minimal(14)
 ```
 
@@ -128,7 +129,8 @@ identical(ind_df, partition_scores(ind_part))
 Because we can expect this, comparing partitions we fit on our data to partitions fit on independent data helps assess the reasonableness of our clusters. One easy way to compare how much data is reduced compared to if the data were completely independent is to use `plot_stacked_area_clusters()`, which creates partitions for a series of thresholds using both the observed data and a permuted (independent) version of the data. In general, there are many more raw features per reduced variable for the real data than the independent data; it takes a very low threshold for the permuted data to start forming clusters. 
 
 ```{r}
-plot_stacked_area_clusters(df)
+plot_stacked_area_clusters(df) +
+  theme_minimal(14)
 ```
 
 
