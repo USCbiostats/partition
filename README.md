@@ -8,9 +8,9 @@ status](https://ci.appveyor.com/api/projects/status/github/malcolmbarrett/partit
 [![Coverage
 status](https://codecov.io/gh/malcolmbarrett/partition2/branch/master/graph/badge.svg)](https://codecov.io/github/malcolmbarrett/partition2?branch=master)
 
-# partition2
+# partition
 
-partition2 is a fast and flexible framework for agglomerative
+partition is a fast and flexible framework for agglomerative
 partitioning. partition uses an approach called Direct-Measure-Reduce to
 create new variables that maintain the user-specified minimum level of
 information. Each reduced variable is also interpretable: the original
@@ -25,13 +25,13 @@ You can install the development version of partition2 GitHub with:
 
 ``` r
 # install.packages("remotes)
-remotes::install_github("malcolmbarrett/partition2")
+remotes::install_github("USCbiostats/partition")
 ```
 
 ## Example
 
 ``` r
-library(partition2)
+library(partition)
 set.seed(1234)
 df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
 
