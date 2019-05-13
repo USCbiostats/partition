@@ -1,4 +1,4 @@
 library(testthat)
-library(partition2)
+library(partition)
 
-test_check("partition2")
+test_check("partition")

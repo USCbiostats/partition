@@ -29,7 +29,7 @@ Partitioners are functions that tell the partition algorithm 1) what to try to r
 partition is agnostic to the direct-measure-reduce functions; it only needs to know what to apply to the data and will handle the rest. It's then easy to extend partition to handle other directors, metrics, and reducers. Let's consider a simple example: `part_icc()`, the default partitioner in `partition()`. `part_icc()` produces scaled row means for reduced variables, but let's say we want to use unscaled means, instead. `replace_partitioner()` takes a partitioner and lets you reassign any part of the direct-measure-reduce algorithm. `as_director()`, `as_measure()`, and `as_reducer()` are helper functions to do so. Here, we'll use `as_reducer()` and `rowMeans()` to create a new reducer. 
 
 ```{r}
-library(partition2)
+library(partition)
 
 part_icc_rowmeans <- replace_partitioner(
   part_icc,

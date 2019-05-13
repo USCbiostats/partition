@@ -29,7 +29,7 @@ partition is a fast and flexible data reduction framework that uses an approach 
 partition is particularly useful for highly correlated data, such as genetic data, where there is a lot of redundancy in the information each variable lends. `simulate_block_data()` simulates data like this: blocks of correlated data that are themselves independent of the other blocks in the data:
 
 ```{r}
-library(partition2)
+library(partition)
 library(ggplot2)
 set.seed(1234)
 # create a 100 x 15 data set with 3 blocks

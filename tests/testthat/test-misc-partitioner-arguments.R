@@ -16,9 +16,9 @@ test_that("accelerated functions return correctly", {
   expect_equal(icc(df8), icc(df8, method = "c"))
   expect_equal(scaled_mean(df8), scaled_mean(df8, method = "c"))
   expect_equal(round(icc(df8), 3), 0.608, tolerance = .001)
-  expect_equal(round(partition2:::minR2_c(as.matrix(df8))$minr2, 3), 0.588, tolerance = .001)
+  expect_equal(round(partition:::minR2_c(as.matrix(df8))$minr2, 3), 0.588, tolerance = .001)
   expect_equal(round(mutual_information(df8)$standardized_mi, 3), 0.305, tolerance = .001)
-  expect_equal(round(partition2:::pca_c(as.matrix(df8))$pct_var, 3), 0.658, tolerance = .001)
+  expect_equal(round(partition:::pca_c(as.matrix(df8))$pct_var, 3), 0.658, tolerance = .001)
 })
 
 test_that("spearman distance works", {

@@ -8,7 +8,7 @@ using namespace Rcpp;
 
 // rank_c
 Rcpp::NumericVector rank_c(Rcpp::NumericVector x);
-RcppExport SEXP _partition2_rank_c(SEXP xSEXP) {
+RcppExport SEXP _partition_rank_c(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -19,7 +19,7 @@ END_RCPP
 }
 // apply_rank
 arma::mat apply_rank(arma::mat x);
-RcppExport SEXP _partition2_apply_rank(SEXP xSEXP) {
+RcppExport SEXP _partition_apply_rank(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -30,7 +30,7 @@ END_RCPP
 }
 // corr_c_mat
 arma::mat corr_c_mat(arma::mat x);
-RcppExport SEXP _partition2_corr_c_mat(SEXP xSEXP) {
+RcppExport SEXP _partition_corr_c_mat(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -41,7 +41,7 @@ END_RCPP
 }
 // corr_c_2mat
 arma::mat corr_c_2mat(arma::mat x, arma::mat y);
-RcppExport SEXP _partition2_corr_c_2mat(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _partition_corr_c_2mat(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -53,7 +53,7 @@ END_RCPP
 }
 // corr_c_2vec
 double corr_c_2vec(arma::vec x, arma::vec y);
-RcppExport SEXP _partition2_corr_c_2vec(SEXP xSEXP, SEXP ySEXP) {
+RcppExport SEXP _partition_corr_c_2vec(SEXP xSEXP, SEXP ySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -65,7 +65,7 @@ END_RCPP
 }
 // icc_c
 double icc_c(const NumericMatrix& x);
-RcppExport SEXP _partition2_icc_c(SEXP xSEXP) {
+RcppExport SEXP _partition_icc_c(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -76,7 +76,7 @@ END_RCPP
 }
 // scale_rowmeans
 NumericVector scale_rowmeans(NumericMatrix x);
-RcppExport SEXP _partition2_scale_rowmeans(SEXP xSEXP) {
+RcppExport SEXP _partition_scale_rowmeans(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -87,7 +87,7 @@ END_RCPP
 }
 // subset_matrix
 NumericMatrix subset_matrix(List& x, int& i, arma::mat& m);
-RcppExport SEXP _partition2_subset_matrix(SEXP xSEXP, SEXP iSEXP, SEXP mSEXP) {
+RcppExport SEXP _partition_subset_matrix(SEXP xSEXP, SEXP iSEXP, SEXP mSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -100,7 +100,7 @@ END_RCPP
 }
 // min_icc_c
 NumericVector min_icc_c(List& columns, arma::mat& x, int& k, double& threshold);
-RcppExport SEXP _partition2_min_icc_c(SEXP columnsSEXP, SEXP xSEXP, SEXP kSEXP, SEXP thresholdSEXP) {
+RcppExport SEXP _partition_min_icc_c(SEXP columnsSEXP, SEXP xSEXP, SEXP kSEXP, SEXP thresholdSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -114,7 +114,7 @@ END_RCPP
 }
 // kmeans_c
 arma::mat kmeans_c(arma::mat& x, int k, int n_iter, bool verbose, int seed);
-RcppExport SEXP _partition2_kmeans_c(SEXP xSEXP, SEXP kSEXP, SEXP n_iterSEXP, SEXP verboseSEXP, SEXP seedSEXP) {
+RcppExport SEXP _partition_kmeans_c(SEXP xSEXP, SEXP kSEXP, SEXP n_iterSEXP, SEXP verboseSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -129,7 +129,7 @@ END_RCPP
 }
 // assign_cluster
 NumericVector assign_cluster(arma::mat& x, arma::mat init_centroids);
-RcppExport SEXP _partition2_assign_cluster(SEXP xSEXP, SEXP init_centroidsSEXP) {
+RcppExport SEXP _partition_assign_cluster(SEXP xSEXP, SEXP init_centroidsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -141,7 +141,7 @@ END_RCPP
 }
 // kmean_assignment
 NumericVector kmean_assignment(arma::mat& x, int k, int n_iter, bool verbose, int seed);
-RcppExport SEXP _partition2_kmean_assignment(SEXP xSEXP, SEXP kSEXP, SEXP n_iterSEXP, SEXP verboseSEXP, SEXP seedSEXP) {
+RcppExport SEXP _partition_kmean_assignment(SEXP xSEXP, SEXP kSEXP, SEXP n_iterSEXP, SEXP verboseSEXP, SEXP seedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -156,7 +156,7 @@ END_RCPP
 }
 // minR2_c
 List minR2_c(NumericMatrix x);
-RcppExport SEXP _partition2_minR2_c(SEXP xSEXP) {
+RcppExport SEXP _partition_minR2_c(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -167,7 +167,7 @@ END_RCPP
 }
 // pca_c
 List pca_c(arma::mat x);
-RcppExport SEXP _partition2_pca_c(SEXP xSEXP) {
+RcppExport SEXP _partition_pca_c(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -178,7 +178,7 @@ END_RCPP
 }
 // reduce_partition_c
 List reduce_partition_c(List x, DataFrame df, Function assign_partition, List partitioner, const double& threshold, const double& tolerance, const std::string& var_prefix, const int& niter);
-RcppExport SEXP _partition2_reduce_partition_c(SEXP xSEXP, SEXP dfSEXP, SEXP assign_partitionSEXP, SEXP partitionerSEXP, SEXP thresholdSEXP, SEXP toleranceSEXP, SEXP var_prefixSEXP, SEXP niterSEXP) {
+RcppExport SEXP _partition_reduce_partition_c(SEXP xSEXP, SEXP dfSEXP, SEXP assign_partitionSEXP, SEXP partitionerSEXP, SEXP thresholdSEXP, SEXP toleranceSEXP, SEXP var_prefixSEXP, SEXP niterSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -196,25 +196,25 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_partition2_rank_c", (DL_FUNC) &_partition2_rank_c, 1},
-    {"_partition2_apply_rank", (DL_FUNC) &_partition2_apply_rank, 1},
-    {"_partition2_corr_c_mat", (DL_FUNC) &_partition2_corr_c_mat, 1},
-    {"_partition2_corr_c_2mat", (DL_FUNC) &_partition2_corr_c_2mat, 2},
-    {"_partition2_corr_c_2vec", (DL_FUNC) &_partition2_corr_c_2vec, 2},
-    {"_partition2_icc_c", (DL_FUNC) &_partition2_icc_c, 1},
-    {"_partition2_scale_rowmeans", (DL_FUNC) &_partition2_scale_rowmeans, 1},
-    {"_partition2_subset_matrix", (DL_FUNC) &_partition2_subset_matrix, 3},
-    {"_partition2_min_icc_c", (DL_FUNC) &_partition2_min_icc_c, 4},
-    {"_partition2_kmeans_c", (DL_FUNC) &_partition2_kmeans_c, 5},
-    {"_partition2_assign_cluster", (DL_FUNC) &_partition2_assign_cluster, 2},
-    {"_partition2_kmean_assignment", (DL_FUNC) &_partition2_kmean_assignment, 5},
-    {"_partition2_minR2_c", (DL_FUNC) &_partition2_minR2_c, 1},
-    {"_partition2_pca_c", (DL_FUNC) &_partition2_pca_c, 1},
-    {"_partition2_reduce_partition_c", (DL_FUNC) &_partition2_reduce_partition_c, 8},
+    {"_partition_rank_c", (DL_FUNC) &_partition_rank_c, 1},
+    {"_partition_apply_rank", (DL_FUNC) &_partition_apply_rank, 1},
+    {"_partition_corr_c_mat", (DL_FUNC) &_partition_corr_c_mat, 1},
+    {"_partition_corr_c_2mat", (DL_FUNC) &_partition_corr_c_2mat, 2},
+    {"_partition_corr_c_2vec", (DL_FUNC) &_partition_corr_c_2vec, 2},
+    {"_partition_icc_c", (DL_FUNC) &_partition_icc_c, 1},
+    {"_partition_scale_rowmeans", (DL_FUNC) &_partition_scale_rowmeans, 1},
+    {"_partition_subset_matrix", (DL_FUNC) &_partition_subset_matrix, 3},
+    {"_partition_min_icc_c", (DL_FUNC) &_partition_min_icc_c, 4},
+    {"_partition_kmeans_c", (DL_FUNC) &_partition_kmeans_c, 5},
+    {"_partition_assign_cluster", (DL_FUNC) &_partition_assign_cluster, 2},
+    {"_partition_kmean_assignment", (DL_FUNC) &_partition_kmean_assignment, 5},
+    {"_partition_minR2_c", (DL_FUNC) &_partition_minR2_c, 1},
+    {"_partition_pca_c", (DL_FUNC) &_partition_pca_c, 1},
+    {"_partition_reduce_partition_c", (DL_FUNC) &_partition_reduce_partition_c, 8},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_partition2(DllInfo *dll) {
+RcppExport void R_init_partition(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

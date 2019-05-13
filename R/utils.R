@@ -1,4 +1,4 @@
-#' @useDynLib partition2, .registration = TRUE
+#' @useDynLib partition, .registration = TRUE
 #' @importFrom Rcpp sourceCpp
 NULL
 

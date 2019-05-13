@@ -1,4 +1,4 @@
-Package: partition2
+Package: partition
 Type: Package
 Title: Agglomerative Partitioning Framework for Dimension Reduction
 Version: 0.1.0
@@ -52,7 +52,7 @@ Suggests:
     rmarkdown
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
-URL: https://github.com/malcolmbarrett/partition2
-BugReports: https://github.com/malcolmbarrett/partition2/issues
+URL: https://github.com/USCbiostats/partition
+BugReports: https://github.com/USCbiostats/partition/issues
 Language: en-US
 VignetteBuilder: knitr

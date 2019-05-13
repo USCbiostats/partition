@@ -2,62 +2,62 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 rank_c <- function(x) {
-    .Call(`_partition2_rank_c`, x)
+    .Call(`_partition_rank_c`, x)
 }
 
 apply_rank <- function(x) {
-    .Call(`_partition2_apply_rank`, x)
+    .Call(`_partition_apply_rank`, x)
 }
 
 corr_c_mat <- function(x) {
-    .Call(`_partition2_corr_c_mat`, x)
+    .Call(`_partition_corr_c_mat`, x)
 }
 
 corr_c_2mat <- function(x, y) {
-    .Call(`_partition2_corr_c_2mat`, x, y)
+    .Call(`_partition_corr_c_2mat`, x, y)
 }
 
 corr_c_2vec <- function(x, y) {
-    .Call(`_partition2_corr_c_2vec`, x, y)
+    .Call(`_partition_corr_c_2vec`, x, y)
 }
 
 icc_c <- function(x) {
-    .Call(`_partition2_icc_c`, x)
+    .Call(`_partition_icc_c`, x)
 }
 
 scale_rowmeans <- function(x) {
-    .Call(`_partition2_scale_rowmeans`, x)
+    .Call(`_partition_scale_rowmeans`, x)
 }
 
 subset_matrix <- function(x, i, m) {
-    .Call(`_partition2_subset_matrix`, x, i, m)
+    .Call(`_partition_subset_matrix`, x, i, m)
 }
 
 min_icc_c <- function(columns, x, k, threshold) {
-    .Call(`_partition2_min_icc_c`, columns, x, k, threshold)
+    .Call(`_partition_min_icc_c`, columns, x, k, threshold)
 }
 
 kmeans_c <- function(x, k, n_iter = 10L, verbose = FALSE, seed = 1L) {
-    .Call(`_partition2_kmeans_c`, x, k, n_iter, verbose, seed)
+    .Call(`_partition_kmeans_c`, x, k, n_iter, verbose, seed)
 }
 
 assign_cluster <- function(x, init_centroids) {
-    .Call(`_partition2_assign_cluster`, x, init_centroids)
+    .Call(`_partition_assign_cluster`, x, init_centroids)
 }
 
 kmean_assignment <- function(x, k, n_iter = 10L, verbose = FALSE, seed = 1L) {
-    .Call(`_partition2_kmean_assignment`, x, k, n_iter, verbose, seed)
+    .Call(`_partition_kmean_assignment`, x, k, n_iter, verbose, seed)
 }
 
 minR2_c <- function(x) {
-    .Call(`_partition2_minR2_c`, x)
+    .Call(`_partition_minR2_c`, x)
 }
 
 pca_c <- function(x) {
-    .Call(`_partition2_pca_c`, x)
+    .Call(`_partition_pca_c`, x)
 }
 
 reduce_partition_c <- function(x, df, assign_partition, partitioner, threshold, tolerance, var_prefix, niter) {
-    .Call(`_partition2_reduce_partition_c`, x, df, assign_partition, partitioner, threshold, tolerance, var_prefix, niter)
+    .Call(`_partition_reduce_partition_c`, x, df, assign_partition, partitioner, threshold, tolerance, var_prefix, niter)
 }
 
