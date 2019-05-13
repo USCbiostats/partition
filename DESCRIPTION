@@ -30,7 +30,7 @@ LinkingTo:
     Rcpp, 
     RcppArmadillo
 Imports: 
-    Rcpp (>= 1.0.1),
+    Rcpp,
     rlang,
     purrr,
     tibble,
@@ -52,7 +52,7 @@ Suggests:
     rmarkdown
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
-URL: https://github.com/USCbiostats/partition
+URL: https://uscbiostats.github.io/partition/, https://github.com/USCbiostats/partition
 BugReports: https://github.com/USCbiostats/partition/issues
 Language: en-US
 VignetteBuilder: knitr
