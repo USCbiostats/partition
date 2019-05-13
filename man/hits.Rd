@@ -12,9 +12,6 @@ get_hits(.partition_step)
 \arguments{
 \item{.partition_step}{a \code{partition_step} object}
 }
-\value{
-a \code{partition_step} object
-}
 \description{
 Count and retrieve the number of metrics below threshold
 }

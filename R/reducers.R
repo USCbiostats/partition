@@ -6,7 +6,7 @@
 #' @param ... Extra arguments passed to `.f`.
 #' @param returns_vector logical. Does `.f` return a vector? `TRUE` by default.
 #'   If `FALSE`, assumes that `.f` returns a `data.frame`.
-#' @inheritParams reduce_data
+#' @inheritParams reduce_cluster
 #'
 #' @return a function to use in [`as_partitioner()`]
 #' @export
@@ -19,9 +19,9 @@
 #' @family reducers
 as_reducer <- function(.f, ..., returns_vector = TRUE, first_match = NULL) {
   if (returns_vector) {
-    mapping_f <- reduce_data
+    mapping_f <- reduce_cluster
   } else {
-    mapping_f <- map_data
+    mapping_f <- map_cluster
   }
 
   if (!is.null(first_match)) {
@@ -43,7 +43,7 @@ as_reducer <- function(.f, ..., returns_vector = TRUE, first_match = NULL) {
 #' @template partition_step
 #' @export
 reduce_scaled_mean <- function(.partition_step) {
-  reduce_data(.partition_step, scaled_mean_r)
+  reduce_cluster(.partition_step, scaled_mean_r)
 }
 
 #' Reduce selected variables to scaled means
@@ -80,19 +80,21 @@ reduce_kmeans <- function(.partition_step, search = c("binary", "linear"), n_hit
 reduce_first_component <- function(.partition_step) {
   # this function uses the first PC, which is fit at the same time as variance
   # explained, so no need to pass a function. Just process it.
-  reduce_data(.partition_step, NULL)
+  reduce_cluster(.partition_step, NULL)
 }
 
 #' Reduce a target
 #'
-#' `reduce_data()` and `map_data()` apply the data reduction to the targets
+#' `reduce_cluster()` and `map_cluster()` apply the data reduction to the targets
 #' found in the director step. They only do so if the metric is above the
-#' threshold, however. `reduce_data()` is for functions that return vectors
-#' while `map_data()` is for functions that return `data.frames`. If you're
+#' threshold, however. `reduce_cluster()` is for functions that return vectors
+#' while `map_cluster()` is for functions that return `data.frames`. If you're
 #' using [`as_reducer()`], there's no need to call these functions directly.
 #'
 #' @template partition_step
 #' @param .f a function to reduce the data to either a vector or a data.frame
+#' @param rewind logical. Should the last target be used instead of the
+#'   current target?
 #' @param first_match logical. Should the partition algorithm stop when it finds
 #'   a reduction that is equal to the threshold? Default is `TRUE` for reducers
 #'   that return a `data.frame` and `FALSE` for reducers that return a vector
@@ -102,7 +104,7 @@ reduce_first_component <- function(.partition_step) {
 #' @examples
 #'
 #' reduce_row_means <- function(.partition_step, .data) {
-#'   reduce_data(.partition_step, rowMeans)
+#'   reduce_cluster(.partition_step, rowMeans)
 #' }
 #'
 #' replace_partitioner(
@@ -111,7 +113,7 @@ reduce_first_component <- function(.partition_step) {
 #' )
 #'
 #' @rdname reduce_target
-reduce_data <- function(.partition_step, .f, first_match = FALSE) {
+reduce_cluster <- function(.partition_step, .f, first_match = FALSE) {
   #  if partitioning complete or threshold not met, skip reduce
   if (.partition_step$all_done) return(.partition_step)
   if (under_threshold(.partition_step)) return(.partition_step)
@@ -140,9 +142,10 @@ reduce_data <- function(.partition_step, .f, first_match = FALSE) {
 
 #' @export
 #' @rdname reduce_target
-map_data <- function(.partition_step, .f, first_match = FALSE) {
+map_cluster <- function(.partition_step, .f, rewind = FALSE, first_match = FALSE) {
   #  if partitioning complete, skip reduce
   if (.partition_step$all_done) return(.partition_step)
+  if (rewind) .partition_step <- rewind_target(.partition_step)
 
   #  create a list of the components of each cluster
   target_list <- purrr::map(
@@ -241,7 +244,7 @@ binary_k_search <- function(.partition_step) {
   # check if we've found the threshold boundary
   reduced_to_1 <- .partition_step$k == 1 && above_threshold(.partition_step)
   if (boundary_found(.partition_step) || reduced_to_1) {
-    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+    .partition_step <- map_cluster(.partition_step, scaled_mean_r, first_match = TRUE)
     return(all_done(.partition_step))
   }
 
@@ -272,7 +275,7 @@ linear_k_search <- function(.partition_step, n_hits = 4) {
 
   # if we're searching forward, check if we've past the threshold
   if (k_searching_forward(.partition_step) && above_threshold(.partition_step)) {
-    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+    .partition_step <- map_cluster(.partition_step, scaled_mean_r, first_match = TRUE)
     return(all_done(.partition_step))
   }
 
@@ -280,10 +283,10 @@ linear_k_search <- function(.partition_step, n_hits = 4) {
   #   and otherwise use k = 2
   if (k_searching_backward(.partition_step) && .partition_step$k == 1) {
     if (above_threshold(.partition_step)) {
-      .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+      .partition_step <- map_cluster(.partition_step, scaled_mean_r, first_match = TRUE)
     } else {
       .partition_step <- rewind_target(.partition_step)
-      .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+      .partition_step <- map_cluster(.partition_step, scaled_mean_r, first_match = TRUE)
     }
     return(all_done(.partition_step))
   }
@@ -295,7 +298,7 @@ linear_k_search <- function(.partition_step, n_hits = 4) {
     if (length(.partition_step$last_target) == 1 && is.na(.partition_step$last_target)) return(all_done(.partition_step))
     #  rewind to last target above boundary
     .partition_step <- rewind_target(.partition_step)
-    .partition_step <- map_data(.partition_step, scaled_mean_r, first_match = TRUE)
+    .partition_step <- map_cluster(.partition_step, scaled_mean_r, first_match = TRUE)
     return(all_done(.partition_step))
   }
 
@@ -305,7 +308,7 @@ linear_k_search <- function(.partition_step, n_hits = 4) {
   .partition_step
 }
 
-#' Average and scale a rows in a `data.frame`
+#' Average and scale rows in a `data.frame`
 #'
 #' `scaled_mean()` calculates scaled row means for a dataframe.
 #'

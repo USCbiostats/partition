@@ -273,7 +273,7 @@ plot_clusters <- function(.partition, show_n = 100, fill = "#0172B1", color = NA
     dplyr::slice(1:show_n) %>%
     ggplot2::ggplot(ggplot2::aes(x = variable, y = n)) +
     ggplot2::geom_col(fill = fill, color = color) +
-    ggplot2::xlab("n variables") +
+    ggplot2::ylab("n raw features") +
     ggplot2::coord_flip()
 }
 

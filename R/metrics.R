@@ -281,7 +281,7 @@ icc_r <- function(.x) {
 
 #' Count and retrieve the number of metrics below threshold
 #'
-#' @template partition_step
+#' @template partition_step_param
 #' @rdname hits
 increase_hits <- function(.partition_step) {
   if (is.null(.partition_step$hits)) .partition_step$hits <- 0

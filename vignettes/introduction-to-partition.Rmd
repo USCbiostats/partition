@@ -1,0 +1,147 @@
+---
+title: "Introduction to Partition"
+author: "Malcolm Barrett"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to Partition}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7, 
+  fig.height = 5, 
+  fig.align = "center",
+  fig.dpi = 320,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+## Introduction to the partition package
+
+partition is a fast and flexible data reduction framework that uses an approach called Direct-Measure-Reduce to create agglomerative partitions that maintain the user-specified minimum level of information. Each variable starts of as its own cluster; potential reduced variables are assessed by making sure this level of information is maintained. The reduced variables are also interpretable: original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized.  
+
+partition is particularly useful for highly correlated data, such as genetic data, where there is a lot of redundancy in the information each variable lends. `simulate_block_data()` simulates data like this: blocks of correlated data that are themselves independent of the other blocks in the data:
+
+```{r}
+library(partition2)
+library(ggplot2)
+set.seed(1234)
+# create a 100 x 15 data set with 3 blocks
+df <- simulate_block_data(
+  # create 3 correlated blocks of 5 variables each
+  block_sizes = rep(5, 3),
+  lower_corr = .4,
+  upper_corr = .6,
+  n = 100
+)
+
+df
+```
+
+partition takes a data frame and a threshold--the minimum amount of information a reduced variable must explain to be created--and reduces the data to as few variables as possible. The threshold prevents information loss: each reduced variable must still explain at least that much.
+
+```{r}
+prt <- partition(df, threshold = .5)
+
+prt
+```
+
+partition creates a `tibble` with the newly reduced variables:
+
+```{r}
+partition_scores(prt)
+```
+
+Each variable in the original data set maps to one reduced variable; in this partition, there are four reduced variables consisting of two to three variables each, as well as five of the original variables that did not get reduced because too much information would have been lost.
+
+```{r}
+plot_ncluster(prt) +
+  theme_minimal(14)
+```
+
+Each reduced variable explains at least 50% of the information of the original variables from which it was created. The distribution of information has a lower limit of our threshold, .5.
+
+```{r}
+plot_information(prt, geom = geom_histogram) +
+  theme_minimal(14)
+```
+
+A key for these mappings and the information each variable explains can be retrieved with `mapping_key()`, which returns a nested `tibble`.
+
+```{r}
+mapping_key(prt)
+```
+
+To see each individual mapping, you can unnest them using `unnest_mappings()` (or do it yourself with `tidyr::unnest()`)
+
+```{r}
+unnest_mappings(prt)
+```
+
+## Direct-Measure-Reduce and Partitioners
+
+Partitioners are functions that tell the partition algorithm 1) what to try to reduce 2) how to measure how much information is lost from the reduction and 3) how to reduce the data. We call this approach Direct-Measure-Reduce. In partition, functions that handle 1) are thus called directors, functions that handle 2) are called metrics, and functions that handle 3) are called reducers. partition has a number of pre-specified partitioners for agglomerative data reduction, but this approach is also quite flexible. See the [vignette on extending partition](extending-partition.html) to learn more about custom partitioners.
+
+The default partitioner in `partition()` is `part_icc()`. `part_icc()` uses a correlation-based distance matrix to find the pair of variables with the smallest distance between them, intraclass correlation (ICC) to measure information explained by the reduced variable, and scaled row means to reduce variables with a sufficient minimum ICC. `part_icc()` is generally fast and scalable.
+
+```{r}
+part_icc()
+```
+
+There are several other partitioners, which all have names in the format `part_*()`
+
+|  partitioner |  direct |  measure | reduce |
+|:--|:--|:--|:--|
+|  `part_icc()`|  Minimum Distance |  ICC | scaled row means |
+|  `part_kmeans()`|  K-Means Clusters | Minimum ICC | scaled row means |
+|  `part_minr2()`|  Minimum Distance |  Minimum R-Squared | scaled row means |
+|  `part_pc1()`|  Minimum Distance |  Variance Explained (PCA) | first principal component |
+|  `part_icc()`|  Minimum Distance |  Standardized Mutual Information | scaled row means |
+
+To apply a different partitioner, use the `partitioner` argument in `partition()`.
+
+```{r}
+prt_kmeans <- partition(df, threshold = .5, partitioner = part_kmeans())
+prt_kmeans
+```
+
+
+## Permutation tests
+
+Data sets with variables that are independent tend to reduce only at lower thresholds because too much information is lost. In this set of 10 independent variables, setting the threshold to .5 results in a partition with no reduction. The original data is returned.  
+
+```{r}
+# create a data.frame of 10 independent variables
+ind_df <- purrr::map_dfc(1:10, ~rnorm(30))
+ind_part <- partition(ind_df, .5)
+ind_part
+
+identical(ind_df, partition_scores(ind_part))
+```
+
+Because we can expect this, comparing partitions we fit on our data to partitions fit on independent data helps assess the reasonableness of our clusters. One easy way to compare how much data is reduced compared to if the data were completely independent is to use `plot_stacked_area_clusters()`, which creates partitions for a series of thresholds using both the observed data and a permuted (independent) version of the data. In general, there are many more raw features per reduced variable for the real data than the independent data; it takes a very low threshold for the permuted data to start forming clusters. 
+
+```{r}
+plot_stacked_area_clusters(df)
+```
+
+
+partition also has a set of tools for more extensive permutation tests. `map_partition()` will fit partitions for a range of thresholds for the observed data; `test_permutation()` will do the same but also fit partitions for a set of permuted data sets (100 by default). `plot_permutation()` visualizes the results, comparing information, number of clusters, or number of raw features that were reduced.
+
+```{r}
+perms <- test_permutation(df, nperm = 10)
+perms
+```
+
+```{r, fig.height = 7}
+plot_permutation(perms, .plot = "nreduced") +
+  theme_minimal(14)
+```
+
+`plot_ncluster()` and `plot_information()`, in addition to plotting individual partitions, also plot the results of `test_permutation()`. 

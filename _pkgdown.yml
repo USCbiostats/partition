@@ -1,0 +1,66 @@
+authors:
+  Malcolm Barrett:
+    href: https://malco.io
+
+reference:
+- title: partition
+  contents:
+    - partition
+    - is_partition
+    - simulate_block_data
+
+- title: Mapping key and scores
+  contents:
+    - partition_scores
+    - starts_with("mapping")
+    - starts_with("unnest")
+    - filter_reduced
+
+- title: partitioners
+  contents:
+    - starts_with("part_")
+    - is_partitioner
+    - starts_with("direct")
+    - starts_with("measure")
+    - reduce_scaled_mean
+    - reduce_first_component
+    - reduce_kmeans
+
+- title: Permutation and mapping
+  contents:
+    - map_partition
+    - test_permutation
+    - permute_df
+
+- title: Data visualization
+  contents:
+    - starts_with("plot_")
+
+- title: Statistical functions
+  contents:
+    - corr
+    - mutual_information
+    - icc
+    - scaled_mean
+
+- title: Extending partition
+  contents:
+    - starts_with("as_")
+    - replace_partitioner
+    - map_cluster
+    - reduce_cluster
+    - is_partition_step
+
+navbar:
+  type: default
+  left:
+  - icon: fa-home fa-lg
+    href: index.html
+  - text: Reference
+    href: reference/index.html
+  - text: Articles
+    menu:
+    - text: An Introduction to partition
+      href: articles/introduction-to-partition.html
+    - text: Extending partition
+      href: articles/extending-partition.html

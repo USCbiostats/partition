@@ -36,7 +36,7 @@ a \code{partition} object
 \code{partition()} reduces data while minimizing information loss
 using an agglomerative partitioning algorithm. The partition algorithm is
 fast and flexible: at every iteration, \code{partition()} uses an approach
-called direct, measure, reduce (see Details) to create new variables that
+called Direct-Measure-Reduce (see Details) to create new variables that
 maintain the user-specified minimum level of information. Each reduced
 variable is also interpretable: the original variables map to one and only
 one variable in the reduced data set.

@@ -23,11 +23,11 @@ Custom partitioners can be created with \code{\link[=as_partitioner]{as_partitio
 
 Pass \code{partitioner} objects to the \code{partitioner} argument of \code{\link[=partition]{partition()}}.
 
-\code{part_pc1()} uses the following direct, measure, reduce approach:
+\code{part_pc1()} uses the following direct-measure-reduce approach:
 \itemize{
 \item \strong{direct}: \code{direct_distance()}, Minimum Distance
 \item \strong{measure}: \code{measure_variance_explained()}, Variance Explained (PCA)
-\item \strong{reduce}: \code{reduce_scaled_mean()}, Scaled Row Means
+\item \strong{reduce}: \code{reduce_first_component()}, First Principal Component
 }
 }
 \examples{

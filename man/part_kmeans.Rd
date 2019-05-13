@@ -38,7 +38,7 @@ Custom partitioners can be created with \code{\link[=as_partitioner]{as_partitio
 
 Pass \code{partitioner} objects to the \code{partitioner} argument of \code{\link[=partition]{partition()}}.
 
-\code{part_kmeans()} uses the following direct, measure, reduce approach:
+\code{part_kmeans()} uses the following direct-measure-reduce approach:
 \itemize{
 \item \strong{direct}: \code{direct_k_cluster()}, K-Means Clusters
 \item \strong{measure}: \code{measure_min_icc()}, Minimum Intraclass Correlation

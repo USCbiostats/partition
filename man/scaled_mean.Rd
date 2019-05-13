@@ -2,7 +2,7 @@
 % Please edit documentation in R/reducers.R
 \name{scaled_mean}
 \alias{scaled_mean}
-\title{Average and scale a rows in a \code{data.frame}}
+\title{Average and scale rows in a \code{data.frame}}
 \usage{
 scaled_mean(.x, method = c("r", "c"))
 }

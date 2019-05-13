@@ -1,4 +1,4 @@
-#' @description `<%= func %>` uses the following direct, measure, reduce approach:
+#' @description `<%= func %>` uses the following direct-measure-reduce approach:
 #' - **direct**: <%= director %>
 #' - **measure**: <%= metric %>
 #' - **reduce**: <%= reducer %>

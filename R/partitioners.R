@@ -128,7 +128,7 @@ part_minr2 <- function(spearman = FALSE) {
 #' @templateVar func part_pc1()
 #' @templateVar director `direct_distance()`, Minimum Distance
 #' @templateVar metric `measure_variance_explained()`, Variance Explained (PCA)
-#' @templateVar reducer `reduce_scaled_mean()`, Scaled Row Means
+#' @templateVar reducer `reduce_first_component()`, First Principal Component
 #' @template describe_partitioner
 #' @inheritParams part_icc
 #'

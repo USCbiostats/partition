@@ -1,0 +1,203 @@
+---
+title: "Extending partition"
+author: "Malcolm Barrett"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Extending partition}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 7, 
+  fig.height = 5, 
+  fig.align = "center",
+  fig.dpi = 320,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+## Customizing existing partitioners
+
+Partitioners are functions that tell the partition algorithm 1) what to try to reduce 2) how to measure how much information is lost from the reduction and 3) how to reduce the data. We call this approach Direct-Measure-Reduce. In partition, functions that handle 1) are thus called directors, functions that handle 2) are called metrics, and functions that handle 3) are called reducers. partition has a number of pre-specified partitioners for agglomerative data reduction. See the [vignette introducing partition](introduction-to-partition.html) to learn more about these existing partitioners.
+
+partition is agnostic to the direct-measure-reduce functions; it only needs to know what to apply to the data and will handle the rest. It's then easy to extend partition to handle other directors, metrics, and reducers. Let's consider a simple example: `part_icc()`, the default partitioner in `partition()`. `part_icc()` produces scaled row means for reduced variables, but let's say we want to use unscaled means, instead. `replace_partitioner()` takes a partitioner and lets you reassign any part of the direct-measure-reduce algorithm. `as_director()`, `as_measure()`, and `as_reducer()` are helper functions to do so. Here, we'll use `as_reducer()` and `rowMeans()` to create a new reducer. 
+
+```{r}
+library(partition2)
+
+part_icc_rowmeans <- replace_partitioner(
+  part_icc,
+  reduce = as_reducer(rowMeans)
+)
+
+part_icc_rowmeans
+```
+
+Note that it now uses a custom reducer. We can apply `part_icc_rowmeans` the same way as other partitioners.
+
+```{r}
+set.seed(1234)
+
+df <- simulate_block_data(
+  block_sizes = rep(5, 3),
+  lower_corr = .4,
+  upper_corr = .6,
+  n = 100
+)
+
+prt <- partition(df, .5, partitioner = part_icc_rowmeans)
+prt
+partition_scores(prt)
+```
+
+`as_measure()` works much the same way: it accepts a function that returns a single metric to check against the threshold. Let's swap out ICC for inter-item reliability:
+
+```{r}
+inter_item_reliability <- function(.data) {
+   corr(.data) %>%
+    colMeans(na.rm = TRUE) %>%
+    mean()
+}
+
+measure_iir <- as_measure(inter_item_reliability)
+
+prt <- partition(df, .5, partitioner = replace_partitioner(part_icc, measure = measure_iir))
+prt
+```
+
+This returns a different partition because each reduced variable must now have an inter-item reliability of .5 or greater.
+
+`as_director()` supports directors in the style of `direct_distance()`. Instead of a single function, however, it takes two: `.pairs`, a way to create a matrix comparing each variable, and `.target`, a way to select two variables to possibly reduce. `direct_distance()` does this by fitting a correlation-based distance matrix and using the variables with the smallest distance between them. Let's try an example with Euclidean distance, instead. We'll create two functions: `euc_dist()`, which returns a pairwise matrix of Euclidean distance between variables, and `min_dist()`, which finds the smallest distance and returns the names of two variables.
+
+```{r}
+euc_dist <- function(.data) as.matrix(dist(t(.data)))
+
+# find the pair with the minimum distance
+min_dist <- function(.x) {
+  indices <- arrayInd(which.min(.x), dim(as.matrix(.x)))
+
+  #  get variable names with minimum distance
+  c(
+    colnames(.x)[indices[1]],
+    colnames(.x)[indices[2]]
+  )
+}
+```
+
+We'll pass these functions to `as_director()` and, as above, apply it to `part_icc()`.
+
+```{r}
+direct_euc_dist <- as_director(euc_dist, min_dist)
+
+prt <- partition(df, .5, partitioner = replace_partitioner(part_icc, direct = direct_euc_dist))
+prt
+```
+
+## Creating new partitioners
+
+The `part_*()` functions are actually wrappers for `as_partitioner()`. Each partitioner has a set of component functions that direct, measure, and reduce: `direct_*()`, `measure_*()`, and `reduce_*()`. ICC, for instance, is measured with `measure_icc()`. Passing direct-measure-reduce functions to `as_partitioner()` thus creates a partitioner. The source code for `part_icc()`, for instance, looks like this:
+
+```{r, eval = FALSE}
+function(spearman = FALSE) {
+  as_partitioner(
+    direct = direct_dist(spearman = spearman),
+    measure = measure_icc,
+    reduce = reduce_scaled_mean
+  )
+}
+```
+
+We can use `as_partitioner()` with the built-in `direct_*()`, `measure_*()`, and `reduce_*()` functions or apply custom components, like we created above. It's easy to create a totally new partitioner using the functions we wrote above:
+
+```{r}
+custom_part <- as_partitioner(
+  direct = as_director(euc_dist, min_dist),
+  measure = as_measure(inter_item_reliability),
+  reduce = as_reducer(rowMeans)
+)
+
+partition(df, .5, custom_part)
+```
+
+## `partition_step()`, `map_cluster()`, and `reduce_cluster()`
+
+`as_director()`, `as_measure()`, and `as_reducer()` help facilitate working with the the way `partition()` iterates; they essentially put the custom components in the right place, handle storage of objects, and pass the right results on for you. You can also work with the partition algorithm directly. Internally, `partition()` starts by creating a `partition_step` object. It's this `partition_step` object that is passed on while the algorithm iterates; all directors, metrics, and reducers take a `partition_step` as the first argument and return a `partition_step`. 
+
+As a simple example, consider `as_reducer(rowMeans)`. This returns a function that looks like this:
+
+```{r, eval = FALSE}
+function(.partition_step) {
+  reduce_cluster(.partition_step, rowMeans)
+}
+```
+
+This takes a `partition_step` object, accesses the target (here, two variables to reduce) and metric, and if the metric is above the threshold, reduces them to a vector--a single reduced variable--using `rowMeans()`. The helper function `reduce_cluster()` applies the function to the `partition_step` the right way. 
+
+Some partitioners, like `part_kmeans()`, will assess many targets simultaneously, for instance by assigning all original variables to a cluster at a given level of `k`. `as_reducer(rowMeans, returns_vector = FALSE)` handles functions that should return a data frame instead. What it's doing is using `map_cluster()` instead of `reduce_cluster()`:
+
+```{r, eval = FALSE}
+function(.partition_step) {
+  map_cluster(.partition_step, rowMeans)
+}
+```
+
+Knowing this can be useful because we can make changes to how the function works. Let's say we want to add the ability to use the `na.rm` argument in `rowMeans()`:
+
+```{r, eval = FALSE}
+function(.partition_step, na.rm = FALSE) {
+  partialized_rowMeans <- purrr::partial(rowMeans, na.rm = na.rm)
+  map_cluster(.partition_step, partialized_rowMeans)
+}
+```
+
+But we can also write these components from scratch. To do so, we need to work with `partition_step` directly. Let's make a new director using hierarchical clustering with the `hclust()` function; it will work like `part_kmeans()` in that it will assign variables to a cluster for a given level of `k`, check if the information loss for each cluster, and reduce if no variables are below the threshold. We'll create a director called `direct_hcluster()` to replace the director in `part_kmeans()`, but we'll use the same metric (ICC) and reducer (scaled means). 
+
+A `partition_step` is just a list object, so you can use it store anything you need as the partition algorithm iterates. For instance, we'll want to save `k`, the number of clusters we're checking. Since `hclust()` only needs to be fit once (`cuttree()` does the assigning), we'll also save that so we don't have to keep fitting it. Each iteration will then have access to these objects. The target of the director should be saved to `.partition_step$target`, although you could handle it however you like if you make completely custom partitioners. Note that we can also use `.partition_step$all_done <- TRUE` as to tell the partition to end early. See `?as_partition_step` for some of the common objects saved to `partition_step`.
+
+For `direct_hcluster`, then, we'll 1) create an initial `k` to check, 2) make sure we haven't iterated through all levels of `k` without finding a set that have all reduced variables with their ICC above the threshold, 3) fit the `hclust()` function and save it for future iterations, and 4) generate cluster assignments using `cuttree()` and `k`. We now have a working director: it takes a `partition_step`, assigns a target, and returns a `partition_step`.
+
+```{r}
+direct_hcluster <- function(.partition_step) {
+  #  set initial k to 1 - number of cols in data
+  if (is.null(.partition_step$k)) {
+    .partition_step$k <- ncol(.partition_step$reduced_data) - 1
+  }
+  
+  #  stop partition if all k checked
+  if (.partition_step$k == 0) {
+    #  tell the partition algorithm to stop
+    .partition_step$all_done <- TRUE
+    return(.partition_step)
+  }
+  
+  if (is.null(.partition_step$hc)) {
+    #  save hclust object for future use
+    .partition_step$hc <- hclust(dist(t(.partition_step$reduced_data)))
+  }
+  
+  .partition_step$target <- cutree(.partition_step$hc, k = .partition_step$k)
+  
+  .partition_step
+}
+```
+
+As before, we can use `as_partitioner()` and apply it to our data using `partition()`. For this partitioner, `part_hcluster`, we'll use our custom director, as well as `measure_min_icc()` and `reduce_kmeans()` from `part_kmeans()`.
+
+```{r}
+part_hcluster <- as_partitioner(
+  direct = direct_hcluster,
+  #  use same functions as part_kmeans() but search k linearly 
+  measure = purrr::partial(measure_min_icc, search_method = "linear"),
+  reduce =   purrr::partial(reduce_kmeans, search = "linear")
+)
+
+partition(df, .5, part_hcluster)
+```
+
+partition is thus fully extensible. While we include many pre-specified partitioners, directors, metrics, and reducers, the partition algorithm is agnostic to those components; they can be fully specified by the user, making partition a very powerful framework for data reduction.
