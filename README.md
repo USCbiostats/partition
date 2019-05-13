@@ -32,6 +32,7 @@ remotes::install_github("malcolmbarrett/partition2")
 
 ``` r
 library(partition2)
+set.seed(1234)
 df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
 
 #  don't accept reductions where information < .6
@@ -46,27 +47,27 @@ prt
 #> 1 reduced variables created from 2 observed variables
 #> 
 #> Mappings:
-#> reduced_var_1 = {block3_x2, block3_x3}
+#> reduced_var_1 = {block2_x3, block2_x4}
 #> 
 #> Minimum information:
-#> 0.619
+#> 0.602
 
 # return reduced data
 partition_scores(prt)
 #> # A tibble: 100 x 11
-#>    block1_x1 block1_x2 block1_x3 block2_x1 block2_x2 block2_x3 block2_x4
+#>    block1_x1 block1_x2 block1_x3 block2_x1 block2_x2 block3_x1 block3_x2
 #>        <dbl>     <dbl>     <dbl>     <dbl>     <dbl>     <dbl>     <dbl>
-#>  1    -1.30     -0.349   -0.404     0.258     -1.95     -0.239    0.420 
-#>  2     1.60      0.687    0.856    -0.102     -0.729    -0.466   -0.119 
-#>  3     0.282     1.19    -0.0147   -0.749      0.424     0.364   -0.0723
-#>  4    -1.59      0.238   -0.334     0.812      1.22      0.417    1.59  
-#>  5    -0.562     0.258   -2.58     -0.695     -0.600    -1.25     0.0531
-#>  6    -1.19     -1.48    -1.40     -0.232      0.842    -0.232    0.815 
-#>  7     0.748    -0.130    2.82     -0.161      0.779     0.127   -0.118 
-#>  8     0.306     0.303    0.713     1.26      -0.346    -1.02    -0.151 
-#>  9    -0.351    -0.203   -1.74     -1.35       1.08      1.42     0.884 
-#> 10    -2.40     -0.243    0.428    -0.0632    -0.106     0.916    0.265 
-#> # … with 90 more rows, and 4 more variables: block3_x1 <dbl>,
+#>  1   -1.00     -0.344      1.35     -0.526    -1.25      1.13     0.357 
+#>  2    0.518    -0.434     -0.361    -1.48     -1.53     -0.317    0.290 
+#>  3   -1.77     -0.913     -0.722     0.122     0.224    -0.529    0.114 
+#>  4   -1.49     -0.998      0.189     0.149    -0.994    -0.433    0.0120
+#>  5    0.616     0.0211     0.895     1.09     -1.25      0.440   -0.550 
+#>  6    0.0765    0.522      1.20     -0.152    -0.419    -0.912   -0.362 
+#>  7    1.74      0.0993    -0.654    -1.26     -0.502    -0.792   -1.03  
+#>  8    1.05      2.19       0.913     0.254     0.328    -1.07    -0.976 
+#>  9   -1.07     -0.292     -0.763     0.437     0.739     0.899   -0.342 
+#> 10   -1.02     -0.959     -1.33     -1.57     -1.11      0.618    0.153 
+#> # … with 90 more rows, and 4 more variables: block3_x3 <dbl>,
 #> #   block3_x4 <dbl>, block3_x5 <dbl>, reduced_var_1 <dbl>
 
 # access mapping keys
@@ -79,12 +80,12 @@ mapping_key(prt)
 #>  3 block1_x3     <chr [1]>       1     <int [1]>
 #>  4 block2_x1     <chr [1]>       1     <int [1]>
 #>  5 block2_x2     <chr [1]>       1     <int [1]>
-#>  6 block2_x3     <chr [1]>       1     <int [1]>
-#>  7 block2_x4     <chr [1]>       1     <int [1]>
-#>  8 block3_x1     <chr [1]>       1     <int [1]>
+#>  6 block3_x1     <chr [1]>       1     <int [1]>
+#>  7 block3_x2     <chr [1]>       1     <int [1]>
+#>  8 block3_x3     <chr [1]>       1     <int [1]>
 #>  9 block3_x4     <chr [1]>       1     <int [1]>
 #> 10 block3_x5     <chr [1]>       1     <int [1]>
-#> 11 reduced_var_1 <chr [2]>       0.619 <int [2]>
+#> 11 reduced_var_1 <chr [2]>       0.602 <int [2]>
 
 unnest_mappings(prt)
 #> # A tibble: 12 x 4
@@ -95,13 +96,13 @@ unnest_mappings(prt)
 #>  3 block1_x3           1     block1_x3       3
 #>  4 block2_x1           1     block2_x1       4
 #>  5 block2_x2           1     block2_x2       5
-#>  6 block2_x3           1     block2_x3       6
-#>  7 block2_x4           1     block2_x4       7
-#>  8 block3_x1           1     block3_x1       8
+#>  6 block3_x1           1     block3_x1       8
+#>  7 block3_x2           1     block3_x2       9
+#>  8 block3_x3           1     block3_x3      10
 #>  9 block3_x4           1     block3_x4      11
 #> 10 block3_x5           1     block3_x5      12
-#> 11 reduced_var_1       0.619 block3_x2       9
-#> 12 reduced_var_1       0.619 block3_x3      10
+#> 11 reduced_var_1       0.602 block2_x3       6
+#> 12 reduced_var_1       0.602 block2_x4       7
 
 # use a lower threshold of information loss
 partition(df, threshold = .5, partitioner = part_kmeans())
@@ -111,13 +112,14 @@ partition(df, threshold = .5, partitioner = part_kmeans())
 #>    Reducer: Scaled Mean
 #> 
 #> Reduced Variables:
-#> 1 reduced variables created from 2 observed variables
+#> 2 reduced variables created from 7 observed variables
 #> 
 #> Mappings:
-#> reduced_var_1 = {block2_x3, block2_x4}
+#> reduced_var_1 = {block3_x1, block3_x2, block3_x5}
+#> reduced_var_2 = {block2_x1, block2_x2, block2_x3, block2_x4}
 #> 
 #> Minimum information:
-#> 0.543
+#> 0.508
 
 # use a custom partitioner
 part_icc_rowmeans <- replace_partitioner(
@@ -134,10 +136,10 @@ partition(df, threshold = .6, partitioner = part_icc_rowmeans)
 #> 1 reduced variables created from 2 observed variables
 #> 
 #> Mappings:
-#> reduced_var_1 = {block3_x2, block3_x3}
+#> reduced_var_1 = {block2_x3, block2_x4}
 #> 
 #> Minimum information:
-#> 0.619
+#> 0.602
 ```
 
 partition also supports a number of ways to visualize partitions and
