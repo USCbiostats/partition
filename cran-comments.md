@@ -1,5 +1,6 @@
 ## Resubmission
 This is a resubmission. For this submission, I have:
+* Corrected myself and wrapped software name in '', as originally requested. Oops :)
 * Wrapped software name in `` in DESCRIPTION
 
 Our paper is in submission without a preprint; however, we will add this paper to the DESCRIPTION file in the next release.
