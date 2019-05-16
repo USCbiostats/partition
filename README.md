@@ -3,8 +3,8 @@
 
 [![Travis build
 status](https://travis-ci.org/USCbiostats/partition.svg?branch=master)](https://travis-ci.org/USCbiostats/partition)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/malcolmbarrett/partition-qaqc6?branch=master&svg=true)](https://ci.appveyor.com/project/malcolmbarrett/partition-qaqc6)
+[![Build
+status](https://ci.appveyor.com/api/projects/status/fofb9um8jqyyi6av?svg=true)](https://ci.appveyor.com/project/malcolmbarrett/partition-qaqc6)
 [![Coverage
 status](https://codecov.io/gh/USCbiostats/partition/branch/master/graph/badge.svg)](https://codecov.io/github/USCbiostats/partition?branch=master)
 

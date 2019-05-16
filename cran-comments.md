@@ -1,3 +1,9 @@
+## Resubmission
+This is a resubmission. For this submission, I have:
+* Wrapped software name in `` in DESCRIPTION
+
+Our paper is in submission without a preprint; however, we will add this paper to the DESCRIPTION file in the next release.
+
 ## Test environments
 * local OS X install, R 3.5.3
 * ubuntu 14.04 (on travis-ci), R 3.0.0, 3.5.0, R-devel, R-release
