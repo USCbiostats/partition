@@ -7,6 +7,7 @@ status](https://travis-ci.org/USCbiostats/partition.svg?branch=master)](https://
 status](https://ci.appveyor.com/api/projects/status/fofb9um8jqyyi6av?svg=true)](https://ci.appveyor.com/project/malcolmbarrett/partition-qaqc6)
 [![Coverage
 status](https://codecov.io/gh/USCbiostats/partition/branch/master/graph/badge.svg)](https://codecov.io/github/USCbiostats/partition?branch=master)
+![](https://www.r-pkg.org/badges/version/partition)
 
 # partition
 
@@ -21,7 +22,7 @@ customized.
 
 ## Installation
 
-You can install the development version of partition2 GitHub with:
+You can install the development version of partition GitHub with:
 
 ``` r
 # install.packages("remotes)
