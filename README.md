@@ -22,7 +22,13 @@ customized.
 
 ## Installation
 
-You can install the development version of partition GitHub with:
+You can install the partition from CRAN with:
+
+``` r
+install.packages("partition")
+```
+
+Or you can install the development version of partition GitHub with:
 
 ``` r
 # install.packages("remotes)
