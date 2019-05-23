@@ -283,6 +283,7 @@ icc_r <- function(.x) {
 #'
 #' @template partition_step_param
 #' @rdname hits
+#' @keywords internal
 increase_hits <- function(.partition_step) {
   if (is.null(.partition_step$hits)) .partition_step$hits <- 0
   .partition_step$hits <- .partition_step$hits + 1

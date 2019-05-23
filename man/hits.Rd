@@ -15,3 +15,4 @@ get_hits(.partition_step)
 \description{
 Count and retrieve the number of metrics below threshold
 }
+\keyword{internal}
