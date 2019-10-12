@@ -12,7 +12,7 @@ test_that("mappings work", {
   expect_is(long_key, "tbl")
   expect_length(long_key, 4)
   expect_equal(nrow(long_key), ncol(df))
-  expect_equal(tidyr::unnest(key), long_key)
+  expect_equal(tidyr::unnest(key, cols = c(mapping, indices)), long_key)
 
   expect_true(nrow(long_key) > nrow(key))
   expect_true(nrow(unnest_mappings(prt)) > nrow(unnest_reduced(prt)))

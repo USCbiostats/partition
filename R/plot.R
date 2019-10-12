@@ -228,7 +228,7 @@ plot_ncluster <- function(.partition, show_n = 100, fill = "#0172B1", color = NA
   .partition %>%
     dplyr::mutate(mapping_key = purrr::map(partition, mapping_key)) %>%
     dplyr::select(target_info, mapping_key) %>%
-    tidyr::unnest() %>%
+    tidyr::unnest(cols = c(mapping_key)) %>%
     plot_clusters(show_n, fill, color) +
       ggplot2::facet_wrap(
         ~target_info,
@@ -332,8 +332,8 @@ plot_permutation <- function(permutations,
   label_info <- function(target) paste(labeller, target)
 
   p <- permutations %>%
-    dplyr::select(target_info, permutation) %>%
-    tidyr::unnest() %>%
+    dplyr::select(permutation) %>%
+    tidyr::unnest(cols = c(permutation)) %>%
     ggplot2::ggplot(ggplot2::aes(x = !!plot_sym)) +
     geom(
       ggplot2::aes(fill = "permuted"),

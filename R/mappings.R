@@ -34,7 +34,7 @@ mapping_key <- function(.partition) {
 #' @rdname mapping_key
 unnest_mappings <- function(.partition) {
   # return unnested df of mappings
-  tidyr::unnest(.partition$mapping_key)
+  tidyr::unnest(.partition$mapping_key, cols = c(mapping, indices))
 }
 
 #' @export
@@ -79,7 +79,7 @@ filter_reduced <- function(.partition) {
 unnest_reduced <- function(.partition) {
   .partition %>%
     filter_reduced() %>%
-    tidyr::unnest()
+    tidyr::unnest(cols = c(mapping, indices))
 }
 
 #' Return the reduced data from a partition
