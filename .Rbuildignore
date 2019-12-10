@@ -13,3 +13,4 @@
 ^\.Rproj\.user$
 man-roxygen
 cache
+^paper$
