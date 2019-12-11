@@ -5,7 +5,7 @@ author:
   orcid: 0000-0003-0299-5825
 - name: Joshua Millstein
   affiliation: Department of Preventive Medicine, University of Southern California
-date: '`r format(Sys.Date())`'
+date: '2019-12-10'
 title: 'Partition: A fast and flexible framework for agglomerative partitioning in
   R'
 output:
@@ -15,9 +15,7 @@ tags: ''
 bibliography: references.bib
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 # Summary 
 
