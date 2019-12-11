@@ -22,9 +22,11 @@ helper function to create new metrics to be used in \code{partitioner}s.
 calculating the minimum R-squared for the target variables.
 }
 \seealso{
-Other metrics: \code{\link{as_measure}},
-  \code{\link{measure_icc}}, \code{\link{measure_min_icc}},
-  \code{\link{measure_std_mutualinfo}},
-  \code{\link{measure_variance_explained}}
+Other metrics: 
+\code{\link{as_measure}()},
+\code{\link{measure_icc}()},
+\code{\link{measure_min_icc}()},
+\code{\link{measure_std_mutualinfo}()},
+\code{\link{measure_variance_explained}()}
 }
 \concept{metrics}

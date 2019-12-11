@@ -34,12 +34,14 @@ reduce_row_means
 
 }
 \seealso{
-Other reducers: \code{\link{reduce_first_component}},
-  \code{\link{reduce_kmeans}},
-  \code{\link{reduce_scaled_mean}}
+Other reducers: 
+\code{\link{reduce_first_component}()},
+\code{\link{reduce_kmeans}()},
+\code{\link{reduce_scaled_mean}()}
 
-Other reducers: \code{\link{reduce_first_component}},
-  \code{\link{reduce_kmeans}},
-  \code{\link{reduce_scaled_mean}}
+Other reducers: 
+\code{\link{reduce_first_component}()},
+\code{\link{reduce_kmeans}()},
+\code{\link{reduce_scaled_mean}()}
 }
 \concept{reducers}

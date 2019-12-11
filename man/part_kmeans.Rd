@@ -4,9 +4,12 @@
 \alias{part_kmeans}
 \title{Partitioner: K-means, ICC, scaled means}
 \usage{
-part_kmeans(algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Forgy",
-  "MacQueen"), search = c("binary", "linear"), init_k = NULL,
-  n_hits = 4)
+part_kmeans(
+  algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"),
+  search = c("binary", "linear"),
+  init_k = NULL,
+  n_hits = 4
+)
 }
 \arguments{
 \item{algorithm}{The K-Means algorithm to use. The default is a fast version
@@ -54,9 +57,12 @@ partition(df, threshold = .6, partitioner = part_kmeans())
 
 }
 \seealso{
-Other partitioners: \code{\link{as_partitioner}},
-  \code{\link{part_icc}}, \code{\link{part_minr2}},
-  \code{\link{part_pc1}}, \code{\link{part_stdmi}},
-  \code{\link{replace_partitioner}}
+Other partitioners: 
+\code{\link{as_partitioner}()},
+\code{\link{part_icc}()},
+\code{\link{part_minr2}()},
+\code{\link{part_pc1}()},
+\code{\link{part_stdmi}()},
+\code{\link{replace_partitioner}()}
 }
 \concept{partitioners}

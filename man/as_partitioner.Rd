@@ -37,9 +37,12 @@ as_partitioner(
 
 }
 \seealso{
-Other partitioners: \code{\link{part_icc}},
-  \code{\link{part_kmeans}}, \code{\link{part_minr2}},
-  \code{\link{part_pc1}}, \code{\link{part_stdmi}},
-  \code{\link{replace_partitioner}}
+Other partitioners: 
+\code{\link{part_icc}()},
+\code{\link{part_kmeans}()},
+\code{\link{part_minr2}()},
+\code{\link{part_pc1}()},
+\code{\link{part_stdmi}()},
+\code{\link{replace_partitioner}()}
 }
 \concept{partitioners}

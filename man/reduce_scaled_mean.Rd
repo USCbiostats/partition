@@ -22,8 +22,9 @@ reducers to be used in \code{partitioner}s. \code{partitioner}s can be created w
 target variables to reduce.
 }
 \seealso{
-Other reducers: \code{\link{as_reducer}},
-  \code{\link{reduce_first_component}},
-  \code{\link{reduce_kmeans}}
+Other reducers: 
+\code{\link{as_reducer}()},
+\code{\link{reduce_first_component}()},
+\code{\link{reduce_kmeans}()}
 }
 \concept{reducers}

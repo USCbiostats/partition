@@ -4,6 +4,7 @@ language: R
 sudo: required
 cache: packages
 dist: trusty
+warnings_are_errors: true
 addons:
   apt:
     sources:

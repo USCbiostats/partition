@@ -39,9 +39,12 @@ partition(df, threshold = .6, partitioner = part_icc())
 
 }
 \seealso{
-Other partitioners: \code{\link{as_partitioner}},
-  \code{\link{part_kmeans}}, \code{\link{part_minr2}},
-  \code{\link{part_pc1}}, \code{\link{part_stdmi}},
-  \code{\link{replace_partitioner}}
+Other partitioners: 
+\code{\link{as_partitioner}()},
+\code{\link{part_kmeans}()},
+\code{\link{part_minr2}()},
+\code{\link{part_pc1}()},
+\code{\link{part_stdmi}()},
+\code{\link{replace_partitioner}()}
 }
 \concept{partitioners}

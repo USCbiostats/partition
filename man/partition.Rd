@@ -4,8 +4,15 @@
 \alias{partition}
 \title{Agglomerative partitioning}
 \usage{
-partition(.data, threshold, partitioner = part_icc(),
-  tolerance = 1e-04, niter = NULL, x = "reduced_var", .sep = "_")
+partition(
+  .data,
+  threshold,
+  partitioner = part_icc(),
+  tolerance = 1e-04,
+  niter = NULL,
+  x = "reduced_var",
+  .sep = "_"
+)
 }
 \arguments{
 \item{.data}{a data.frame to partition}
@@ -15,13 +22,13 @@ variable; \code{threshold} sets a boundary for information loss because each
 reduced variable must explain at least as much as \code{threshold} as measured
 by the metric.}
 
-\item{partitioner}{a \code{partitioner}. See the \code{part_*()} functions and
+\item{partitioner}{a \code{partitioner}. See the \verb{part_*()} functions and
 \code{\link[=as_partitioner]{as_partitioner()}}.}
 
 \item{tolerance}{a small tolerance within the threshold; if a reduction is
 within the threshold plus/minus the tolerance, it will reduce.}
 
-\item{niter}{the number of iterations. By default, it is calculated as 20% of
+\item{niter}{the number of iterations. By default, it is calculated as 20\% of
 the number of variables or 10, whichever is larger.}
 
 \item{x}{the prefix of the new variable names}
@@ -50,7 +57,7 @@ partitioner. The default partitioner for \code{partition()} is \code{\link[=part
 it finds pairs of variables to reduce by finding the pair with the minimum
 distance between them, it measures information loss through ICC, and it
 reduces data using scaled row means. There are several other partitioners
-available (\code{part_*()} functions), and you can create custom partitioners
+available (\verb{part_*()} functions), and you can create custom partitioners
 with \code{\link[=as_partitioner]{as_partitioner()}} and \code{\link[=replace_partitioner]{replace_partitioner()}}.
 }
 \examples{

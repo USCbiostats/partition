@@ -22,9 +22,11 @@ helper function to create new metrics to be used in \code{partitioner}s.
 variance explained by the first component of a principal components analysis.
 }
 \seealso{
-Other metrics: \code{\link{as_measure}},
-  \code{\link{measure_icc}}, \code{\link{measure_min_icc}},
-  \code{\link{measure_min_r2}},
-  \code{\link{measure_std_mutualinfo}}
+Other metrics: 
+\code{\link{as_measure}()},
+\code{\link{measure_icc}()},
+\code{\link{measure_min_icc}()},
+\code{\link{measure_min_r2}()},
+\code{\link{measure_std_mutualinfo}()}
 }
 \concept{metrics}

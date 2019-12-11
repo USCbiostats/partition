@@ -8,8 +8,7 @@
 \usage{
 find_algorithm(algorithm, seed)
 
-kmean_assignment_c(.data, k, n_iter = 10L, verbose = FALSE,
-  seed = 1L)
+kmean_assignment_c(.data, k, n_iter = 10L, verbose = FALSE, seed = 1L)
 
 kmean_assignment_r(.data, k, algorithm = "Hartigan-Wong", seed = 1L)
 }
