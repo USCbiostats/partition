@@ -51,7 +51,7 @@ Suggests:
     knitr,
     rmarkdown
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
 URL: https://uscbiostats.github.io/partition/, https://github.com/USCbiostats/partition
 BugReports: https://github.com/USCbiostats/partition/issues
 Language: en-US

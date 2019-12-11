@@ -24,9 +24,11 @@ calculating the standardized mutual information for the target variables.
 See \code{\link[=mutual_information]{mutual_information()}}.
 }
 \seealso{
-Other metrics: \code{\link{as_measure}},
-  \code{\link{measure_icc}}, \code{\link{measure_min_icc}},
-  \code{\link{measure_min_r2}},
-  \code{\link{measure_variance_explained}}
+Other metrics: 
+\code{\link{as_measure}()},
+\code{\link{measure_icc}()},
+\code{\link{measure_min_icc}()},
+\code{\link{measure_min_r2}()},
+\code{\link{measure_variance_explained}()}
 }
 \concept{metrics}

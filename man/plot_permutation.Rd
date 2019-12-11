@@ -4,10 +4,14 @@
 \alias{plot_permutation}
 \title{Plot permutation tests}
 \usage{
-plot_permutation(permutations, .plot = c("information", "nclusters",
-  "nreduced"), labeller = "target information:",
-  perm_color = "#56B4EA", obs_color = "#CC78A8",
-  geom = ggplot2::geom_density)
+plot_permutation(
+  permutations,
+  .plot = c("information", "nclusters", "nreduced"),
+  labeller = "target information:",
+  perm_color = "#56B4EA",
+  obs_color = "#CC78A8",
+  geom = ggplot2::geom_density
+)
 }
 \arguments{
 \item{permutations}{a \code{tibble}, the result of \code{\link[=test_permutation]{test_permutation()}}}

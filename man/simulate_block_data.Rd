@@ -4,8 +4,15 @@
 \alias{simulate_block_data}
 \title{Simulate correlated blocks of variables}
 \usage{
-simulate_block_data(block_sizes, lower_corr, upper_corr, n,
-  block_name = "block", sep = "_", var_name = "x")
+simulate_block_data(
+  block_sizes,
+  lower_corr,
+  upper_corr,
+  n,
+  block_name = "block",
+  sep = "_",
+  var_name = "x"
+)
 }
 \arguments{
 \item{block_sizes}{a vector of block sizes. The size of each block is the

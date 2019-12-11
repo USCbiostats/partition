@@ -4,8 +4,13 @@
 \alias{test_permutation}
 \title{Permute partitions}
 \usage{
-test_permutation(.data, information = seq(0.1, 0.6, by = 0.1),
-  partitioner = part_icc(), ..., nperm = 100)
+test_permutation(
+  .data,
+  information = seq(0.1, 0.6, by = 0.1),
+  partitioner = part_icc(),
+  ...,
+  nperm = 100
+)
 }
 \arguments{
 \item{.data}{a data set to partition}

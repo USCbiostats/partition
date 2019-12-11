@@ -22,8 +22,9 @@ reducers to be used in \code{partitioner}s. \code{partitioner}s can be created w
 principal components analysis of the target variables.
 }
 \seealso{
-Other reducers: \code{\link{as_reducer}},
-  \code{\link{reduce_kmeans}},
-  \code{\link{reduce_scaled_mean}}
+Other reducers: 
+\code{\link{as_reducer}()},
+\code{\link{reduce_kmeans}()},
+\code{\link{reduce_scaled_mean}()}
 }
 \concept{reducers}

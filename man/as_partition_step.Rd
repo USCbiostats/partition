@@ -4,9 +4,17 @@
 \alias{as_partition_step}
 \title{Create a partition object from a data frame}
 \usage{
-as_partition_step(.x, threshold = NA, reduced_data = NA, target = NA,
-  metric = NA, tolerance = 0.01, var_prefix = NA, partitioner = NA,
-  ...)
+as_partition_step(
+  .x,
+  threshold = NA,
+  reduced_data = NA,
+  target = NA,
+  metric = NA,
+  tolerance = 0.01,
+  var_prefix = NA,
+  partitioner = NA,
+  ...
+)
 }
 \arguments{
 \item{.x}{a \code{data.frame} or \code{partition_step} object}
@@ -23,7 +31,7 @@ as_partition_step(.x, threshold = NA, reduced_data = NA, target = NA,
 
 \item{var_prefix}{Variable name for reduced variables}
 
-\item{partitioner}{A \code{partitioner}, a \code{part_*()} function or one created with
+\item{partitioner}{A \code{partitioner}, a \verb{part_*()} function or one created with
 \code{\link[=as_partitioner]{as_partitioner()}}.}
 
 \item{...}{Other objects to store during the partition step}

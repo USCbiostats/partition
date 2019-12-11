@@ -4,9 +4,13 @@
 \alias{direct_k_cluster}
 \title{Target based on K-means clustering}
 \usage{
-direct_k_cluster(.partition_step, algorithm = c("armadillo",
-  "Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"), search = c("binary",
-  "linear"), init_k = NULL, seed = 1L)
+direct_k_cluster(
+  .partition_step,
+  algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"),
+  search = c("binary", "linear"),
+  init_k = NULL,
+  seed = 1L
+)
 }
 \arguments{
 \item{.partition_step}{a \code{partition_step} object}
@@ -40,7 +44,8 @@ This search is handled by the binary search method by default and thus
 does not necessarily need to fit every value of k.
 }
 \seealso{
-Other directors: \code{\link{as_director}},
-  \code{\link{direct_distance}}
+Other directors: 
+\code{\link{as_director}()},
+\code{\link{direct_distance}()}
 }
 \concept{directors}

@@ -33,16 +33,18 @@ measure_iir
 
 }
 \seealso{
-Other metrics: \code{\link{measure_icc}},
-  \code{\link{measure_min_icc}},
-  \code{\link{measure_min_r2}},
-  \code{\link{measure_std_mutualinfo}},
-  \code{\link{measure_variance_explained}}
+Other metrics: 
+\code{\link{measure_icc}()},
+\code{\link{measure_min_icc}()},
+\code{\link{measure_min_r2}()},
+\code{\link{measure_std_mutualinfo}()},
+\code{\link{measure_variance_explained}()}
 
-Other metrics: \code{\link{measure_icc}},
-  \code{\link{measure_min_icc}},
-  \code{\link{measure_min_r2}},
-  \code{\link{measure_std_mutualinfo}},
-  \code{\link{measure_variance_explained}}
+Other metrics: 
+\code{\link{measure_icc}()},
+\code{\link{measure_min_icc}()},
+\code{\link{measure_min_r2}()},
+\code{\link{measure_std_mutualinfo}()},
+\code{\link{measure_variance_explained}()}
 }
 \concept{metrics}

@@ -23,10 +23,11 @@ helper function to create new metrics to be used in \code{partitioner}s.
 intraclass correlation coefficient for the target variables.
 }
 \seealso{
-Other metrics: \code{\link{as_measure}},
-  \code{\link{measure_min_icc}},
-  \code{\link{measure_min_r2}},
-  \code{\link{measure_std_mutualinfo}},
-  \code{\link{measure_variance_explained}}
+Other metrics: 
+\code{\link{as_measure}()},
+\code{\link{measure_min_icc}()},
+\code{\link{measure_min_r2}()},
+\code{\link{measure_std_mutualinfo}()},
+\code{\link{measure_variance_explained}()}
 }
 \concept{metrics}

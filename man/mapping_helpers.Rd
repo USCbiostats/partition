@@ -7,10 +7,17 @@
 \usage{
 summarize_partitions(.partition, .information)
 
-map_permutations(.data, partitioner = part_icc(), ...,
-  information = seq(0.1, 0.5, by = 0.1), nperm = 100)
+map_permutations(
+  .data,
+  partitioner = part_icc(),
+  ...,
+  information = seq(0.1, 0.5, by = 0.1),
+  nperm = 100
+)
 }
 \arguments{
+\item{.information}{a vector of minimum information to fit in \code{\link[=partition]{partition()}}}
+
 \item{.data}{a data set to partition}
 
 \item{partitioner}{the partitioner to use. The default is \code{\link[=part_icc]{part_icc()}}.}

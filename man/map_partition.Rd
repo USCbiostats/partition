@@ -4,8 +4,12 @@
 \alias{map_partition}
 \title{Map a partition across a range of minimum information}
 \usage{
-map_partition(.data, partitioner = part_icc(), ...,
-  information = seq(0.1, 0.5, by = 0.1))
+map_partition(
+  .data,
+  partitioner = part_icc(),
+  ...,
+  information = seq(0.1, 0.5, by = 0.1)
+)
 }
 \arguments{
 \item{.data}{a data set to partition}

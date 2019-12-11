@@ -4,8 +4,7 @@
 \alias{reduce_kmeans}
 \title{Reduce selected variables to scaled means}
 \usage{
-reduce_kmeans(.partition_step, search = c("binary", "linear"),
-  n_hits = 4)
+reduce_kmeans(.partition_step, search = c("binary", "linear"), n_hits = 4)
 }
 \arguments{
 \item{.partition_step}{a \code{partition_step} object}
@@ -30,8 +29,9 @@ reducers to be used in \code{partitioner}s. \code{partitioner}s can be created w
 the closest \code{k} to the information threshold is found.
 }
 \seealso{
-Other reducers: \code{\link{as_reducer}},
-  \code{\link{reduce_first_component}},
-  \code{\link{reduce_scaled_mean}}
+Other reducers: 
+\code{\link{as_reducer}()},
+\code{\link{reduce_first_component}()},
+\code{\link{reduce_scaled_mean}()}
 }
 \concept{reducers}
