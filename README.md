@@ -1,13 +1,17 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<!-- badges: start -->
+
 [![Travis build
 status](https://travis-ci.org/USCbiostats/partition.svg?branch=master)](https://travis-ci.org/USCbiostats/partition)
 [![Build
 status](https://ci.appveyor.com/api/projects/status/fofb9um8jqyyi6av?svg=true)](https://ci.appveyor.com/project/malcolmbarrett/partition-qaqc6)
 [![Coverage
 status](https://codecov.io/gh/USCbiostats/partition/branch/master/graph/badge.svg)](https://codecov.io/github/USCbiostats/partition?branch=master)
-![](https://www.r-pkg.org/badges/version/partition)
+[![CRAN
+status](https://www.r-pkg.org/badges/version-ago/partition)](https://cran.r-project.org/package=partition)
+<!-- badges: end -->
 
 # partition
 
@@ -74,8 +78,8 @@ partition_scores(prt)
 #>  8    1.05      2.19       0.913     0.254     0.328    -1.07    -0.976 
 #>  9   -1.07     -0.292     -0.763     0.437     0.739     0.899   -0.342 
 #> 10   -1.02     -0.959     -1.33     -1.57     -1.11      0.618    0.153 
-#> # … with 90 more rows, and 4 more variables: block3_x3 <dbl>,
-#> #   block3_x4 <dbl>, block3_x5 <dbl>, reduced_var_1 <dbl>
+#> # … with 90 more rows, and 4 more variables: block3_x3 <dbl>, block3_x4 <dbl>,
+#> #   block3_x5 <dbl>, reduced_var_1 <dbl>
 
 # access mapping keys
 mapping_key(prt)
@@ -96,23 +100,31 @@ mapping_key(prt)
 
 unnest_mappings(prt)
 #> # A tibble: 12 x 4
-#>    variable      information mapping   indices
-#>    <chr>               <dbl> <chr>       <int>
-#>  1 block1_x1           1     block1_x1       1
-#>  2 block1_x2           1     block1_x2       2
-#>  3 block1_x3           1     block1_x3       3
-#>  4 block2_x1           1     block2_x1       4
-#>  5 block2_x2           1     block2_x2       5
-#>  6 block3_x1           1     block3_x1       8
-#>  7 block3_x2           1     block3_x2       9
-#>  8 block3_x3           1     block3_x3      10
-#>  9 block3_x4           1     block3_x4      11
-#> 10 block3_x5           1     block3_x5      12
-#> 11 reduced_var_1       0.602 block2_x3       6
-#> 12 reduced_var_1       0.602 block2_x4       7
+#>    variable      mapping   information indices
+#>    <chr>         <chr>           <dbl>   <int>
+#>  1 block1_x1     block1_x1       1           1
+#>  2 block1_x2     block1_x2       1           2
+#>  3 block1_x3     block1_x3       1           3
+#>  4 block2_x1     block2_x1       1           4
+#>  5 block2_x2     block2_x2       1           5
+#>  6 block3_x1     block3_x1       1           8
+#>  7 block3_x2     block3_x2       1           9
+#>  8 block3_x3     block3_x3       1          10
+#>  9 block3_x4     block3_x4       1          11
+#> 10 block3_x5     block3_x5       1          12
+#> 11 reduced_var_1 block2_x3       0.602       6
+#> 12 reduced_var_1 block2_x4       0.602       7
 
 # use a lower threshold of information loss
 partition(df, threshold = .5, partitioner = part_kmeans())
+#> Warning in (function (.partition_step, search_method = c("binary", "linear")) :
+#> partial argument match of 'search' to 'search_method'
+
+#> Warning in (function (.partition_step, search_method = c("binary", "linear")) :
+#> partial argument match of 'search' to 'search_method'
+
+#> Warning in (function (.partition_step, search_method = c("binary", "linear")) :
+#> partial argument match of 'search' to 'search_method'
 #> Partitioner:
 #>    Director: K-Means Clusters 
 #>    Metric: Minimum Intraclass Correlation 
