@@ -24,8 +24,8 @@
   
   
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2019-12-10" />
-  <meta property="article:created" itemprop="dateCreated" content="2019-12-10" />
+  <meta property="article:published" itemprop="datePublished" content="2019-12-11" />
+  <meta property="article:created" itemprop="dateCreated" content="2019-12-11" />
   <meta name="article:author" content="Malcolm Barrett" />
   <meta name="article:author" content="Joshua Millstein" />
   
@@ -40,10 +40,14 @@
   
   <!--/radix_placeholder_meta_tags-->
   
+  <meta name="citation_reference" content="citation_title=Partition: A surjective mapping approach for dimensionality reduction;citation_publication_date=2019;citation_doi=10.1093/bioinformatics/btz661;citation_issn=1367-4803;citation_author=Joshua Millstein;citation_author=Francesca Battaglin;citation_author=Malcolm Barrett;citation_author=Shu Cao;citation_author=Wu Zhang;citation_author=Sebastian Stintzing;citation_author=Volker Heinemann;citation_author=Heinz-Josef Lenz" />
+  <meta name="citation_reference" content="citation_title=R: A language and environment for statistical computing;citation_publication_date=2019;citation_publisher=R Foundation for Statistical Computing;citation_author=R: A language and environment for statistical computing" />
+  <meta name="citation_reference" content="citation_title=Integrative omics for health and disease;citation_publication_date=2018;citation_volume=19;citation_doi=10.1038/nrg.2018.4;citation_issn=1471-0064;citation_author=Konrad J Karczewski;citation_author=Michael P Snyder" />
+  <meta name="citation_reference" content="citation_title=Precision medicine ― a promising, yet challenging road lies ahead;citation_publication_date=2018;citation_volume=7;citation_doi=https://doi.org/10.1016/j.coisb.2017.10.003;citation_issn=2452-3100;citation_author=Noël Malod-Dognin;citation_author=Julia Petschnigg;citation_author=Nataša Pržulj" />
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["author","date","title","output","tags","bibliography"]}},"value":[{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","orcid"]}},"value":[{"type":"character","attributes":{},"value":["Malcolm Barrett"]},{"type":"character","attributes":{},"value":["Department of Preventive Medicine, University of Southern California"]},{"type":"character","attributes":{},"value":["0000-0003-0299-5825"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Joshua Millstein"]},{"type":"character","attributes":{},"value":["Department of Preventive Medicine, University of Southern California"]}]}]},{"type":"character","attributes":{},"value":["2019-12-10"]},{"type":"character","attributes":{},"value":["Partition: A fast and flexible framework for agglomerative partitioning in R"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["keep_md"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":[""]},{"type":"character","attributes":{},"value":["references.bib"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["author","date","title","output","tags","bibliography"]}},"value":[{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","orcid"]}},"value":[{"type":"character","attributes":{},"value":["Malcolm Barrett"]},{"type":"character","attributes":{},"value":["Department of Preventive Medicine, University of Southern California"]},{"type":"character","attributes":{},"value":["0000-0003-0299-5825"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Joshua Millstein"]},{"type":"character","attributes":{},"value":["Department of Preventive Medicine, University of Southern California"]}]}]},{"type":"character","attributes":{},"value":["2019-12-11"]},{"type":"character","attributes":{},"value":["Partition: A fast and flexible framework for agglomerative partitioning in R"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["keep_md"]}},"value":[{"type":"logical","attributes":{},"value":[true]}]}]},{"type":"character","attributes":{},"value":[""]},{"type":"character","attributes":{},"value":["references.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1931,7 +1935,7 @@ distill-header .nav a {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Partition: A fast and flexible framework for agglomerative partitioning in R","authors":[{"author":"Malcolm Barrett","authorURL":"#","affiliation":"Department of Preventive Medicine, University of Southern California","affiliationURL":"#"},{"author":"Joshua Millstein","authorURL":"#","affiliation":"Department of Preventive Medicine, University of Southern California","affiliationURL":"#"}],"publishedDate":"2019-12-10T00:00:00.000-08:00","citationText":"Barrett & Millstein, 2019"}
+{"title":"Partition: A fast and flexible framework for agglomerative partitioning in R","authors":[{"author":"Malcolm Barrett","authorURL":"#","affiliation":"Department of Preventive Medicine, University of Southern California","affiliationURL":"#"},{"author":"Joshua Millstein","authorURL":"#","affiliation":"Department of Preventive Medicine, University of Southern California","affiliationURL":"#"}],"publishedDate":"2019-12-11T00:00:00.000-08:00","citationText":"Barrett & Millstein, 2019"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1950,19 +1954,33 @@ distill-header .nav a {
   
 ,   Joshua Millstein  (Department of Preventive Medicine, University of Southern California)
   
-<br />2019-12-10
+<br />2019-12-11
 </div>
 
 <div class="d-article">
 <h1 id="summary">Summary</h1>
-<p>Data are increasingly wider; in modern genomics, for example, high-resolution genetic data captures much more information but also much more noise and redundancy. While the depth of this data is essential for science, it also introduces difficulties in computation and interpretability. Data reduction techniques, like principal components analysis and k-means clustering, are a vital part of addressing these issues, but they sometimes face further problems in scalability and information loss. The partition framework is an approach to data reduction that is flexible, scalable, and interpretable, developed to address information loss while maintaining speed.</p>
-<p>The partition R package, a fast and flexible tool for data reduction, implements the partition framework. partition uses an approach called Direct-Measure-Reduce to create agglomerative partitions that maintain the user-specified minimum level of information. Each variable begins as its own cluster. The user specifies the level of information that each reduction must retain, and potentially reduced variables only cluster if they meet this requirement. The reduced variables are also interpretable: original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected as candidates to reduce, how information loss is measured, and the way data is reduced can all be customized.</p>
+<p>Data are increasingly wider; in modern genomics, for example, high-resolution genetic data captures much more information but also much more noise and redundancy. While the depth of this data is essential for science, it also introduces difficulties in computation and interpretability<span class="citation" data-cites="karczewski2018">(Karczewski and Snyder <a href="#ref-karczewski2018">2018</a>)</span>. Data reduction techniques, like principal components analysis and k-means clustering, are a vital part of addressing these issues, but they sometimes face further problems in scalability and information loss<span class="citation" data-cites="malod-dogin-2018">(Malod-Dognin, Petschnigg, and Pržulj <a href="#ref-malod-dogin-2018">2018</a>)</span>. The partition framework is an approach to data reduction that is flexible, scalable, and interpretable, developed to address information loss while maintaining speed<span class="citation" data-cites="Millstein2019">(Millstein et al. <a href="#ref-Millstein2019">2019</a>)</span>.</p>
+<p>The R<span class="citation" data-cites="r-base">(R Core Team <a href="#ref-r-base">2019</a>)</span> package partition, a fast and flexible tool for data reduction, implements the partition framework. partition uses an approach called Direct-Measure-Reduce to create agglomerative partitions that maintain the user-specified minimum level of information. Each variable begins as its own cluster. The user specifies the level of information that each reduction must retain, and potentially reduced variables only cluster if they meet this requirement. The reduced variables are also interpretable: original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected as candidates to reduce, how information loss is measured, and the way data is reduced can all be customized.</p>
 <p>The design of the partition package is what allows the speed and flexibility of the data reduction; we use an approach called Direct-Measure-Reduce to modularize the partition framework. Partitioners tell the partition algorithm 1) what to try to reduce 2) how to measure how much information is lost from the reduction, and 3) how to reduce the data. In partition, functions that handle 1) are thus called directors, functions that handle 2) are called metrics, and functions that handle 3) are called reducers. partition has several pre-specified partitioners for agglomerative data reduction, but this approach is also quite flexible.</p>
 <p>The default partitioner uses a correlation-based distance matrix to find the pair of variables with the smallest distance between them, intraclass correlation (ICC) to measure information explained by the reduced variable, and scaled row means to reduce variables with a sufficient minimum ICC. This approach is fast reliable, but other data reduction strategies, such as principal components analysis, are also implemented in partition. As the framework is agnostic to how reductions are being directed, measured, or reduced, custom partitioners are easy to implement. Users may apply tools from base R or other R packages at any of the three stages of the partition.</p>
-<p>While many tools exist in R for data reduction, including many functions in base R, partition offers a fast and flexible tool that addresses the need for interpretability and information retention in reduced variables. Wide data, such as high-resolution genetic data, can be quickly reduced without sacrificing information. Additionally, as each feature of the data maps to a single cluster, the resulting partition remains interpretable for inference. partition is also flexible, adapting to the needs of many data reduction strategies.</p>
+<p>While many tools exist in R for data reduction, including many functions in base R, partition offers a fast and flexible tool that addresses the need for interpretability and information retention in reduced variables. To our knowledge, it is the first package of its kind. Wide data, such as high-resolution genetic data, can be quickly reduced without sacrificing information. Additionally, as each feature of the data maps to a single cluster, the resulting partition remains interpretable for inference. partition is also flexible, adapting to the needs of many data reduction strategies.</p>
 <h1 id="funding-and-support">Funding and Support</h1>
 <p>This work is supported by the National Cancer Institute (NCI), Award Number 5P01CA196569.</p>
-<h1 id="references">References</h1>
+<h1 id="references" class="unnumbered">References</h1>
+<div id="refs" class="references">
+<div id="ref-karczewski2018">
+<p>Karczewski, Konrad J, and Michael P Snyder. 2018. “Integrative Omics for Health and Disease.” <em>Nature Reviews. Genetics</em> 19 (5): 299–310. <a href="https://doi.org/10.1038/nrg.2018.4">https://doi.org/10.1038/nrg.2018.4</a>.</p>
+</div>
+<div id="ref-malod-dogin-2018">
+<p>Malod-Dognin, Noël, Julia Petschnigg, and Nataša Pržulj. 2018. “Precision Medicine ― a Promising, yet Challenging Road Lies Ahead.” <em>Current Opinion in Systems Biology</em> 7: 1–7. <a href="https://doi.org/https://doi.org/10.1016/j.coisb.2017.10.003">https://doi.org/https://doi.org/10.1016/j.coisb.2017.10.003</a>.</p>
+</div>
+<div id="ref-Millstein2019">
+<p>Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz. 2019. “Partition: A Surjective Mapping Approach for Dimensionality Reduction.” <em>Bioinformatics</em>, August. <a href="https://doi.org/10.1093/bioinformatics/btz661">https://doi.org/10.1093/bioinformatics/btz661</a>.</p>
+</div>
+<div id="ref-r-base">
+<p>R Core Team. 2019. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>.</p>
+</div>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1976,6 +1994,60 @@ distill-header .nav a {
 <!--radix_placeholder_appendices-->
 <div class="appendix-bottom"></div>
 <script id="distill-bibliography" type="text/bibtex">
+@article{Millstein2019,
+    author = {Millstein, Joshua and Battaglin, Francesca and Barrett, Malcolm and Cao, Shu and Zhang, Wu and Stintzing, Sebastian and Heinemann, Volker and Lenz, Heinz-Josef},
+    title = {Partition: a surjective mapping approach for dimensionality reduction},
+    journal = {Bioinformatics},
+    year = {2019},
+    month = {08},
+    abstract = "{Large amounts of information generated by genomic technologies are accompanied by statistical and computational challenges due to redundancy, badly behaved data and noise. Dimensionality reduction (DR) methods have been developed to mitigate these challenges. However, many approaches are not scalable to large dimensions or result in excessive information loss.The proposed approach partitions data into subsets of related features and summarizes each into one and only one new feature, thus defining a surjective mapping. A constraint on information loss determines the size of the reduced dataset. Simulation studies demonstrate that when multiple related features are associated with a response, this approach can substantially increase the number of true associations detected as compared to principal components analysis, non-negative matrix factorization or no DR. This increase in true discoveries is explained both by a reduced multiple-testing challenge and a reduction in extraneous noise. In an application to real data collected from metastatic colorectal cancer tumors, more associations between gene expression features and progression free survival and response to treatment were detected in the reduced than in the full untransformed dataset.Freely available R package from CRAN, https://cran.r-project.org/package=partition.Supplementary data are available at Bioinformatics online.}",
+    issn = {1367-4803},
+    doi = {10.1093/bioinformatics/btz661},
+    url = {https://doi.org/10.1093/bioinformatics/btz661},
+    note = {btz661},
+    eprint = {http://oup.prod.sis.lan/bioinformatics/advance-article-pdf/doi/10.1093/bioinformatics/btz661/30102772/btz661.pdf},
+}
+
+@Manual{r-base,
+  title = {R: A Language and Environment for Statistical Computing},
+  author = {{R Core Team}},
+  organization = {R Foundation for Statistical Computing},
+  address = {Vienna, Austria},
+  year = {2019},
+  url = {https://www.R-project.org/},
+}
+
+@article{karczewski2018,
+	title = {Integrative omics for health and disease},
+	volume = {19},
+	issn = {1471-0064},
+	url = {https://www.ncbi.nlm.nih.gov/pubmed/29479082},
+	doi = {10.1038/nrg.2018.4},
+	abstract = {Advances in omics technologies - such as genomics, transcriptomics, proteomics and metabolomics - have begun to enable personalized medicine at an extraordinarily detailed molecular level. Individually, these technologies have contributed medical advances that have begun to enter clinical practice. However, each technology individually cannot capture the entire biological complexity of most human diseases. Integration of multiple technologies has emerged as an approach to provide a more comprehensive view of biology and disease. In this Review, we discuss the potential for combining diverse types of data and the utility of this approach in human health and disease. We provide examples of data integration to understand, diagnose and inform treatment of diseases, including rare and common diseases as well as cancer and transplant biology. Finally, we discuss technical and other challenges to clinical implementation of integrative omics.},
+	language = {eng},
+	number = {5},
+	journal = {Nature reviews. Genetics},
+	author = {Karczewski, Konrad J and Snyder, Michael P},
+	month = may,
+	year = {2018},
+	keywords = {Humans, Metabolomics/*methods, Precision Medicine/*methods, Proteomics/*methods},
+	pages = {299--310}
+}
+
+@article{malod-dogin-2018,
+title = "Precision medicine ― A promising, yet challenging road lies ahead",
+journal = "Current Opinion in Systems Biology",
+volume = "7",
+pages = "1 - 7",
+year = "2018",
+note = "• Future of systems biology• Genomics and epigenomics",
+issn = "2452-3100",
+doi = "https://doi.org/10.1016/j.coisb.2017.10.003",
+url = "http://www.sciencedirect.com/science/article/pii/S2452310017302007",
+author = "Noël Malod-Dognin and Julia Petschnigg and Nataša Pržulj",
+keywords = "Precision medicine, High-throughput technologies, Big data, Omics, Data analysis, Personalized patient treatment",
+abstract = "Precision medicine proposes to individualize the practice of medicine based on patients’ genetic backgrounds, their biomarker characteristics and other omics datasets. After outlining the key challenges in precision medicine, namely patient stratification, biomarker discovery and drug repurposing, we survey recent developments in high-throughput technologies and big biological datasets that shape the future of precision medicine. Furthermore, we provide an overview of recent data-integrative approaches that have been successfully used in precision medicine for mining medical knowledge from big-biological data, and we highlight modeling and computing issues that such integrative approaches will face due to the ever-growing nature of big-biological data. Finally, we raise attention to the challenges in translational medicine when moving from research findings to approved medical practices."
+}
 </script>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
