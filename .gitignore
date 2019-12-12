@@ -6,3 +6,4 @@ inst/doc
 .RData
 .Ruserdata
 cache
+rhub.R

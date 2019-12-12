@@ -9,7 +9,7 @@ assign_partition(.x, partitioner, .data, threshold, tolerance, var_prefix)
 \arguments{
 \item{.x}{the data or a \code{partition_step} object}
 
-\item{partitioner}{a \code{partitioner}. See the \code{part_*()} functions and
+\item{partitioner}{a \code{partitioner}. See the \verb{part_*()} functions and
 \code{\link[=as_partitioner]{as_partitioner()}}.}
 
 \item{.data}{a data.frame to partition}

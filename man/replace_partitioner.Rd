@@ -4,8 +4,7 @@
 \alias{replace_partitioner}
 \title{Replace the director, metric, or reducer for a partitioner}
 \usage{
-replace_partitioner(partitioner, direct = NULL, measure = NULL,
-  reduce = NULL)
+replace_partitioner(partitioner, direct = NULL, measure = NULL, reduce = NULL)
 }
 \arguments{
 \item{partitioner}{a \code{partitioner}}
@@ -31,9 +30,12 @@ replace_partitioner(
 
 }
 \seealso{
-Other partitioners: \code{\link{as_partitioner}},
-  \code{\link{part_icc}}, \code{\link{part_kmeans}},
-  \code{\link{part_minr2}}, \code{\link{part_pc1}},
-  \code{\link{part_stdmi}}
+Other partitioners: 
+\code{\link{as_partitioner}()},
+\code{\link{part_icc}()},
+\code{\link{part_kmeans}()},
+\code{\link{part_minr2}()},
+\code{\link{part_pc1}()},
+\code{\link{part_stdmi}()}
 }
 \concept{partitioners}

@@ -1,7 +1,7 @@
 Package: partition
 Type: Package
 Title: Agglomerative Partitioning Framework for Dimension Reduction
-Version: 0.1.0.9000
+Version: 0.1.1
 Authors@R: c(
  person(
     "Joshua", 
@@ -51,7 +51,7 @@ Suggests:
     knitr,
     rmarkdown
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.0
 URL: https://uscbiostats.github.io/partition/, https://github.com/USCbiostats/partition
 BugReports: https://github.com/USCbiostats/partition/issues
 Language: en-US

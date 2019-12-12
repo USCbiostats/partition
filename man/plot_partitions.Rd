@@ -7,25 +7,42 @@
 \alias{plot_information}
 \title{Plot partitions}
 \usage{
-plot_area_clusters(.data, partitioner = part_icc(),
-  information = seq(0.1, 0.5, length.out = 25), ...,
-  obs_color = "#E69F00", perm_color = "#56B4E9")
+plot_area_clusters(
+  .data,
+  partitioner = part_icc(),
+  information = seq(0.1, 0.5, length.out = 25),
+  ...,
+  obs_color = "#E69F00",
+  perm_color = "#56B4E9"
+)
 
-plot_stacked_area_clusters(.data, partitioner = part_icc(),
-  information = seq(0.1, 0.5, length.out = 25), ...,
-  stack_colors = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2",
-  "#D55E00"))
+plot_stacked_area_clusters(
+  .data,
+  partitioner = part_icc(),
+  information = seq(0.1, 0.5, length.out = 25),
+  ...,
+  stack_colors = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00")
+)
 
-plot_ncluster(.partition, show_n = 100, fill = "#0172B1", color = NA,
-  labeller = "target information:")
+plot_ncluster(
+  .partition,
+  show_n = 100,
+  fill = "#0172B1",
+  color = NA,
+  labeller = "target information:"
+)
 
-plot_information(.partition, fill = "#0172B1", color = NA,
-  geom = ggplot2::geom_density)
+plot_information(
+  .partition,
+  fill = "#0172B1",
+  color = NA,
+  geom = ggplot2::geom_density
+)
 }
 \arguments{
 \item{.data}{a data.frame to partition}
 
-\item{partitioner}{a \code{partitioner}. See the \code{part_*()} functions and
+\item{partitioner}{a \code{partitioner}. See the \verb{part_*()} functions and
 \code{\link[=as_partitioner]{as_partitioner()}}.}
 
 \item{information}{a vector of minimum information to fit in \code{\link[=partition]{partition()}}}
