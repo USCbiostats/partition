@@ -36,7 +36,7 @@ Imports:
     tibble,
     dplyr (>= 0.8.0),
     tidyr (>= 1.0.0),
-    ggplot2 (>= 3.0.0),
+    ggplot2 (>= 3.2.1.9000),
     stringr,
     magrittr,
     crayon,
@@ -56,3 +56,5 @@ URL: https://uscbiostats.github.io/partition/, https://github.com/USCbiostats/pa
 BugReports: https://github.com/USCbiostats/partition/issues
 Language: en-US
 VignetteBuilder: knitr
+Remotes:  
+    tidyverse/ggplot2
