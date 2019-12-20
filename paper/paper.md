@@ -8,7 +8,7 @@ authors:
 affiliations:
 - index: 1
   name: Department of Preventive Medicine, University of Southern California
-date: '2019-12-16'
+date: '2019-12-19'
 title: 'partition: A fast and flexible framework for data reduction in R'
 output:
   distill::distill_article:
@@ -33,6 +33,6 @@ While many tools exist in R for data reduction, including many functions in base
 
 # Funding and Support
 
-This work is supported by the National Cancer Institute (NCI), Award Number 5P01CA196569.
+This work is supported by the National Cancer Institute (NCI), Award Number 5P01CA196569, and the National Institute on Aging (NIA), Award Number P01AG055367.
 
 # References
