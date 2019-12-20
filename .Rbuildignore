@@ -13,5 +13,6 @@
 ^\.Rproj\.user$
 man-roxygen
 cache
+^paper$
 ^\.github$
 ^rhub\.R$
