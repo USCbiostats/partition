@@ -34,7 +34,7 @@ install.packages("partition")
 Or you can install the development version of partition GitHub with:
 
 ``` r
-# install.packages("remotes)
+# install.packages("remotes")
 remotes::install_github("USCbiostats/partition")
 ```
 

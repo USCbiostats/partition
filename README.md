@@ -35,7 +35,7 @@ install.packages("partition")
 Or you can install the development version of partition GitHub with:
 
 ``` r
-# install.packages("remotes)
+# install.packages("remotes")
 remotes::install_github("USCbiostats/partition")
 ```
 
@@ -188,8 +188,8 @@ plot_stacked_area_clusters(df) +
 
 ## Contributing
 
-If you are filing
-
-Please note that this project is released with a [Contributor Code of
+Please read the [Contributor Guidelines](.github/CODE_OF_CONDUCT.md)
+prior to submitting a pull request to partition. Also note that this
+project is released with a [Contributor Code of
 Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
 you agree to abide by its terms.
