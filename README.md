@@ -45,6 +45,13 @@ remotes::install_github("USCbiostats/partition")
 library(partition)
 set.seed(1234)
 df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
+#> New names:
+#> * X1 -> X1...1
+#> * X2 -> X2...2
+#> * X3 -> X3...3
+#> * X1 -> X1...4
+#> * X2 -> X2...5
+#> * ...
 
 #  don't accept reductions where information < .6
 prt <- partition(df, threshold = .6)
@@ -125,6 +132,13 @@ partition(df, threshold = .5, partitioner = part_kmeans())
 
 #> Warning in (function (.partition_step, search_method = c("binary", "linear")) :
 #> partial argument match of 'search' to 'search_method'
+#> New names:
+#> * NA -> ...1
+#> * NA -> ...2
+#> * NA -> ...3
+#> * NA -> ...4
+#> * NA -> ...5
+#> * ...
 #> Partitioner:
 #>    Director: K-Means Clusters 
 #>    Metric: Minimum Intraclass Correlation 
@@ -171,3 +185,11 @@ plot_stacked_area_clusters(df) +
 ```
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+## Contributing
+
+If you are filing
+
+Please note that this project is released with a [Contributor Code of
+Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
+you agree to abide by its terms.
