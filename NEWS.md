@@ -1,5 +1,7 @@
 # partition (development version)
 
+* fixed partial match warning in `measure_min_icc()`
+
 # partition 0.1.1
 
 * added a contributor guideline and COC

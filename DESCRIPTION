@@ -51,10 +51,10 @@ Suggests:
     knitr,
     rmarkdown
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.0.0
+RoxygenNote: 7.0.2
 URL: https://uscbiostats.github.io/partition/, https://github.com/USCbiostats/partition
 BugReports: https://github.com/USCbiostats/partition/issues
 Language: en-US
 VignetteBuilder: knitr
-Remotes:  
+Remotes: 
     tidyverse/ggplot2
