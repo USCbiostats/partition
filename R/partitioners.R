@@ -172,7 +172,7 @@ part_kmeans <- function(algorithm = c("armadillo", "Hartigan-Wong", "Lloyd", "Fo
     ),
     measure = purrr::partial(
       measure_min_icc,
-      search = search
+      search_method = search
     ),
     reduce = purrr::partial(
       reduce_kmeans,
