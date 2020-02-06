@@ -1,6 +1,7 @@
 # partition (development version)
 
-* fixed partial match warning in `measure_min_icc()`
+* fixed partial match warning in `measure_min_icc()` (b382caae)
+* added an issue template
 
 # partition 0.1.1
 
