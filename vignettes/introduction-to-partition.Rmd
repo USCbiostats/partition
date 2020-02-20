@@ -3,6 +3,35 @@ title: "Introduction to Partition"
 author: "Malcolm Barrett"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+references:
+- id: R-partition
+  type: article-journal
+  author:
+  - family: Millstein
+    given: Joshua
+  - family: Battaglin
+    given: Francesca
+  - family: Barrett
+    given: Malcolm
+  - family: Cao
+    given: Shu
+  - family: Zhang
+    given: Wu
+  - family: Stintzing
+    given: Sebastian
+  - family: Heinemann
+    given: Volker
+  - family: Lenz
+    given: Heinz-Josef
+  issued:
+  - year: 2020
+  title: 'Partition: A surjective mapping approach for dimensionality reduction'
+  title-short: Partition
+  container-title: Bioinformatics
+  page: 676-681
+  volume: '36'
+  issue: '3'
+  URL: 10.1093/bioinformatics/btz661
 vignette: >
   %\VignetteIndexEntry{Introduction to Partition}
   %\VignetteEngine{knitr::rmarkdown}
@@ -24,7 +53,7 @@ knitr::opts_chunk$set(
 
 ## Introduction to the partition package
 
-partition is a fast and flexible data reduction framework that uses an approach called Direct-Measure-Reduce to create agglomerative partitions that maintain the user-specified minimum level of information. Each variable starts of as its own cluster; potential reduced variables are assessed by making sure this level of information is maintained. The reduced variables are also interpretable: original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized.  
+partition is a fast and flexible data reduction framework [@R-partition] that uses an approach called Direct-Measure-Reduce to create agglomerative partitions that maintain the user-specified minimum level of information. Each variable starts of as its own cluster; potential reduced variables are assessed by making sure this level of information is maintained. The reduced variables are also interpretable: original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized. 
 
 partition is particularly useful for highly correlated data, such as genetic data, where there is a lot of redundancy in the information each variable lends. `simulate_block_data()` simulates data like this: blocks of correlated data that are themselves independent of the other blocks in the data:
 
@@ -147,3 +176,5 @@ plot_permutation(perms, .plot = "nreduced") +
 ```
 
 `plot_ncluster()` and `plot_information()`, in addition to plotting individual partitions, also plot the results of `test_permutation()`. 
+
+# References
