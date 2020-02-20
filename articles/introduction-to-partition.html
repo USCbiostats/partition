@@ -97,7 +97,7 @@
 <div id="introduction-to-the-partition-package" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction-to-the-partition-package" class="anchor"></a>Introduction to the partition package</h2>
-<p>partition is a fast and flexible data reduction framework that uses an approach called Direct-Measure-Reduce to create agglomerative partitions that maintain the user-specified minimum level of information. Each variable starts of as its own cluster; potential reduced variables are assessed by making sure this level of information is maintained. The reduced variables are also interpretable: original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized.</p>
+<p>partition is a fast and flexible data reduction framework <span class="citation">(Millstein et al. 2020)</span> that uses an approach called Direct-Measure-Reduce to create agglomerative partitions that maintain the user-specified minimum level of information. Each variable starts of as its own cluster; potential reduced variables are assessed by making sure this level of information is maintained. The reduced variables are also interpretable: original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized.</p>
 <p>partition is particularly useful for highly correlated data, such as genetic data, where there is a lot of redundancy in the information each variable lends. <code><a href="../reference/simulate_block_data.html">simulate_block_data()</a></code> simulates data like this: blocks of correlated data that are themselves independent of the other blocks in the data:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(partition)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(ggplot2)</span>
@@ -326,6 +326,15 @@
 <p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;"></p>
 <p><code><a href="../reference/plot_partitions.html">plot_ncluster()</a></code> and <code><a href="../reference/plot_partitions.html">plot_information()</a></code>, in addition to plotting individual partitions, also plot the results of <code><a href="../reference/test_permutation.html">test_permutation()</a></code>.</p>
 </div>
+<div id="references" class="section level1 unnumbered">
+<h1 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h1>
+<div id="refs" class="references">
+<div id="ref-R-partition">
+<p>Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz. 2020. “Partition: A Surjective Mapping Approach for Dimensionality Reduction.” <em>Bioinformatics</em> 36 (3): 676–81. <a href="10.1093/bioinformatics/btz661">10.1093/bioinformatics/btz661</a>.</p>
+</div>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -337,6 +346,7 @@
 <li><a href="#introduction-to-the-partition-package">Introduction to the partition package</a></li>
       <li><a href="#direct-measure-reduce-and-partitioners">Direct-Measure-Reduce and Partitioners</a></li>
       <li><a href="#permutation-tests">Permutation tests</a></li>
+      <li><a href="#references">References</a></li>
       </ul>
 </div>
       </div>
