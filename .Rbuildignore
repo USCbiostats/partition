@@ -16,3 +16,4 @@ cache
 ^paper$
 ^\.github$
 ^rhub\.R$
+^\.github/workflows/pkgdown\.yaml$
