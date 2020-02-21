@@ -113,134 +113,112 @@
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(partition)</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1234</span>)</span>
 <span id="cb3-3"><a href="#cb3-3"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="reference/simulate_block_data.html">simulate_block_data</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="dt">lower_corr =</span> <span class="fl">.4</span>, <span class="dt">upper_corr =</span> <span class="fl">.6</span>, <span class="dt">n =</span> <span class="dv">100</span>)</span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; New names:</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt; * X1 -&gt; X1...1</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt; * X2 -&gt; X2...2</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt; * X3 -&gt; X3...3</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; * X1 -&gt; X1...4</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt; * X2 -&gt; X2...5</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt; * ...</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#  don't accept reductions where information &lt; .6</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a>prt &lt;-<span class="st"> </span><span class="kw"><a href="reference/partition.html">partition</a></span>(df, <span class="dt">threshold =</span> <span class="fl">.6</span>)</span>
-<span id="cb3-14"><a href="#cb3-14"></a>prt</span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt; Partitioner:</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
-<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
-<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
-<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#&gt; </span></span>
-<span id="cb3-20"><a href="#cb3-20"></a><span class="co">#&gt; Reduced Variables:</span></span>
-<span id="cb3-21"><a href="#cb3-21"></a><span class="co">#&gt; 1 reduced variables created from 2 observed variables</span></span>
-<span id="cb3-22"><a href="#cb3-22"></a><span class="co">#&gt; </span></span>
-<span id="cb3-23"><a href="#cb3-23"></a><span class="co">#&gt; Mappings:</span></span>
-<span id="cb3-24"><a href="#cb3-24"></a><span class="co">#&gt; reduced_var_1 = {block2_x3, block2_x4}</span></span>
-<span id="cb3-25"><a href="#cb3-25"></a><span class="co">#&gt; </span></span>
-<span id="cb3-26"><a href="#cb3-26"></a><span class="co">#&gt; Minimum information:</span></span>
-<span id="cb3-27"><a href="#cb3-27"></a><span class="co">#&gt; 0.602</span></span>
-<span id="cb3-28"><a href="#cb3-28"></a></span>
-<span id="cb3-29"><a href="#cb3-29"></a><span class="co"># return reduced data</span></span>
-<span id="cb3-30"><a href="#cb3-30"></a><span class="kw"><a href="reference/partition_scores.html">partition_scores</a></span>(prt)</span>
-<span id="cb3-31"><a href="#cb3-31"></a><span class="co">#&gt; # A tibble: 100 x 11</span></span>
-<span id="cb3-32"><a href="#cb3-32"></a><span class="co">#&gt;    block1_x1 block1_x2 block1_x3 block2_x1 block2_x2 block3_x1 block3_x2</span></span>
-<span id="cb3-33"><a href="#cb3-33"></a><span class="co">#&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span></span>
-<span id="cb3-34"><a href="#cb3-34"></a><span class="co">#&gt;  1   -1.00     -0.344      1.35     -0.526    -1.25      1.13     0.357 </span></span>
-<span id="cb3-35"><a href="#cb3-35"></a><span class="co">#&gt;  2    0.518    -0.434     -0.361    -1.48     -1.53     -0.317    0.290 </span></span>
-<span id="cb3-36"><a href="#cb3-36"></a><span class="co">#&gt;  3   -1.77     -0.913     -0.722     0.122     0.224    -0.529    0.114 </span></span>
-<span id="cb3-37"><a href="#cb3-37"></a><span class="co">#&gt;  4   -1.49     -0.998      0.189     0.149    -0.994    -0.433    0.0120</span></span>
-<span id="cb3-38"><a href="#cb3-38"></a><span class="co">#&gt;  5    0.616     0.0211     0.895     1.09     -1.25      0.440   -0.550 </span></span>
-<span id="cb3-39"><a href="#cb3-39"></a><span class="co">#&gt;  6    0.0765    0.522      1.20     -0.152    -0.419    -0.912   -0.362 </span></span>
-<span id="cb3-40"><a href="#cb3-40"></a><span class="co">#&gt;  7    1.74      0.0993    -0.654    -1.26     -0.502    -0.792   -1.03  </span></span>
-<span id="cb3-41"><a href="#cb3-41"></a><span class="co">#&gt;  8    1.05      2.19       0.913     0.254     0.328    -1.07    -0.976 </span></span>
-<span id="cb3-42"><a href="#cb3-42"></a><span class="co">#&gt;  9   -1.07     -0.292     -0.763     0.437     0.739     0.899   -0.342 </span></span>
-<span id="cb3-43"><a href="#cb3-43"></a><span class="co">#&gt; 10   -1.02     -0.959     -1.33     -1.57     -1.11      0.618    0.153 </span></span>
-<span id="cb3-44"><a href="#cb3-44"></a><span class="co">#&gt; # … with 90 more rows, and 4 more variables: block3_x3 &lt;dbl&gt;, block3_x4 &lt;dbl&gt;,</span></span>
-<span id="cb3-45"><a href="#cb3-45"></a><span class="co">#&gt; #   block3_x5 &lt;dbl&gt;, reduced_var_1 &lt;dbl&gt;</span></span>
-<span id="cb3-46"><a href="#cb3-46"></a></span>
-<span id="cb3-47"><a href="#cb3-47"></a><span class="co"># access mapping keys</span></span>
-<span id="cb3-48"><a href="#cb3-48"></a><span class="kw"><a href="reference/mapping_key.html">mapping_key</a></span>(prt)</span>
-<span id="cb3-49"><a href="#cb3-49"></a><span class="co">#&gt; # A tibble: 11 x 4</span></span>
-<span id="cb3-50"><a href="#cb3-50"></a><span class="co">#&gt;    variable      mapping   information indices  </span></span>
-<span id="cb3-51"><a href="#cb3-51"></a><span class="co">#&gt;    &lt;chr&gt;         &lt;list&gt;          &lt;dbl&gt; &lt;list&gt;   </span></span>
-<span id="cb3-52"><a href="#cb3-52"></a><span class="co">#&gt;  1 block1_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
-<span id="cb3-53"><a href="#cb3-53"></a><span class="co">#&gt;  2 block1_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
-<span id="cb3-54"><a href="#cb3-54"></a><span class="co">#&gt;  3 block1_x3     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
-<span id="cb3-55"><a href="#cb3-55"></a><span class="co">#&gt;  4 block2_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
-<span id="cb3-56"><a href="#cb3-56"></a><span class="co">#&gt;  5 block2_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
-<span id="cb3-57"><a href="#cb3-57"></a><span class="co">#&gt;  6 block3_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
-<span id="cb3-58"><a href="#cb3-58"></a><span class="co">#&gt;  7 block3_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
-<span id="cb3-59"><a href="#cb3-59"></a><span class="co">#&gt;  8 block3_x3     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
-<span id="cb3-60"><a href="#cb3-60"></a><span class="co">#&gt;  9 block3_x4     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
-<span id="cb3-61"><a href="#cb3-61"></a><span class="co">#&gt; 10 block3_x5     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
-<span id="cb3-62"><a href="#cb3-62"></a><span class="co">#&gt; 11 reduced_var_1 &lt;chr [2]&gt;       0.602 &lt;int [2]&gt;</span></span>
-<span id="cb3-63"><a href="#cb3-63"></a></span>
-<span id="cb3-64"><a href="#cb3-64"></a><span class="kw"><a href="reference/mapping_key.html">unnest_mappings</a></span>(prt)</span>
-<span id="cb3-65"><a href="#cb3-65"></a><span class="co">#&gt; # A tibble: 12 x 4</span></span>
-<span id="cb3-66"><a href="#cb3-66"></a><span class="co">#&gt;    variable      mapping   information indices</span></span>
-<span id="cb3-67"><a href="#cb3-67"></a><span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;           &lt;dbl&gt;   &lt;int&gt;</span></span>
-<span id="cb3-68"><a href="#cb3-68"></a><span class="co">#&gt;  1 block1_x1     block1_x1       1           1</span></span>
-<span id="cb3-69"><a href="#cb3-69"></a><span class="co">#&gt;  2 block1_x2     block1_x2       1           2</span></span>
-<span id="cb3-70"><a href="#cb3-70"></a><span class="co">#&gt;  3 block1_x3     block1_x3       1           3</span></span>
-<span id="cb3-71"><a href="#cb3-71"></a><span class="co">#&gt;  4 block2_x1     block2_x1       1           4</span></span>
-<span id="cb3-72"><a href="#cb3-72"></a><span class="co">#&gt;  5 block2_x2     block2_x2       1           5</span></span>
-<span id="cb3-73"><a href="#cb3-73"></a><span class="co">#&gt;  6 block3_x1     block3_x1       1           8</span></span>
-<span id="cb3-74"><a href="#cb3-74"></a><span class="co">#&gt;  7 block3_x2     block3_x2       1           9</span></span>
-<span id="cb3-75"><a href="#cb3-75"></a><span class="co">#&gt;  8 block3_x3     block3_x3       1          10</span></span>
-<span id="cb3-76"><a href="#cb3-76"></a><span class="co">#&gt;  9 block3_x4     block3_x4       1          11</span></span>
-<span id="cb3-77"><a href="#cb3-77"></a><span class="co">#&gt; 10 block3_x5     block3_x5       1          12</span></span>
-<span id="cb3-78"><a href="#cb3-78"></a><span class="co">#&gt; 11 reduced_var_1 block2_x3       0.602       6</span></span>
-<span id="cb3-79"><a href="#cb3-79"></a><span class="co">#&gt; 12 reduced_var_1 block2_x4       0.602       7</span></span>
-<span id="cb3-80"><a href="#cb3-80"></a></span>
-<span id="cb3-81"><a href="#cb3-81"></a><span class="co"># use a lower threshold of information loss</span></span>
-<span id="cb3-82"><a href="#cb3-82"></a><span class="kw"><a href="reference/partition.html">partition</a></span>(df, <span class="dt">threshold =</span> <span class="fl">.5</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="reference/part_kmeans.html">part_kmeans</a></span>())</span>
-<span id="cb3-83"><a href="#cb3-83"></a><span class="co">#&gt; Warning in (function (.partition_step, search_method = c("binary", "linear")) :</span></span>
-<span id="cb3-84"><a href="#cb3-84"></a><span class="co">#&gt; partial argument match of 'search' to 'search_method'</span></span>
-<span id="cb3-85"><a href="#cb3-85"></a></span>
-<span id="cb3-86"><a href="#cb3-86"></a><span class="co">#&gt; Warning in (function (.partition_step, search_method = c("binary", "linear")) :</span></span>
-<span id="cb3-87"><a href="#cb3-87"></a><span class="co">#&gt; partial argument match of 'search' to 'search_method'</span></span>
-<span id="cb3-88"><a href="#cb3-88"></a></span>
-<span id="cb3-89"><a href="#cb3-89"></a><span class="co">#&gt; Warning in (function (.partition_step, search_method = c("binary", "linear")) :</span></span>
-<span id="cb3-90"><a href="#cb3-90"></a><span class="co">#&gt; partial argument match of 'search' to 'search_method'</span></span>
-<span id="cb3-91"><a href="#cb3-91"></a><span class="co">#&gt; New names:</span></span>
-<span id="cb3-92"><a href="#cb3-92"></a><span class="co">#&gt; * NA -&gt; ...1</span></span>
-<span id="cb3-93"><a href="#cb3-93"></a><span class="co">#&gt; * NA -&gt; ...2</span></span>
-<span id="cb3-94"><a href="#cb3-94"></a><span class="co">#&gt; * NA -&gt; ...3</span></span>
-<span id="cb3-95"><a href="#cb3-95"></a><span class="co">#&gt; * NA -&gt; ...4</span></span>
-<span id="cb3-96"><a href="#cb3-96"></a><span class="co">#&gt; * NA -&gt; ...5</span></span>
-<span id="cb3-97"><a href="#cb3-97"></a><span class="co">#&gt; * ...</span></span>
-<span id="cb3-98"><a href="#cb3-98"></a><span class="co">#&gt; Partitioner:</span></span>
-<span id="cb3-99"><a href="#cb3-99"></a><span class="co">#&gt;    Director: K-Means Clusters </span></span>
-<span id="cb3-100"><a href="#cb3-100"></a><span class="co">#&gt;    Metric: Minimum Intraclass Correlation </span></span>
-<span id="cb3-101"><a href="#cb3-101"></a><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
-<span id="cb3-102"><a href="#cb3-102"></a><span class="co">#&gt; </span></span>
-<span id="cb3-103"><a href="#cb3-103"></a><span class="co">#&gt; Reduced Variables:</span></span>
-<span id="cb3-104"><a href="#cb3-104"></a><span class="co">#&gt; 2 reduced variables created from 7 observed variables</span></span>
-<span id="cb3-105"><a href="#cb3-105"></a><span class="co">#&gt; </span></span>
-<span id="cb3-106"><a href="#cb3-106"></a><span class="co">#&gt; Mappings:</span></span>
-<span id="cb3-107"><a href="#cb3-107"></a><span class="co">#&gt; reduced_var_1 = {block3_x1, block3_x2, block3_x5}</span></span>
-<span id="cb3-108"><a href="#cb3-108"></a><span class="co">#&gt; reduced_var_2 = {block2_x1, block2_x2, block2_x3, block2_x4}</span></span>
-<span id="cb3-109"><a href="#cb3-109"></a><span class="co">#&gt; </span></span>
-<span id="cb3-110"><a href="#cb3-110"></a><span class="co">#&gt; Minimum information:</span></span>
-<span id="cb3-111"><a href="#cb3-111"></a><span class="co">#&gt; 0.508</span></span>
-<span id="cb3-112"><a href="#cb3-112"></a></span>
-<span id="cb3-113"><a href="#cb3-113"></a><span class="co"># use a custom partitioner</span></span>
-<span id="cb3-114"><a href="#cb3-114"></a>part_icc_rowmeans &lt;-<span class="st"> </span><span class="kw"><a href="reference/replace_partitioner.html">replace_partitioner</a></span>(</span>
-<span id="cb3-115"><a href="#cb3-115"></a>  part_icc, </span>
-<span id="cb3-116"><a href="#cb3-116"></a>  <span class="dt">reduce =</span> <span class="kw"><a href="reference/as_reducer.html">as_reducer</a></span>(rowMeans)</span>
-<span id="cb3-117"><a href="#cb3-117"></a>)</span>
-<span id="cb3-118"><a href="#cb3-118"></a><span class="kw"><a href="reference/partition.html">partition</a></span>(df, <span class="dt">threshold =</span> <span class="fl">.6</span>, <span class="dt">partitioner =</span> part_icc_rowmeans) </span>
-<span id="cb3-119"><a href="#cb3-119"></a><span class="co">#&gt; Partitioner:</span></span>
-<span id="cb3-120"><a href="#cb3-120"></a><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
-<span id="cb3-121"><a href="#cb3-121"></a><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
-<span id="cb3-122"><a href="#cb3-122"></a><span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span></span>
-<span id="cb3-123"><a href="#cb3-123"></a><span class="co">#&gt; </span></span>
-<span id="cb3-124"><a href="#cb3-124"></a><span class="co">#&gt; Reduced Variables:</span></span>
-<span id="cb3-125"><a href="#cb3-125"></a><span class="co">#&gt; 1 reduced variables created from 2 observed variables</span></span>
-<span id="cb3-126"><a href="#cb3-126"></a><span class="co">#&gt; </span></span>
-<span id="cb3-127"><a href="#cb3-127"></a><span class="co">#&gt; Mappings:</span></span>
-<span id="cb3-128"><a href="#cb3-128"></a><span class="co">#&gt; reduced_var_1 = {block2_x3, block2_x4}</span></span>
-<span id="cb3-129"><a href="#cb3-129"></a><span class="co">#&gt; </span></span>
-<span id="cb3-130"><a href="#cb3-130"></a><span class="co">#&gt; Minimum information:</span></span>
-<span id="cb3-131"><a href="#cb3-131"></a><span class="co">#&gt; 0.602</span></span></code></pre></div>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#  don't accept reductions where information &lt; .6</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>prt &lt;-<span class="st"> </span><span class="kw"><a href="reference/partition.html">partition</a></span>(df, <span class="dt">threshold =</span> <span class="fl">.6</span>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a>prt</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt; Partitioner:</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt; </span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt; Reduced Variables:</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt; 1 reduced variables created from 2 observed variables</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt; </span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; Mappings:</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt; reduced_var_1 = {block2_x3, block2_x4}</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt; </span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#&gt; Minimum information:</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="co">#&gt; 0.602</span></span>
+<span id="cb3-21"><a href="#cb3-21"></a></span>
+<span id="cb3-22"><a href="#cb3-22"></a><span class="co"># return reduced data</span></span>
+<span id="cb3-23"><a href="#cb3-23"></a><span class="kw"><a href="reference/partition_scores.html">partition_scores</a></span>(prt)</span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="co">#&gt; # A tibble: 100 x 11</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="co">#&gt;    block1_x1 block1_x2 block1_x3 block2_x1 block2_x2 block3_x1 block3_x2</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="co">#&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="co">#&gt;  1   -1.00     -0.344      1.35     -0.526    -1.25      1.13     0.357 </span></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="co">#&gt;  2    0.518    -0.434     -0.361    -1.48     -1.53     -0.317    0.290 </span></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="co">#&gt;  3   -1.77     -0.913     -0.722     0.122     0.224    -0.529    0.114 </span></span>
+<span id="cb3-30"><a href="#cb3-30"></a><span class="co">#&gt;  4   -1.49     -0.998      0.189     0.149    -0.994    -0.433    0.0120</span></span>
+<span id="cb3-31"><a href="#cb3-31"></a><span class="co">#&gt;  5    0.616     0.0211     0.895     1.09     -1.25      0.440   -0.550 </span></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="co">#&gt;  6    0.0765    0.522      1.20     -0.152    -0.419    -0.912   -0.362 </span></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="co">#&gt;  7    1.74      0.0993    -0.654    -1.26     -0.502    -0.792   -1.03  </span></span>
+<span id="cb3-34"><a href="#cb3-34"></a><span class="co">#&gt;  8    1.05      2.19       0.913     0.254     0.328    -1.07    -0.976 </span></span>
+<span id="cb3-35"><a href="#cb3-35"></a><span class="co">#&gt;  9   -1.07     -0.292     -0.763     0.437     0.739     0.899   -0.342 </span></span>
+<span id="cb3-36"><a href="#cb3-36"></a><span class="co">#&gt; 10   -1.02     -0.959     -1.33     -1.57     -1.11      0.618    0.153 </span></span>
+<span id="cb3-37"><a href="#cb3-37"></a><span class="co">#&gt; # … with 90 more rows, and 4 more variables: block3_x3 &lt;dbl&gt;, block3_x4 &lt;dbl&gt;,</span></span>
+<span id="cb3-38"><a href="#cb3-38"></a><span class="co">#&gt; #   block3_x5 &lt;dbl&gt;, reduced_var_1 &lt;dbl&gt;</span></span>
+<span id="cb3-39"><a href="#cb3-39"></a></span>
+<span id="cb3-40"><a href="#cb3-40"></a><span class="co"># access mapping keys</span></span>
+<span id="cb3-41"><a href="#cb3-41"></a><span class="kw"><a href="reference/mapping_key.html">mapping_key</a></span>(prt)</span>
+<span id="cb3-42"><a href="#cb3-42"></a><span class="co">#&gt; # A tibble: 11 x 4</span></span>
+<span id="cb3-43"><a href="#cb3-43"></a><span class="co">#&gt;    variable      mapping   information indices  </span></span>
+<span id="cb3-44"><a href="#cb3-44"></a><span class="co">#&gt;    &lt;chr&gt;         &lt;list&gt;          &lt;dbl&gt; &lt;list&gt;   </span></span>
+<span id="cb3-45"><a href="#cb3-45"></a><span class="co">#&gt;  1 block1_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span id="cb3-46"><a href="#cb3-46"></a><span class="co">#&gt;  2 block1_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span id="cb3-47"><a href="#cb3-47"></a><span class="co">#&gt;  3 block1_x3     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span id="cb3-48"><a href="#cb3-48"></a><span class="co">#&gt;  4 block2_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span id="cb3-49"><a href="#cb3-49"></a><span class="co">#&gt;  5 block2_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span id="cb3-50"><a href="#cb3-50"></a><span class="co">#&gt;  6 block3_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span id="cb3-51"><a href="#cb3-51"></a><span class="co">#&gt;  7 block3_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span id="cb3-52"><a href="#cb3-52"></a><span class="co">#&gt;  8 block3_x3     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span id="cb3-53"><a href="#cb3-53"></a><span class="co">#&gt;  9 block3_x4     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span id="cb3-54"><a href="#cb3-54"></a><span class="co">#&gt; 10 block3_x5     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span id="cb3-55"><a href="#cb3-55"></a><span class="co">#&gt; 11 reduced_var_1 &lt;chr [2]&gt;       0.602 &lt;int [2]&gt;</span></span>
+<span id="cb3-56"><a href="#cb3-56"></a></span>
+<span id="cb3-57"><a href="#cb3-57"></a><span class="kw"><a href="reference/mapping_key.html">unnest_mappings</a></span>(prt)</span>
+<span id="cb3-58"><a href="#cb3-58"></a><span class="co">#&gt; # A tibble: 12 x 4</span></span>
+<span id="cb3-59"><a href="#cb3-59"></a><span class="co">#&gt;    variable      mapping   information indices</span></span>
+<span id="cb3-60"><a href="#cb3-60"></a><span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;           &lt;dbl&gt;   &lt;int&gt;</span></span>
+<span id="cb3-61"><a href="#cb3-61"></a><span class="co">#&gt;  1 block1_x1     block1_x1       1           1</span></span>
+<span id="cb3-62"><a href="#cb3-62"></a><span class="co">#&gt;  2 block1_x2     block1_x2       1           2</span></span>
+<span id="cb3-63"><a href="#cb3-63"></a><span class="co">#&gt;  3 block1_x3     block1_x3       1           3</span></span>
+<span id="cb3-64"><a href="#cb3-64"></a><span class="co">#&gt;  4 block2_x1     block2_x1       1           4</span></span>
+<span id="cb3-65"><a href="#cb3-65"></a><span class="co">#&gt;  5 block2_x2     block2_x2       1           5</span></span>
+<span id="cb3-66"><a href="#cb3-66"></a><span class="co">#&gt;  6 block3_x1     block3_x1       1           8</span></span>
+<span id="cb3-67"><a href="#cb3-67"></a><span class="co">#&gt;  7 block3_x2     block3_x2       1           9</span></span>
+<span id="cb3-68"><a href="#cb3-68"></a><span class="co">#&gt;  8 block3_x3     block3_x3       1          10</span></span>
+<span id="cb3-69"><a href="#cb3-69"></a><span class="co">#&gt;  9 block3_x4     block3_x4       1          11</span></span>
+<span id="cb3-70"><a href="#cb3-70"></a><span class="co">#&gt; 10 block3_x5     block3_x5       1          12</span></span>
+<span id="cb3-71"><a href="#cb3-71"></a><span class="co">#&gt; 11 reduced_var_1 block2_x3       0.602       6</span></span>
+<span id="cb3-72"><a href="#cb3-72"></a><span class="co">#&gt; 12 reduced_var_1 block2_x4       0.602       7</span></span>
+<span id="cb3-73"><a href="#cb3-73"></a></span>
+<span id="cb3-74"><a href="#cb3-74"></a><span class="co"># use a lower threshold of information loss</span></span>
+<span id="cb3-75"><a href="#cb3-75"></a><span class="kw"><a href="reference/partition.html">partition</a></span>(df, <span class="dt">threshold =</span> <span class="fl">.5</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="reference/part_kmeans.html">part_kmeans</a></span>())</span>
+<span id="cb3-76"><a href="#cb3-76"></a><span class="co">#&gt; Partitioner:</span></span>
+<span id="cb3-77"><a href="#cb3-77"></a><span class="co">#&gt;    Director: K-Means Clusters </span></span>
+<span id="cb3-78"><a href="#cb3-78"></a><span class="co">#&gt;    Metric: Minimum Intraclass Correlation </span></span>
+<span id="cb3-79"><a href="#cb3-79"></a><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
+<span id="cb3-80"><a href="#cb3-80"></a><span class="co">#&gt; </span></span>
+<span id="cb3-81"><a href="#cb3-81"></a><span class="co">#&gt; Reduced Variables:</span></span>
+<span id="cb3-82"><a href="#cb3-82"></a><span class="co">#&gt; 2 reduced variables created from 7 observed variables</span></span>
+<span id="cb3-83"><a href="#cb3-83"></a><span class="co">#&gt; </span></span>
+<span id="cb3-84"><a href="#cb3-84"></a><span class="co">#&gt; Mappings:</span></span>
+<span id="cb3-85"><a href="#cb3-85"></a><span class="co">#&gt; reduced_var_1 = {block3_x1, block3_x2, block3_x5}</span></span>
+<span id="cb3-86"><a href="#cb3-86"></a><span class="co">#&gt; reduced_var_2 = {block2_x1, block2_x2, block2_x3, block2_x4}</span></span>
+<span id="cb3-87"><a href="#cb3-87"></a><span class="co">#&gt; </span></span>
+<span id="cb3-88"><a href="#cb3-88"></a><span class="co">#&gt; Minimum information:</span></span>
+<span id="cb3-89"><a href="#cb3-89"></a><span class="co">#&gt; 0.508</span></span>
+<span id="cb3-90"><a href="#cb3-90"></a></span>
+<span id="cb3-91"><a href="#cb3-91"></a><span class="co"># use a custom partitioner</span></span>
+<span id="cb3-92"><a href="#cb3-92"></a>part_icc_rowmeans &lt;-<span class="st"> </span><span class="kw"><a href="reference/replace_partitioner.html">replace_partitioner</a></span>(</span>
+<span id="cb3-93"><a href="#cb3-93"></a>  part_icc, </span>
+<span id="cb3-94"><a href="#cb3-94"></a>  <span class="dt">reduce =</span> <span class="kw"><a href="reference/as_reducer.html">as_reducer</a></span>(rowMeans)</span>
+<span id="cb3-95"><a href="#cb3-95"></a>)</span>
+<span id="cb3-96"><a href="#cb3-96"></a><span class="kw"><a href="reference/partition.html">partition</a></span>(df, <span class="dt">threshold =</span> <span class="fl">.6</span>, <span class="dt">partitioner =</span> part_icc_rowmeans) </span>
+<span id="cb3-97"><a href="#cb3-97"></a><span class="co">#&gt; Partitioner:</span></span>
+<span id="cb3-98"><a href="#cb3-98"></a><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
+<span id="cb3-99"><a href="#cb3-99"></a><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
+<span id="cb3-100"><a href="#cb3-100"></a><span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span></span>
+<span id="cb3-101"><a href="#cb3-101"></a><span class="co">#&gt; </span></span>
+<span id="cb3-102"><a href="#cb3-102"></a><span class="co">#&gt; Reduced Variables:</span></span>
+<span id="cb3-103"><a href="#cb3-103"></a><span class="co">#&gt; 1 reduced variables created from 2 observed variables</span></span>
+<span id="cb3-104"><a href="#cb3-104"></a><span class="co">#&gt; </span></span>
+<span id="cb3-105"><a href="#cb3-105"></a><span class="co">#&gt; Mappings:</span></span>
+<span id="cb3-106"><a href="#cb3-106"></a><span class="co">#&gt; reduced_var_1 = {block2_x3, block2_x4}</span></span>
+<span id="cb3-107"><a href="#cb3-107"></a><span class="co">#&gt; </span></span>
+<span id="cb3-108"><a href="#cb3-108"></a><span class="co">#&gt; Minimum information:</span></span>
+<span id="cb3-109"><a href="#cb3-109"></a><span class="co">#&gt; 0.602</span></span></code></pre></div>
 <p>partition also supports a number of ways to visualize partitions and permutation tests; these functions all start with <code>plot_*()</code>. These functions all return ggplots and can thus be extended using ggplot2.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="reference/plot_partitions.html">plot_stacked_area_clusters</a></span>(df) <span class="op">+</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>(<span class="dv">14</span>)</span></code></pre></div>
