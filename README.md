@@ -45,13 +45,6 @@ remotes::install_github("USCbiostats/partition")
 library(partition)
 set.seed(1234)
 df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
-#> New names:
-#> * X1 -> X1...1
-#> * X2 -> X2...2
-#> * X3 -> X3...3
-#> * X1 -> X1...4
-#> * X2 -> X2...5
-#> * ...
 
 #  don't accept reductions where information < .6
 prt <- partition(df, threshold = .6)
@@ -124,21 +117,6 @@ unnest_mappings(prt)
 
 # use a lower threshold of information loss
 partition(df, threshold = .5, partitioner = part_kmeans())
-#> Warning in (function (.partition_step, search_method = c("binary", "linear")) :
-#> partial argument match of 'search' to 'search_method'
-
-#> Warning in (function (.partition_step, search_method = c("binary", "linear")) :
-#> partial argument match of 'search' to 'search_method'
-
-#> Warning in (function (.partition_step, search_method = c("binary", "linear")) :
-#> partial argument match of 'search' to 'search_method'
-#> New names:
-#> * NA -> ...1
-#> * NA -> ...2
-#> * NA -> ...3
-#> * NA -> ...4
-#> * NA -> ...5
-#> * ...
 #> Partitioner:
 #>    Director: K-Means Clusters 
 #>    Metric: Minimum Intraclass Correlation 
