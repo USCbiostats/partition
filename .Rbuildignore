@@ -17,3 +17,5 @@ cache
 ^\.github$
 ^rhub\.R$
 ^\.github/workflows/pkgdown\.yaml$
+^icc_kmeans_benchmarks\.rds$
+^basic_benchmarks\.rds$
