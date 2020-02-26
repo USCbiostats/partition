@@ -1,5 +1,36 @@
 ---
 output: github_document
+references:
+- id: R-partition
+  type: article-journal
+  author:
+  - family: Millstein
+    given: Joshua
+  - family: Battaglin
+    given: Francesca
+  - family: Barrett
+    given: Malcolm
+  - family: Cao
+    given: Shu
+  - family: Zhang
+    given: Wu
+  - family: Stintzing
+    given: Sebastian
+  - family: Heinemann
+    given: Volker
+  - family: Lenz
+    given: Heinz-Josef
+  issued:
+  - year: 2020
+  title: 'Partition: A surjective mapping approach for dimensionality reduction'
+  title-short: Partition
+  container-title: Bioinformatics
+  page: 676-681
+  volume: '36'
+  issue: '3'
+  URL: 10.1093/bioinformatics/btz661
+params:
+  invalidate_cache: false
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -9,7 +40,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  dpi = 320
 )
 ```
 
@@ -40,7 +72,7 @@ remotes::install_github("USCbiostats/partition")
 
 ## Example
 
-```{r}
+```{r example}
 library(partition)
 set.seed(1234)
 df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
@@ -70,13 +102,102 @@ partition(df, threshold = .6, partitioner = part_icc_rowmeans)
 
 partition also supports a number of ways to visualize partitions and permutation tests; these functions all start with `plot_*()`. These functions all return ggplots and can thus be extended using ggplot2.
 
-```{r, dpi = 320}
+```{r stacked_area_chart, dpi = 320}
 plot_stacked_area_clusters(df) +
   ggplot2::theme_minimal(14)
 ```
+
+## Performance
+
+partition has been meticulously benchmarked and profiled to improve performance, and key sections are written in C++ or use C++-based packages. Using a data frame with 1 million rows on a 2017 MacBook Pro with 16 GB RAM, here's how each of the built-in partitioners perform:
+
+```{r benchmarks1, eval = FALSE}
+large_df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 1e6)
+
+basic_benchmarks <- microbenchmark::microbenchmark(
+  icc = partition(large_df, .3),
+  kmeans = partition(large_df, .3, partitioner = part_kmeans()),
+  minr2 = partition(large_df, .3, partitioner = part_minr2()),
+  pc1 = partition(large_df, .3, partitioner = part_pc1()),
+  stdmi = partition(large_df, .3, partitioner = part_stdmi())
+)
+```
+
+```{r secret_benchmarks1, echo = FALSE, warning=FALSE, message=FALSE}
+library(microbenchmark)
+if (params$invalidate_cache) {
+  large_df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 1e6)
+  
+  basic_benchmarks <- microbenchmark::microbenchmark(
+    icc = partition(large_df, .3),
+    kmeans = partition(large_df, .3, partitioner = part_kmeans()),
+    minr2 = partition(large_df, .3, partitioner = part_minr2()),
+    pc1 = partition(large_df, .3, partitioner = part_pc1()),
+    stdmi = partition(large_df, .3, partitioner = part_stdmi())
+  )
+  
+  readr::write_rds(basic_benchmarks, "basic_benchmarks.rds")
+} else {
+  basic_benchmarks <- readr::read_rds("basic_benchmarks.rds")
+}
+
+basic_benchmarks$expr <- forcats::fct_reorder(basic_benchmarks$expr, basic_benchmarks$time)
+ggplot2::autoplot(basic_benchmarks) + 
+  ggplot2::theme_minimal()
+```
+
+## ICC vs K-Means
+
+As the features (columns) in the data set become greater than the number of observations (rows), the default ICC method scales more linearly than K-Means-based methods. While K-Means is often faster at lower dimensions, it becomes slower as the features outnumber the observations. For example, using three data sets with increasing numbers of columns, K-Means starts as the fastest and gets increasingly slower, although in this case it is still comparable to ICC:
+
+```{r benchmarks2, eval = FALSE}
+narrow_df <- simulate_block_data(3:5, lower_corr = .4, upper_corr = .6, n = 100)
+wide_df <- simulate_block_data(rep(3:10, 2), lower_corr = .4, upper_corr = .6, n = 100)
+wider_df <- simulate_block_data(rep(3:20, 4), lower_corr = .4, upper_corr = .6, n = 100)
+
+icc_kmeans_benchmarks <- microbenchmark::microbenchmark(
+  icc_narrow = partition(narrow_df, .3),
+  icc_wide = partition(wide_df, .3),
+  icc_wider = partition(wider_df, .3),
+  kmeans_narrow = partition(narrow_df, .3, partitioner = part_kmeans()),
+  kmeans_wide = partition(wide_df, .3, partitioner = part_kmeans()),
+  kmeans_wider  = partition(wider_df, .3, partitioner = part_kmeans())
+)
+```
+
+```{r secret_benchmarks2, echo = FALSE, warning=FALSE, message=FALSE}
+if (params$invalidate_cache) {
+  narrow_df <- simulate_block_data(3:5, lower_corr = .4, upper_corr = .6, n = 100)
+  wide_df <- simulate_block_data(rep(3:10, 2), lower_corr = .4, upper_corr = .6, n = 100)
+  wider_df <- simulate_block_data(rep(3:20, 4), lower_corr = .4, upper_corr = .6, n = 100)
+  
+  icc_kmeans_benchmarks <- microbenchmark::microbenchmark(
+    icc_narrow = partition(narrow_df, .3),
+    icc_wide = partition(wide_df, .3),
+    icc_wider = partition(wider_df, .3),
+    kmeans_narrow = partition(narrow_df, .3, partitioner = part_kmeans()),
+    kmeans_wide = partition(wide_df, .3, partitioner = part_kmeans()),
+    kmeans_wider  = partition(wider_df, .3, partitioner = part_kmeans())
+  )
+  
+  readr::write_rds(icc_kmeans_benchmarks, "icc_kmeans_benchmarks.rds")
+} else {
+  icc_kmeans_benchmarks <- readr::read_rds("icc_kmeans_benchmarks.rds")
+}
+
+icc_kmeans_benchmarks$type <- stringr::str_extract(icc_kmeans_benchmarks$expr, "icc|kmeans")
+
+ggplot2::autoplot(icc_kmeans_benchmarks) +
+  ggplot2::geom_smooth() + 
+  ggplot2::facet_wrap(~type, ncol = 1, scales = "free_y") + 
+  ggplot2::theme_minimal()
+```
+
+For more information, see [our paper in Bioinformatics](https://doi.org/10.1093/bioinformatics/btz661), which discusses these issues in more depth [@R-partition].
 
 ## Contributing 
 
 Please read the [Contributor Guidelines](.github/CODE_OF_CONDUCT.md) prior to submitting a pull request to partition. Also note that this project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
 
+## References
 
