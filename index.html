@@ -222,12 +222,63 @@
 <p>partition also supports a number of ways to visualize partitions and permutation tests; these functions all start with <code>plot_*()</code>. These functions all return ggplots and can thus be extended using ggplot2.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw"><a href="reference/plot_partitions.html">plot_stacked_area_clusters</a></span>(df) <span class="op">+</span></span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span>ggplot2<span class="op">::</span><span class="kw"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span>(<span class="dv">14</span>)</span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
+<p><img src="reference/figures/README-stacked_area_chart-1.png" width="100%"></p>
+</div>
+<div id="performance" class="section level2">
+<h2 class="hasAnchor">
+<a href="#performance" class="anchor"></a>Performance</h2>
+<p>partition has been meticulously benchmarked and profiled to improve performance, and key sections are written in C++ or use C++-based packages. Using a data frame with 1 million rows on a 2017 MacBook Pro with 16 GB RAM, here’s how each of the built-in partitioners perform:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>large_df &lt;-<span class="st"> </span><span class="kw"><a href="reference/simulate_block_data.html">simulate_block_data</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>), <span class="dt">lower_corr =</span> <span class="fl">.4</span>, <span class="dt">upper_corr =</span> <span class="fl">.6</span>, <span class="dt">n =</span> <span class="fl">1e6</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a>basic_benchmarks &lt;-<span class="st"> </span>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(</span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="dt">icc =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(large_df, <span class="fl">.3</span>),</span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="dt">kmeans =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(large_df, <span class="fl">.3</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="reference/part_kmeans.html">part_kmeans</a></span>()),</span>
+<span id="cb5-6"><a href="#cb5-6"></a>  <span class="dt">minr2 =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(large_df, <span class="fl">.3</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="reference/part_minr2.html">part_minr2</a></span>()),</span>
+<span id="cb5-7"><a href="#cb5-7"></a>  <span class="dt">pc1 =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(large_df, <span class="fl">.3</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="reference/part_pc1.html">part_pc1</a></span>()),</span>
+<span id="cb5-8"><a href="#cb5-8"></a>  <span class="dt">stdmi =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(large_df, <span class="fl">.3</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="reference/part_stdmi.html">part_stdmi</a></span>())</span>
+<span id="cb5-9"><a href="#cb5-9"></a>)</span></code></pre></div>
+<p><img src="reference/figures/README-secret_benchmarks1-1.png" width="100%"></p>
+</div>
+<div id="icc-vs-k-means" class="section level2">
+<h2 class="hasAnchor">
+<a href="#icc-vs-k-means" class="anchor"></a>ICC vs K-Means</h2>
+<p>As the features (columns) in the data set become greater than the number of observations (rows), the default ICC method scales more linearly than K-Means-based methods. While K-Means is often faster at lower dimensions, it becomes slower as the features outnumber the observations. For example, using three data sets with increasing numbers of columns, K-Means starts as the fastest and gets increasingly slower, although in this case it is still comparable to ICC:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>narrow_df &lt;-<span class="st"> </span><span class="kw"><a href="reference/simulate_block_data.html">simulate_block_data</a></span>(<span class="dv">3</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">lower_corr =</span> <span class="fl">.4</span>, <span class="dt">upper_corr =</span> <span class="fl">.6</span>, <span class="dt">n =</span> <span class="dv">100</span>)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>wide_df &lt;-<span class="st"> </span><span class="kw"><a href="reference/simulate_block_data.html">simulate_block_data</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">3</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">2</span>), <span class="dt">lower_corr =</span> <span class="fl">.4</span>, <span class="dt">upper_corr =</span> <span class="fl">.6</span>, <span class="dt">n =</span> <span class="dv">100</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a>wider_df &lt;-<span class="st"> </span><span class="kw"><a href="reference/simulate_block_data.html">simulate_block_data</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">3</span><span class="op">:</span><span class="dv">20</span>, <span class="dv">4</span>), <span class="dt">lower_corr =</span> <span class="fl">.4</span>, <span class="dt">upper_corr =</span> <span class="fl">.6</span>, <span class="dt">n =</span> <span class="dv">100</span>)</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a>icc_kmeans_benchmarks &lt;-<span class="st"> </span>microbenchmark<span class="op">::</span><span class="kw">microbenchmark</span>(</span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="dt">icc_narrow =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(narrow_df, <span class="fl">.3</span>),</span>
+<span id="cb6-7"><a href="#cb6-7"></a>  <span class="dt">icc_wide =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(wide_df, <span class="fl">.3</span>),</span>
+<span id="cb6-8"><a href="#cb6-8"></a>  <span class="dt">icc_wider =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(wider_df, <span class="fl">.3</span>),</span>
+<span id="cb6-9"><a href="#cb6-9"></a>  <span class="dt">kmeans_narrow =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(narrow_df, <span class="fl">.3</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="reference/part_kmeans.html">part_kmeans</a></span>()),</span>
+<span id="cb6-10"><a href="#cb6-10"></a>  <span class="dt">kmeans_wide =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(wide_df, <span class="fl">.3</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="reference/part_kmeans.html">part_kmeans</a></span>()),</span>
+<span id="cb6-11"><a href="#cb6-11"></a>  <span class="dt">kmeans_wider  =</span> <span class="kw"><a href="reference/partition.html">partition</a></span>(wider_df, <span class="fl">.3</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="reference/part_kmeans.html">part_kmeans</a></span>())</span>
+<span id="cb6-12"><a href="#cb6-12"></a>)</span></code></pre></div>
+<p><img src="reference/figures/README-secret_benchmarks2-1.png" width="100%"></p>
+<p>For more information, see <a href="https://doi.org/10.1093/bioinformatics/btz661">our paper in Bioinformatics</a>, which discusses these issues in more depth (Millstein et al. 2020).</p>
 </div>
 <div id="contributing" class="section level2">
 <h2 class="hasAnchor">
 <a href="#contributing" class="anchor"></a>Contributing</h2>
 <p>Please read the <a href="CODE_OF_CONDUCT.html">Contributor Guidelines</a> prior to submitting a pull request to partition. Also note that this project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+</div>
+<div id="references" class="section level2">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
+<div id="refs" class="references">
+
+<div id="ref-R-partition">
+
+Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu
+Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz.
+2020. “Partition: A Surjective Mapping Approach for Dimensionality
+Reduction.” *Bioinformatics* 36 (3): 676–81.
+[10.1093/bioinformatics/btz661](10.1093/bioinformatics/btz661).
+
+</div>
+
+</div>
 </div>
 </div>
 
@@ -274,7 +325,16 @@
 </ul>
 </div>
 
-  </div>
+  <div class="dev-status">
+<h2>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://travis-ci.org/USCbiostats/partition"><img src="https://travis-ci.org/USCbiostats/partition.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://ci.appveyor.com/project/malcolmbarrett/partition-qaqc6"><img src="https://ci.appveyor.com/api/projects/status/fofb9um8jqyyi6av?svg=true" alt="Build status"></a></li>
+<li><a href="https://codecov.io/github/USCbiostats/partition?branch=master"><img src="https://codecov.io/gh/USCbiostats/partition/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
+<li><a href="https://cran.r-project.org/package=partition"><img src="https://www.r-pkg.org/badges/version-ago/partition" alt="CRAN status"></a></li>
+</ul>
+</div>
+</div>
 </div>
 
 
