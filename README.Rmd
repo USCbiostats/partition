@@ -109,7 +109,7 @@ plot_stacked_area_clusters(df) +
 
 ## Performance
 
-partition has been meticulously benchmarked and profiled to improve performance, and key sections are written in C++ or use C++-based packages. Using a data frame with 1 million rows on a 2017 MacBook Pro with 16 GB RAM, here's how each of the built-in partitioners perform:
+partition has been meticulously benchmarked and profiled to improve performance, and key sections are written in C++ or use C++-based packages. Using a data frame with 1 million rows on a 2017 MacBook Pro with 16 GB RAM, here's how each of the built-in partitioners perform: 
 
 ```{r benchmarks1, eval = FALSE}
 large_df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 1e6)
