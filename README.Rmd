@@ -125,6 +125,7 @@ basic_benchmarks <- microbenchmark::microbenchmark(
 
 ```{r secret_benchmarks1, echo = FALSE, warning=FALSE, message=FALSE}
 library(microbenchmark)
+library(ggplot2)
 if (params$invalidate_cache) {
   large_df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 1e6)
   
@@ -142,7 +143,8 @@ if (params$invalidate_cache) {
 }
 
 basic_benchmarks$expr <- forcats::fct_reorder(basic_benchmarks$expr, basic_benchmarks$time)
-ggplot2::autoplot(basic_benchmarks) + 
+ggplot2::autoplot(basic_benchmarks) %+% 
+  ggplot2::stat_ydensity(color = "#0072B2", fill = "#0072B2BF") +
   ggplot2::theme_minimal()
 ```
 
@@ -187,8 +189,8 @@ if (params$invalidate_cache) {
 
 icc_kmeans_benchmarks$type <- stringr::str_extract(icc_kmeans_benchmarks$expr, "icc|kmeans")
 
-ggplot2::autoplot(icc_kmeans_benchmarks) +
-  ggplot2::geom_smooth() + 
+ggplot2::autoplot(icc_kmeans_benchmarks) %+% 
+  ggplot2::stat_ydensity(color = "#0072B2", fill = "#0072B2BF") +
   ggplot2::facet_wrap(~type, ncol = 1, scales = "free_y") + 
   ggplot2::theme_minimal()
 ```
