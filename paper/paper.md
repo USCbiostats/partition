@@ -8,7 +8,7 @@ authors:
 affiliations:
 - index: 1
   name: Department of Preventive Medicine, University of Southern California
-date: '2020-02-26'
+date: '2020-02-27'
 title: 'partition: A fast and flexible framework for data reduction in R'
 output:
   distill::distill_article:
@@ -31,7 +31,7 @@ The default partitioner uses a correlation-based distance matrix to find the pai
 
 Many tools exist in R for data reduction, including:
 
-* In the base R stats package, `princomp()` for PCA, `kmeans()` for K-Means Clustering, and `hclust()` for Hierarchical Clustering, among others [@r-base]
+* In the base R stats package, `princomp()` and `prcomp()` for PCA, `kmeans()` for K-Means Clustering, and `hclust()` for Hierarchical Clustering, among others [@r-base]
 * cluster, an R package for grouping data using Hierarchical Clustering and other strategies [@r-cluster]
 * Rtsne and tsne, R packages for t-SNE analysis [@r-Rtsne; @r-tsne]
 * uwot, an R package for Uniform Manifold Approximation and Projection (UMAP) dimensionality reduction [@r-uwot]
