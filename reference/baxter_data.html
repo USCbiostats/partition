@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create a custom metric — as_measure • partition</title>
+<title>Microbiome data — baxter_data • partition</title>
 
 
 <!-- jquery -->
@@ -35,11 +35,22 @@
 
 
 
-<meta property="og:title" content="Create a custom metric — as_measure" />
-<meta property="og:description" content="Metrics are functions that tell how much information would be
-lost for a given reduction in the data. reduce.  as_measure() is a
-helper function to create new metrics to be used in partitioners.
-partitioners can be created with as_partitioner()." />
+<meta property="og:title" content="Microbiome data — baxter_data" />
+<meta property="og:description" content="Clinical and microbiome data derived from &quot;Microbiota-based model improves
+the sensitivity of fecal immunochemical test for detecting colonic lesions&quot;
+by Baxter et al. (2016). These data represent a subset of 172 health
+participants. baxter_clinical contains 8 clinical variables for each of the
+participants: sample_name, id, age, bmi, gender, height,
+total_reads, and disease_state (all H for healthy). baxter_otu has
+1,234 columns, where each columns represent an Operational Taxonomic Unit
+(OTU). OTUs are species-like relationships among bacteria determined by
+analyzing their RNA. The cells are logged counts for how often the OTU was
+detected in a participant's stool sample. Each column name is a shorthand
+name, e.g. otu1; you can find the true name of the OTU mapped in
+baxter_data_dictionary. baxter_family and baxter_genus are also logged
+counts but instead group OTUs at the family and genus level, respectively, a
+common approach to reducing microbiome data. Likewise, the column names are
+shorthands, which you can find mapped in baxter_data_dictionary." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -123,81 +134,54 @@ partitioners can be created with as_partitioner()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create a custom metric</h1>
-    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/partition/blob/master/R/metrics.R'><code>R/metrics.R</code></a></small>
-    <div class="hidden name"><code>as_measure.Rd</code></div>
+    <h1>Microbiome data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/USCbiostats/partition/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>baxter_data.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Metrics are functions that tell how much information would be
-lost for a given reduction in the data. reduce.  <code>as_measure()</code> is a
-helper function to create new metrics to be used in <code>partitioner</code>s.
-<code>partitioner</code>s can be created with <code><a href='as_partitioner.html'>as_partitioner()</a></code>.</p>
+    <p>Clinical and microbiome data derived from "Microbiota-based model improves
+the sensitivity of fecal immunochemical test for detecting colonic lesions"
+by Baxter et al. (2016). These data represent a subset of 172 health
+participants. <code>baxter_clinical</code> contains 8 clinical variables for each of the
+participants: <code>sample_name</code>, <code>id</code>, <code>age</code>, <code>bmi</code>, <code>gender</code>, <code>height</code>,
+<code>total_reads</code>, and <code>disease_state</code> (all <code>H</code> for healthy). <code>baxter_otu</code> has
+1,234 columns, where each columns represent an Operational Taxonomic Unit
+(OTU). OTUs are species-like relationships among bacteria determined by
+analyzing their RNA. The cells are logged counts for how often the OTU was
+detected in a participant's stool sample. Each column name is a shorthand
+name, e.g. <code>otu1</code>; you can find the true name of the OTU mapped in
+<code>baxter_data_dictionary</code>. <code>baxter_family</code> and <code>baxter_genus</code> are also logged
+counts but instead group OTUs at the family and genus level, respectively, a
+common approach to reducing microbiome data. Likewise, the column names are
+shorthands, which you can find mapped in <code>baxter_data_dictionary</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_measure</span>(<span class='no'>.f</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='no'>baxter_clinical</span>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>.f</th>
-      <td><p>a function that returns either a numeric vector or a <code>data.frame</code></p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Extra arguments passed to <code>.f</code>.</p></td>
-    </tr>
-    </table>
+<span class='no'>baxter_otu</span>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+<span class='no'>baxter_family</span>
 
-    <p>a function to use in <code><a href='as_partitioner.html'>as_partitioner()</a></code></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+<span class='no'>baxter_genus</span>
 
-    <div class='dont-index'><p>Other metrics: 
-<code><a href='measure_icc.html'>measure_icc</a>()</code>,
-<code><a href='measure_min_icc.html'>measure_min_icc</a>()</code>,
-<code><a href='measure_min_r2.html'>measure_min_r2</a>()</code>,
-<code><a href='measure_std_mutualinfo.html'>measure_std_mutualinfo</a>()</code>,
-<code><a href='measure_variance_explained.html'>measure_variance_explained</a>()</code></p>
-<p>Other metrics: 
-<code><a href='measure_icc.html'>measure_icc</a>()</code>,
-<code><a href='measure_min_icc.html'>measure_min_icc</a>()</code>,
-<code><a href='measure_min_r2.html'>measure_min_r2</a>()</code>,
-<code><a href='measure_std_mutualinfo.html'>measure_std_mutualinfo</a>()</code>,
-<code><a href='measure_variance_explained.html'>measure_variance_explained</a>()</code></p></div>
+<span class='no'>baxter_data_dictionary</span></pre>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>inter_item_reliability</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>.data</span>) {
-   <span class='fu'><a href='corr.html'>corr</a></span>(<span class='no'>.data</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colMeans</a></span>(<span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>()
-}
 
-<span class='no'>measure_iir</span> <span class='kw'>&lt;-</span> <span class='fu'>as_measure</span>(<span class='no'>inter_item_reliability</span>)
-<span class='no'>measure_iir</span></div><div class='output co'>#&gt; function (.partition_step, ...) 
-#&gt; {
-#&gt;     if (.partition_step$all_done) 
-#&gt;         return(.partition_step)
-#&gt;     composite_variables &lt;- pull_composite_variables(.partition_step)
-#&gt;     target_data &lt;- .partition_step$.df[, composite_variables, 
-#&gt;         drop = FALSE]
-#&gt;     .partition_step$metric &lt;- .f(target_data, ...)
-#&gt;     .partition_step
-#&gt; }
-#&gt; &lt;bytecode: 0x7ffb0dcd9388&gt;
-#&gt; &lt;environment: 0x7ffb0dcdc460&gt;</div><div class='input'>
-</div></pre>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>5 data frames</p>
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Baxter et al. (2016),
+<a href='https://doi.org/10.1186/s13073-016-0290-3'>https://doi.org/10.1186/s13073-016-0290-3</a>.</p>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#see-also">See also</a></li>
-      <li><a href="#examples">Examples</a></li>
+      <li><a href="#format">Format</a></li>
+      <li><a href="#source">Source</a></li>
     </ul>
 
   </div>
