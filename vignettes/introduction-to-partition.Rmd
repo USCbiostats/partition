@@ -49,13 +49,15 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE
 )
+
+options(tibble.max_extra_cols = 10)
 ```
 
 ## Introduction to the partition package
 
-partition is a fast and flexible data reduction framework [@R-partition] that uses an approach called Direct-Measure-Reduce to create agglomerative partitions that maintain the user-specified minimum level of information. Each variable starts of as its own cluster; potential reduced variables are assessed by making sure this level of information is maintained. The reduced variables are also interpretable: original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized. 
+partition is a fast and flexible data reduction framework for R [@R-partition]. While there are many approaches to data reduction, such as principal components analsysis (PCA) and hierarchical clustering (both supported in base R), partition attempts to create a reduced data set that is both interpretable (each raw variable maps to one and only one reduced variable) and information-rich (reduced variables must meet an information threshold). This often results in a data set that has a mix of raw features from the original data and reduced features that combine multiple raw features.
 
-partition is particularly useful for highly correlated data, such as genetic data, where there is a lot of redundancy in the information each variable lends. `simulate_block_data()` simulates data like this: blocks of correlated data that are themselves independent of the other blocks in the data:
+partition is particularly useful for highly correlated data, such as genetic data, where there is a lot of redundancy in the information each variable lends. `simulate_block_data()` simulates data like this: blocks of correlated data that are themselves independent of the other blocks in the data.
 
 ```{r}
 library(partition)
@@ -69,28 +71,62 @@ df <- simulate_block_data(
   upper_corr = .6,
   n = 100
 )
-
-df
 ```
 
-partition takes a data frame and a threshold--the minimum amount of information a reduced variable must explain to be created--and reduces the data to as few variables as possible. The threshold prevents information loss: each reduced variable must still explain at least that much.
+In a heatmap showing the correlations between the simulated variables, blocks of correlated features are clearly visible:
 
 ```{r}
-prt <- partition(df, threshold = .5)
+ggcorrplot::ggcorrplot(corr(df))
+```
+
+Many types of data follow a pattern like this. Closely related to the block correlation structure found in genetic data is that found in microbiome data. The data set `baxter_otu` has microbiome data on 172 healthy patients. Each row represents a patient, and each column represents an Operational Taxanomic Unit (OTU). OTUs are species-like relationships between bacteria determined by analyzing their RNA. Each cell in the data represents the logged-count of the OTU found in the patient's stool sample, and there are 1,234 OTUs in all.
+
+```{r}
+baxter_otu
+```
+
+While not as obvious as simulated data, blocks of correlation also appear in these data; these bacteria tend to group together or apart in the microbiomes of participants. Here are the first 200 OTUs:
+
+```{r}
+correlation_subset <- corr(baxter_otu[, 1:200])
+ggcorrplot::ggcorrplot(correlation_subset, hc.order = TRUE) + ggplot2::theme_void()
+```
+
+# Reducing data with partition
+
+Because there are many more features (OTUs) in these data than rows (patients), it's often useful to reduce data to meaningful subsets to use in statistical modeling. The main function in partition is `partition()`. `partition()` takes a data frame and a threshold--the minimum amount of information a reduced variable must explain to be created--and reduces the data to as few variables as possible. The threshold prevents information loss: each reduced variable must still explain at least greater than or equal to the information threshold.
+
+```{r}
+prt <- partition(baxter_otu, threshold = .5)
 
 prt
 ```
 
-partition creates a `tibble` with the newly reduced variables:
+For the microbiome data, `partition()` reduced 158 of the OTUs to 63 reduced variables. The other 1,076 OTUs were not reduced because doing so would have removed too much information from the data. `partition()` creates a `tibble` with the newly reduced variables, as well as any variables that were not reduced, which you can get with `partition_scores()`:
 
 ```{r}
 partition_scores(prt)
 ```
 
-Each variable in the original data set maps to one reduced variable; in this partition, there are four reduced variables consisting of two to three variables each, as well as five of the original variables that did not get reduced because too much information would have been lost.
+In comparison, PCA produces a date set of the same dimensions of the original data, with each component representing multiple variables, and with variables usually mapping to multiple components. While components are organized by their informativeness (the first component explains the most variance), no original features are retained. 
 
 ```{r}
-plot_ncluster(prt) +
+pca <- prcomp(baxter_otu)
+
+# print the results more neatly
+tibble::as_tibble(pca$x)
+```
+
+Notably, these approaches can be easily combined (see below).
+
+# The partition algorithm
+
+partition uses an approach called Direct-Measure-Reduce to create agglomerative (bottom-up) partitions that maintain the user-specified minimum level of information. Each variable starts of as its own cluster; potential reduced variables are assessed by making sure this level of information is maintained. The reduced variables are also interpretable: original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized. 
+
+Each variable in the original data set maps to one reduced variable; in this partition, there are four reduced variables consisting of two to three variables each, as well as five of the original variables that did not get reduced because too much information would have been lost. Here are the top 20:
+
+```{r}
+plot_ncluster(prt, show_n = 20) +
   # plot_*() functions return ggplots, so they can be extended using ggplot2
   theme_minimal(14)
 ```
@@ -137,7 +173,7 @@ There are several other partitioners, which all have names in the format `part_*
 To apply a different partitioner, use the `partitioner` argument in `partition()`.
 
 ```{r}
-prt_kmeans <- partition(df, threshold = .5, partitioner = part_kmeans())
+prt_kmeans <- partition(baxter_otu, threshold = .3, partitioner = part_kmeans())
 prt_kmeans
 ```
 
@@ -161,7 +197,6 @@ Because we can expect this, comparing partitions we fit on our data to partition
 plot_stacked_area_clusters(df) +
   theme_minimal(14)
 ```
-
 
 partition also has a set of tools for more extensive permutation tests. `map_partition()` will fit partitions for a range of thresholds for the observed data; `test_permutation()` will do the same but also fit partitions for a set of permuted data sets (100 by default). `plot_permutation()` visualizes the results, comparing information, number of clusters, or number of raw features that were reduced.
 
