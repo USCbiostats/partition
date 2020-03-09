@@ -55,9 +55,9 @@ options(tibble.max_extra_cols = 10)
 
 ## Introduction to the partition package
 
-partition is a fast and flexible data reduction framework for R [@R-partition]. There are many approaches to data reduction, such as principal components analysis (PCA) and hierarchical clustering (both supported in base R). As opposed to these approaches, partition attempts to create a reduced data set that is both interpretable (each raw variable maps to one and only one reduced variable) and information-rich (reduced variables must meet an information threshold). Reducing the data this way often results in a data set that has a mix of raw features from the original data and reduced features.
+partition is a fast and flexible data reduction framework for R [@R-partition]. There are many approaches to data reduction, such as principal components analysis (PCA) and hierarchical clustering (both supported in base R). In contrast, partition attempts to create a reduced data set that is both interpretable (each raw feature maps to one and only one reduced feature) and information-rich (reduced features must meet an information constraint). Reducing the data this way often results in a data set that has a mix of raw features from the original data and reduced features.
 
-partition is particularly useful for highly correlated data, such as genetic data, where there is a lot of redundancy in the information each variable lends. `simulate_block_data()` simulates data like this: blocks of correlated data that are themselves independent of the other blocks in the data.
+partition is particularly useful for highly correlated data, such as genomic data, where there is a lot of redundancy. A simple model of say, gene expression data could be block correlated Gaussian variables. `simulate_block_data()` simulates data like this: blocks of correlated data that are themselves independent of the other blocks in the data.
 
 ```{r}
 library(partition)
@@ -65,7 +65,7 @@ library(ggplot2)
 set.seed(1234)
 # create a 100 x 15 data set with 3 blocks
 df <- simulate_block_data(
-  # create 3 correlated blocks of 5 variables each
+  # create 3 correlated blocks of 5 features each
   block_sizes = rep(5, 3),
   lower_corr = .4,
   upper_corr = .6,
@@ -73,19 +73,19 @@ df <- simulate_block_data(
 )
 ```
 
-In a heatmap showing the correlations between the simulated variables, blocks of correlated features are visible:
+In a heatmap showing the correlations between the simulated features, blocks of correlated features are visible:
 
 ```{r}
 ggcorrplot::ggcorrplot(corr(df))
 ```
 
-Many types of data follow a pattern like this. Closely related to the block correlation structure found in genetic data is that found in microbiome data. The data set `baxter_otu` has microbiome data on 172 healthy patients. Each row represents a patient, and each column represents an Operational Taxonomic Unit (OTU). OTUs are species-like relationships between bacteria determined by analyzing their RNA. Each cell in the data represents the logged-count of the OTU found in the patient's stool sample, and there are 1,234 OTUs in all.
+Many types of data follow a pattern like this. Closely related to the block correlation structure found in genetic data is that found in microbiome data. The data set `baxter_otu` has microbiome data on 172 healthy patients. Each row represents a patient, and each column represents an Operational Taxonomic Unit (OTU). OTUs are species-like relationships between bacteria determined by analyzing their RNA. Each cell in the dataset represents the logged-count of an OTU found in a patient's stool sample, with 1,234 OTUs in all.
 
 ```{r}
 baxter_otu
 ```
 
-While not as apparent as simulated data, blocks of correlation also appear in these data; these bacteria tend to group together or apart in the microbiomes of participants. Here are the first 200 OTUs:
+While not as apparent as simulated data, correlated blocks also appear in these data; bacteria tend to group together into communities or cliques in the microbiomes of participants. Here are the first 200 OTUs:
 
 ```{r}
 correlation_subset <- corr(baxter_otu[, 1:200])
@@ -94,7 +94,7 @@ ggcorrplot::ggcorrplot(correlation_subset, hc.order = TRUE) + ggplot2::theme_voi
 
 # Reducing data with partition
 
-Because there are many more features (OTUs) in these data than rows (patients), it's useful to reduce data to meaningful subsets to use in statistical modeling. The primary function in partition is `partition()`. `partition()` takes a data frame and a threshold--the minimum amount of information a reduced variable must explain to be created--and reduces the data to as few variables as possible. The threshold prevents information loss: each reduced variable must still explain at least greater than or equal to the information threshold.
+Because there are many more features (OTUs) in these data than rows (patients), it's useful to reduce the data for use in statistical modeling. The primary function, `partition()`, takes a data frame and an information threshold and reduces the data to as few variables as possible, subject to the information constraint.
 
 ```{r}
 prt <- partition(baxter_otu, threshold = .5)
@@ -102,13 +102,13 @@ prt <- partition(baxter_otu, threshold = .5)
 prt
 ```
 
-For the microbiome data, `partition()` reduced 158 of the OTUs to 63 reduced variables. The other 1,076 OTUs were not reduced because doing so would have removed too much information from the data. `partition()` creates a `tibble` with the newly reduced variables, as well as any variables that were not reduced, which you can get with `partition_scores()`:
+For the microbiome data, `partition()` reduced 158 of the OTUs to 63 reduced features. The other 1,076 OTUs were not reduced because doing so would have removed too much information from the data. `partition()` creates a `tibble` with the newly reduced features, as well as any features that were not reduced, which you can get with `partition_scores()`:
 
 ```{r}
 partition_scores(prt)
 ```
 
-In comparison, PCA produces a data set of the same dimensions of the original data, with each component representing multiple variables, and with variables usually mapping to several components. While components are organized by their informativeness (the first component explains the most variance), no original features are retained. 
+In comparison, PCA produces a data set of the same dimensions of the original data where all original variables map to all new components in some amount. While components are organized by their informativeness (the first component explains the most variance), no original features are retained. 
 
 ```{r}
 pca <- prcomp(baxter_otu)
@@ -121,9 +121,9 @@ Notably, these approaches can be easily combined (see below).
 
 # The partition algorithm
 
-partition uses an approach called Direct-Measure-Reduce to create agglomerative (bottom-up) partitions that maintain the user-specified minimum level of information. Each variable starts as an individual cluster; candidate reduced variables are assessed by making sure this level of information is kept. The reduced variables are also interpretable: original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized. 
+partition uses an approach called Direct-Measure-Reduce to create agglomerative (bottom-up) partitions that capture the user-specified minimum level of information. Each variable starts as an individual partition subset, and candidate partition subsets are assessed by verifying that the minimum information is captured in the reduced variable. Reduced variables are easily interpretable because original variables map to one and only one variable in the reduced data set. The partition software is flexible and customizable in the way features are agglomerated, information is measured, and data are reduced.
 
-Each variable in the original data set maps to variable in the reduced data set. In this partition, 63 reduced variables consist of two to seven variables each, as well as 1,076 of the original variables that did not get reduced because reducing them would lose too much information. Here are the top 20 clusters, ordered by how many raw features they represent:
+In this partition, 63 reduced features consist of two to seven features each, as well as 1,076 of the original features that did not get reduced because reducing them would lose too much information. Here are the top 20 clusters, ordered by how many raw features they represent:
 
 ```{r}
 plot_ncluster(prt, show_n = 20) +
@@ -131,14 +131,14 @@ plot_ncluster(prt, show_n = 20) +
   theme_minimal(14)
 ```
 
-Each reduced variable explains at least 50% of the information of the original variables that it summarizes. The distribution of information has a lower limit of our threshold, .5.
+Each reduced feature explains at least 50% of the information of the original features that it summarizes. The distribution of information has a lower limit of our threshold, .5.
 
 ```{r}
 plot_information(prt, geom = geom_histogram) +
   theme_minimal(14)
 ```
 
-Retrieve a key for these mappings and the information each variable explains with `mapping_key()`, which returns a nested `tibble`.
+Retrieve a key for these mappings and the information each feature explains with `mapping_key()`, which returns a nested `tibble`.
 
 ```{r}
 mapping_key(prt)
@@ -152,9 +152,9 @@ unnest_mappings(prt)
 
 ## Direct-Measure-Reduce and Partitioners
 
-Partitioners are functions that tell the partition algorithm 1) what to reduce 2) how to measure how much information and 3) how to reduce the data. We call this approach Direct-Measure-Reduce. In partition, functions that handle 1) are thus called directors, functions that handle 2) are called metrics, and functions that handle 3) are called reducers. partition has many pre-specified partitioners, but this approach is also quite flexible. See the [vignette on extending partition](extending-partition.html) to learn more about custom partitioners.
+Partitioners are functions that tell the partition algorithm 1) what to reduce 2) how to measure how much information and 3) how to reduce the data. We call this approach Direct-Measure-Reduce. In partition, functions that handle (1) are thus called directors, functions that handle (2) are called metrics, and functions that handle (3) are called reducers. partition has many pre-specified partitioners, but this aspect of the approach is also quite flexible. See the [vignette on extending partition](extending-partition.html) to learn more about custom partitioners.
 
-The default partitioner in `partition()` is `part_icc()`. `part_icc()` uses a correlation-based distance matrix to find the pair of variables with the smallest distance between them; intraclass correlation (ICC) to measure information explained by the reduced variable; and scaled row means to reduce variables with a sufficient minimum ICC. `part_icc()` is generally fast and scalable.
+The default partitioner in `partition()` is `part_icc()`. `part_icc()` uses a correlation-based distance matrix to find the pair of features with the smallest distance between them; intraclass correlation (ICC) to measure information explained by the reduced feature; and scaled row means to reduce features with a sufficient minimum ICC. `part_icc()` is generally fast and scalable.
 
 ```{r}
 part_icc()
@@ -180,10 +180,10 @@ prt_pc1
 
 ## Permutation tests
 
-Data sets with variables that are independent tend to reduce only at lower thresholds because reductions lose too much information at higher thresholds. In this set of 10 independent variables, setting the threshold to 0.5 results in a partition with no reduction. `partition()` returns the original data.  
+Data sets with statistically independent variables reduce only at lower thresholds because variables can only be reduced if a substantial proportion of information is discarded. In this set of 10 independent variables, setting the threshold to 0.5 results in a partition with no reduction. `partition()` returns the original data.
 
 ```{r}
-# create a data.frame of 10 independent variables
+# create a data.frame of 10 independent features
 ind_df <- purrr::map_dfc(1:10, ~rnorm(30))
 ind_part <- partition(ind_df, .5)
 ind_part
@@ -191,7 +191,7 @@ ind_part
 identical(ind_df, partition_scores(ind_part))
 ```
 
-Because we can expect this, comparing partitions we fit on our data to partitions fit on independent data helps assess the reasonableness of our clusters. One easy way to compare how much data is reduced compared to if the data were independent is to use `plot_stacked_area_clusters()`, which creates partitions for a series of thresholds using both the observed data and a permuted (independent) version of the data. In general, there are many more raw features per reduced variable for the real data than the independent data; it takes a low threshold for the permuted data to start forming clusters. 
+Comparing partitioning that occurs in our observed data to what occurs in data where all features are statistically independent gives us insight into the structure of dependencies in our data. We can make this type of comparison with the function `plot_stacked_area_clusters()`, which creates partitions for a series of information thresholds using both the observed data and a permuted (independent) version of the data. In the permuted version, each variable is randomly permuted relative to all other variables, thereby enforcing statistical independence. In general, there are many fewer reduced features for the real data than the independent data due to these dependencies; there is more common information across features in the real data.
 
 ```{r}
 plot_stacked_area_clusters(df) +
