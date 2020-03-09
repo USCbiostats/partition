@@ -34,7 +34,7 @@ Imports:
     crayon,
     dplyr (>= 0.8.0),
     forcats,
-    ggplot2 (>= 3.2.1.9000),
+    ggplot2 (>= 3.3.0),
     infotheo,
     magrittr,
     MASS,
@@ -56,8 +56,6 @@ LinkingTo:
     RcppArmadillo
 VignetteBuilder: 
     knitr
-Remotes: 
-    tidyverse/ggplot2
 Encoding: UTF-8
 Language: en-US
 LazyData: true
