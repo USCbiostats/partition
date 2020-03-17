@@ -11,6 +11,9 @@ status](https://ci.appveyor.com/api/projects/status/fofb9um8jqyyi6av?svg=true)](
 status](https://codecov.io/gh/USCbiostats/partition/branch/master/graph/badge.svg)](https://codecov.io/github/USCbiostats/partition?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version-ago/partition)](https://cran.r-project.org/package=partition)
+[![status](https://joss.theoj.org/papers/6d4569d6cea0a16c87703134fc78fe59/status.svg)](https://joss.theoj.org/papers/6d4569d6cea0a16c87703134fc78fe59)
+[![DOI](https://zenodo.org/badge/178615892.svg)](https://zenodo.org/badge/latestdoi/178615892)
+
 <!-- badges: end -->
 
 # partition
