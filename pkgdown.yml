@@ -1,7 +1,8 @@
 pandoc: 2.7.3
 pkgdown: 1.4.1.9000
-pkgdown_sha: b18aa6bc9551ca78b75167abf44f81f396c9b548
+pkgdown_sha: 630bf9f05b53a6b63d658bf2643855a8b7eda0c0
 articles:
   extending-partition: extending-partition.html
   introduction-to-partition: introduction-to-partition.html
+last_built: 2020-03-17T20:43Z
 
