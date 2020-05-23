@@ -34,11 +34,3 @@ a ggplot
 \code{plot_permutation()} takes the results of \code{\link[=test_permutation]{test_permutation()}} and plots the
 distribution of permuted partitions compared to the observed partition.
 }
-\examples{
-set.seed(123)
-df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
-
-test_permutation(df, partitioner = part_pc1(), nperm = 5) \%>\%
-  plot_permutation("nclusters")
-
-}

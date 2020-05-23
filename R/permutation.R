@@ -34,13 +34,6 @@ permute_df <- function(.data) {
 #' @return a tibble with summaries on observed and permuted data (the means of
 #'   the permuted summaries), as well as list-cols containing them
 #' @export
-#'
-#' @examples
-#' set.seed(123)
-#' df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
-#'
-#' test_permutation(df, partitioner = part_pc1(), nperm = 2)
-#'
 test_permutation <- function(.data, information = seq(.1, .6, by = .1), partitioner = part_icc(), ..., nperm = 100) {
   observed_summary <- map_partition(.data, partitioner = partitioner, information = information, ...)
   permutation_summary <- map_permutations(.data, partitioner = partitioner, information = information, ..., nperm = nperm)

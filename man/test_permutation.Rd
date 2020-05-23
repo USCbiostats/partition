@@ -36,10 +36,3 @@ permuted results. The partitions and and permutations are also available in
 \code{list-cols}. \code{test_permutation()} tests across a range of target information
 values, as specified in the \code{information} argument.
 }
-\examples{
-set.seed(123)
-df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
-
-test_permutation(df, partitioner = part_pc1(), nperm = 10)
-
-}
