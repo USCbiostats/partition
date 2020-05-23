@@ -19,6 +19,16 @@
 #'   available (`part_*()` functions), and you can create custom partitioners
 #'   with [`as_partitioner()`] and [`replace_partitioner()`].
 #'
+#' @references Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao,
+#'   Wu Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz.
+#'   2020. “Partition: A Surjective Mapping Approach for Dimensionality
+#'   Reduction.” *Bioinformatics* 36 (3):
+#'   https://doi.org/676–81.10.1093/bioinformatics/btz661.
+#'
+#' @references Barrett, Malcolm and Joshua Millstein (2020). partition: A fast
+#'   and flexible framework for data reduction in R. Journal of Open Source
+#'   Software, 5(47), 1991, https://doi.org/10.21105/joss.01991
+#'
 #' @param .data a data.frame to partition
 #' @param threshold the minimum proportion of information explained by a reduced
 #'   variable; `threshold` sets a boundary for information loss because each

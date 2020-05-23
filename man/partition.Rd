@@ -84,6 +84,17 @@ part_icc_rowmeans <- replace_partitioner(part_icc, reduce = as_reducer(rowMeans)
 partition(df, threshold = .6, partitioner = part_icc_rowmeans)
 
 }
+\references{
+Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao,
+Wu Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz.
+2020. “Partition: A Surjective Mapping Approach for Dimensionality
+Reduction.” \emph{Bioinformatics} 36 (3):
+https://doi.org/676–81.10.1093/bioinformatics/btz661.
+
+Barrett, Malcolm and Joshua Millstein (2020). partition: A fast
+and flexible framework for data reduction in R. Journal of Open Source
+Software, 5(47), 1991, https://doi.org/10.21105/joss.01991
+}
 \seealso{
 \code{\link[=part_icc]{part_icc()}}, \code{\link[=part_kmeans]{part_kmeans()}}, \code{\link[=part_minr2]{part_minr2()}}, \code{\link[=part_pc1]{part_pc1()}},
 \code{\link[=part_stdmi]{part_stdmi()}}, \code{\link[=as_partitioner]{as_partitioner()}}, \code{\link[=replace_partitioner]{replace_partitioner()}}

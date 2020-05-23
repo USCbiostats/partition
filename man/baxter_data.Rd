@@ -9,7 +9,17 @@
 \alias{baxter_genus}
 \alias{baxter_data_dictionary}
 \title{Microbiome data}
-\format{5 data frames}
+\format{
+5 data frames
+
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 172 rows and 1234 columns.
+
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 172 rows and 35 columns.
+
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 172 rows and 82 columns.
+
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 1351 rows and 3 columns.
+}
 \source{
 Baxter et al. (2016),
 \url{https://doi.org/10.1186/s13073-016-0290-3}.
