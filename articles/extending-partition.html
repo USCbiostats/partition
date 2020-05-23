@@ -7,9 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Extending partition • partition</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/all.min.css" integrity="sha256-PbSmjxuVAzJ6FPvNYsrXygfGhNJYyZ2GktDbkMBqQZg=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.1/css/v4-shims.min.css" integrity="sha256-A6jcAdwFD48VMjlI3GDxUd+eCQa7/KWy6G9oe/ovaPA=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Extending partition">
 <meta property="og:description" content="partition">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -17,7 +18,7 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -81,10 +82,10 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Extending partition</h1>
+      <h1 data-toc-skip>Extending partition</h1>
                         <h4 class="author">Malcolm Barrett</h4>
             
-            <h4 class="date">2020-03-18</h4>
+            <h4 class="date">2020-05-23</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/USCbiostats/partition/blob/master/vignettes/extending-partition.Rmd"><code>vignettes/extending-partition.Rmd</code></a></small>
       <div class="hidden name"><code>extending-partition.Rmd</code></div>
@@ -98,158 +99,158 @@
 <a href="#customizing-existing-partitioners" class="anchor"></a>Customizing existing partitioners</h2>
 <p>Partitioners are functions that tell the partition algorithm 1) what to try to reduce 2) how to measure how much information is lost from the reduction and 3) how to reduce the data. We call this approach Direct-Measure-Reduce. In partition, functions that handle 1) are thus called directors, functions that handle 2) are called metrics, and functions that handle 3) are called reducers. partition has a number of pre-specified partitioners for agglomerative data reduction. See the <a href="introduction-to-partition.html">vignette introducing partition</a> to learn more about these existing partitioners.</p>
 <p>partition is agnostic to the direct-measure-reduce functions; it only needs to know what to apply to the data and will handle the rest. It’s then easy to extend partition to handle other directors, metrics, and reducers. Let’s consider a simple example: <code><a href="../reference/part_icc.html">part_icc()</a></code>, the default partitioner in <code><a href="../reference/partition.html">partition()</a></code>. <code><a href="../reference/part_icc.html">part_icc()</a></code> produces scaled row means for reduced variables, but let’s say we want to use unscaled means, instead. <code><a href="../reference/replace_partitioner.html">replace_partitioner()</a></code> takes a partitioner and lets you reassign any part of the direct-measure-reduce algorithm. <code><a href="../reference/as_director.html">as_director()</a></code>, <code><a href="../reference/as_measure.html">as_measure()</a></code>, and <code><a href="../reference/as_reducer.html">as_reducer()</a></code> are helper functions to do so. Here, we’ll use <code><a href="../reference/as_reducer.html">as_reducer()</a></code> and <code><a href="https://rdrr.io/r/base/colSums.html">rowMeans()</a></code> to create a new reducer.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(partition)</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a>part_icc_rowmeans &lt;-<span class="st"> </span><span class="kw"><a href="../reference/replace_partitioner.html">replace_partitioner</a></span>(</span>
-<span id="cb1-4"><a href="#cb1-4"></a>  part_icc,</span>
-<span id="cb1-5"><a href="#cb1-5"></a>  <span class="dt">reduce =</span> <span class="kw"><a href="../reference/as_reducer.html">as_reducer</a></span>(rowMeans)</span>
-<span id="cb1-6"><a href="#cb1-6"></a>)</span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a>part_icc_rowmeans</span>
-<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
-<span id="cb1-10"><a href="#cb1-10"></a><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
-<span id="cb1-11"><a href="#cb1-11"></a><span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">partition</span>)
+
+<span class="no">part_icc_rowmeans</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/replace_partitioner.html">replace_partitioner</a></span>(
+  <span class="no">part_icc</span>,
+  <span class="kw">reduce</span> <span class="kw">=</span> <span class="fu"><a href="../reference/as_reducer.html">as_reducer</a></span>(<span class="no">rowMeans</span>)
+)
+
+<span class="no">part_icc_rowmeans</span>
+<span class="co">#&gt;    Director: Minimum Distance (Pearson) </span>
+<span class="co">#&gt;    Metric: Intraclass Correlation </span>
+<span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span></pre></body></html></div>
 <p>Note that it now uses a custom reducer. We can apply <code>part_icc_rowmeans</code> the same way as other partitioners.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="dv">1234</span>)</span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a>df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/simulate_block_data.html">simulate_block_data</a></span>(</span>
-<span id="cb2-4"><a href="#cb2-4"></a>  <span class="dt">block_sizes =</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="dv">5</span>, <span class="dv">3</span>),</span>
-<span id="cb2-5"><a href="#cb2-5"></a>  <span class="dt">lower_corr =</span> <span class="fl">.4</span>,</span>
-<span id="cb2-6"><a href="#cb2-6"></a>  <span class="dt">upper_corr =</span> <span class="fl">.6</span>,</span>
-<span id="cb2-7"><a href="#cb2-7"></a>  <span class="dt">n =</span> <span class="dv">100</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>)</span>
-<span id="cb2-9"><a href="#cb2-9"></a></span>
-<span id="cb2-10"><a href="#cb2-10"></a>prt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/partition.html">partition</a></span>(df, <span class="fl">.5</span>, <span class="dt">partitioner =</span> part_icc_rowmeans)</span>
-<span id="cb2-11"><a href="#cb2-11"></a>prt</span>
-<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt; Partitioner:</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt; </span></span>
-<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt; Reduced Variables:</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; 4 reduced variables created from 10 observed variables</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt; </span></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt; Mappings:</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt; reduced_var_1 = {block3_x1, block3_x2, block3_x3}</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt; reduced_var_2 = {block1_x1, block1_x2, block1_x5}</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt; reduced_var_3 = {block2_x2, block2_x5}</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt; reduced_var_4 = {block2_x1, block2_x4}</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a><span class="co">#&gt; </span></span>
-<span id="cb2-26"><a href="#cb2-26"></a><span class="co">#&gt; Minimum information:</span></span>
-<span id="cb2-27"><a href="#cb2-27"></a><span class="co">#&gt; 0.501</span></span>
-<span id="cb2-28"><a href="#cb2-28"></a><span class="kw"><a href="../reference/partition_scores.html">partition_scores</a></span>(prt)</span>
-<span id="cb2-29"><a href="#cb2-29"></a><span class="co">#&gt; # A tibble: 100 x 9</span></span>
-<span id="cb2-30"><a href="#cb2-30"></a><span class="co">#&gt;    block1_x3 block1_x4 block2_x3 block3_x4 block3_x5 reduced_var_1 reduced_var_2</span></span>
-<span id="cb2-31"><a href="#cb2-31"></a><span class="co">#&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;</span></span>
-<span id="cb2-32"><a href="#cb2-32"></a><span class="co">#&gt;  1    -1.82    -0.533     0.665     0.884      0.245         0.741       -0.347 </span></span>
-<span id="cb2-33"><a href="#cb2-33"></a><span class="co">#&gt;  2    -1.79    -1.01      0.468     1.96       0.463        -0.331       -0.807 </span></span>
-<span id="cb2-34"><a href="#cb2-34"></a><span class="co">#&gt;  3     0.938    1.54     -0.142     0.0903    -1.64         -0.248        1.33  </span></span>
-<span id="cb2-35"><a href="#cb2-35"></a><span class="co">#&gt;  4     0.587   -0.0181   -0.824    -1.34      -1.20         -1.63         0.587 </span></span>
-<span id="cb2-36"><a href="#cb2-36"></a><span class="co">#&gt;  5     0.357   -0.711     0.230     0.874     -1.70          0.205        0.0430</span></span>
-<span id="cb2-37"><a href="#cb2-37"></a><span class="co">#&gt;  6    -0.870   -1.14     -1.24     -0.289     -0.406         0.110       -0.228 </span></span>
-<span id="cb2-38"><a href="#cb2-38"></a><span class="co">#&gt;  7     0.876   -0.0377   -1.27     -2.50      -1.53         -2.35         0.547 </span></span>
-<span id="cb2-39"><a href="#cb2-39"></a><span class="co">#&gt;  8    -0.359    0.132     0.0977    0.109     -0.152        -0.628       -1.08  </span></span>
-<span id="cb2-40"><a href="#cb2-40"></a><span class="co">#&gt;  9     0.562   -1.14     -1.01      0.953     -1.28          0.641       -0.287 </span></span>
-<span id="cb2-41"><a href="#cb2-41"></a><span class="co">#&gt; 10    -0.687    0.290     0.605    -1.91      -1.07         -0.480       -0.264 </span></span>
-<span id="cb2-42"><a href="#cb2-42"></a><span class="co">#&gt; # … with 90 more rows, and 2 more variables: reduced_var_3 &lt;dbl&gt;,</span></span>
-<span id="cb2-43"><a href="#cb2-43"></a><span class="co">#&gt; #   reduced_var_4 &lt;dbl&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1234</span>)
+
+<span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/simulate_block_data.html">simulate_block_data</a></span>(
+  <span class="kw">block_sizes</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">5</span>, <span class="fl">3</span>),
+  <span class="kw">lower_corr</span> <span class="kw">=</span> <span class="fl">.4</span>,
+  <span class="kw">upper_corr</span> <span class="kw">=</span> <span class="fl">.6</span>,
+  <span class="kw">n</span> <span class="kw">=</span> <span class="fl">100</span>
+)
+
+<span class="no">prt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/partition.html">partition</a></span>(<span class="no">df</span>, <span class="fl">.5</span>, <span class="kw">partitioner</span> <span class="kw">=</span> <span class="no">part_icc_rowmeans</span>)
+<span class="no">prt</span>
+<span class="co">#&gt; Partitioner:</span>
+<span class="co">#&gt;    Director: Minimum Distance (Pearson) </span>
+<span class="co">#&gt;    Metric: Intraclass Correlation </span>
+<span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Reduced Variables:</span>
+<span class="co">#&gt; 4 reduced variables created from 10 observed variables</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Mappings:</span>
+<span class="co">#&gt; reduced_var_1 = {block3_x1, block3_x2, block3_x3}</span>
+<span class="co">#&gt; reduced_var_2 = {block1_x1, block1_x2, block1_x5}</span>
+<span class="co">#&gt; reduced_var_3 = {block2_x2, block2_x5}</span>
+<span class="co">#&gt; reduced_var_4 = {block2_x1, block2_x4}</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Minimum information:</span>
+<span class="co">#&gt; 0.501</span>
+<span class="fu"><a href="../reference/partition_scores.html">partition_scores</a></span>(<span class="no">prt</span>)
+<span class="co">#&gt; # A tibble: 100 x 9</span>
+<span class="co">#&gt;    block1_x3 block1_x4 block2_x3 block3_x4 block3_x5 reduced_var_1 reduced_var_2</span>
+<span class="co">#&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt;</span>
+<span class="co">#&gt;  1    -1.82    -0.533     0.665     0.884      0.245         0.741       -0.347 </span>
+<span class="co">#&gt;  2    -1.79    -1.01      0.468     1.96       0.463        -0.331       -0.807 </span>
+<span class="co">#&gt;  3     0.938    1.54     -0.142     0.0903    -1.64         -0.248        1.33  </span>
+<span class="co">#&gt;  4     0.587   -0.0181   -0.824    -1.34      -1.20         -1.63         0.587 </span>
+<span class="co">#&gt;  5     0.357   -0.711     0.230     0.874     -1.70          0.205        0.0430</span>
+<span class="co">#&gt;  6    -0.870   -1.14     -1.24     -0.289     -0.406         0.110       -0.228 </span>
+<span class="co">#&gt;  7     0.876   -0.0377   -1.27     -2.50      -1.53         -2.35         0.547 </span>
+<span class="co">#&gt;  8    -0.359    0.132     0.0977    0.109     -0.152        -0.628       -1.08  </span>
+<span class="co">#&gt;  9     0.562   -1.14     -1.01      0.953     -1.28          0.641       -0.287 </span>
+<span class="co">#&gt; 10    -0.687    0.290     0.605    -1.91      -1.07         -0.480       -0.264 </span>
+<span class="co">#&gt; # … with 90 more rows, and 2 more variables: reduced_var_3 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   reduced_var_4 &lt;dbl&gt;</span></pre></body></html></div>
 <p><code><a href="../reference/as_measure.html">as_measure()</a></code> works much the same way: it accepts a function that returns a single metric to check against the threshold. Let’s swap out ICC for inter-item reliability:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>inter_item_reliability &lt;-<span class="st"> </span><span class="cf">function</span>(.data) {</span>
-<span id="cb3-2"><a href="#cb3-2"></a>   <span class="kw"><a href="../reference/corr.html">corr</a></span>(.data) <span class="op">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="st">    </span><span class="kw"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>(<span class="dt">na.rm =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="st">    </span><span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>()</span>
-<span id="cb3-5"><a href="#cb3-5"></a>}</span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a>measure_iir &lt;-<span class="st"> </span><span class="kw"><a href="../reference/as_measure.html">as_measure</a></span>(inter_item_reliability)</span>
-<span id="cb3-8"><a href="#cb3-8"></a></span>
-<span id="cb3-9"><a href="#cb3-9"></a>prt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/partition.html">partition</a></span>(df, <span class="fl">.5</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="../reference/replace_partitioner.html">replace_partitioner</a></span>(part_icc, <span class="dt">measure =</span> measure_iir))</span>
-<span id="cb3-10"><a href="#cb3-10"></a>prt</span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt; Partitioner:</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt;    Metric: &lt;custom metric&gt; </span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt; </span></span>
-<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; Reduced Variables:</span></span>
-<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt; 3 reduced variables created from 15 observed variables</span></span>
-<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt; </span></span>
-<span id="cb3-19"><a href="#cb3-19"></a><span class="co">#&gt; Mappings:</span></span>
-<span id="cb3-20"><a href="#cb3-20"></a><span class="co">#&gt; reduced_var_1 = {block1_x1, block1_x2, block1_x3, block1_x4, block1_x5}</span></span>
-<span id="cb3-21"><a href="#cb3-21"></a><span class="co">#&gt; reduced_var_2 = {block2_x1, block2_x2, block2_x3, block2_x4, block2_x5}</span></span>
-<span id="cb3-22"><a href="#cb3-22"></a><span class="co">#&gt; reduced_var_3 = {block3_x1, block3_x2, block3_x3, block3_x4, block3_x5}</span></span>
-<span id="cb3-23"><a href="#cb3-23"></a><span class="co">#&gt; </span></span>
-<span id="cb3-24"><a href="#cb3-24"></a><span class="co">#&gt; Minimum information:</span></span>
-<span id="cb3-25"><a href="#cb3-25"></a><span class="co">#&gt; 0.522</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">inter_item_reliability</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">.data</span>) {
+   <span class="fu"><a href="../reference/corr.html">corr</a></span>(<span class="no">.data</span>) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span>(<span class="kw">na.rm</span> <span class="kw">=</span> <span class="fl">TRUE</span>) <span class="kw">%&gt;%</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>()
+}
+
+<span class="no">measure_iir</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/as_measure.html">as_measure</a></span>(<span class="no">inter_item_reliability</span>)
+
+<span class="no">prt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/partition.html">partition</a></span>(<span class="no">df</span>, <span class="fl">.5</span>, <span class="kw">partitioner</span> <span class="kw">=</span> <span class="fu"><a href="../reference/replace_partitioner.html">replace_partitioner</a></span>(<span class="no">part_icc</span>, <span class="kw">measure</span> <span class="kw">=</span> <span class="no">measure_iir</span>))
+<span class="no">prt</span>
+<span class="co">#&gt; Partitioner:</span>
+<span class="co">#&gt;    Director: Minimum Distance (Pearson) </span>
+<span class="co">#&gt;    Metric: &lt;custom metric&gt; </span>
+<span class="co">#&gt;    Reducer: Scaled Mean</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Reduced Variables:</span>
+<span class="co">#&gt; 3 reduced variables created from 15 observed variables</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Mappings:</span>
+<span class="co">#&gt; reduced_var_1 = {block1_x1, block1_x2, block1_x3, block1_x4, block1_x5}</span>
+<span class="co">#&gt; reduced_var_2 = {block2_x1, block2_x2, block2_x3, block2_x4, block2_x5}</span>
+<span class="co">#&gt; reduced_var_3 = {block3_x1, block3_x2, block3_x3, block3_x4, block3_x5}</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Minimum information:</span>
+<span class="co">#&gt; 0.522</span></pre></body></html></div>
 <p>This returns a different partition because each reduced variable must now have an inter-item reliability of .5 or greater.</p>
 <p><code><a href="../reference/as_director.html">as_director()</a></code> supports directors in the style of <code><a href="../reference/direct_distance.html">direct_distance()</a></code>. Instead of a single function, however, it takes two: <code>.pairs</code>, a way to create a matrix comparing each variable, and <code>.target</code>, a way to select two variables to possibly reduce. <code><a href="../reference/direct_distance.html">direct_distance()</a></code> does this by fitting a correlation-based distance matrix and using the variables with the smallest distance between them. Let’s try an example with Euclidean distance, instead. We’ll create two functions: <code>euc_dist()</code>, which returns a pairwise matrix of Euclidean distance between variables, and <code>min_dist()</code>, which finds the smallest distance and returns the names of two variables.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>euc_dist &lt;-<span class="st"> </span><span class="cf">function</span>(.data) <span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/dist.html">dist</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/t.html">t</a></span>(.data)))</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># find the pair with the minimum distance</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a>min_dist &lt;-<span class="st"> </span><span class="cf">function</span>(.x) {</span>
-<span id="cb4-5"><a href="#cb4-5"></a>  indices &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/which.html">arrayInd</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span>(.x), <span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(.x)))</span>
-<span id="cb4-6"><a href="#cb4-6"></a></span>
-<span id="cb4-7"><a href="#cb4-7"></a>  <span class="co">#  get variable names with minimum distance</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a>  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</span>
-<span id="cb4-9"><a href="#cb4-9"></a>    <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(.x)[indices[<span class="dv">1</span>]],</span>
-<span id="cb4-10"><a href="#cb4-10"></a>    <span class="kw"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(.x)[indices[<span class="dv">2</span>]]</span>
-<span id="cb4-11"><a href="#cb4-11"></a>  )</span>
-<span id="cb4-12"><a href="#cb4-12"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">euc_dist</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">.data</span>) <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/dist.html">dist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span>(<span class="no">.data</span>)))
+
+<span class="co"># find the pair with the minimum distance</span>
+<span class="no">min_dist</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">.x</span>) {
+  <span class="no">indices</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">arrayInd</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/which.min.html">which.min</a></span>(<span class="no">.x</span>), <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="no">.x</span>)))
+
+  <span class="co">#  get variable names with minimum distance</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(
+    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">.x</span>)[<span class="no">indices</span>[<span class="fl">1</span>]],
+    <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">.x</span>)[<span class="no">indices</span>[<span class="fl">2</span>]]
+  )
+}</pre></body></html></div>
 <p>We’ll pass these functions to <code><a href="../reference/as_director.html">as_director()</a></code> and, as above, apply it to <code><a href="../reference/part_icc.html">part_icc()</a></code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>direct_euc_dist &lt;-<span class="st"> </span><span class="kw"><a href="../reference/as_director.html">as_director</a></span>(euc_dist, min_dist)</span>
-<span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a>prt &lt;-<span class="st"> </span><span class="kw"><a href="../reference/partition.html">partition</a></span>(df, <span class="fl">.5</span>, <span class="dt">partitioner =</span> <span class="kw"><a href="../reference/replace_partitioner.html">replace_partitioner</a></span>(part_icc, <span class="dt">direct =</span> direct_euc_dist))</span>
-<span id="cb5-4"><a href="#cb5-4"></a>prt</span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#&gt; Partitioner:</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt;    Director: &lt;custom director&gt; </span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; </span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; Reduced Variables:</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; 5 reduced variables created from 11 observed variables</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="co">#&gt; </span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="co">#&gt; Mappings:</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="co">#&gt; reduced_var_1 = {block2_x2, block2_x5}</span></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="co">#&gt; reduced_var_2 = {block3_x3, block3_x5}</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="co">#&gt; reduced_var_3 = {block3_x1, block3_x2}</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="co">#&gt; reduced_var_4 = {block2_x1, block2_x4}</span></span>
-<span id="cb5-18"><a href="#cb5-18"></a><span class="co">#&gt; reduced_var_5 = {block1_x1, block1_x2, block1_x4}</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a><span class="co">#&gt; </span></span>
-<span id="cb5-20"><a href="#cb5-20"></a><span class="co">#&gt; Minimum information:</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a><span class="co">#&gt; 0.506</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">direct_euc_dist</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/as_director.html">as_director</a></span>(<span class="no">euc_dist</span>, <span class="no">min_dist</span>)
+
+<span class="no">prt</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/partition.html">partition</a></span>(<span class="no">df</span>, <span class="fl">.5</span>, <span class="kw">partitioner</span> <span class="kw">=</span> <span class="fu"><a href="../reference/replace_partitioner.html">replace_partitioner</a></span>(<span class="no">part_icc</span>, <span class="kw">direct</span> <span class="kw">=</span> <span class="no">direct_euc_dist</span>))
+<span class="no">prt</span>
+<span class="co">#&gt; Partitioner:</span>
+<span class="co">#&gt;    Director: &lt;custom director&gt; </span>
+<span class="co">#&gt;    Metric: Intraclass Correlation </span>
+<span class="co">#&gt;    Reducer: Scaled Mean</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Reduced Variables:</span>
+<span class="co">#&gt; 5 reduced variables created from 11 observed variables</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Mappings:</span>
+<span class="co">#&gt; reduced_var_1 = {block2_x2, block2_x5}</span>
+<span class="co">#&gt; reduced_var_2 = {block3_x3, block3_x5}</span>
+<span class="co">#&gt; reduced_var_3 = {block3_x1, block3_x2}</span>
+<span class="co">#&gt; reduced_var_4 = {block2_x1, block2_x4}</span>
+<span class="co">#&gt; reduced_var_5 = {block1_x1, block1_x2, block1_x4}</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Minimum information:</span>
+<span class="co">#&gt; 0.506</span></pre></body></html></div>
 </div>
 <div id="creating-new-partitioners" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-new-partitioners" class="anchor"></a>Creating new partitioners</h2>
 <p>The <code>part_*()</code> functions are actually wrappers for <code><a href="../reference/as_partitioner.html">as_partitioner()</a></code>. Each partitioner has a set of component functions that direct, measure, and reduce: <code>direct_*()</code>, <code>measure_*()</code>, and <code>reduce_*()</code>. ICC, for instance, is measured with <code><a href="../reference/measure_icc.html">measure_icc()</a></code>. Passing direct-measure-reduce functions to <code><a href="../reference/as_partitioner.html">as_partitioner()</a></code> thus creates a partitioner. The source code for <code><a href="../reference/part_icc.html">part_icc()</a></code>, for instance, looks like this:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="cf">function</span>(<span class="dt">spearman =</span> <span class="ot">FALSE</span>) {</span>
-<span id="cb6-2"><a href="#cb6-2"></a>  <span class="kw"><a href="../reference/as_partitioner.html">as_partitioner</a></span>(</span>
-<span id="cb6-3"><a href="#cb6-3"></a>    <span class="dt">direct =</span> <span class="kw">direct_dist</span>(<span class="dt">spearman =</span> spearman),</span>
-<span id="cb6-4"><a href="#cb6-4"></a>    <span class="dt">measure =</span> measure_icc,</span>
-<span id="cb6-5"><a href="#cb6-5"></a>    <span class="dt">reduce =</span> reduce_scaled_mean</span>
-<span id="cb6-6"><a href="#cb6-6"></a>  )</span>
-<span id="cb6-7"><a href="#cb6-7"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="kw">function</span>(<span class="no">spearman</span> <span class="kw">=</span> <span class="fl">FALSE</span>) {
+  <span class="fu"><a href="../reference/as_partitioner.html">as_partitioner</a></span>(
+    <span class="kw">direct</span> <span class="kw">=</span> <span class="fu">direct_dist</span>(<span class="kw">spearman</span> <span class="kw">=</span> <span class="no">spearman</span>),
+    <span class="kw">measure</span> <span class="kw">=</span> <span class="no">measure_icc</span>,
+    <span class="kw">reduce</span> <span class="kw">=</span> <span class="no">reduce_scaled_mean</span>
+  )
+}</pre></body></html></div>
 <p>We can use <code><a href="../reference/as_partitioner.html">as_partitioner()</a></code> with the built-in <code>direct_*()</code>, <code>measure_*()</code>, and <code>reduce_*()</code> functions or apply custom components, like we created above. It’s easy to create a totally new partitioner using the functions we wrote above:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>custom_part &lt;-<span class="st"> </span><span class="kw"><a href="../reference/as_partitioner.html">as_partitioner</a></span>(</span>
-<span id="cb7-2"><a href="#cb7-2"></a>  <span class="dt">direct =</span> <span class="kw"><a href="../reference/as_director.html">as_director</a></span>(euc_dist, min_dist),</span>
-<span id="cb7-3"><a href="#cb7-3"></a>  <span class="dt">measure =</span> <span class="kw"><a href="../reference/as_measure.html">as_measure</a></span>(inter_item_reliability),</span>
-<span id="cb7-4"><a href="#cb7-4"></a>  <span class="dt">reduce =</span> <span class="kw"><a href="../reference/as_reducer.html">as_reducer</a></span>(rowMeans)</span>
-<span id="cb7-5"><a href="#cb7-5"></a>)</span>
-<span id="cb7-6"><a href="#cb7-6"></a></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="kw"><a href="../reference/partition.html">partition</a></span>(df, <span class="fl">.5</span>, custom_part)</span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="co">#&gt; Partitioner:</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="co">#&gt;    Director: &lt;custom director&gt; </span></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt;    Metric: &lt;custom metric&gt; </span></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt; </span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt; Reduced Variables:</span></span>
-<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt; 3 reduced variables created from 15 observed variables</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt; </span></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; Mappings:</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; reduced_var_1 = {block2_x1, block2_x2, block2_x3, block2_x4, block2_x5}</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt; reduced_var_2 = {block1_x1, block1_x2, block1_x3, block1_x4, block1_x5}</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt; reduced_var_3 = {block3_x1, block3_x2, block3_x3, block3_x4, block3_x5}</span></span>
-<span id="cb7-20"><a href="#cb7-20"></a><span class="co">#&gt; </span></span>
-<span id="cb7-21"><a href="#cb7-21"></a><span class="co">#&gt; Minimum information:</span></span>
-<span id="cb7-22"><a href="#cb7-22"></a><span class="co">#&gt; 0.522</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">custom_part</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/as_partitioner.html">as_partitioner</a></span>(
+  <span class="kw">direct</span> <span class="kw">=</span> <span class="fu"><a href="../reference/as_director.html">as_director</a></span>(<span class="no">euc_dist</span>, <span class="no">min_dist</span>),
+  <span class="kw">measure</span> <span class="kw">=</span> <span class="fu"><a href="../reference/as_measure.html">as_measure</a></span>(<span class="no">inter_item_reliability</span>),
+  <span class="kw">reduce</span> <span class="kw">=</span> <span class="fu"><a href="../reference/as_reducer.html">as_reducer</a></span>(<span class="no">rowMeans</span>)
+)
+
+<span class="fu"><a href="../reference/partition.html">partition</a></span>(<span class="no">df</span>, <span class="fl">.5</span>, <span class="no">custom_part</span>)
+<span class="co">#&gt; Partitioner:</span>
+<span class="co">#&gt;    Director: &lt;custom director&gt; </span>
+<span class="co">#&gt;    Metric: &lt;custom metric&gt; </span>
+<span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Reduced Variables:</span>
+<span class="co">#&gt; 3 reduced variables created from 15 observed variables</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Mappings:</span>
+<span class="co">#&gt; reduced_var_1 = {block2_x1, block2_x2, block2_x3, block2_x4, block2_x5}</span>
+<span class="co">#&gt; reduced_var_2 = {block1_x1, block1_x2, block1_x3, block1_x4, block1_x5}</span>
+<span class="co">#&gt; reduced_var_3 = {block3_x1, block3_x2, block3_x3, block3_x4, block3_x5}</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Minimum information:</span>
+<span class="co">#&gt; 0.522</span></pre></body></html></div>
 </div>
 <div id="partition_step-map_cluster-and-reduce_cluster" class="section level2">
 <h2 class="hasAnchor">
@@ -257,86 +258,79 @@
 </h2>
 <p><code><a href="../reference/as_director.html">as_director()</a></code>, <code><a href="../reference/as_measure.html">as_measure()</a></code>, and <code><a href="../reference/as_reducer.html">as_reducer()</a></code> help facilitate working with the the way <code><a href="../reference/partition.html">partition()</a></code> iterates; they essentially put the custom components in the right place, handle storage of objects, and pass the right results on for you. You can also work with the partition algorithm directly. Internally, <code><a href="../reference/partition.html">partition()</a></code> starts by creating a <code>partition_step</code> object. It’s this <code>partition_step</code> object that is passed on while the algorithm iterates; all directors, metrics, and reducers take a <code>partition_step</code> as the first argument and return a <code>partition_step</code>.</p>
 <p>As a simple example, consider <code><a href="../reference/as_reducer.html">as_reducer(rowMeans)</a></code>. This returns a function that looks like this:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="cf">function</span>(.partition_step) {</span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="kw"><a href="../reference/reduce_target.html">reduce_cluster</a></span>(.partition_step, rowMeans)</span>
-<span id="cb8-3"><a href="#cb8-3"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="kw">function</span>(<span class="no">.partition_step</span>) {
+  <span class="fu"><a href="../reference/reduce_target.html">reduce_cluster</a></span>(<span class="no">.partition_step</span>, <span class="no">rowMeans</span>)
+}</pre></body></html></div>
 <p>This takes a <code>partition_step</code> object, accesses the target (here, two variables to reduce) and metric, and if the metric is above the threshold, reduces them to a vector–a single reduced variable–using <code><a href="https://rdrr.io/r/base/colSums.html">rowMeans()</a></code>. The helper function <code><a href="../reference/reduce_target.html">reduce_cluster()</a></code> applies the function to the <code>partition_step</code> the right way.</p>
 <p>Some partitioners, like <code><a href="../reference/part_kmeans.html">part_kmeans()</a></code>, will assess many targets simultaneously, for instance by assigning all original variables to a cluster at a given level of <code>k</code>. <code><a href="../reference/as_reducer.html">as_reducer(rowMeans, returns_vector = FALSE)</a></code> handles functions that should return a data frame instead. What it’s doing is using <code><a href="../reference/reduce_target.html">map_cluster()</a></code> instead of <code><a href="../reference/reduce_target.html">reduce_cluster()</a></code>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="cf">function</span>(.partition_step) {</span>
-<span id="cb9-2"><a href="#cb9-2"></a>  <span class="kw"><a href="../reference/reduce_target.html">map_cluster</a></span>(.partition_step, rowMeans)</span>
-<span id="cb9-3"><a href="#cb9-3"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="kw">function</span>(<span class="no">.partition_step</span>) {
+  <span class="fu"><a href="../reference/reduce_target.html">map_cluster</a></span>(<span class="no">.partition_step</span>, <span class="no">rowMeans</span>)
+}</pre></body></html></div>
 <p>Knowing this can be useful because we can make changes to how the function works. Let’s say we want to add the ability to use the <code>na.rm</code> argument in <code><a href="https://rdrr.io/r/base/colSums.html">rowMeans()</a></code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="cf">function</span>(.partition_step, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>) {</span>
-<span id="cb10-2"><a href="#cb10-2"></a>  partialized_rowMeans &lt;-<span class="st"> </span>purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/partial.html">partial</a></span>(rowMeans, <span class="dt">na.rm =</span> na.rm)</span>
-<span id="cb10-3"><a href="#cb10-3"></a>  <span class="kw"><a href="../reference/reduce_target.html">map_cluster</a></span>(.partition_step, partialized_rowMeans)</span>
-<span id="cb10-4"><a href="#cb10-4"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="kw">function</span>(<span class="no">.partition_step</span>, <span class="no">na.rm</span> <span class="kw">=</span> <span class="fl">FALSE</span>) {
+  <span class="no">partialized_rowMeans</span> <span class="kw">&lt;-</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/partial.html">partial</a></span>(<span class="no">rowMeans</span>, <span class="kw">na.rm</span> <span class="kw">=</span> <span class="no">na.rm</span>)
+  <span class="fu"><a href="../reference/reduce_target.html">map_cluster</a></span>(<span class="no">.partition_step</span>, <span class="no">partialized_rowMeans</span>)
+}</pre></body></html></div>
 <p>But we can also write these components from scratch. To do so, we need to work with <code>partition_step</code> directly. Let’s make a new director using hierarchical clustering with the <code><a href="https://rdrr.io/r/stats/hclust.html">hclust()</a></code> function; it will work like <code><a href="../reference/part_kmeans.html">part_kmeans()</a></code> in that it will assign variables to a cluster for a given level of <code>k</code>, check if the information loss for each cluster, and reduce if no variables are below the threshold. We’ll create a director called <code>direct_hcluster()</code> to replace the director in <code><a href="../reference/part_kmeans.html">part_kmeans()</a></code>, but we’ll use the same metric (ICC) and reducer (scaled means).</p>
 <p>A <code>partition_step</code> is just a list object, so you can use it store anything you need as the partition algorithm iterates. For instance, we’ll want to save <code>k</code>, the number of clusters we’re checking. Since <code><a href="https://rdrr.io/r/stats/hclust.html">hclust()</a></code> only needs to be fit once (<code>cuttree()</code> does the assigning), we’ll also save that so we don’t have to keep fitting it. Each iteration will then have access to these objects. The target of the director should be saved to <code>.partition_step$target</code>, although you could handle it however you like if you make completely custom partitioners. Note that we can also use <code>.partition_step$all_done &lt;- TRUE</code> as to tell the partition to end early. See <code><a href="../reference/as_partition_step.html">?as_partition_step</a></code> for some of the common objects saved to <code>partition_step</code>.</p>
 <p>For <code>direct_hcluster</code>, then, we’ll 1) create an initial <code>k</code> to check, 2) make sure we haven’t iterated through all levels of <code>k</code> without finding a set that have all reduced variables with their ICC above the threshold, 3) fit the <code><a href="https://rdrr.io/r/stats/hclust.html">hclust()</a></code> function and save it for future iterations, and 4) generate cluster assignments using <code>cuttree()</code> and <code>k</code>. We now have a working director: it takes a <code>partition_step</code>, assigns a target, and returns a <code>partition_step</code>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>direct_hcluster &lt;-<span class="st"> </span><span class="cf">function</span>(.partition_step) {</span>
-<span id="cb11-2"><a href="#cb11-2"></a>  <span class="co">#  set initial k to 1 - number of cols in data</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>  <span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span>(.partition_step<span class="op">$</span>k)) {</span>
-<span id="cb11-4"><a href="#cb11-4"></a>    .partition_step<span class="op">$</span>k &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(.partition_step<span class="op">$</span>reduced_data) <span class="op">-</span><span class="st"> </span><span class="dv">1</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a>  }</span>
-<span id="cb11-6"><a href="#cb11-6"></a>  </span>
-<span id="cb11-7"><a href="#cb11-7"></a>  <span class="co">#  stop partition if all k checked</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a>  <span class="cf">if</span> (.partition_step<span class="op">$</span>k <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</span>
-<span id="cb11-9"><a href="#cb11-9"></a>    <span class="co">#  tell the partition algorithm to stop</span></span>
-<span id="cb11-10"><a href="#cb11-10"></a>    .partition_step<span class="op">$</span>all_done &lt;-<span class="st"> </span><span class="ot">TRUE</span></span>
-<span id="cb11-11"><a href="#cb11-11"></a>    <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span>(.partition_step)</span>
-<span id="cb11-12"><a href="#cb11-12"></a>  }</span>
-<span id="cb11-13"><a href="#cb11-13"></a>  </span>
-<span id="cb11-14"><a href="#cb11-14"></a>  <span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span>(.partition_step<span class="op">$</span>hc)) {</span>
-<span id="cb11-15"><a href="#cb11-15"></a>    <span class="co">#  save hclust object for future use</span></span>
-<span id="cb11-16"><a href="#cb11-16"></a>    .partition_step<span class="op">$</span>hc &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/hclust.html">hclust</a></span>(<span class="kw"><a href="https://rdrr.io/r/stats/dist.html">dist</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/t.html">t</a></span>(.partition_step<span class="op">$</span>reduced_data)))</span>
-<span id="cb11-17"><a href="#cb11-17"></a>  }</span>
-<span id="cb11-18"><a href="#cb11-18"></a>  </span>
-<span id="cb11-19"><a href="#cb11-19"></a>  .partition_step<span class="op">$</span>target &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/stats/cutree.html">cutree</a></span>(.partition_step<span class="op">$</span>hc, <span class="dt">k =</span> .partition_step<span class="op">$</span>k)</span>
-<span id="cb11-20"><a href="#cb11-20"></a>  </span>
-<span id="cb11-21"><a href="#cb11-21"></a>  .partition_step</span>
-<span id="cb11-22"><a href="#cb11-22"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">direct_hcluster</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">.partition_step</span>) {
+  <span class="co">#  set initial k to 1 - number of cols in data</span>
+  <span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span>(<span class="no">.partition_step</span>$<span class="no">k</span>)) {
+    <span class="no">.partition_step</span>$<span class="no">k</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">ncol</a></span>(<span class="no">.partition_step</span>$<span class="no">reduced_data</span>) - <span class="fl">1</span>
+  }
+
+  <span class="co">#  stop partition if all k checked</span>
+  <span class="kw">if</span> (<span class="no">.partition_step</span>$<span class="no">k</span> <span class="kw">==</span> <span class="fl">0</span>) {
+    <span class="co">#  tell the partition algorithm to stop</span>
+    <span class="no">.partition_step</span>$<span class="no">all_done</span> <span class="kw">&lt;-</span> <span class="fl">TRUE</span>
+    <span class="fu"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="no">.partition_step</span>)
+  }
+
+  <span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/NULL.html">is.null</a></span>(<span class="no">.partition_step</span>$<span class="no">hc</span>)) {
+    <span class="co">#  save hclust object for future use</span>
+    <span class="no">.partition_step</span>$<span class="no">hc</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/hclust.html">hclust</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/dist.html">dist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span>(<span class="no">.partition_step</span>$<span class="no">reduced_data</span>)))
+  }
+
+  <span class="no">.partition_step</span>$<span class="no">target</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cutree.html">cutree</a></span>(<span class="no">.partition_step</span>$<span class="no">hc</span>, <span class="kw">k</span> <span class="kw">=</span> <span class="no">.partition_step</span>$<span class="no">k</span>)
+
+  <span class="no">.partition_step</span>
+}</pre></body></html></div>
 <p>As before, we can use <code><a href="../reference/as_partitioner.html">as_partitioner()</a></code> and apply it to our data using <code><a href="../reference/partition.html">partition()</a></code>. For this partitioner, <code>part_hcluster</code>, we’ll use our custom director, as well as <code><a href="../reference/measure_min_icc.html">measure_min_icc()</a></code> and <code><a href="../reference/reduce_kmeans.html">reduce_kmeans()</a></code> from <code><a href="../reference/part_kmeans.html">part_kmeans()</a></code>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>part_hcluster &lt;-<span class="st"> </span><span class="kw"><a href="../reference/as_partitioner.html">as_partitioner</a></span>(</span>
-<span id="cb12-2"><a href="#cb12-2"></a>  <span class="dt">direct =</span> direct_hcluster,</span>
-<span id="cb12-3"><a href="#cb12-3"></a>  <span class="co">#  use same functions as part_kmeans() but search k linearly </span></span>
-<span id="cb12-4"><a href="#cb12-4"></a>  <span class="dt">measure =</span> purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/partial.html">partial</a></span>(measure_min_icc, <span class="dt">search_method =</span> <span class="st">"linear"</span>),</span>
-<span id="cb12-5"><a href="#cb12-5"></a>  <span class="dt">reduce =</span>   purrr<span class="op">::</span><span class="kw"><a href="https://purrr.tidyverse.org/reference/partial.html">partial</a></span>(reduce_kmeans, <span class="dt">search =</span> <span class="st">"linear"</span>)</span>
-<span id="cb12-6"><a href="#cb12-6"></a>)</span>
-<span id="cb12-7"><a href="#cb12-7"></a></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="kw"><a href="../reference/partition.html">partition</a></span>(df, <span class="fl">.5</span>, part_hcluster)</span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="co">#&gt; Partitioner:</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a><span class="co">#&gt;    Director: &lt;custom director&gt; </span></span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="co">#&gt;    Metric: Minimum Intraclass Correlation </span></span>
-<span id="cb12-12"><a href="#cb12-12"></a><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
-<span id="cb12-13"><a href="#cb12-13"></a><span class="co">#&gt; </span></span>
-<span id="cb12-14"><a href="#cb12-14"></a><span class="co">#&gt; Reduced Variables:</span></span>
-<span id="cb12-15"><a href="#cb12-15"></a><span class="co">#&gt; 5 reduced variables created from 10 observed variables</span></span>
-<span id="cb12-16"><a href="#cb12-16"></a><span class="co">#&gt; </span></span>
-<span id="cb12-17"><a href="#cb12-17"></a><span class="co">#&gt; Mappings:</span></span>
-<span id="cb12-18"><a href="#cb12-18"></a><span class="co">#&gt; reduced_var_1 = {block2_x1, block2_x4}</span></span>
-<span id="cb12-19"><a href="#cb12-19"></a><span class="co">#&gt; reduced_var_2 = {block1_x1, block1_x4}</span></span>
-<span id="cb12-20"><a href="#cb12-20"></a><span class="co">#&gt; reduced_var_3 = {block2_x2, block2_x5}</span></span>
-<span id="cb12-21"><a href="#cb12-21"></a><span class="co">#&gt; reduced_var_4 = {block3_x3, block3_x5}</span></span>
-<span id="cb12-22"><a href="#cb12-22"></a><span class="co">#&gt; reduced_var_5 = {block3_x1, block3_x2}</span></span>
-<span id="cb12-23"><a href="#cb12-23"></a><span class="co">#&gt; </span></span>
-<span id="cb12-24"><a href="#cb12-24"></a><span class="co">#&gt; Minimum information:</span></span>
-<span id="cb12-25"><a href="#cb12-25"></a><span class="co">#&gt; 0.514</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">part_hcluster</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/as_partitioner.html">as_partitioner</a></span>(
+  <span class="kw">direct</span> <span class="kw">=</span> <span class="no">direct_hcluster</span>,
+  <span class="co">#  use same functions as part_kmeans() but search k linearly </span>
+  <span class="kw">measure</span> <span class="kw">=</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/partial.html">partial</a></span>(<span class="no">measure_min_icc</span>, <span class="kw">search_method</span> <span class="kw">=</span> <span class="st">"linear"</span>),
+  <span class="kw">reduce</span> <span class="kw">=</span>   <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/partial.html">partial</a></span>(<span class="no">reduce_kmeans</span>, <span class="kw">search</span> <span class="kw">=</span> <span class="st">"linear"</span>)
+)
+
+<span class="fu"><a href="../reference/partition.html">partition</a></span>(<span class="no">df</span>, <span class="fl">.5</span>, <span class="no">part_hcluster</span>)
+<span class="co">#&gt; Partitioner:</span>
+<span class="co">#&gt;    Director: &lt;custom director&gt; </span>
+<span class="co">#&gt;    Metric: Minimum Intraclass Correlation </span>
+<span class="co">#&gt;    Reducer: Scaled Mean</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Reduced Variables:</span>
+<span class="co">#&gt; 5 reduced variables created from 10 observed variables</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Mappings:</span>
+<span class="co">#&gt; reduced_var_1 = {block2_x1, block2_x4}</span>
+<span class="co">#&gt; reduced_var_2 = {block1_x1, block1_x4}</span>
+<span class="co">#&gt; reduced_var_3 = {block2_x2, block2_x5}</span>
+<span class="co">#&gt; reduced_var_4 = {block3_x3, block3_x5}</span>
+<span class="co">#&gt; reduced_var_5 = {block3_x1, block3_x2}</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Minimum information:</span>
+<span class="co">#&gt; 0.514</span></pre></body></html></div>
 <p>partition is thus fully extensible. While we include many pre-specified partitioners, directors, metrics, and reducers, the partition algorithm is agnostic to those components; they can be fully specified by the user, making partition a very powerful framework for data reduction.</p>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li><a href="#customizing-existing-partitioners">Customizing existing partitioners</a></li>
-      <li><a href="#creating-new-partitioners">Creating new partitioners</a></li>
-      <li><a href="#partition_step-map_cluster-and-reduce_cluster"><code>partition_step()</code>, <code>map_cluster()</code>, and <code>reduce_cluster()</code></a></li>
-      </ul>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
 
@@ -347,7 +341,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
