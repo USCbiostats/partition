@@ -221,15 +221,16 @@ discusses these issues in more depth (Millstein et al. 2020).
 
 ## Contributing
 
-Please read the [Contributor Guidelines](.github/CODE_OF_CONDUCT.md)
+Please read the [Contributor
+Guidelines](https://github.com/USCbiostats/partition/blob/master/.github/CONTRIBUTING.md)
 prior to submitting a pull request to partition. Also note that this
 project is released with a [Contributor Code of
-Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
-you agree to abide by its terms.
+Conduct](https://github.com/USCbiostats/partition/blob/master/.github/CODE_OF_CONDUCT.md).
+By participating in this project you agree to abide by its terms.
 
 ## References
 
-<div id="refs" class="references">
+<div id="refs" class="references hanging-indent">
 
 <div id="ref-R-partition">
 
@@ -237,7 +238,7 @@ Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu
 Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz.
 2020. “Partition: A Surjective Mapping Approach for Dimensionality
 Reduction.” *Bioinformatics* 36 (3): 676–81.
-[10.1093/bioinformatics/btz661](10.1093/bioinformatics/btz661).
+<https://doi.org/10.1093/bioinformatics/btz661>.
 
 </div>
 

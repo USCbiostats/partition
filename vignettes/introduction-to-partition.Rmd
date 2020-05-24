@@ -31,7 +31,7 @@ references:
   page: 676-681
   volume: '36'
   issue: '3'
-  URL: 10.1093/bioinformatics/btz661
+  URL: https://doi.org/10.1093/bioinformatics/btz661
 vignette: >
   %\VignetteIndexEntry{Introduction to Partition}
   %\VignetteEngine{knitr::rmarkdown}

@@ -9,7 +9,7 @@ citEntry(
   volume   = 36,
   number   = 3,
   pages    = "676–681",
-  url      = "10.1093/bioinformatics/btz661",
+  url      = "https://doi.org/10.1093/bioinformatics/btz661",
   textVersion = "Millstein et al., (2020). Partition: a surjective mapping approach for dimensionality reduction. Bioinformatics, 36(3) 3, 676–681, https://doi.org/10.1093/bioinformatics/btz661"
 )
 
@@ -22,7 +22,7 @@ citEntry(
   volume   = 5,
   number   = 47,
   pages    = "1991",
-  url      = "1991",
+  url      = "https://doi.org/10.21105/joss.01991",
   textVersion = "Barrett et al., (2020). partition: A fast and flexible framework for data reduction in R. Journal of Open Source Software, 5(47), 1991, https://doi.org/10.21105/joss.01991"
 )
 
