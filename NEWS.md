@@ -1,3 +1,5 @@
+# partition (development version)
+
 # partition 0.1.2
 
 * Required ggplot2 version 3.3.0 or higher due to a bug fix related to stacked area charts 
