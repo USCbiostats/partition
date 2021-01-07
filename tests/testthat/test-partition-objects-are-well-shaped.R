@@ -28,13 +28,13 @@ test_that("partition object is returning correctly", {
   expect_equal(names(map_key), c("variable", "mapping", "information", "indices"))
   expect_type(map_key[["variable"]], "character")
   expect_type(map_key[["mapping"]], "list")
-  expect_type(map_key[["information"]], "numeric")
+  expect_type(map_key[["information"]], "double")
   expect_type(map_key[["indices"]], "list")
   expect_true(all_numeric)
 
   # threshold
   expect_equal(threshold, .6)
-  expect_type(threshold, "numeric")
+  expect_type(threshold, "double")
 
   # partitioner
   expect_s3_class(prtnr, "partitioner")
