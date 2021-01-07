@@ -1,4 +1,3 @@
-context("test-plots-are-plotting")
 set.seed(1234)
 perms <- test_permutation(df, nperm = 2)
 

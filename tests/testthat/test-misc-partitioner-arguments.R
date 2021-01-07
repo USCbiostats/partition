@@ -1,4 +1,3 @@
-context("test-misc-partitioner-arguments")
 set.seed(1234)
 
 expect_identical_partition <- function(.x, .y, same_partitioner = TRUE) {

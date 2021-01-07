@@ -1,4 +1,3 @@
-context("test-permutations-return-correctly")
 set.seed(1234)
 
 test_that("permuted dfs are correct", {

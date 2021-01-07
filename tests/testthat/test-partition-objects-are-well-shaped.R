@@ -1,4 +1,3 @@
-context("test-partition-objects-are-well-shaped")
 set.seed(123)
 
 prt <- partition(df, threshold = .6)

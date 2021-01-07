@@ -1,4 +1,3 @@
-context("test-mappings-and-scores-work")
 set.seed(1234)
 prt <- partition(df, threshold = .6)
 

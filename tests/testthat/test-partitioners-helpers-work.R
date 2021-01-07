@@ -1,4 +1,3 @@
-context("test-partitioners-helpers-work")
 set.seed(1234)
 df <- simulate_block_data(5, lower_corr = .6, upper_corr = .65, n = 100)
 
