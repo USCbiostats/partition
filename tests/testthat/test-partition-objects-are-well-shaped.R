@@ -1,4 +1,3 @@
-context("test-partition-objects-are-well-shaped")
 set.seed(123)
 
 prt <- partition(df, threshold = .6)
@@ -17,25 +16,25 @@ test_that("partition object is returning correctly", {
   expect_equal(names(prt), c("reduced_data", "mapping_key", "threshold", "partitioner"))
 
   # reduced data
-  expect_is(reduced_data, c("tbl_df", "tbl", "data.frame"))
+  expect_s3_class(reduced_data, c("tbl_df", "tbl", "data.frame"))
   expect_named(reduced_data)
   expect_equal(names(reduced_data), c("block1_x3", "block1_x5", "reduced_var_1"))
   all_numeric <- all(purrr::map_chr(reduced_data, class) == "numeric")
   expect_true(all_numeric)
 
   # mapping key
-  expect_is(map_key, c("tbl_df", "tbl", "data.frame"))
+  expect_s3_class(map_key, c("tbl_df", "tbl", "data.frame"))
   expect_named(map_key)
   expect_equal(names(map_key), c("variable", "mapping", "information", "indices"))
-  expect_is(map_key[["variable"]], "character")
-  expect_is(map_key[["mapping"]], "list")
-  expect_is(map_key[["information"]], "numeric")
-  expect_is(map_key[["indices"]], "list")
+  expect_type(map_key[["variable"]], "character")
+  expect_type(map_key[["mapping"]], "list")
+  expect_type(map_key[["information"]], "double")
+  expect_type(map_key[["indices"]], "list")
   expect_true(all_numeric)
 
   # threshold
   expect_equal(threshold, .6)
-  expect_is(threshold, "numeric")
+  expect_type(threshold, "double")
 
   # partitioner
   expect_s3_class(prtnr, "partitioner")

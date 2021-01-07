@@ -1,5 +1,3 @@
-context("test-helper-df")
-
 #  Data frames for testing. Produced on macOS by:
 #  set.seed(1234)
 #  df <- datapasta::tribble_paste(simulate_block_data(5, lower_corr = .5, upper_corr = .65, n = 100))

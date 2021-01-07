@@ -1,5 +1,15 @@
-context("test-partitioners-helpers-work")
 set.seed(1234)
+df <- simulate_block_data(5, lower_corr = .6, upper_corr = .65, n = 100)
+
+test_that("simulate_block_data() works", {
+  blocks <- c(3, 4, 5)
+  n <- 100
+  expect_silent(df2 <- simulate_block_data(blocks, lower_corr = .4, upper_corr = .6, n = n))
+  expect_s3_class(df2, "tbl")
+  expect_length(df2, sum(blocks))
+  expect_equal(nrow(df2), n)
+})
+
 df <- simulate_block_data(5, lower_corr = .6, upper_corr = .65, n = 100)
 
 test_that("all partitioners are partitioners", {

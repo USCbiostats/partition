@@ -1,4 +1,5 @@
 # partition (development version)
+* Updated to testthat edition 3 (#22)
 
 # partition 0.1.2
 

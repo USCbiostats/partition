@@ -1,4 +1,3 @@
-context("test-partitioners-reduce-correctly")
 set.seed(1234)
 
 expect_mapping_names <- function(nms, .prt) {

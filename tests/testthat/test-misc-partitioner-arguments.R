@@ -1,4 +1,3 @@
-context("test-misc-partitioner-arguments")
 set.seed(1234)
 
 expect_identical_partition <- function(.x, .y, same_partitioner = TRUE) {
@@ -6,7 +5,7 @@ expect_identical_partition <- function(.x, .y, same_partitioner = TRUE) {
   expect_identical(.x$mapping_key, .y$mapping_key)
   expect_identical(.x$threshold, .y$threshold)
   if (same_partitioner) {
-    expect_equal(.x$partitioner, .y$partitioner)
+    expect_equal(.x$partitioner, .y$partitioner, ignore_function_env = TRUE)
   } else {
     expect_failure(expect_identical(.x$partitioner, .y$partitioner))
   }
@@ -22,7 +21,7 @@ test_that("accelerated functions return correctly", {
 })
 
 test_that("spearman distance works", {
-  expect_is(partition(df8, .65, partitioner = part_icc(spearman = TRUE)), "partition")
+  expect_s3_class(partition(df8, .65, partitioner = part_icc(spearman = TRUE)), "partition")
 })
 
 test_that("linear and binary searches find the same partition", {
@@ -44,7 +43,7 @@ test_that("init k searches find the same partition", {
   expect_identical_partition(search_k, above_k)
 
   search_back <- partition(df8, .0001, partitioner = part_kmeans(search = "linear", init_k = 3))
-  expect_is(search_back, "partition")
+  expect_s3_class(search_back, "partition")
 })
 
 test_that("r kmeans algorithms work", {
@@ -53,8 +52,8 @@ test_that("r kmeans algorithms work", {
   k_f <- partition(df8, .65, partitioner = part_kmeans(algorithm = "Forgy"))
   k_m <- partition(df8, .65, partitioner = part_kmeans(algorithm = "MacQueen"))
 
-  expect_is(k_hw, "partition")
-  expect_is(k_l, "partition")
-  expect_is(k_f, "partition")
-  expect_is(k_m, "partition")
+  expect_s3_class(k_hw, "partition")
+  expect_s3_class(k_l, "partition")
+  expect_s3_class(k_f, "partition")
+  expect_s3_class(k_m, "partition")
 })
