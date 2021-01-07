@@ -17,8 +17,7 @@
 #' shorthands, which you can find mapped in `baxter_data_dictionary`.
 #'
 #' @format 5 data frames
-#' @source Baxter et al. (2016),
-#'   [https://doi.org/10.1186/s13073-016-0290-3](https://doi.org/10.1186/s13073-016-0290-3).
+#' @source Baxter et al. (2016) \doi{10.1186/s13073-016-0290-3}
 #'
 #' @name baxter_data
 "baxter_clinical"

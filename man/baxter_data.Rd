@@ -21,8 +21,7 @@ An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) w
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 1351 rows and 3 columns.
 }
 \source{
-Baxter et al. (2016),
-\url{https://doi.org/10.1186/s13073-016-0290-3}.
+Baxter et al. (2016) \doi{10.1186/s13073-016-0290-3}
 }
 \usage{
 baxter_clinical
