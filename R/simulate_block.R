@@ -29,13 +29,14 @@
 simulate_block_data <- function(block_sizes, lower_corr, upper_corr, n, block_name = "block",
                              sep = "_", var_name = "x") {
   #  simulate length(block_sizes) blocks and bind them in a data.frame
-	sim_data <- purrr::map_dfc(
+	sim_data <- purrr::map(
 	  block_sizes,
 	  simulate_block,
 	  n = n,
 	  lower_corr = lower_corr,
 	  upper_corr = upper_corr
-	)
+	) %>%
+	  dplyr::bind_cols(.name_repair = "minimal")
 
 	#  create column names: `block_name`+`sep`+`var_name`+n
 	col_names <- purrr::map2(
