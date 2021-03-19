@@ -12,7 +12,7 @@ status](https://codecov.io/gh/USCbiostats/partition/branch/master/graph/badge.sv
 [![CRAN
 status](https://www.r-pkg.org/badges/version-ago/partition)](https://cran.r-project.org/package=partition)
 [![JOSS](https://joss.theoj.org/papers/10.21105/joss.01991/status.svg)](https://doi.org/10.21105/joss.01991)
-[![DOI](https://zenodo.org/badge/178615892.svg)](https://zenodo.org/badge/latestdoi/178615892)
+[![DOI](https://zenodo.org/badge/178615892.svg)](https://zenodo.org/badge/latestdoi/178615892) [![](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg)](https://image.usc.edu)
 <!-- badges: end -->
 
 # partition
