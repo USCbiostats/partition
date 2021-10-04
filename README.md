@@ -117,13 +117,6 @@ unnest_mappings(prt)
 
 # use a lower threshold of information loss
 partition(df, threshold = .5, partitioner = part_kmeans())
-#> New names:
-#> * NA -> ...1
-#> * NA -> ...2
-#> * NA -> ...3
-#> * NA -> ...4
-#> * NA -> ...5
-#> * ...
 #> Partitioner:
 #>    Director: K-Means Clusters 
 #>    Metric: Minimum Intraclass Correlation 

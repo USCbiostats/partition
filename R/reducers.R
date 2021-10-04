@@ -160,10 +160,12 @@ map_cluster <- function(.partition_step, .f, rewind = FALSE, first_match = FALSE
   #  reduce anything with more than one variable
   #  TODO: opportunity for parallelization
   #  Although this only gets called once in kmeans
-  .partition_step$reduced_data <- purrr::map_dfc(
+  .partition_step$reduced_data <- purrr::map(
     target_list,
     ~return_if_single(.partition_step$.df[, .x, drop = FALSE], .f)
-  )
+  ) %>%
+    purrr::set_names(paste0("x", seq_along(target_list))) %>%
+    dplyr::bind_cols()
 
   #  create the mapping key and name reduced variables in `reduced_data`
   .partition_step$mapping_key <- reduce_mappings(.partition_step, target_list)
