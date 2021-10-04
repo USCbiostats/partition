@@ -5,7 +5,12 @@ expect_identical_partition <- function(.x, .y, same_partitioner = TRUE) {
   expect_identical(.x$mapping_key, .y$mapping_key)
   expect_identical(.x$threshold, .y$threshold)
   if (same_partitioner) {
-    expect_equal(.x$partitioner, .y$partitioner, ignore_function_env = TRUE)
+    expect_equal(
+      .x$partitioner,
+      .y$partitioner,
+      ignore_function_env = TRUE,
+      ignore_formula_env = TRUE
+    )
   } else {
     expect_failure(expect_identical(.x$partitioner, .y$partitioner))
   }
