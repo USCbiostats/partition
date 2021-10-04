@@ -1,5 +1,6 @@
 Battaglin
 Bioinformatics
+CMD
 COC
 Cao
 DOI
@@ -47,6 +48,7 @@ partitioner
 partitioners
 pre
 reproducibility
+rlang
 scalable
 shorthands
 surjective
