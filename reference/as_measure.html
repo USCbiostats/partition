@@ -48,6 +48,8 @@ partitioners can be created with as_partitioner()." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -59,9 +61,15 @@ partitioners can be created with as_partitioner()." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -75,7 +83,7 @@ partitioners can be created with as_partitioner()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">partition</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.3.9000</span>
       </span>
     </div>
 
@@ -109,7 +117,7 @@ partitioners can be created with as_partitioner()." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/USCbiostats/partition/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -138,7 +146,7 @@ helper function to create new metrics to be used in <code>partitioner</code>s.
 <code>partitioner</code>s can be created with <code><a href='as_partitioner.html'>as_partitioner()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_measure</span>(<span class='no'>.f</span>, <span class='no'>...</span>)</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>as_measure</span><span class='op'>(</span><span class='va'>.f</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -172,27 +180,29 @@ helper function to create new metrics to be used in <code>partitioner</code>s.
 <code><a href='measure_variance_explained.html'>measure_variance_explained</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='no'>inter_item_reliability</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>.data</span>) {
-   <span class='fu'><a href='corr.html'>corr</a></span>(<span class='no'>.data</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colMeans</a></span>(<span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>()
-}
-
-<span class='no'>measure_iir</span> <span class='kw'>&lt;-</span> <span class='fu'>as_measure</span>(<span class='no'>inter_item_reliability</span>)
-<span class='no'>measure_iir</span></div><div class='output co'>#&gt; function (.partition_step, ...) 
-#&gt; {
-#&gt;     if (.partition_step$all_done) 
-#&gt;         return(.partition_step)
-#&gt;     composite_variables &lt;- pull_composite_variables(.partition_step)
-#&gt;     target_data &lt;- .partition_step$.df[, composite_variables, 
-#&gt;         drop = FALSE]
-#&gt;     .partition_step$metric &lt;- .f(target_data, ...)
-#&gt;     .partition_step
-#&gt; }
-#&gt; &lt;bytecode: 0x7fac3da94c88&gt;
-#&gt; &lt;environment: 0x7fac3da97dd0&gt;</div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='va'>inter_item_reliability</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>.data</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>   <span class='fu'><a href='corr.html'>corr</a></span><span class='op'>(</span><span class='va'>.data</span><span class='op'>)</span> <span class='op'><a href='pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/colSums.html'>colMeans</a></span><span class='op'>(</span>na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'><a href='pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>measure_iir</span> <span class='op'>&lt;-</span> <span class='fu'>as_measure</span><span class='op'>(</span><span class='va'>inter_item_reliability</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>measure_iir</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> function (.partition_step, ...) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> {</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     if (.partition_step$all_done) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         return(.partition_step)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     composite_variables &lt;- pull_composite_variables(.partition_step)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     target_data &lt;- .partition_step$.df[, composite_variables, </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         drop = FALSE]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     .partition_step$metric &lt;- .f(target_data, ...)</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     .partition_step</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> }</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;bytecode: 0x7f9733708d18&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;environment: 0x7f9733708030&gt;</span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -204,11 +214,11 @@ helper function to create new metrics to be used in <code>partitioner</code>s.
 
       <footer>
       <div class="copyright">
-  <p>Developed by Joshua Millstein, <a href='https://malco.io'>Malcolm Barrett</a>.</p>
+  <p><p>Developed by Joshua Millstein, <a href="https://malco.io" class="external-link">Malcolm Barrett</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>
@@ -216,6 +226,8 @@ helper function to create new metrics to be used in <code>partitioner</code>s.
 
   
 
+
+  
 
   </body>
 </html>

@@ -49,6 +49,8 @@ partition() but can be helpful while developing partitioners." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -60,9 +62,15 @@ partition() but can be helpful while developing partitioners." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +84,7 @@ partition() but can be helpful while developing partitioners." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">partition</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.3.9000</span>
       </span>
     </div>
 
@@ -110,7 +118,7 @@ partition() but can be helpful while developing partitioners." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/USCbiostats/partition/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -140,17 +148,17 @@ threshold. <code>as_partition_step()</code> is primarily called internally by
 <code><a href='partition.html'>partition()</a></code> but can be helpful while developing <code>partitioners</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_partition_step</span>(
-  <span class='no'>.x</span>,
-  <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>reduced_data</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>target</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>metric</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-  <span class='kw'>var_prefix</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>partitioner</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='no'>...</span>
-)</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>as_partition_step</span><span class='op'>(</span>
+  <span class='va'>.x</span>,
+  threshold <span class='op'>=</span> <span class='cn'>NA</span>,
+  reduced_data <span class='op'>=</span> <span class='cn'>NA</span>,
+  target <span class='op'>=</span> <span class='cn'>NA</span>,
+  metric <span class='op'>=</span> <span class='cn'>NA</span>,
+  tolerance <span class='op'>=</span> <span class='fl'>0.01</span>,
+  var_prefix <span class='op'>=</span> <span class='cn'>NA</span>,
+  partitioner <span class='op'>=</span> <span class='cn'>NA</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,159 +207,161 @@ threshold. <code>as_partition_step()</code> is primarily called internally by
     <p>a <code>partition_step</code> object</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>.df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>), <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>100</span>))
-<span class='fu'>as_partition_step</span>(<span class='no'>.df</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>.6</span>)</div><div class='output co'>#&gt; $.df
-#&gt;                x           y
-#&gt; 1   -1.400043517 -0.38721358
-#&gt; 2    0.255317055 -0.78543266
-#&gt; 3   -2.437263611 -1.05673687
-#&gt; 4   -0.005571287 -0.79554143
-#&gt; 5    0.621552721 -1.75627543
-#&gt; 6    1.148411606 -0.69053790
-#&gt; 7   -1.821817661 -0.55854199
-#&gt; 8   -0.247325302 -0.53666333
-#&gt; 9   -0.244199607  0.22712713
-#&gt; 10  -0.282705449  0.97845492
-#&gt; 11  -0.553699384 -0.20888265
-#&gt; 12   0.628982042 -1.39941046
-#&gt; 13   2.065024895  0.25853729
-#&gt; 14  -1.630989402 -0.44179945
-#&gt; 15   0.512426950  0.56859986
-#&gt; 16  -1.863011492  2.12685046
-#&gt; 17  -0.522012515  0.42485844
-#&gt; 18  -0.052601910 -1.68428153
-#&gt; 19   0.542996343  0.24940178
-#&gt; 20  -0.914074827  1.07283825
-#&gt; 21   0.468154420  2.03936926
-#&gt; 22   0.362951256  0.44945378
-#&gt; 23  -1.304543545  1.39181405
-#&gt; 24   0.737776321  0.42656655
-#&gt; 25   1.888504929  0.10758399
-#&gt; 26  -0.097445104  0.02229473
-#&gt; 27  -0.935847354  0.60361101
-#&gt; 28  -0.015950311 -0.26265057
-#&gt; 29  -0.826788954 -0.52826408
-#&gt; 30  -1.512399651  0.19214942
-#&gt; 31   0.935363190 -1.14619967
-#&gt; 32   0.176488611  0.84618466
-#&gt; 33   0.243685465  0.08171963
-#&gt; 34   1.623548883 -1.30511701
-#&gt; 35   0.112038083 -0.94491206
-#&gt; 36  -0.133997013  0.45434159
-#&gt; 37  -1.910087468 -0.85520250
-#&gt; 38  -0.279237242 -0.28689522
-#&gt; 39  -0.313445978  0.89496163
-#&gt; 40   1.067307879  0.06730444
-#&gt; 41   0.070034850 -0.16267634
-#&gt; 42  -0.639123324 -0.82731017
-#&gt; 43  -0.049964899  1.87650562
-#&gt; 44  -0.251483443  0.76644020
-#&gt; 45   0.444797116  0.97995670
-#&gt; 46   2.755417575  1.32178099
-#&gt; 47   0.046531380 -1.11971083
-#&gt; 48   0.577709069  0.51459982
-#&gt; 49   0.118194874 -1.50909984
-#&gt; 50  -1.911720491  1.53274148
-#&gt; 51   0.862086482  0.42914737
-#&gt; 52  -0.243236740  0.12210341
-#&gt; 53  -0.206087195 -1.13801240
-#&gt; 54   0.019177592 -0.55801513
-#&gt; 55   0.029560754  1.05253854
-#&gt; 56   0.549827542  0.67768364
-#&gt; 57  -2.274114857  0.03849955
-#&gt; 58   2.682557184 -0.35638119
-#&gt; 59  -0.361221255  0.78284410
-#&gt; 60   0.213355750  0.80441162
-#&gt; 61   1.074345882 -1.90006082
-#&gt; 62  -0.665088249  0.93578429
-#&gt; 63   1.113952419 -0.30905150
-#&gt; 64  -0.245896412  0.26306668
-#&gt; 65  -1.177563309 -1.79059186
-#&gt; 66  -0.975850616 -0.78825884
-#&gt; 67   1.065057320 -1.13302167
-#&gt; 68   0.131670635  0.36365257
-#&gt; 69   0.488628809 -0.28588791
-#&gt; 70  -1.699450568  0.51766913
-#&gt; 71  -1.470736306 -0.10290867
-#&gt; 72   0.284150344 -0.97406959
-#&gt; 73   1.337320413  1.27067230
-#&gt; 74   0.236696283  0.96086479
-#&gt; 75   1.318293384  0.76872137
-#&gt; 76   0.523909788  1.03593077
-#&gt; 77   0.606748047 -0.47388707
-#&gt; 78  -0.109935672 -1.27533487
-#&gt; 79   0.172181715 -0.30562067
-#&gt; 80  -0.090327287  2.21176949
-#&gt; 81   1.924343341 -1.04166838
-#&gt; 82   1.298392759 -1.14652385
-#&gt; 83   0.748791268 -1.67532730
-#&gt; 84   0.556224329  1.52593866
-#&gt; 85  -0.548257264  0.55418551
-#&gt; 86   1.110534893  1.99311026
-#&gt; 87  -2.612334333 -0.15412074
-#&gt; 88  -0.155693776  2.56440834
-#&gt; 89   0.433889790  1.06199914
-#&gt; 90  -0.381951112  1.14269488
-#&gt; 91   0.424187575  1.12383884
-#&gt; 92   1.063101996 -0.39700149
-#&gt; 93   1.048712620 -0.82326115
-#&gt; 94  -0.038102895 -0.57888462
-#&gt; 95   0.486148920  1.76378938
-#&gt; 96   1.672882611  0.13299215
-#&gt; 97  -0.354361164  0.37649933
-#&gt; 98   0.946347886  1.13870765
-#&gt; 99   1.316826356  1.24126308
-#&gt; 100 -0.296640025  0.61209094
-#&gt; 
-#&gt; $threshold
-#&gt; [1] 0.6
-#&gt; 
-#&gt; $target
-#&gt; [1] NA
-#&gt; 
-#&gt; $last_target
-#&gt; [1] NA
-#&gt; 
-#&gt; $reduced_data
-#&gt; <span style='color: #555555;'># A tibble: 100 x 2</span><span>
-#&gt;           x      y
-#&gt;       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> -</span><span style='color: #BB0000;'>1.40</span><span>    -</span><span style='color: #BB0000;'>0.387</span><span>
-#&gt; </span><span style='color: #555555;'> 2</span><span>  0.255   -</span><span style='color: #BB0000;'>0.785</span><span>
-#&gt; </span><span style='color: #555555;'> 3</span><span> -</span><span style='color: #BB0000;'>2.44</span><span>    -</span><span style='color: #BB0000;'>1.06</span><span> 
-#&gt; </span><span style='color: #555555;'> 4</span><span> -</span><span style='color: #BB0000;'>0.005</span><span style='color: #BB0000;text-decoration: underline;'>57</span><span> -</span><span style='color: #BB0000;'>0.796</span><span>
-#&gt; </span><span style='color: #555555;'> 5</span><span>  0.622   -</span><span style='color: #BB0000;'>1.76</span><span> 
-#&gt; </span><span style='color: #555555;'> 6</span><span>  1.15    -</span><span style='color: #BB0000;'>0.691</span><span>
-#&gt; </span><span style='color: #555555;'> 7</span><span> -</span><span style='color: #BB0000;'>1.82</span><span>    -</span><span style='color: #BB0000;'>0.559</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span> -</span><span style='color: #BB0000;'>0.247</span><span>   -</span><span style='color: #BB0000;'>0.537</span><span>
-#&gt; </span><span style='color: #555555;'> 9</span><span> -</span><span style='color: #BB0000;'>0.244</span><span>    0.227
-#&gt; </span><span style='color: #555555;'>10</span><span> -</span><span style='color: #BB0000;'>0.283</span><span>    0.978
-#&gt; </span><span style='color: #555555;'># … with 90 more rows</span><span>
-#&gt; 
-#&gt; $metric
-#&gt; [1] NA
-#&gt; 
-#&gt; $tolerance
-#&gt; [1] 0.01
-#&gt; 
-#&gt; $mapping_key
-#&gt; </span><span style='color: #555555;'># A tibble: 2 x 3</span><span>
-#&gt;   variable mapping   information
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>1</span><span> x        </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span>           1
-#&gt; </span><span style='color: #555555;'>2</span><span> y        </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span>           1
-#&gt; 
-#&gt; $var_prefix
-#&gt; [1] NA
-#&gt; 
-#&gt; $all_done
-#&gt; [1] FALSE
-#&gt; 
-#&gt; $partitioner
-#&gt; [1] NA
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "partition_step"</div></span></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='va'>.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span>, y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>as_partition_step</span><span class='op'>(</span><span class='va'>.df</span>, threshold <span class='op'>=</span> <span class='fl'>.6</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $.df</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                x           y</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    0.881672860  0.31684982</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2    0.494912498  0.71407626</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3   -0.172629276  0.88513610</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4    0.592719505  0.15349287</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5    0.253225127 -0.27354773</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6    0.805872292 -1.57396440</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7    0.388594004  0.76980691</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8    0.118389978  0.03056990</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9   -0.351903128 -0.58494626</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10  -1.196182336 -0.06433438</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11   0.910514809 -0.71402372</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12  -0.692165794  0.31779051</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13   0.132263532 -0.32144732</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14  -0.304153836  0.08912897</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15   0.504505423  0.72444654</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16  -0.476809694 -0.17972727</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17   2.362731301  0.39240150</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18  -0.474946099 -0.22896030</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19  -0.418252917 -1.14314683</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 20   0.134667413  0.59032742</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 21   1.247047764  1.12247212</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 22  -0.457895192  0.60175374</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 23  -0.037319089 -0.31054248</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 24   0.870018519  0.62163531</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 25   0.599291085 -0.40265264</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 26   0.527408726 -0.34313388</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 27   1.003887123  1.65649369</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 28   0.796613908  0.41074746</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 29   0.281196122  0.13825475</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 30  -0.566144698 -0.33303764</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 31  -0.303512080  1.33498132</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 32  -0.638298399  1.34309888</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 33  -0.842158803 -0.63077472</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 34   0.292766583 -0.69580839</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 35  -0.518289563  1.63672984</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 36   1.142588853  0.48898505</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 37   1.780330773  1.05849239</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 38  -0.356455583 -0.50958490</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 39   0.152667458 -1.24662667</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 40  -0.103583060  1.08620613</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 41  -2.075302169  1.39506874</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 42  -0.948592614 -0.64935268</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 43  -0.019335775 -1.32517644</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 44  -0.644260419  0.55412842</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 45  -0.501452011 -1.15252307</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 46   1.184722486  0.89405133</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 47  -2.591939123 -1.81797781</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 48  -1.459860813  0.46181675</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 49  -0.009810846 -0.00953944</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 50  -0.731346209 -0.06483269</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 51   0.392750921 -0.07584184</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 52   1.366692840  2.76812720</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 53   0.895663337  0.43106942</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 54  -0.061963748  0.59495269</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 55  -1.087372451 -0.68278577</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 56  -0.567682438  0.28414238</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 57   0.456832911 -1.18670174</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 58  -0.691056995 -1.72200410</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 59  -0.866279792 -0.57154470</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 60   0.042107505  0.81206826</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 61   0.307926429 -0.18582813</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 62   0.365670433  2.95086529</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 63  -1.795411625 -0.79444499</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 64   0.167457106 -0.37853406</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 65  -1.875616344 -0.04227925</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 66  -0.374829373 -0.93047677</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 67  -1.382588478  0.98978105</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 68   1.207676161  0.24134777</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 69   2.459137442 -0.83303828</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 70  -0.713627337 -0.37014983</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 71  -0.130137904  0.11818254</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 72   0.865473617  0.14050785</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 73  -1.243893019 -1.12355746</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 74   0.159566158  0.32077448</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 75   0.206268138 -2.20822372</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 76   0.685978964  1.00160363</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 77  -0.021365985  1.70383113</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 78   0.314660293  0.49045788</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 79   1.099944839  0.07497098</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 80   0.657150139 -1.51171893</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 81   1.501397017 -3.08175942</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 82   0.148885276  0.43631201</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 83  -0.053830172  0.46512006</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 84  -0.893521981  0.12739690</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 85   1.283207174 -1.25762705</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 86   1.843656465  1.24791841</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 87   0.833615927 -1.18177188</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 88  -0.630970372  0.86026138</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 89   1.022704787 -1.94419427</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 90   2.346325484 -0.13009774</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 91   0.012973589  0.20679756</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 92   0.181363184 -0.42734488</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 93   0.222655944  0.20034124</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 94   0.255698716  0.42005474</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 95  -0.247818459  1.55087578</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 96  -0.154076830  0.16393995</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 97   0.080771059  0.82958834</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 98  -1.539831151 -0.79742307</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 99   0.496894255 -0.31862573</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 100 -0.344309268 -0.35285218</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $threshold</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.6</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $target</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $last_target</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $reduced_data</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 100 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>         x       y</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>  0.882  0.317 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>  0.495  0.714 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> -<span style='color: #BB0000;'>0.173</span>  0.885 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>  0.593  0.153 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>  0.253 -<span style='color: #BB0000;'>0.274</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>  0.806 -<span style='color: #BB0000;'>1.57</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>  0.389  0.770 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>  0.118  0.030<span style='text-decoration: underline;'>6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> -<span style='color: #BB0000;'>0.352</span> -<span style='color: #BB0000;'>0.585</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> -<span style='color: #BB0000;'>1.20</span>  -<span style='color: #BB0000;'>0.064</span><span style='color: #BB0000; text-decoration: underline;'>3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 90 more rows</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $metric</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $tolerance</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $mapping_key</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   variable mapping   information</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> x        <span style='color: #949494;'>&lt;chr [1]&gt;</span>           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> y        <span style='color: #949494;'>&lt;chr [1]&gt;</span>           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $var_prefix</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $all_done</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $partitioner</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "partition_step"</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -363,11 +373,11 @@ threshold. <code>as_partition_step()</code> is primarily called internally by
 
       <footer>
       <div class="copyright">
-  <p>Developed by Joshua Millstein, <a href='https://malco.io'>Malcolm Barrett</a>.</p>
+  <p><p>Developed by Joshua Millstein, <a href="https://malco.io" class="external-link">Malcolm Barrett</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>
@@ -375,6 +385,8 @@ threshold. <code>as_partition_step()</code> is primarily called internally by
 
   
 
+
+  
 
   </body>
 </html>

@@ -51,6 +51,8 @@ one variable in the reduced data set." />
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -62,9 +64,15 @@ one variable in the reduced data set." />
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -78,7 +86,7 @@ one variable in the reduced data set." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">partition</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.3.9000</span>
       </span>
     </div>
 
@@ -112,7 +120,7 @@ one variable in the reduced data set." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/USCbiostats/partition/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -144,15 +152,15 @@ variable is also interpretable: the original variables map to one and only
 one variable in the reduced data set.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>partition</span>(
-  <span class='no'>.data</span>,
-  <span class='no'>threshold</span>,
-  <span class='kw'>partitioner</span> <span class='kw'>=</span> <span class='fu'><a href='part_icc.html'>part_icc</a></span>(),
-  <span class='kw'>tolerance</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
-  <span class='kw'>niter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"reduced_var"</span>,
-  <span class='kw'>.sep</span> <span class='kw'>=</span> <span class='st'>"_"</span>
-)</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>partition</span><span class='op'>(</span>
+  <span class='va'>.data</span>,
+  <span class='va'>threshold</span>,
+  partitioner <span class='op'>=</span> <span class='fu'><a href='part_icc.html'>part_icc</a></span><span class='op'>(</span><span class='op'>)</span>,
+  tolerance <span class='op'>=</span> <span class='fl'>1e-04</span>,
+  niter <span class='op'>=</span> <span class='cn'>NULL</span>,
+  x <span class='op'>=</span> <span class='st'>"reduced_var"</span>,
+  .sep <span class='op'>=</span> <span class='st'>"_"</span>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -225,101 +233,120 @@ Software, 5(47), 1991, https://doi.org/10.21105/joss.01991</p>
 <code><a href='part_stdmi.html'>part_stdmi()</a></code>, <code><a href='as_partitioner.html'>as_partitioner()</a></code>, <code><a href='replace_partitioner.html'>replace_partitioner()</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>123</span>)
-<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='simulate_block_data.html'>simulate_block_data</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>), <span class='kw'>lower_corr</span> <span class='kw'>=</span> <span class='fl'>.4</span>, <span class='kw'>upper_corr</span> <span class='kw'>=</span> <span class='fl'>.6</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>100</span>)
-
-<span class='co'>#  don't accept reductions where information &lt; .6</span>
-<span class='no'>prt</span> <span class='kw'>&lt;-</span> <span class='fu'>partition</span>(<span class='no'>df</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>.6</span>)
-<span class='no'>prt</span></div><div class='output co'>#&gt; <span style='font-weight: bold;'>Partitioner:</span><span>
-#&gt;    Director: Minimum Distance (Pearson) 
-#&gt;    Metric: Intraclass Correlation 
-#&gt;    Reducer: Scaled Mean
-#&gt; 
-#&gt; </span><span style='font-weight: bold;'>Reduced Variables:</span><span>
-#&gt; </span><span style='color: #00BB00;'>2</span><span> reduced variables created from </span><span style='color: #BBBB00;'>5</span><span> observed variables
-#&gt; 
-#&gt; </span><span style='font-weight: bold;'>Mappings:</span><span>
-#&gt; </span><span style='color: #00BB00;'>reduced_var_1</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block3_x1, block3_x5</span><span style='color: #555555;'>}</span><span>
-#&gt; </span><span style='color: #00BB00;'>reduced_var_2</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block2_x1, block2_x2, block2_x3</span><span style='color: #555555;'>}</span><span>
-#&gt; 
-#&gt; </span><span style='font-weight: bold;'>Minimum information:</span><span>
-#&gt; 0.627</div><div class='input'>
-<span class='co'># return reduced data</span>
-<span class='fu'><a href='partition_scores.html'>partition_scores</a></span>(<span class='no'>prt</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 100 x 9</span><span>
-#&gt;    block1_x1 block1_x2 block1_x3 block2_x4 block3_x2 block3_x3 block3_x4
-#&gt;        </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span>    -</span><span style='color: #BB0000;'>0.441</span><span>    -</span><span style='color: #BB0000;'>0.327</span><span>    0.503     -</span><span style='color: #BB0000;'>0.526</span><span>     0.203  -</span><span style='color: #BB0000;'>0.907</span><span>     -</span><span style='color: #BB0000;'>0.919</span><span> 
-#&gt; </span><span style='color: #555555;'> 2</span><span>    -</span><span style='color: #BB0000;'>0.180</span><span>    -</span><span style='color: #BB0000;'>0.584</span><span>    0.490     -</span><span style='color: #BB0000;'>1.71</span><span>     -</span><span style='color: #BB0000;'>0.249</span><span>  -</span><span style='color: #BB0000;'>1.39</span><span>      -</span><span style='color: #BB0000;'>0.398</span><span> 
-#&gt; </span><span style='color: #555555;'> 3</span><span>     0.376     0.158   -</span><span style='color: #BB0000;'>0.073</span><span style='color: #BB0000;text-decoration: underline;'>2</span><span>     0.693    -</span><span style='color: #BB0000;'>0.554</span><span>  -</span><span style='color: #BB0000;'>1.52</span><span>       0.714 
-#&gt; </span><span style='color: #555555;'> 4</span><span>     1.10      1.54     0.564     -</span><span style='color: #BB0000;'>0.524</span><span>    -</span><span style='color: #BB0000;'>0.585</span><span>  -</span><span style='color: #BB0000;'>0.005</span><span style='color: #BB0000;text-decoration: underline;'>92</span><span>    0.299 
-#&gt; </span><span style='color: #555555;'> 5</span><span>    -</span><span style='color: #BB0000;'>1.66</span><span>     -</span><span style='color: #BB0000;'>1.25</span><span>    -</span><span style='color: #BB0000;'>1.44</span><span>       0.189    -</span><span style='color: #BB0000;'>1.69</span><span>   -</span><span style='color: #BB0000;'>1.43</span><span>       0.140 
-#&gt; </span><span style='color: #555555;'> 6</span><span>     1.60      2.42     0.192      0.463    -</span><span style='color: #BB0000;'>1.26</span><span>   -</span><span style='color: #BB0000;'>0.346</span><span>     -</span><span style='color: #BB0000;'>1.86</span><span>  
-#&gt; </span><span style='color: #555555;'> 7</span><span>     1.40      0.236   -</span><span style='color: #BB0000;'>0.354</span><span>     -</span><span style='color: #BB0000;'>0.313</span><span>    -</span><span style='color: #BB0000;'>0.223</span><span>  -</span><span style='color: #BB0000;'>1.13</span><span>       0.071</span><span style='text-decoration: underline;'>6</span><span>
-#&gt; </span><span style='color: #555555;'> 8</span><span>     2.21      2.41     1.73      -</span><span style='color: #BB0000;'>0.521</span><span>     1.72    2.19       1.04  
-#&gt; </span><span style='color: #555555;'> 9</span><span>     0.404     0.311    0.672     -</span><span style='color: #BB0000;'>0.572</span><span>    -</span><span style='color: #BB0000;'>1.10</span><span>   -</span><span style='color: #BB0000;'>0.089</span><span style='color: #BB0000;text-decoration: underline;'>3</span><span>    -</span><span style='color: #BB0000;'>1.55</span><span>  
-#&gt; </span><span style='color: #555555;'>10</span><span>     0.199     0.348    0.045</span><span style='text-decoration: underline;'>5</span><span>    -</span><span style='color: #BB0000;'>0.408</span><span>    -</span><span style='color: #BB0000;'>0.192</span><span>  -</span><span style='color: #BB0000;'>0.355</span><span>      0.223 
-#&gt; </span><span style='color: #555555;'># … with 90 more rows, and 2 more variables: reduced_var_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>,</span><span>
-#&gt; </span><span style='color: #555555;'>#   reduced_var_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div><div class='input'>
-<span class='co'># access mapping keys</span>
-<span class='fu'><a href='mapping_key.html'>mapping_key</a></span>(<span class='no'>prt</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 9 x 4</span><span>
-#&gt;   variable      mapping   information indices  
-#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>          </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>   
-#&gt; </span><span style='color: #555555;'>1</span><span> block1_x1     </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span>       1     </span><span style='color: #555555;'>&lt;int [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>2</span><span> block1_x2     </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span>       1     </span><span style='color: #555555;'>&lt;int [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>3</span><span> block1_x3     </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span>       1     </span><span style='color: #555555;'>&lt;int [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>4</span><span> block2_x4     </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span>       1     </span><span style='color: #555555;'>&lt;int [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>5</span><span> block3_x2     </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span>       1     </span><span style='color: #555555;'>&lt;int [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>6</span><span> block3_x3     </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span>       1     </span><span style='color: #555555;'>&lt;int [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>7</span><span> block3_x4     </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span>       1     </span><span style='color: #555555;'>&lt;int [1]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>8</span><span> reduced_var_1 </span><span style='color: #555555;'>&lt;chr [2]&gt;</span><span>       0.656 </span><span style='color: #555555;'>&lt;int [2]&gt;</span><span>
-#&gt; </span><span style='color: #555555;'>9</span><span> reduced_var_2 </span><span style='color: #555555;'>&lt;chr [3]&gt;</span><span>       0.627 </span><span style='color: #555555;'>&lt;int [3]&gt;</span><span></div><div class='input'><span class='fu'><a href='mapping_key.html'>unnest_mappings</a></span>(<span class='no'>prt</span>)</div><div class='output co'>#&gt; </span><span style='color: #555555;'># A tibble: 12 x 4</span><span>
-#&gt;    variable      mapping   information indices
-#&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>         </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>           </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>   </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>
-#&gt; </span><span style='color: #555555;'> 1</span><span> block1_x1     block1_x1       1           1
-#&gt; </span><span style='color: #555555;'> 2</span><span> block1_x2     block1_x2       1           2
-#&gt; </span><span style='color: #555555;'> 3</span><span> block1_x3     block1_x3       1           3
-#&gt; </span><span style='color: #555555;'> 4</span><span> block2_x4     block2_x4       1           7
-#&gt; </span><span style='color: #555555;'> 5</span><span> block3_x2     block3_x2       1           9
-#&gt; </span><span style='color: #555555;'> 6</span><span> block3_x3     block3_x3       1          10
-#&gt; </span><span style='color: #555555;'> 7</span><span> block3_x4     block3_x4       1          11
-#&gt; </span><span style='color: #555555;'> 8</span><span> reduced_var_1 block3_x1       0.656       8
-#&gt; </span><span style='color: #555555;'> 9</span><span> reduced_var_1 block3_x5       0.656      12
-#&gt; </span><span style='color: #555555;'>10</span><span> reduced_var_2 block2_x1       0.627       4
-#&gt; </span><span style='color: #555555;'>11</span><span> reduced_var_2 block2_x2       0.627       5
-#&gt; </span><span style='color: #555555;'>12</span><span> reduced_var_2 block2_x3       0.627       6</div><div class='input'>
-<span class='co'># use a lower threshold of information loss</span>
-<span class='fu'>partition</span>(<span class='no'>df</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>.5</span>, <span class='kw'>partitioner</span> <span class='kw'>=</span> <span class='fu'><a href='part_kmeans.html'>part_kmeans</a></span>())</div><div class='output co'>#&gt; </span><span style='font-weight: bold;'>Partitioner:</span><span>
-#&gt;    Director: K-Means Clusters 
-#&gt;    Metric: Minimum Intraclass Correlation 
-#&gt;    Reducer: Scaled Mean
-#&gt; 
-#&gt; </span><span style='font-weight: bold;'>Reduced Variables:</span><span>
-#&gt; </span><span style='color: #00BB00;'>2</span><span> reduced variables created from </span><span style='color: #BBBB00;'>6</span><span> observed variables
-#&gt; 
-#&gt; </span><span style='font-weight: bold;'>Mappings:</span><span>
-#&gt; </span><span style='color: #00BB00;'>reduced_var_1</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block2_x1, block2_x2, block2_x3, block2_x4</span><span style='color: #555555;'>}</span><span>
-#&gt; </span><span style='color: #00BB00;'>reduced_var_2</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block3_x1, block3_x5</span><span style='color: #555555;'>}</span><span>
-#&gt; 
-#&gt; </span><span style='font-weight: bold;'>Minimum information:</span><span>
-#&gt; 0.59</div><div class='input'>
-<span class='co'># use a custom partitioner</span>
-<span class='no'>part_icc_rowmeans</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='replace_partitioner.html'>replace_partitioner</a></span>(<span class='no'>part_icc</span>, <span class='kw'>reduce</span> <span class='kw'>=</span> <span class='fu'><a href='as_reducer.html'>as_reducer</a></span>(<span class='no'>rowMeans</span>))
-<span class='fu'>partition</span>(<span class='no'>df</span>, <span class='kw'>threshold</span> <span class='kw'>=</span> <span class='fl'>.6</span>, <span class='kw'>partitioner</span> <span class='kw'>=</span> <span class='no'>part_icc_rowmeans</span>)</div><div class='output co'>#&gt; </span><span style='font-weight: bold;'>Partitioner:</span><span>
-#&gt;    Director: Minimum Distance (Pearson) 
-#&gt;    Metric: Intraclass Correlation 
-#&gt;    Reducer: </span><span style='color: #555555;'>&lt;custom reducer&gt;</span><span>
-#&gt; 
-#&gt; </span><span style='font-weight: bold;'>Reduced Variables:</span><span>
-#&gt; </span><span style='color: #00BB00;'>2</span><span> reduced variables created from </span><span style='color: #BBBB00;'>5</span><span> observed variables
-#&gt; 
-#&gt; </span><span style='font-weight: bold;'>Mappings:</span><span>
-#&gt; </span><span style='color: #00BB00;'>reduced_var_1</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block3_x1, block3_x5</span><span style='color: #555555;'>}</span><span>
-#&gt; </span><span style='color: #00BB00;'>reduced_var_2</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block2_x1, block2_x2, block2_x3</span><span style='color: #555555;'>}</span><span>
-#&gt; 
-#&gt; </span><span style='font-weight: bold;'>Minimum information:</span><span>
-#&gt; 0.627</div><div class='input'>
-</div></span></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='simulate_block_data.html'>simulate_block_data</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span><span class='op'>)</span>, lower_corr <span class='op'>=</span> <span class='fl'>.4</span>, upper_corr <span class='op'>=</span> <span class='fl'>.6</span>, n <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>#  don't accept reductions where information &lt; .6</span></span>
+<span class='r-in'><span class='va'>prt</span> <span class='op'>&lt;-</span> <span class='fu'>partition</span><span class='op'>(</span><span class='va'>df</span>, threshold <span class='op'>=</span> <span class='fl'>.6</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>prt</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Partitioner:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Director: Minimum Distance (Pearson) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Metric: Intraclass Correlation </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Reducer: Scaled Mean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Reduced Variables:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>2</span> reduced variables created from <span style='color: #BBBB00;'>5</span> observed variables</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Mappings:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>reduced_var_1</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block3_x1, block3_x5</span><span style='color: #555555;'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>reduced_var_2</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block2_x1, block2_x2, block2_x3</span><span style='color: #555555;'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Minimum information:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0.627</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># return reduced data</span></span>
+<span class='r-in'><span class='fu'><a href='partition_scores.html'>partition_scores</a></span><span class='op'>(</span><span class='va'>prt</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 100 × 9</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    block1_x1 block1_x2 block1_x3 block2_x4 block3_x2 block3_x3 block3_x4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span>    -<span style='color: #BB0000;'>0.441</span>    -<span style='color: #BB0000;'>0.327</span>    0.503     -<span style='color: #BB0000;'>0.526</span>     0.203  -<span style='color: #BB0000;'>0.907</span>     -<span style='color: #BB0000;'>0.919</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span>    -<span style='color: #BB0000;'>0.180</span>    -<span style='color: #BB0000;'>0.584</span>    0.490     -<span style='color: #BB0000;'>1.71</span>     -<span style='color: #BB0000;'>0.249</span>  -<span style='color: #BB0000;'>1.39</span>      -<span style='color: #BB0000;'>0.398</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span>     0.376     0.158   -<span style='color: #BB0000;'>0.073</span><span style='color: #BB0000; text-decoration: underline;'>2</span>     0.693    -<span style='color: #BB0000;'>0.554</span>  -<span style='color: #BB0000;'>1.52</span>       0.714 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span>     1.10      1.54     0.564     -<span style='color: #BB0000;'>0.524</span>    -<span style='color: #BB0000;'>0.585</span>  -<span style='color: #BB0000;'>0.005</span><span style='color: #BB0000; text-decoration: underline;'>92</span>    0.299 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span>    -<span style='color: #BB0000;'>1.66</span>     -<span style='color: #BB0000;'>1.25</span>    -<span style='color: #BB0000;'>1.44</span>       0.189    -<span style='color: #BB0000;'>1.69</span>   -<span style='color: #BB0000;'>1.43</span>       0.140 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span>     1.60      2.42     0.192      0.463    -<span style='color: #BB0000;'>1.26</span>   -<span style='color: #BB0000;'>0.346</span>     -<span style='color: #BB0000;'>1.86</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span>     1.40      0.236   -<span style='color: #BB0000;'>0.354</span>     -<span style='color: #BB0000;'>0.313</span>    -<span style='color: #BB0000;'>0.223</span>  -<span style='color: #BB0000;'>1.13</span>       0.071<span style='text-decoration: underline;'>6</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span>     2.21      2.41     1.73      -<span style='color: #BB0000;'>0.521</span>     1.72    2.19       1.04  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span>     0.404     0.311    0.672     -<span style='color: #BB0000;'>0.572</span>    -<span style='color: #BB0000;'>1.10</span>   -<span style='color: #BB0000;'>0.089</span><span style='color: #BB0000; text-decoration: underline;'>3</span>    -<span style='color: #BB0000;'>1.55</span>  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span>     0.199     0.348    0.045<span style='text-decoration: underline;'>5</span>    -<span style='color: #BB0000;'>0.408</span>    -<span style='color: #BB0000;'>0.192</span>  -<span style='color: #BB0000;'>0.355</span>      0.223 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 90 more rows, and 2 more variables: reduced_var_1 &lt;dbl&gt;,</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'>#   reduced_var_2 &lt;dbl&gt;</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># access mapping keys</span></span>
+<span class='r-in'><span class='fu'><a href='mapping_key.html'>mapping_key</a></span><span class='op'>(</span><span class='va'>prt</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 9 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   variable      mapping   information indices  </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;list&gt;</span>   </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> block1_x1     <span style='color: #949494;'>&lt;chr [1]&gt;</span>       1     <span style='color: #949494;'>&lt;int [1]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> block1_x2     <span style='color: #949494;'>&lt;chr [1]&gt;</span>       1     <span style='color: #949494;'>&lt;int [1]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>3</span> block1_x3     <span style='color: #949494;'>&lt;chr [1]&gt;</span>       1     <span style='color: #949494;'>&lt;int [1]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>4</span> block2_x4     <span style='color: #949494;'>&lt;chr [1]&gt;</span>       1     <span style='color: #949494;'>&lt;int [1]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>5</span> block3_x2     <span style='color: #949494;'>&lt;chr [1]&gt;</span>       1     <span style='color: #949494;'>&lt;int [1]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>6</span> block3_x3     <span style='color: #949494;'>&lt;chr [1]&gt;</span>       1     <span style='color: #949494;'>&lt;int [1]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>7</span> block3_x4     <span style='color: #949494;'>&lt;chr [1]&gt;</span>       1     <span style='color: #949494;'>&lt;int [1]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>8</span> reduced_var_1 <span style='color: #949494;'>&lt;chr [2]&gt;</span>       0.656 <span style='color: #949494;'>&lt;int [2]&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>9</span> reduced_var_2 <span style='color: #949494;'>&lt;chr [3]&gt;</span>       0.627 <span style='color: #949494;'>&lt;int [3]&gt;</span></span>
+<span class='r-in'><span class='fu'><a href='mapping_key.html'>unnest_mappings</a></span><span class='op'>(</span><span class='va'>prt</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 12 × 4</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    variable      mapping   information indices</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>         <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> block1_x1     block1_x1       1           1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> block1_x2     block1_x2       1           2</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> block1_x3     block1_x3       1           3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> block2_x4     block2_x4       1           7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> block3_x2     block3_x2       1           9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> block3_x3     block3_x3       1          10</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> block3_x4     block3_x4       1          11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> reduced_var_1 block3_x1       0.656       8</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> reduced_var_1 block3_x5       0.656      12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> reduced_var_2 block2_x1       0.627       4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>11</span> reduced_var_2 block2_x2       0.627       5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>12</span> reduced_var_2 block2_x3       0.627       6</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># use a lower threshold of information loss</span></span>
+<span class='r-in'><span class='fu'>partition</span><span class='op'>(</span><span class='va'>df</span>, threshold <span class='op'>=</span> <span class='fl'>.5</span>, partitioner <span class='op'>=</span> <span class='fu'><a href='part_kmeans.html'>part_kmeans</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> New names:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * NA -&gt; ...1</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * NA -&gt; ...2</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * NA -&gt; ...3</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * NA -&gt; ...4</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * NA -&gt; ...5</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> * ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Partitioner:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Director: K-Means Clusters </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Metric: Minimum Intraclass Correlation </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Reducer: Scaled Mean</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Reduced Variables:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>2</span> reduced variables created from <span style='color: #BBBB00;'>6</span> observed variables</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Mappings:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>reduced_var_1</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block2_x1, block2_x2, block2_x3, block2_x4</span><span style='color: #555555;'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>reduced_var_2</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block3_x1, block3_x5</span><span style='color: #555555;'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Minimum information:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0.59</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># use a custom partitioner</span></span>
+<span class='r-in'><span class='va'>part_icc_rowmeans</span> <span class='op'>&lt;-</span> <span class='fu'><a href='replace_partitioner.html'>replace_partitioner</a></span><span class='op'>(</span><span class='va'>part_icc</span>, reduce <span class='op'>=</span> <span class='fu'><a href='as_reducer.html'>as_reducer</a></span><span class='op'>(</span><span class='va'>rowMeans</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>partition</span><span class='op'>(</span><span class='va'>df</span>, threshold <span class='op'>=</span> <span class='fl'>.6</span>, partitioner <span class='op'>=</span> <span class='va'>part_icc_rowmeans</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Partitioner:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Director: Minimum Distance (Pearson) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Metric: Intraclass Correlation </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    Reducer: <span style='color: #949494;'>&lt;custom reducer&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Reduced Variables:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>2</span> reduced variables created from <span style='color: #BBBB00;'>5</span> observed variables</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Mappings:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>reduced_var_1</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block3_x1, block3_x5</span><span style='color: #555555;'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #00BB00;'>reduced_var_2</span><span style='color: #555555;'> = {</span><span style='color: #BBBB00;'>block2_x1, block2_x2, block2_x3</span><span style='color: #555555;'>}</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='font-weight: bold;'>Minimum information:</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 0.627</span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -331,11 +358,11 @@ Software, 5(47), 1991, https://doi.org/10.21105/joss.01991</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Joshua Millstein, <a href='https://malco.io'>Malcolm Barrett</a>.</p>
+  <p><p>Developed by Joshua Millstein, <a href="https://malco.io" class="external-link">Malcolm Barrett</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>
@@ -343,6 +370,8 @@ Software, 5(47), 1991, https://doi.org/10.21105/joss.01991</p>
 
   
 
+
+  
 
   </body>
 </html>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Average and scale rows in a <code>data.frame</code> — scaled_mean • partition</title>
+<title>Average and scale rows in a data.frame — scaled_mean • partition</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,10 @@
 
 
 
-<meta property="og:title" content="Average and scale rows in a <code>data.frame</code> — scaled_mean" />
+<meta property="og:title" content="Average and scale rows in a data.frame — scaled_mean" />
 <meta property="og:description" content="scaled_mean() calculates scaled row means for a dataframe." />
+
+
 
 
 
@@ -56,9 +58,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -72,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">partition</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.3.9000</span>
       </span>
     </div>
 
@@ -106,7 +114,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/USCbiostats/partition/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,7 +140,7 @@
     <p><code>scaled_mean()</code> calculates scaled row means for a dataframe.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>scaled_mean</span>(<span class='no'>.x</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"r"</span>, <span class='st'>"c"</span>))</pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>scaled_mean</span><span class='op'>(</span><span class='va'>.x</span>, method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"r"</span>, <span class='st'>"c"</span><span class='op'>)</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,35 +160,37 @@
     <p>a numeric vector</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>dplyr</span>)
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_if</a></span>(<span class='no'>is.numeric</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>scaled_mean</span>()</div><div class='output co'>#&gt;   [1] -1.17102394 -1.39511272 -1.42712540 -1.42712540 -1.17102394 -0.78687174
-#&gt;   [7] -1.33108735 -1.20303662 -1.58718882 -1.36310004 -0.97894784 -1.23504931
-#&gt;  [13] -1.45913809 -1.71523955 -0.85089711 -0.59479565 -0.91492248 -1.13901126
-#&gt;  [19] -0.75485906 -1.01096053 -1.01096053 -1.01096053 -1.42712540 -1.04297321
-#&gt;  [25] -1.13901126 -1.29907467 -1.10699857 -1.10699857 -1.17102394 -1.33108735
-#&gt;  [31] -1.33108735 -1.01096053 -0.94693516 -0.81888443 -1.33108735 -1.36310004
-#&gt;  [37] -1.07498589 -1.23504931 -1.58718882 -1.17102394 -1.20303662 -1.74725223
-#&gt;  [43] -1.52316345 -1.01096053 -0.85089711 -1.39511272 -1.01096053 -1.42712540
-#&gt;  [49] -1.01096053 -1.26706199  0.78174972  0.55766094  0.81376240 -0.24265614
-#&gt;  [55]  0.49363557  0.14149606  0.65369898 -0.72284638  0.49363557 -0.21064345
-#&gt;  [61] -0.75485906  0.23753411 -0.21064345  0.39759752 -0.14661809  0.55766094
-#&gt;  [67]  0.23753411 -0.08259272  0.17350874 -0.24265614  0.58967362  0.10948338
-#&gt;  [73]  0.42961020  0.30155947  0.33357216  0.49363557  0.62168630  0.81376240
-#&gt;  [79]  0.33357216 -0.33869418 -0.33869418 -0.40271955 -0.08259272  0.49363557
-#&gt;  [85]  0.17350874  0.52564825  0.68571167  0.14149606  0.04545801 -0.17863077
-#&gt;  [91] -0.05058004  0.39759752 -0.08259272 -0.72284638 -0.01856736  0.07747069
-#&gt;  [97]  0.07747069  0.26954679 -0.69083370  0.01344533  1.35797801  0.52564825
-#&gt; [103]  1.35797801  0.87778776  1.16590191  1.74213020 -0.08259272  1.42200337
-#&gt; [109]  0.94181313  1.77414288  0.94181313  0.78174972  1.13388923  0.42961020
-#&gt; [115]  0.71772435  1.06986386  0.94181313  2.09426971  1.80615557  0.26954679
-#&gt; [121]  1.35797801  0.46162289  1.71011752  0.58967362  1.26193996  1.38999069
-#&gt; [127]  0.55766094  0.62168630  0.97382581  1.19791459  1.38999069  1.99823166
-#&gt; [133]  1.00583850  0.58967362  0.58967362  1.67810484  1.22992728  0.94181313
-#&gt; [139]  0.55766094  1.16590191  1.26193996  1.13388923  0.52564825  1.38999069
-#&gt; [145]  1.38999069  1.06986386  0.58967362  0.90980045  1.10187654  0.62168630</div><div class='input'>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>iris</span> <span class='op'><a href='pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select_all.html'>select_if</a></span><span class='op'>(</span><span class='va'>is.numeric</span><span class='op'>)</span> <span class='op'><a href='pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>scaled_mean</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [1] -1.17102394 -1.39511272 -1.42712540 -1.42712540 -1.17102394 -0.78687174</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [7] -1.33108735 -1.20303662 -1.58718882 -1.36310004 -0.97894784 -1.23504931</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [13] -1.45913809 -1.71523955 -0.85089711 -0.59479565 -0.91492248 -1.13901126</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [19] -0.75485906 -1.01096053 -1.01096053 -1.01096053 -1.42712540 -1.04297321</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [25] -1.13901126 -1.29907467 -1.10699857 -1.10699857 -1.17102394 -1.33108735</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [31] -1.33108735 -1.01096053 -0.94693516 -0.81888443 -1.33108735 -1.36310004</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [37] -1.07498589 -1.23504931 -1.58718882 -1.17102394 -1.20303662 -1.74725223</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [43] -1.52316345 -1.01096053 -0.85089711 -1.39511272 -1.01096053 -1.42712540</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [49] -1.01096053 -1.26706199  0.78174972  0.55766094  0.81376240 -0.24265614</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [55]  0.49363557  0.14149606  0.65369898 -0.72284638  0.49363557 -0.21064345</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [61] -0.75485906  0.23753411 -0.21064345  0.39759752 -0.14661809  0.55766094</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [67]  0.23753411 -0.08259272  0.17350874 -0.24265614  0.58967362  0.10948338</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [73]  0.42961020  0.30155947  0.33357216  0.49363557  0.62168630  0.81376240</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [79]  0.33357216 -0.33869418 -0.33869418 -0.40271955 -0.08259272  0.49363557</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [85]  0.17350874  0.52564825  0.68571167  0.14149606  0.04545801 -0.17863077</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [91] -0.05058004  0.39759752 -0.08259272 -0.72284638 -0.01856736  0.07747069</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [97]  0.07747069  0.26954679 -0.69083370  0.01344533  1.35797801  0.52564825</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [103]  1.35797801  0.87778776  1.16590191  1.74213020 -0.08259272  1.42200337</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [109]  0.94181313  1.77414288  0.94181313  0.78174972  1.13388923  0.42961020</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [115]  0.71772435  1.06986386  0.94181313  2.09426971  1.80615557  0.26954679</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [121]  1.35797801  0.46162289  1.71011752  0.58967362  1.26193996  1.38999069</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [127]  0.55766094  0.62168630  0.97382581  1.19791459  1.38999069  1.99823166</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [133]  1.00583850  0.58967362  0.58967362  1.67810484  1.22992728  0.94181313</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [139]  0.55766094  1.16590191  1.26193996  1.13388923  0.52564825  1.38999069</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [145]  1.38999069  1.06986386  0.58967362  0.90980045  1.10187654  0.62168630</span>
+<span class='r-in'></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -192,11 +202,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Joshua Millstein, <a href='https://malco.io'>Malcolm Barrett</a>.</p>
+  <p><p>Developed by Joshua Millstein, <a href="https://malco.io" class="external-link">Malcolm Barrett</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p></p>
 </div>
 
       </footer>
@@ -204,6 +214,8 @@
 
   
 
+
+  
 
   </body>
 </html>
