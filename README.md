@@ -1,18 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/USCbiostats/partition.svg?branch=master)](https://travis-ci.org/USCbiostats/partition)
-[![Build
-status](https://ci.appveyor.com/api/projects/status/fofb9um8jqyyi6av?svg=true)](https://ci.appveyor.com/project/malcolmbarrett/partition-qaqc6)
+[![R-CMD-check](https://github.com/USCbiostats/partition/workflows/R-CMD-check/badge.svg)](https://github.com/USCbiostats/partition/actions)
 [![Coverage
 status](https://codecov.io/gh/USCbiostats/partition/branch/master/graph/badge.svg)](https://codecov.io/github/USCbiostats/partition?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version-ago/partition)](https://cran.r-project.org/package=partition)
 [![JOSS](https://joss.theoj.org/papers/10.21105/joss.01991/status.svg)](https://doi.org/10.21105/joss.01991)
-[![DOI](https://zenodo.org/badge/178615892.svg)](https://zenodo.org/badge/latestdoi/178615892) [![](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg)](https://image.usc.edu)
+[![DOI](https://zenodo.org/badge/178615892.svg)](https://zenodo.org/badge/latestdoi/178615892)
+[![USC
+IMAGE](https://raw.githubusercontent.com/USCbiostats/badges/master/tommy-image-badge.svg)](https://image.usc.edu)
 <!-- badges: end -->
 
 # partition
@@ -47,13 +45,6 @@ remotes::install_github("USCbiostats/partition")
 library(partition)
 set.seed(1234)
 df <- simulate_block_data(c(3, 4, 5), lower_corr = .4, upper_corr = .6, n = 100)
-#> New names:
-#> * X1 -> X1...1
-#> * X2 -> X2...2
-#> * X3 -> X3...3
-#> * X1 -> X1...4
-#> * X2 -> X2...5
-#> * ...
 
 #  don't accept reductions where information < .6
 prt <- partition(df, threshold = .6)
@@ -74,7 +65,7 @@ prt
 
 # return reduced data
 partition_scores(prt)
-#> # A tibble: 100 x 11
+#> # A tibble: 100 × 11
 #>    block1_x1 block1_x2 block1_x3 block2_x1 block2_x2 block3_x1 block3_x2
 #>        <dbl>     <dbl>     <dbl>     <dbl>     <dbl>     <dbl>     <dbl>
 #>  1   -1.00     -0.344      1.35     -0.526    -1.25      1.13     0.357 
@@ -92,7 +83,7 @@ partition_scores(prt)
 
 # access mapping keys
 mapping_key(prt)
-#> # A tibble: 11 x 4
+#> # A tibble: 11 × 4
 #>    variable      mapping   information indices  
 #>    <chr>         <list>          <dbl> <list>   
 #>  1 block1_x1     <chr [1]>       1     <int [1]>
@@ -108,7 +99,7 @@ mapping_key(prt)
 #> 11 reduced_var_1 <chr [2]>       0.602 <int [2]>
 
 unnest_mappings(prt)
-#> # A tibble: 12 x 4
+#> # A tibble: 12 × 4
 #>    variable      mapping   information indices
 #>    <chr>         <chr>           <dbl>   <int>
 #>  1 block1_x1     block1_x1       1           1
@@ -243,9 +234,9 @@ By participating in this project you agree to abide by its terms.
 
 ## References
 
-<div id="refs" class="references hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
-<div id="ref-R-partition">
+<div id="ref-R-partition" class="csl-entry">
 
 Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu
 Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz.

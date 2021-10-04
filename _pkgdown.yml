@@ -51,6 +51,10 @@ reference:
     - reduce_cluster
     - is_partition_step
 
+- title: Data
+  contents:
+    - baxter_data
+
 navbar:
   type: default
   left:
