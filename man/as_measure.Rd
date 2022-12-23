@@ -22,10 +22,13 @@ helper function to create new metrics to be used in \code{partitioner}s.
 }
 \examples{
 
-inter_item_reliability <- function(.data) {
-   corr(.data) \%>\%
+inter_item_reliability <- function(mat) {
+  corrs <- corr(mat)
+  corrs[lower.tri(corrs, diag = TRUE)] <- NA
+
+  corrs \%>\%
     colMeans(na.rm = TRUE) \%>\%
-    mean()
+    mean(na.rm = TRUE)
 }
 
 measure_iir <- as_measure(inter_item_reliability)

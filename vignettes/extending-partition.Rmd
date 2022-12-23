@@ -59,10 +59,13 @@ partition_scores(prt)
 `as_measure()` works much the same way: it accepts a function that returns a single metric to check against the threshold. Let's swap out ICC for inter-item reliability:
 
 ```{r}
-inter_item_reliability <- function(.data) {
-   corr(.data) %>%
+inter_item_reliability <- function(mat) {
+  corrs <- corr(mat)
+  corrs[lower.tri(corrs, diag = TRUE)] <- NA
+  
+  corrs %>%
     colMeans(na.rm = TRUE) %>%
-    mean()
+    mean(na.rm = TRUE)
 }
 
 measure_iir <- as_measure(inter_item_reliability)
@@ -80,6 +83,7 @@ euc_dist <- function(.data) as.matrix(dist(t(.data)))
 
 # find the pair with the minimum distance
 min_dist <- function(.x) {
+  .x[lower.tri(.x, diag = TRUE)] <- NA
   indices <- arrayInd(which.min(.x), dim(as.matrix(.x)))
 
   #  get variable names with minimum distance

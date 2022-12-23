@@ -16,15 +16,13 @@ map_permutations(
 )
 }
 \arguments{
-\item{.information}{a vector of minimum information to fit in \code{\link[=partition]{partition()}}}
-
 \item{.data}{a data set to partition}
 
 \item{partitioner}{the partitioner to use. The default is \code{\link[=part_icc]{part_icc()}}.}
 
 \item{...}{arguments passed to \code{\link[=partition]{partition()}}}
 
-\item{information}{a vector of minimum information to fit in \code{\link[=partition]{partition()}}}
+\item{information, .information}{a vector of minimum information to fit in \code{\link[=partition]{partition()}}}
 
 \item{nperm}{Number of permuted data sets to test. Default is 100.}
 }
