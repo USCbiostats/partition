@@ -31,10 +31,13 @@ test_that("custom partitioners are partitioners", {
 })
 
 test_that("custom metric works", {
-  inter_item_reliability <- function(.data) {
-    corr(.data) %>%
+  inter_item_reliability <- function(mat) {
+    corrs <- corr(mat)
+    corrs[lower.tri(corrs, diag = TRUE)] <- NA
+
+    corrs %>%
       colMeans(na.rm = TRUE) %>%
-      mean()
+      mean(na.rm = TRUE)
   }
 
   part_iir <- replace_partitioner(
@@ -50,6 +53,7 @@ test_that("custom director works", {
   euc_dist <- function(.data) as.matrix(dist(t(.data)))
 
   min_dist <- function(.x) {
+    x[lower.tri(.x, diag = TRUE)] <- NA
     indices <- arrayInd(which.min(.x), dim(as.matrix(.x)))
 
     #  get variable names with minimum distance

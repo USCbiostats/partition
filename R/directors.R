@@ -15,6 +15,7 @@
 #'
 #' # find the pair with the minimum distance
 #' min_dist <- function(.x) {
+#'   .x[lower.tri(.x, diag = TRUE)] <- NA
 #'   indices <- arrayInd(which.min(.x), dim(as.matrix(.x)))
 #'
 #'   #  get variable names with minimum distance
