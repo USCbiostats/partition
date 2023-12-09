@@ -41,6 +41,7 @@ Imports:
     forcats,
     genieclust,
     ggplot2 (>= 3.3.0),
+    gtools,
     infotheo,
     magrittr,
     MASS,
