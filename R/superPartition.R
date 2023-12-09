@@ -20,7 +20,7 @@
 #' @examples
 #'
 #' set.seed(123)
-#' df <- simulate_block_data(c(15, 25, 10), lower_corr = .4, upper_corr = .6, n = 100)
+#' df <- simulate_block_data(c(15, 20, 10), lower_corr = .4, upper_corr = .6, n = 100)
 #'
 #' #  don't accept reductions where information < .6
 #' prt <- super_partition(df, threshold = .6, cluster_size = 30)
@@ -40,7 +40,16 @@
 #' @export
 #' @import progress
 #' @import genieclust
-super_partition <- function(full_data, threshold = 0.5, cluster_size = 4000, partitioner = part_icc(), tolerance = .0001, niter = NULL, x = "reduced_var", .sep = "_") {
+#' @import gtools
+#' @import tibble
+super_partition <- function(full_data,
+                            threshold = 0.5,
+                            cluster_size = 4000,
+                            partitioner = part_icc(),
+                            tolerance = .0001,
+                            niter = NULL,
+                            x = "reduced_var",
+                            .sep = "_") {
 
   # ensure 0 < threshold < 1
   if(0 > threshold | 1 < threshold) stop("Threshold must be between 0 and 1.")
@@ -82,6 +91,8 @@ super_partition <- function(full_data, threshold = 0.5, cluster_size = 4000, par
       # add list of indices to return vector
       return_mods[i] <- list(col_full)
     }
+
+    return_mods <- return_mods
   }
 
   # tracking variables
@@ -181,11 +192,14 @@ super_partition <- function(full_data, threshold = 0.5, cluster_size = 4000, par
       # add data to master partition mapping key
       name <- master_cluster$col_name[which(master_cluster$cluster == unique(master_cluster$cluster)[i])]
       part_master$mapping_key <- rbind(part_master$mapping_key,
-                                       c(name, name, 1, grep(name, colnames(full_data))))
+                                       c(name, name, list(1), grep(name, colnames(full_data)), i))
+
+      # fix reduced_data column name
+      colnames(part_master$reduced_data)[length(colnames(part_master$reduced_data))] <- name
 
       # end iteration
       pb$tick()
-      break()
+      next()
     }
 
     ## partition
@@ -230,6 +244,25 @@ super_partition <- function(full_data, threshold = 0.5, cluster_size = 4000, par
     # progress bar updates
     pb$tick()
   }
+
+  # fix data type
+  part_master$mapping_key$information <- as.numeric(part_master$mapping_key$information)
+
+  ## sort feature names
+  # move all reduced data to bottom
+  part_master$mapping_key <- part_master$mapping_key[order(lengths(part_master$mapping_key$indices), part_master$mapping_key$variable), ]
+
+  # sort single feature rows
+  single_feat_rows <- lengths(part_master$mapping_key$indices) == 1
+  part_master$mapping_key[which(single_feat_rows), ] <- part_master$mapping_key[mixedorder(part_master$mapping_key$variable[single_feat_rows]), ]
+
+  # sort reduced var rows
+  reduced_var_rows <- grep("reduced_var_", part_master$mapping_key$variable)
+  part_master$mapping_key$variable[reduced_var_rows] <- part_master$mapping_key$variable[reduced_var_rows][mixedorder(part_master$mapping_key$variable[reduced_var_rows])]
+
+  # match names between mapping_key and reduced_data
+  part_master$reduced_data <- part_master$reduced_data[, match(part_master$mapping_key$variable, colnames(part_master$reduced_data))]
+  part_master$reduced_data <- tibble(part_master$reduced_data)
 
   part_master <- part_master
 }

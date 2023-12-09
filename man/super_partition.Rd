@@ -46,7 +46,7 @@ It may be the case that large super-partitions cannot be easily broken with Geni
 \examples{
 
 set.seed(123)
-df <- simulate_block_data(c(15, 25, 10), lower_corr = .4, upper_corr = .6, n = 100)
+df <- simulate_block_data(c(15, 20, 10), lower_corr = .4, upper_corr = .6, n = 100)
 
 #  don't accept reductions where information < .6
 prt <- super_partition(df, threshold = .6, cluster_size = 30)
