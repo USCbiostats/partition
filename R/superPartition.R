@@ -84,7 +84,7 @@ super_partition <- function(full_data,
       col_small <- colnames(small_data)[unlist(modules[i])]
 
       # get column indices in full data
-      for (j in 1:length(col_small)) {
+      for (j in seq_along(col_small)) {
         col_full[j] <- grep(col_small[j], colnames(full_data))
       }
 
