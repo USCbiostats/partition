@@ -223,7 +223,7 @@ super_partition <- function(full_data,
     mod_rows <- grep("reduced_var_", part_clust$mapping_key$variable)
 
     # update module number
-    for (k in 1:length(mod_rows)) {
+    for (k in seq_along(mod_rows)) {
       part_clust$mapping_key$variable[mod_rows[k]] <- paste0("reduced_var_", num_modules+k)
     }
 
