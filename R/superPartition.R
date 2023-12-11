@@ -38,10 +38,6 @@
 #' @author Katelyn Queen, \email{kjqueen@@usc.edu}
 #'
 #' @export
-#' @import progress
-#' @import genieclust
-#' @import gtools
-#' @import tibble
 super_partition <- function(full_data,
                             threshold = 0.5,
                             cluster_size = 4000,
@@ -91,8 +87,8 @@ super_partition <- function(full_data,
       # add list of indices to return vector
       return_mods[i] <- list(col_full)
     }
-
-    return_mods <- return_mods
+    # to return
+    return_mods
   }
 
   # tracking variables
@@ -101,7 +97,7 @@ super_partition <- function(full_data,
 
   # use genie (fast agglomerative hierarchical clustering) to cluster data into size 3,000 chunks
   ## transpose data since genie clusters on rows
-  clust                 <- genie(t(full_data), k = ceiling(ncol(full_data)/3000), gini_threshold = 0.05)
+  clust                  <- genieclust::genie(t(full_data), k = ceiling(ncol(full_data)/3000), gini_threshold = 0.05)
   master_cluster$cluster <- clust
   clust_size             <- table(clust)
 
@@ -111,8 +107,8 @@ super_partition <- function(full_data,
   reduce_clust <- function(cs, fd) {
     # bookkeeping
     largest_clust <- max(master_cluster$cluster)
-    unique_vals  <- unique(master_cluster$clust)
-    clusters     <- master_cluster$cluster
+    unique_vals   <- unique(master_cluster$clust)
+    clusters      <- master_cluster$cluster
 
     # keep looping until all clusters are under max cluster size
     while(max(cs) > cluster_size) {
@@ -120,7 +116,7 @@ super_partition <- function(full_data,
         # if cluster size is over max cluster size...
         if(cs[l] > cluster_size) {
           # cluster again
-          new_clust <- genie(t(fd[, which(clusters == unique_vals[l])]),
+          new_clust <- genieclust::genie(t(fd[, which(clusters == unique_vals[l])]),
                             k = ceiling(cs[l]/cluster_size),
                             gini_threshold = 0.05)
 
@@ -151,7 +147,7 @@ super_partition <- function(full_data,
 
   # set up progress bar
   n_iter <- length(unique(master_cluster$cluster))
-  pb     <- progress_bar$new(format =
+  pb     <- progress::progress_bar$new(format =
                                "(:spin) [:bar] :percent [Elapsed time: :elapsedfull || Estimated time remaining: :eta]",
                              total = n_iter,
                              complete = "=",   # Completion bar character
@@ -254,15 +250,18 @@ super_partition <- function(full_data,
 
   # sort single feature rows
   single_feat_rows <- lengths(part_master$mapping_key$indices) == 1
-  part_master$mapping_key[which(single_feat_rows), ] <- part_master$mapping_key[mixedorder(part_master$mapping_key$variable[single_feat_rows]), ]
+  part_master$mapping_key[which(single_feat_rows), ] <-
+    part_master$mapping_key[gtools::mixedorder(part_master$mapping_key$variable[single_feat_rows]), ]
 
   # sort reduced var rows
   reduced_var_rows <- grep("reduced_var_", part_master$mapping_key$variable)
-  part_master$mapping_key$variable[reduced_var_rows] <- part_master$mapping_key$variable[reduced_var_rows][mixedorder(part_master$mapping_key$variable[reduced_var_rows])]
+  part_master$mapping_key$variable[reduced_var_rows] <-
+    part_master$mapping_key$variable[reduced_var_rows][gtools::mixedorder(part_master$mapping_key$variable[reduced_var_rows])]
 
   # match names between mapping_key and reduced_data
   part_master$reduced_data <- part_master$reduced_data[, match(part_master$mapping_key$variable, colnames(part_master$reduced_data))]
-  part_master$reduced_data <- tibble(part_master$reduced_data)
+  part_master$reduced_data <- tibble::tibble(part_master$reduced_data)
 
-  part_master <- part_master
+  # to return
+  part_master
 }
