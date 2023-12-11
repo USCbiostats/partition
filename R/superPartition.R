@@ -59,7 +59,7 @@ super_partition <- function(full_data,
 
   # if < 4,000 features, call regular partition
   if(ncol(full_data) < cluster_size) {
-    message(paste0("Using regular Partition function since there are < ", cluster_size, "features."))
+    message(paste0("Using `partition()` since there are < ", cluster_size, "features."))
     return(partition(full_data, threshold = threshold))
   }
 
