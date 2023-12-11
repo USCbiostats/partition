@@ -116,7 +116,7 @@ super_partition <- function(full_data,
 
     # keep looping until all clusters are under max cluster size
     while(max(cs) > cluster_size) {
-      for (l in 1:length(cs)) {
+      for (l in seq_along(cs)) {
         # if cluster size is over max cluster size...
         if(cs[l] > cluster_size) {
           # cluster again
