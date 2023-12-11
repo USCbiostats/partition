@@ -53,7 +53,7 @@ super_partition <- function(full_data,
   # ensure data frame structure
   full_data <- as.data.frame(full_data)
 
-  # if < 4,000 features, call regular partition
+  # if < cluster_size features, call regular partition
   if(ncol(full_data) < cluster_size) {
     message(paste0("Using `partition()` since there are < ", cluster_size, "features."))
     return(partition(full_data, threshold = threshold))
@@ -95,9 +95,11 @@ super_partition <- function(full_data,
   master_cluster <- data.frame(col_name = colnames(full_data), cluster = 1)
   num_modules    <- 0
 
-  # use genie (fast agglomerative hierarchical clustering) to cluster data into size 3,000 chunks
+  # use genie (fast agglomerative hierarchical clustering) to cluster data into cluster_size chunks
   ## transpose data since genie clusters on rows
-  clust                  <- genieclust::genie(t(full_data), k = ceiling(ncol(full_data)/3000), gini_threshold = 0.05)
+  clust                  <- genieclust::genie(t(full_data),
+                                              k = ceiling(ncol(full_data)/cluster_size),
+                                              gini_threshold = 0.05)
   master_cluster$cluster <- clust
   clust_size             <- table(clust)
 
