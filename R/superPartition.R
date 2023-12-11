@@ -76,7 +76,7 @@ super_partition <- function(full_data,
     # vector of lists to return
     return_mods <- numeric(length(modules))
 
-    for (i in 1:length(modules)) {
+    for (i in seq_along(modules)) {
       # create vector for full data indices
       col_full <- numeric(length(unlist(modules[i])))
 
