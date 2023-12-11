@@ -164,13 +164,13 @@ super_partition <- function(full_data,
                            threshold, partitioner, tolerance, niter, x, .sep)
 
   # update indices for each module
-  mod_rows <- grep("reduced_var_", part_master$mapping_key$variable)
+  mod_rows <- grep(x, part_master$mapping_key$variable)
   suppressWarnings(part_master$mapping_key$indices <- full_data_col_numbers(full_data = full_data,
                                                                          small_data = full_data[, which(master_cluster$cluster == unique(master_cluster$cluster)[1])],
                                                                          modules = part_master$mapping_key$indices))
 
   # update number of modules
-  num_modules  <- num_modules + length(grep("reduced_var_", part_master$mapping_key$variable))
+  num_modules  <- num_modules + length(grep(x, part_master$mapping_key$variable))
 
   # create super_partition column in mapping key
   part_master$mapping_key$super_partition <- 1
@@ -206,11 +206,11 @@ super_partition <- function(full_data,
 
     ## reduced data
     # get column indices of reduced vars
-    mod_cols <- grep("reduced_var_", colnames(part_clust$reduced_data))
+    mod_cols <- grep(x, colnames(part_clust$reduced_data))
 
     # update module numbers
     for (j in 1:length(mod_cols)) {
-      colnames(part_clust$reduced_data)[mod_cols[j]] <- paste0("reduced_var_", num_modules+j)
+      colnames(part_clust$reduced_data)[mod_cols[j]] <- paste0(x, "_", num_modules+j)
     }
 
     # add to master partition
@@ -218,11 +218,11 @@ super_partition <- function(full_data,
 
     ## mapping key
     # get row indices of reduced vars
-    mod_rows <- grep("reduced_var_", part_clust$mapping_key$variable)
+    mod_rows <- grep(x, part_clust$mapping_key$variable)
 
-    # update module number
+    # update module numbers
     for (k in seq_along(mod_rows)) {
-      part_clust$mapping_key$variable[mod_rows[k]] <- paste0("reduced_var_", num_modules+k)
+      part_clust$mapping_key$variable[mod_rows[k]] <- paste0(x, "_", num_modules+k)
     }
 
     # update indices
@@ -256,7 +256,7 @@ super_partition <- function(full_data,
     part_master$mapping_key[gtools::mixedorder(part_master$mapping_key$variable[single_feat_rows]), ]
 
   # sort reduced var rows
-  reduced_var_rows <- grep("reduced_var_", part_master$mapping_key$variable)
+  reduced_var_rows <- grep(x, part_master$mapping_key$variable)
   part_master$mapping_key$variable[reduced_var_rows] <-
     part_master$mapping_key$variable[reduced_var_rows][gtools::mixedorder(part_master$mapping_key$variable[reduced_var_rows])]
 
