@@ -64,7 +64,7 @@ super_partition <- function(full_data,
   }
 
   # iteration counters
-  i = j = k = l = 0
+  i <- j <- k <- l <- 0
 
   # Function to go from cluster-specific column numbers to full data column numbers
   ## full_data  - sample by probe expression data for all probes
