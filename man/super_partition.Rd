@@ -12,7 +12,9 @@ super_partition(
   tolerance = 1e-04,
   niter = NULL,
   x = "reduced_var",
-  .sep = "_"
+  .sep = "_",
+  verbose = TRUE,
+  progress_bar = TRUE
 )
 }
 \arguments{
@@ -31,6 +33,10 @@ super_partition(
 \item{x}{the prefix of the new variable names}
 
 \item{.sep}{a character vector that separates \code{x} from the number (e.g. "reduced_var_1").}
+
+\item{verbose}{logical for whether or not to display information about super partition step; default is TRUE}
+
+\item{progress_bar}{logical for whether or not to show progress bar; default is TRUE}
 }
 \value{
 Partition object

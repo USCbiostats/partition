@@ -11,6 +11,8 @@
 #' @param niter the number of iterations. By default, it is calculated as 20% of the number of variables or 10, whichever is larger.
 #' @param x the prefix of the new variable names
 #' @param .sep a character vector that separates `x` from the number (e.g. "reduced_var_1").
+#' @param verbose logical for whether or not to display information about super partition step; default is TRUE
+#' @param progress_bar logical for whether or not to show progress bar; default is TRUE
 #' @return Partition object
 #'
 #' @details `super_partition` scales up partition with an approximation, using Genie, a fast, hierarchical clustering algorithm with similar qualities of those to Partition, to first super-partition the data into ceiling(N/c) clusters, where N is the number of features in the full dataset and c is the user-defined maximum cluster size (default value = 4,000). Then, if any cluster from the super-partition has a size greater than c, use Genie again on that cluster until all cluster sizes are less than c. Finally, apply the Partition algorithm to each of the super-partitions.
@@ -45,7 +47,9 @@ super_partition <- function(full_data,
                             tolerance = .0001,
                             niter = NULL,
                             x = "reduced_var",
-                            .sep = "_") {
+                            .sep = "_",
+                            verbose = TRUE,
+                            progress_bar = TRUE) {
 
   # ensure 0 < threshold < 1
   if(0 > threshold | 1 < threshold) stop("Threshold must be between 0 and 1.")
@@ -144,19 +148,23 @@ super_partition <- function(full_data,
   }
 
   reduce_clust(cs = clust_size, fd = full_data)
-  message(paste0(length(unique(master_cluster$cluster)), " super clusters identified. Beginning Partition."))
-  message(paste0("Maximum cluster size: ", max(table(master_cluster$cluster))))
+  if(verbose) {
+    message(paste0(length(unique(master_cluster$cluster)), " super clusters identified. Beginning Partition."))
+    message(paste0("Maximum cluster size: ", max(table(master_cluster$cluster))))
+  }
 
   # set up progress bar
   n_iter <- length(unique(master_cluster$cluster))
-  pb     <- progress::progress_bar$new(format =
-                               "(:spin) [:bar] :percent [Elapsed time: :elapsedfull || Estimated time remaining: :eta]",
-                             total = n_iter,
-                             complete = "=",   # Completion bar character
-                             incomplete = "-", # Incomplete bar character
-                             current = ">",    # Current bar character
-                             clear = FALSE,    # If TRUE, clears the bar when finish
-                             width = 100)
+  if(progress_bar) {
+    pb     <- progress::progress_bar$new(format =
+                                           "(:spin) [:bar] :percent [Elapsed time: :elapsedfull || Estimated time remaining: :eta]",
+                                         total = n_iter,
+                                         complete = "=",   # Completion bar character
+                                         incomplete = "-", # Incomplete bar character
+                                         current = ">",    # Current bar character
+                                         clear = FALSE,    # If TRUE, clears the bar when finish
+                                         width = 100)
+  }
 
   ## first cluster
   # get initial partition to build off
@@ -176,7 +184,7 @@ super_partition <- function(full_data,
   part_master$mapping_key$super_partition <- 1
 
   # progress bar updates
-  pb$tick()
+  if(progress_bar) pb$tick()
 
   # for each cluster...
   for (i in 2:n_iter) {
@@ -196,7 +204,7 @@ super_partition <- function(full_data,
       colnames(part_master$reduced_data)[length(colnames(part_master$reduced_data))] <- name
 
       # end iteration
-      pb$tick()
+      if(progress_bar) pb$tick()
       next()
     }
 
@@ -240,7 +248,7 @@ super_partition <- function(full_data,
     num_modules <- num_modules + length(mod_cols)
 
     # progress bar updates
-    pb$tick()
+    if(progress_bar) pb$tick()
   }
 
   # fix data type
