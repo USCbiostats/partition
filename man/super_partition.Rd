@@ -30,7 +30,7 @@ super_partition(
 
 \item{niter}{the number of iterations. By default, it is calculated as 20\% of the number of variables or 10, whichever is larger.}
 
-\item{x}{the prefix of the new variable names}
+\item{x}{the prefix of the new variable names; must not be contained in any existing data names}
 
 \item{.sep}{a character vector that separates \code{x} from the number (e.g. "reduced_var_1").}
 

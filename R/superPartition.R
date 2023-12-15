@@ -9,7 +9,7 @@
 #' @param partitioner a `partitioner`. See the `part_*()` functions and [`as_partitioner()`].
 #' @param tolerance a small tolerance within the threshold; if a reduction is within the threshold plus/minus the tolerance, it will reduce.
 #' @param niter the number of iterations. By default, it is calculated as 20% of the number of variables or 10, whichever is larger.
-#' @param x the prefix of the new variable names
+#' @param x the prefix of the new variable names; must not be contained in any existing data names
 #' @param .sep a character vector that separates `x` from the number (e.g. "reduced_var_1").
 #' @param verbose logical for whether or not to display information about super partition step; default is TRUE
 #' @param progress_bar logical for whether or not to show progress bar; default is TRUE
@@ -54,6 +54,9 @@ super_partition <- function(full_data,
   # ensure 0 < threshold < 1
   if(0 > threshold | 1 < threshold) stop("Threshold must be between 0 and 1.")
 
+  # ensure no column names contain x
+  if(any(grepl(x, colnames(full_data)))) stop(paste0("The prefix for new variable names, ", x, ", is contained within existing data column names. Please choose a different prefix to avoid errors."))
+
   # ensure data frame structure
   full_data <- as.data.frame(full_data)
 
@@ -69,7 +72,7 @@ super_partition <- function(full_data,
   # Function to go from cluster-specific column numbers to full data column numbers
   ## full_data  - sample by probe expression data for all probes
   ## small_data - sample by probe expression data for probes in specific cluster
-  ## modules   - indices from partition mapping key
+  ## modules    - indices from partition mapping key
   ## return - indices from partition mapping key for full data
   full_data_col_numbers <- function(full_data, small_data, modules) {
 
@@ -113,7 +116,7 @@ super_partition <- function(full_data,
   reduce_clust <- function(cs, fd) {
     # bookkeeping
     largest_clust <- max(master_cluster$cluster)
-    unique_vals   <- unique(master_cluster$clust)
+    unique_vals   <- unique(master_cluster$cluster)
     clusters      <- master_cluster$cluster
 
     # keep looping until all clusters are under max cluster size
@@ -142,7 +145,7 @@ super_partition <- function(full_data,
 
       # update bookkeeping variables
       cs           <- table(master_cluster$cluster)
-      unique_vals  <- sort(unique(master_cluster$clust))
+      unique_vals  <- sort(unique(master_cluster$cluster))
       clusters     <- master_cluster$cluster
     }
   }

@@ -73,3 +73,9 @@ test_that("independent data set doesn't reduce", {
   expect_equal(nrow(filter_reduced(ind_prt)), 0)
   expect_equal(nrow(ind_prt[["mapping_key"]]), ncol(ind_df))
 })
+
+test_that("errors work as expected", {
+  expect_error(super_partition(df8, threshold = -2), "Threshold must be between 0 and 1.")
+  expect_error(super_partition(df8, threshold = 2), "Threshold must be between 0 and 1.")
+  expect_error(super_partition(df8, threshold = 0.6, x = "block"), "The prefix for new variable names, block, is contained within existing data column names. Please choose a different prefix to avoid errors.")
+})
