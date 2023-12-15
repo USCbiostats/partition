@@ -85,7 +85,7 @@ super_partition <- function(full_data,
 
       # get column indices in full data
       for (j in seq_along(col_small)) {
-        col_full[j] <- grep(col_small[j], colnames(full_data))
+        col_full[j] <- which(colnames(full_data) == col_small[j])
       }
 
       # add list of indices to return vector
@@ -173,9 +173,9 @@ super_partition <- function(full_data,
 
   # update indices for each module
   mod_rows <- grep(x, part_master$mapping_key$variable)
-  suppressWarnings(part_master$mapping_key$indices <- full_data_col_numbers(full_data = full_data,
-                                                                         small_data = full_data[, which(master_cluster$cluster == unique(master_cluster$cluster)[1])],
-                                                                         modules = part_master$mapping_key$indices))
+  part_master$mapping_key$indices <- full_data_col_numbers(full_data = full_data,
+                                                           small_data = full_data[, which(master_cluster$cluster == unique(master_cluster$cluster)[1])],
+                                                           modules = part_master$mapping_key$indices)
 
   # update number of modules
   num_modules  <- num_modules + length(grep(x, part_master$mapping_key$variable))
@@ -234,9 +234,9 @@ super_partition <- function(full_data,
     }
 
     # update indices
-    suppressWarnings(part_clust$mapping_key$indices <- full_data_col_numbers(full_data = full_data,
-                                                                          small_data = full_data[, which(master_cluster$cluster == unique(master_cluster$cluster)[i])],
-                                                                          modules = part_clust$mapping_key$indices))
+    part_clust$mapping_key$indices <- full_data_col_numbers(full_data = full_data,
+                                                            small_data = full_data[, which(master_cluster$cluster == unique(master_cluster$cluster)[i])],
+                                                            modules = part_clust$mapping_key$indices)
 
     # add super_partition column
     part_clust$mapping_key$super_partition <- i
