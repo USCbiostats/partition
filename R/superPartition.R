@@ -201,7 +201,7 @@ super_partition <- function(full_data,
       # add data to master partition mapping key
       name <- master_cluster$col_name[which(master_cluster$cluster == unique(master_cluster$cluster)[i])]
       part_master$mapping_key <- rbind(part_master$mapping_key,
-                                       c(name, name, list(1), grep(name, colnames(full_data)), i))
+                                       c(name, name, list(1), colnames(full_data)[which(colnames(full_data == name))], i))
 
       # fix reduced_data column name
       colnames(part_master$reduced_data)[length(colnames(part_master$reduced_data))] <- name
