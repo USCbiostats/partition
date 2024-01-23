@@ -41,7 +41,9 @@ unnest_mappings <- function(.partition) {
 #' @rdname mapping_key
 mapping_groups <- function(.partition, indices = FALSE) {
   # return list of variable names or indices in mapping
-  if (indices) return(.partition$mapping_key$indices)
+  if (indices) {
+    return(.partition$mapping_key$indices)
+  }
   .partition$mapping_key$mapping
 }
 
@@ -69,7 +71,7 @@ mapping_groups <- function(.partition, indices = FALSE) {
 #' @rdname filter_reduced
 filter_reduced <- function(.partition) {
   .partition$mapping_key %>%
-    dplyr::mutate(is_reduced = purrr::map_lgl(mapping, ~length(.x) > 1)) %>%
+    dplyr::mutate(is_reduced = purrr::map_lgl(mapping, ~ length(.x) > 1)) %>%
     dplyr::filter(is_reduced) %>%
     dplyr::select(-is_reduced)
 }
@@ -154,7 +156,8 @@ reduce_mappings <- function(.partition_step, target_list) {
         variable,
         # if there's only a single variable, call it by its name
         ~ ifelse(length(.x) > 1, .y, .x[[1]])
-      ))
+      )
+    )
 
   # sort by position in data and information
   tibble::tibble(
@@ -200,6 +203,5 @@ expand_mappings <- function(x, .mapping_key) {
 #' @rdname pull_mappings
 get_names <- function(.partition_step, target_list) {
   variable_names <- names(.partition_step$.df)
-  purrr::map(target_list, ~variable_names[.x])
+  purrr::map(target_list, ~ variable_names[.x])
 }
-

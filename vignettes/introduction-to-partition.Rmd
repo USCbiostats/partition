@@ -42,8 +42,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 7, 
-  fig.height = 5, 
+  fig.width = 7,
+  fig.height = 5,
   fig.align = "center",
   fig.dpi = 320,
   warning = FALSE,
@@ -184,7 +184,7 @@ Data sets with statistically independent variables reduce only at lower threshol
 
 ```{r}
 # create a data.frame of 10 independent features
-ind_df <- purrr::map_dfc(1:10, ~rnorm(30))
+ind_df <- purrr::map_dfc(1:10, ~ rnorm(30))
 ind_part <- partition(ind_df, .5)
 ind_part
 

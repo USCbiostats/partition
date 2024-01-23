@@ -16,7 +16,9 @@ print.partition <- function(x, ...) {
     "observed variables"
   )
 
-  if (count_clusters(x) == 0) return(invisible(x))
+  if (count_clusters(x) == 0) {
+    return(invisible(x))
+  }
 
   cat("\n\n")
 
@@ -119,7 +121,7 @@ paste_map_summary <- function(.x, n_reduced) {
 summarize_mapping <- function(.partition, n_composite = 5, n_reduced = 10) {
   summary <- filter_reduced(.partition) %>%
     dplyr::mutate(
-      old_vars = purrr::map_chr(mapping, ~paste_var_summary(.x, n_composite)),
+      old_vars = purrr::map_chr(mapping, ~ paste_var_summary(.x, n_composite)),
       summary = paste0(
         crayon::green(variable),
         crayon::silver(" = {"),
@@ -128,7 +130,7 @@ summarize_mapping <- function(.partition, n_composite = 5, n_reduced = 10) {
       )
     )
 
-    paste_map_summary(summary$summary, n_reduced)
+  paste_map_summary(summary$summary, n_reduced)
 }
 
 #' @rdname print_helpers
@@ -153,7 +155,7 @@ paste_director <- function(x) {
     TRUE ~ paste_subtle("<custom director>")
   )
 
- paste("Director:", director, "\n")
+  paste("Director:", director, "\n")
 }
 
 #' @rdname paste_partitioners
@@ -167,7 +169,7 @@ paste_metric <- function(x) {
     TRUE ~ paste_subtle("<custom metric>")
   )
 
- paste("Metric:", metric, "\n")
+  paste("Metric:", metric, "\n")
 }
 
 #' @rdname paste_partitioners
@@ -179,7 +181,7 @@ paste_reducer <- function(x) {
     TRUE ~ paste_subtle("<custom reducer>")
   )
 
- paste("Reducer:", reducer)
+  paste("Reducer:", reducer)
 }
 
 #' Are two functions the same?

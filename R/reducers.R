@@ -64,7 +64,9 @@ reduce_kmeans <- function(.partition_step, search = c("binary", "linear"), n_hit
   search <- match.arg(search)
 
   #  find next `k`
-  if (search == "linear") return(linear_k_search(.partition_step, n_hits = n_hits))
+  if (search == "linear") {
+    return(linear_k_search(.partition_step, n_hits = n_hits))
+  }
   binary_k_search(.partition_step)
 }
 
@@ -115,8 +117,12 @@ reduce_first_component <- function(.partition_step) {
 #' @rdname reduce_target
 reduce_cluster <- function(.partition_step, .f, first_match = FALSE) {
   #  if partitioning complete or threshold not met, skip reduce
-  if (.partition_step$all_done) return(.partition_step)
-  if (under_threshold(.partition_step)) return(.partition_step)
+  if (.partition_step$all_done) {
+    return(.partition_step)
+  }
+  if (under_threshold(.partition_step)) {
+    return(.partition_step)
+  }
 
   #  if the variable is stored already, pull it. Otherwise calculate it.
   new_variable <- calculate_new_variable(.partition_step, .f)
@@ -133,9 +139,13 @@ reduce_cluster <- function(.partition_step, .f, first_match = FALSE) {
   #  if there's a match with the tolerance and `first_match` is `TRUE`, then
   #  mark partitioning as complete
   exit_on_match <- first_match && metric_within_tolerance(.partition_step)
-  if (exit_on_match) return(all_done(.partition_step))
+  if (exit_on_match) {
+    return(all_done(.partition_step))
+  }
   #  if there's only one column left, mark partitioning as complete
-  if (all_columns_reduced(.partition_step)) return(all_done(.partition_step))
+  if (all_columns_reduced(.partition_step)) {
+    return(all_done(.partition_step))
+  }
 
   .partition_step
 }
@@ -144,13 +154,15 @@ reduce_cluster <- function(.partition_step, .f, first_match = FALSE) {
 #' @rdname reduce_target
 map_cluster <- function(.partition_step, .f, rewind = FALSE, first_match = FALSE) {
   #  if partitioning complete, skip reduce
-  if (.partition_step$all_done) return(.partition_step)
+  if (.partition_step$all_done) {
+    return(.partition_step)
+  }
   if (rewind) .partition_step <- rewind_target(.partition_step)
 
   #  create a list of the components of each cluster
   target_list <- purrr::map(
     sort(unique(.partition_step$target)),
-    ~which(.partition_step$target == .x)
+    ~ which(.partition_step$target == .x)
   )
 
   #  get the names of the component variables if needed
@@ -162,7 +174,7 @@ map_cluster <- function(.partition_step, .f, rewind = FALSE, first_match = FALSE
   #  Although this only gets called once in kmeans
   .partition_step$reduced_data <- purrr::map(
     target_list,
-    ~return_if_single(.partition_step$.df[, .x, drop = FALSE], .f)
+    ~ return_if_single(.partition_step$.df[, .x, drop = FALSE], .f)
   ) %>%
     purrr::set_names(paste0("x", seq_along(target_list))) %>%
     dplyr::bind_cols()
@@ -172,10 +184,10 @@ map_cluster <- function(.partition_step, .f, rewind = FALSE, first_match = FALSE
 
   #  match mapping names to reduced variables in `reduced_data`
   df_names_map <- .partition_step$mapping_key %>%
-    dplyr::mutate(mapping = purrr::map_chr(mapping, ~paste(.x, collapse = "_")))
+    dplyr::mutate(mapping = purrr::map_chr(mapping, ~ paste(.x, collapse = "_")))
   df_names <- tibble::tibble(
     name = names(.partition_step$reduced_data),
-    mapping = purrr::map_chr(target_list, ~paste(.x, collapse = "_"))
+    mapping = purrr::map_chr(target_list, ~ paste(.x, collapse = "_"))
   ) %>%
     dplyr::left_join(df_names_map, by = "mapping")
   #  set names to mapping key variable names
@@ -186,9 +198,13 @@ map_cluster <- function(.partition_step, .f, rewind = FALSE, first_match = FALSE
   #  if there's a match with the tolerance and `first_match` is `TRUE`, then
   #  mark partitioning as complete
   exit_on_match <- first_match && metric_within_tolerance(.partition_step)
-  if (exit_on_match) return(all_done(.partition_step))
+  if (exit_on_match) {
+    return(all_done(.partition_step))
+  }
   #  if there's only one column left, mark partitioning as complete
-  if (all_columns_reduced(.partition_step)) return(all_done(.partition_step))
+  if (all_columns_reduced(.partition_step)) {
+    return(all_done(.partition_step))
+  }
 
   .partition_step
 }
@@ -272,7 +288,7 @@ linear_k_search <- function(.partition_step, n_hits = 4) {
     #  if initial metric is smaller than threshold, search forward through k to
     #  capture more information. if it's larger, search backwards to minimize it
     smaller_than_threshold <- .partition_step$metric < .partition_step$threshold
-    .partition_step$k_search <- ifelse(smaller_than_threshold, 1,-1)
+    .partition_step$k_search <- ifelse(smaller_than_threshold, 1, -1)
   }
 
   # if we're searching forward, check if we've past the threshold
@@ -295,9 +311,11 @@ linear_k_search <- function(.partition_step, n_hits = 4) {
 
   #   if we're searching backward, check if we've gone under the threshold. if
   #   so, use the last targets.
-  if (k_searching_backward(.partition_step) && under_threshold(.partition_step) && get_hits(.partition_step) == n_hits)  {
+  if (k_searching_backward(.partition_step) && under_threshold(.partition_step) && get_hits(.partition_step) == n_hits) {
     #  if none have been above boundary, don't reduce
-    if (length(.partition_step$last_target) == 1 && is.na(.partition_step$last_target)) return(all_done(.partition_step))
+    if (length(.partition_step$last_target) == 1 && is.na(.partition_step$last_target)) {
+      return(all_done(.partition_step))
+    }
     #  rewind to last target above boundary
     .partition_step <- rewind_target(.partition_step)
     .partition_step <- map_cluster(.partition_step, scaled_mean_r, first_match = TRUE)
@@ -329,7 +347,9 @@ linear_k_search <- function(.partition_step, n_hits = 4) {
 #' @rdname scaled_mean
 scaled_mean <- function(.x, method = c("r", "c")) {
   method <- match.arg(method)
-  if (method == "c") return(scaled_mean_c(.x))
+  if (method == "c") {
+    return(scaled_mean_c(.x))
+  }
 
   scaled_mean_r(.x)
 }
@@ -391,7 +411,9 @@ calculate_new_variable <- function(.partition_step, .f) {
 #' @return a numeric vector, the reduced or original variable
 #' @keywords internal
 return_if_single <- function(.x, .f, ...) {
-  if (length(.x) == 1) return(unlist(.x, use.names = FALSE))
+  if (length(.x) == 1) {
+    return(unlist(.x, use.names = FALSE))
+  }
   .f(.x, ...)
 }
 
@@ -417,12 +439,14 @@ above_threshold <- function(.partition_step) {
 
 #' @rdname compare_metric
 is_within <- function(.x, .y, .e) {
-  if (.e == 0) return(.x == .y)
+  if (.e == 0) {
+    return(.x == .y)
+  }
   .x >= (.y - .e) && .x <= (.y + .e)
 }
 
 #' @rdname compare_metric
-metric_within_tolerance <- function(.partition_step){
+metric_within_tolerance <- function(.partition_step) {
   is_within(.partition_step$metric, .partition_step$threshold, .partition_step$tolerance)
 }
 

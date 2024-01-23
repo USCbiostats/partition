@@ -34,7 +34,9 @@ utils::globalVariables(
 }
 
 is_not_empty_or_na <- function(x) {
-  if (length(x) > 1) return(!purrr::is_empty(x))
+  if (length(x) > 1) {
+    return(!purrr::is_empty(x))
+  }
 
   !is.na(x)
 }

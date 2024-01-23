@@ -79,7 +79,9 @@ tag_previous_targets <- function(.matrix, .history) {
         second %in% colnames(.matrix)
       )
 
-    if (nrow(.history) == 0) return(.matrix)
+    if (nrow(.history) == 0) {
+      return(.matrix)
+    }
     .matrix[.history$first, .history$second] <- NA
   }
   .matrix
@@ -217,34 +219,34 @@ direct_k_cluster <- function(.partition_step,
 #' corr(iris$Sepal.Length, iris$Sepal.Width)
 #'
 #' @importFrom stats complete.cases na.omit
-  corr <- function(x, y = NULL, spearman = FALSE) {
-    if (is.null(y)) {
-      dim_names <- names(x)
-      if (spearman) {
-        #  use ranks
-        x <- apply_rank(as.matrix(na.omit(x)))
-      }
-
-      #  correlation for matrices
-      correlation <- corr_c_mat(na.omit(as.matrix(x)))
-
-      attr(correlation, "dimnames") <- list(dim_names, dim_names)
-      return(correlation)
-    }
-    #  use pairwise complete cases if any missing
-    complete_cases <- complete.cases(x, y)
-    x <- x[complete_cases]
-    y <- y[complete_cases]
-
+corr <- function(x, y = NULL, spearman = FALSE) {
+  if (is.null(y)) {
+    dim_names <- names(x)
     if (spearman) {
       #  use ranks
-      x <- rank_c(x)
-      y <- rank_c(y)
+      x <- apply_rank(as.matrix(na.omit(x)))
     }
 
-    #  correlation for two vectors
-    corr_c_2vec(x, y)
+    #  correlation for matrices
+    correlation <- corr_c_mat(na.omit(as.matrix(x)))
+
+    attr(correlation, "dimnames") <- list(dim_names, dim_names)
+    return(correlation)
   }
+  #  use pairwise complete cases if any missing
+  complete_cases <- complete.cases(x, y)
+  x <- x[complete_cases]
+  y <- y[complete_cases]
+
+  if (spearman) {
+    #  use ranks
+    x <- rank_c(x)
+    y <- rank_c(y)
+  }
+
+  #  correlation for two vectors
+  corr_c_2vec(x, y)
+}
 
 #' Fit a distance matrix using correlation coefficients
 #'
@@ -308,11 +310,11 @@ update_dist <- function(.partition_step, spearman = FALSE) {
 
   updated_distances <- purrr::map_dbl(
     subset_data,
-    ~1 - corr(.x, reduced_variable, spearman = spearman)
+    ~ 1 - corr(.x, reduced_variable, spearman = spearman)
   )
 
   # add NA to end for diag
-  #updated_distances <- c(updated_distances, NA_real_)
+  # updated_distances <- c(updated_distances, NA_real_)
 
   column_names <- colnames(distance_matrix)
   indices <- which(column_names %in% target)
@@ -337,7 +339,9 @@ update_dist <- function(.partition_step, spearman = FALSE) {
 #' @keywords internal
 matrix_is_exhausted <- function(.partition_step) {
   last_target_exists <- is_not_empty_or_na(.partition_step$last_target)
-  if (!last_target_exists) return(last_target_exists)
+  if (!last_target_exists) {
+    return(last_target_exists)
+  }
 
   # is matrix all NA?
   all(is.na(.partition_step$last_target$distance_matrix))
@@ -379,8 +383,7 @@ k_exhausted <- function(.partition_step) {
 #' @keywords internal
 #' @rdname kmeans_helpers
 find_algorithm <- function(algorithm, seed) {
-  switch(
-    algorithm,
+  switch(algorithm,
     "armadillo" = purrr::partial(kmean_assignment_c, seed = seed),
     "Hartigan-Wong" = purrr::partial(kmean_assignment_r, seed = seed),
     "Lloyd" = purrr::partial(kmean_assignment_r, algorithm = "Lloyd", seed = seed),

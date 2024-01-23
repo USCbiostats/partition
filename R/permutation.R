@@ -12,7 +12,7 @@
 #' @examples
 #' permute_df(iris)
 permute_df <- function(.data) {
-  purrr::map_dfc(.data, ~.x[sample(x = seq_len(nrow(.data)), size = nrow(.data))])
+  purrr::map_dfc(.data, ~ .x[sample(x = seq_len(nrow(.data)), size = nrow(.data))])
 }
 
 #' Permute partitions
@@ -61,8 +61,8 @@ test_permutation <- function(.data, information = seq(.1, .6, by = .1), partitio
 #' map_partition(df, partitioner = part_pc1())
 #'
 map_partition <- function(.data, partitioner = part_icc(), ..., information = seq(.1, .5, by = .1)) {
-   partitions <- purrr::map(information, ~partition(.data, threshold = .x, partitioner = partitioner))
-   purrr::map2_dfr(partitions, information, summarize_partitions)
+  partitions <- purrr::map(information, ~ partition(.data, threshold = .x, partitioner = partitioner))
+  purrr::map2_dfr(partitions, information, summarize_partitions)
 }
 
 

@@ -27,27 +27,27 @@
 #' )
 #' @importFrom stats runif
 simulate_block_data <- function(block_sizes, lower_corr, upper_corr, n, block_name = "block",
-                             sep = "_", var_name = "x") {
+                                sep = "_", var_name = "x") {
   #  simulate length(block_sizes) blocks and bind them in a data.frame
-	sim_data <- purrr::map(
-	  block_sizes,
-	  simulate_block,
-	  n = n,
-	  lower_corr = lower_corr,
-	  upper_corr = upper_corr
-	) %>%
-	  dplyr::bind_cols(.name_repair = "minimal")
-
-	#  create column names: `block_name`+`sep`+`var_name`+n
-	col_names <- purrr::map2(
-	  block_sizes,
-	  seq_along(block_sizes),
-	  ~rep(paste0(block_name, .y), .x)
+  sim_data <- purrr::map(
+    block_sizes,
+    simulate_block,
+    n = n,
+    lower_corr = lower_corr,
+    upper_corr = upper_corr
   ) %>%
-  purrr::map(~paste0(.x, sep, var_name, seq_along(.x)))
-	names(sim_data) <- purrr::flatten_chr(col_names)
+    dplyr::bind_cols(.name_repair = "minimal")
 
-	sim_data
+  #  create column names: `block_name`+`sep`+`var_name`+n
+  col_names <- purrr::map2(
+    block_sizes,
+    seq_along(block_sizes),
+    ~ rep(paste0(block_name, .y), .x)
+  ) %>%
+    purrr::map(~ paste0(.x, sep, var_name, seq_along(.x)))
+  names(sim_data) <- purrr::flatten_chr(col_names)
+
+  sim_data
 }
 
 simulate_block <- function(block_n, n, lower_corr, upper_corr) {

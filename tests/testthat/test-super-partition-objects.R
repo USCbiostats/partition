@@ -2,9 +2,9 @@ set.seed(123)
 
 prt <- super_partition(df8, threshold = .6, cluster_size = 3, verbose = FALSE, progress_bar = FALSE)
 reduced_data <- prt[["reduced_data"]]
-map_key      <- prt[["mapping_key"]]
-threshold    <- prt[["threshold"]]
-prtnr        <- prt[["partitioner"]]
+map_key <- prt[["mapping_key"]]
+threshold <- prt[["threshold"]]
+prtnr <- prt[["partitioner"]]
 
 ind_prt <- super_partition(ind_df, threshold = .6, cluster_size = 3, verbose = FALSE, progress_bar = FALSE)
 

@@ -13,8 +13,8 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 7, 
-  fig.height = 5, 
+  fig.width = 7,
+  fig.height = 5,
   fig.align = "center",
   fig.dpi = 320,
   warning = FALSE,
@@ -62,7 +62,7 @@ partition_scores(prt)
 inter_item_reliability <- function(mat) {
   corrs <- corr(mat)
   corrs[lower.tri(corrs, diag = TRUE)] <- NA
-  
+
   corrs %>%
     colMeans(na.rm = TRUE) %>%
     mean(na.rm = TRUE)
@@ -174,21 +174,21 @@ direct_hcluster <- function(.partition_step) {
   if (is.null(.partition_step$k)) {
     .partition_step$k <- ncol(.partition_step$reduced_data) - 1
   }
-  
+
   #  stop partition if all k checked
   if (.partition_step$k == 0) {
     #  tell the partition algorithm to stop
     .partition_step$all_done <- TRUE
     return(.partition_step)
   }
-  
+
   if (is.null(.partition_step$hc)) {
     #  save hclust object for future use
     .partition_step$hc <- hclust(dist(t(.partition_step$reduced_data)))
   }
-  
+
   .partition_step$target <- cutree(.partition_step$hc, k = .partition_step$k)
-  
+
   .partition_step
 }
 ```
@@ -198,9 +198,9 @@ As before, we can use `as_partitioner()` and apply it to our data using `partiti
 ```{r}
 part_hcluster <- as_partitioner(
   direct = direct_hcluster,
-  #  use same functions as part_kmeans() but search k linearly 
+  #  use same functions as part_kmeans() but search k linearly
   measure = purrr::partial(measure_min_icc, search_method = "linear"),
-  reduce =   purrr::partial(reduce_kmeans, search = "linear")
+  reduce = purrr::partial(reduce_kmeans, search = "linear")
 )
 
 partition(df, .5, part_hcluster)
