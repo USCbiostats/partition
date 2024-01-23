@@ -57,8 +57,8 @@ plot_area_clusters <- function(.data, partitioner = part_icc(),
 #' @export
 #' @rdname plot_partitions
 plot_stacked_area_clusters <- function(.data, partitioner = part_icc(),
-                               information = seq(0.1, 0.5, length.out = 25),
-                               ...,  stack_colors = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00")) {
+                                       information = seq(0.1, 0.5, length.out = 25),
+                                       ..., stack_colors = c("#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00")) {
   plot_df <- map_single_permutation(
     .data,
     partitioner = partitioner,
@@ -73,7 +73,7 @@ plot_stacked_area_clusters <- function(.data, partitioner = part_icc(),
   )
 }
 
-map_single_permutation  <- function(.data, partitioner, ..., information) {
+map_single_permutation <- function(.data, partitioner, ..., information) {
   parts <- map_partition(.data, partitioner = partitioner, ..., information = information)
   perm_parts <- map_partition(permute_df(.data), partitioner = partitioner, ..., information = information)
   groups <- c("1", "2-4", "5-8", "9-16", "17-32", ">32")
@@ -97,7 +97,8 @@ cluster_stacked_area_plot <- function(plot_df, breaks, stack_colors = c("#E69F00
       y = counts,
       col = groups,
       fill = groups
-    )) +
+    )
+  ) +
     ggplot2::stat_smooth(
       geom = "area",
       position = "stack",
@@ -133,7 +134,8 @@ cluster_area_plot <- function(plot_df, breaks, obs_color = "#E69F00", perm_color
       y = counts,
       col = partition,
       fill = partition
-    )) +
+    )
+  ) +
     ggplot2::stat_smooth(
       data = filter_part("permuted"),
       geom = "area",
@@ -221,7 +223,9 @@ get_mean_info <- function(.partition) {
 #' @export
 #' @rdname plot_partitions
 plot_ncluster <- function(.partition, show_n = 100, fill = "#0172B1", color = NA, labeller = "target information:") {
-  if (is_partition(.partition)) return(plot_clusters(.partition, show_n, fill, color))
+  if (is_partition(.partition)) {
+    return(plot_clusters(.partition, show_n, fill, color))
+  }
 
   label_info <- function(target) paste(labeller, target)
 
@@ -230,28 +234,30 @@ plot_ncluster <- function(.partition, show_n = 100, fill = "#0172B1", color = NA
     dplyr::select(target_info, mapping_key) %>%
     tidyr::unnest(cols = c(mapping_key)) %>%
     plot_clusters(show_n, fill, color) +
-      ggplot2::facet_wrap(
-        ~target_info,
-        ncol = 1,
-        labeller = ggplot2::as_labeller(label_info),
-        scales = "free_y"
-      )
+    ggplot2::facet_wrap(
+      ~target_info,
+      ncol = 1,
+      labeller = ggplot2::as_labeller(label_info),
+      scales = "free_y"
+    )
 }
 
 #' @export
 #' @rdname plot_partitions
 plot_information <- function(.partition, fill = "#0172B1", color = NA,
                              geom = ggplot2::geom_density) {
-  if (is_partition(.partition)) return(
-    plot_info_hist(
-      .partition,
-      fill = fill,
-      color = color,
-      geom = geom
+  if (is_partition(.partition)) {
+    return(
+      plot_info_hist(
+        .partition,
+        fill = fill,
+        color = color,
+        geom = geom
+      )
     )
-  )
+  }
 
- .partition %>%
+  .partition %>%
     ggplot2::ggplot(ggplot2::aes(x = observed_info, target_info)) +
     ggplot2::geom_abline(intercept = 0, slope = 1, col = "grey80", size = .7) +
     ggplot2::geom_point() +
@@ -278,8 +284,8 @@ plot_clusters <- function(.partition, show_n = 100, fill = "#0172B1", color = NA
 }
 
 plot_info_hist <- function(.partition, fill = "#0172B1", color = NA,
-                             geom = ggplot2::geom_density) {
-   .partition %>%
+                           geom = ggplot2::geom_density) {
+  .partition %>%
     mapping_key() %>%
     ggplot2::ggplot(ggplot2::aes(x = information)) +
     geom(fill = fill, color = color) +
@@ -314,7 +320,7 @@ plot_permutation <- function(permutations,
   .plot <- match.arg(.plot)
   .plot <- ifelse(.plot == "information", "observed_info", .plot)
   xlabel <- dplyr::case_when(
-     # TODO: not sure about this labels
+    # TODO: not sure about this labels
     .plot == "observed_info" ~ "observed information",
     .plot == "nclusters" ~ "n clusters created",
     .plot == "nreduced" ~ "n observed variables reduced to clusters"

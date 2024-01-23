@@ -148,7 +148,9 @@ is_partition_step <- function(x) inherits(x, "partition_step")
 #' .df <- data.frame(x = rnorm(100), y = rnorm(100))
 #' as_partition_step(.df, threshold = .6)
 as_partition_step <- function(.x, threshold = NA, reduced_data = NA, target = NA, metric = NA, tolerance = .01, var_prefix = NA, partitioner = NA, ...) {
-  if (is_partition_step(.x)) return(.x)
+  if (is_partition_step(.x)) {
+    return(.x)
+  }
 
   # on first iteration, create a one to one mapping key where number of rows is
   # the number of variables in the original data
@@ -164,23 +166,23 @@ as_partition_step <- function(.x, threshold = NA, reduced_data = NA, target = NA
 
   # create the partition_step object, tools and information for partitioning
   structure(
-      list(
-        .df = .x,
-        threshold = threshold,
-        target = target,
-        last_target = NA,
-        reduced_data = reduced_data,
-        metric = metric,
-        tolerance = tolerance,
-        mapping_key = mapping_key,
-        var_prefix = var_prefix,
-        all_done = FALSE,
-        partitioner = partitioner,
-        # store additional objects as needed
-        ...
-      ),
-      class = "partition_step"
-    )
+    list(
+      .df = .x,
+      threshold = threshold,
+      target = target,
+      last_target = NA,
+      reduced_data = reduced_data,
+      metric = metric,
+      tolerance = tolerance,
+      mapping_key = mapping_key,
+      var_prefix = var_prefix,
+      all_done = FALSE,
+      partitioner = partitioner,
+      # store additional objects as needed
+      ...
+    ),
+    class = "partition_step"
+  )
 }
 
 #' Process a dataset with a partitioner
@@ -196,7 +198,6 @@ as_partition_step <- function(.x, threshold = NA, reduced_data = NA, target = NA
 #' @return a `partition_step` object
 #' @keywords internal
 assign_partition <- function(.x, partitioner, .data, threshold, tolerance, var_prefix) {
-
   #  for the first iteration, create a `partition_step` object to help
   #  process the partition
   if (!is_partition_step(.x)) {
@@ -256,7 +257,9 @@ simplify_names <- function(.partition_step) {
     dplyr::pull(variable)
 
   #  return if no data reduction happened
-  if (purrr::is_empty(var_names)) return(.partition_step)
+  if (purrr::is_empty(var_names)) {
+    return(.partition_step)
+  }
 
   #  create new names
   updated_var_names <- paste0(.partition_step$var_prefix, seq_along(var_names))
@@ -307,7 +310,7 @@ sort_mapping <- function(.partition_step) {
   .partition_step$mapping_key <- .partition_step$mapping_key %>%
     dplyr::mutate(mapping = purrr::map(
       indices,
-      ~names(.partition_step$.df)[.x]
+      ~ names(.partition_step$.df)[.x]
     ))
 
   .partition_step

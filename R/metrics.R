@@ -25,7 +25,9 @@
 #' @family metrics
 as_measure <- function(.f, ...) {
   function(.partition_step, ...) {
-    if (.partition_step$all_done) return(.partition_step)
+    if (.partition_step$all_done) {
+      return(.partition_step)
+    }
 
     composite_variables <- pull_composite_variables(.partition_step)
     target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
@@ -47,7 +49,9 @@ as_measure <- function(.f, ...) {
 #' @template partition_step
 #' @export
 measure_icc <- function(.partition_step) {
-  if (.partition_step$all_done) return(.partition_step)
+  if (.partition_step$all_done) {
+    return(.partition_step)
+  }
 
   composite_variables <- pull_composite_variables(.partition_step)
   target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
@@ -73,12 +77,14 @@ measure_icc <- function(.partition_step) {
 #' @export
 measure_min_icc <- function(.partition_step, search_method = c("binary", "linear")) {
   search_method <- match.arg(search_method)
-  if (.partition_step$all_done) return(.partition_step)
+  if (.partition_step$all_done) {
+    return(.partition_step)
+  }
 
   # get indices for each cluster as list and subtract by one for cpp indexing
   indices <- purrr::map(
     seq_len(.partition_step$k),
-    ~which(.partition_step$target == .x) - 1
+    ~ which(.partition_step$target == .x) - 1
   )
 
   # calculate ICC for each cluster
@@ -119,7 +125,7 @@ measure_min_icc <- function(.partition_step, search_method = c("binary", "linear
     # get indices for each cluster as list and subtract by one for cpp indexing
     indices_k1 <- purrr::map(
       seq_len(.partition_step$k - 1),
-      ~which(.partition_step$target_k1 == .x) - 1
+      ~ which(.partition_step$target_k1 == .x) - 1
     )
 
     # calculate ICC for each cluster
@@ -150,7 +156,9 @@ measure_min_icc <- function(.partition_step, search_method = c("binary", "linear
 #' @template partition_step
 #' @export
 measure_variance_explained <- function(.partition_step) {
-  if (.partition_step$all_done) return(.partition_step)
+  if (.partition_step$all_done) {
+    return(.partition_step)
+  }
 
   composite_variables <- pull_composite_variables(.partition_step)
   target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
@@ -180,7 +188,9 @@ measure_variance_explained <- function(.partition_step) {
 #' @template partition_step
 #' @export
 measure_min_r2 <- function(.partition_step) {
-  if (.partition_step$all_done) return(.partition_step)
+  if (.partition_step$all_done) {
+    return(.partition_step)
+  }
 
   composite_variables <- pull_composite_variables(.partition_step)
   target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
@@ -217,7 +227,9 @@ measure_min_r2 <- function(.partition_step) {
 #' @template partition_step
 #' @export
 measure_std_mutualinfo <- function(.partition_step) {
-  if (.partition_step$all_done) return(.partition_step)
+  if (.partition_step$all_done) {
+    return(.partition_step)
+  }
 
   composite_variables <- pull_composite_variables(.partition_step)
   target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
@@ -251,7 +263,9 @@ icc <- function(.x, method = c("r", "c")) {
   method <- match.arg(method)
   .x <- as.matrix(.x)
 
-  if (method == "c") return(icc_c(.x))
+  if (method == "c") {
+    return(icc_c(.x))
+  }
 
   icc_r(.x)
 }
@@ -297,7 +311,9 @@ increase_hits <- function(.partition_step) {
 
 #' @rdname hits
 get_hits <- function(.partition_step) {
-  if (is.null(.partition_step$hits)) return(0)
+  if (is.null(.partition_step$hits)) {
+    return(0)
+  }
   .partition_step$hits
 }
 
@@ -329,4 +345,3 @@ swap_nans <- function(.x) {
   if (any(nans)) .x <- fill_in_missing(.x[!nans], nans)
   .x
 }
-
