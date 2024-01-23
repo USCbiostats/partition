@@ -50,6 +50,17 @@ super_partition <- function(full_data,
                             .sep = "_",
                             verbose = TRUE,
                             progress_bar = TRUE) {
+  rlang::check_installed(
+    c("genieclust", "gtools"),
+    "Required for `super_partition()`"
+  )
+  if (isTRUE(progress_bar)) {
+    rlang::check_installed(
+      "progress",
+      "Required for `progress_bar = TRUE`"
+    )
+  }
+
   # ensure 0 < threshold < 1
   if (0 > threshold | 1 < threshold) stop("Threshold must be between 0 and 1.")
 

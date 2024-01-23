@@ -1,34 +1,25 @@
 Type: Package
 Package: partition
-Title: Agglomerative Partitioning Framework for Dimension
-    Reduction
+Title: Agglomerative Partitioning Framework for Dimension Reduction
 Version: 0.1.4.9000
-Authors@R: 
-    c(person(given = "Joshua",
-             family = "Millstein",
-             role = "aut",
-             email = "joshua.millstein@usc.edu"),
-      person(given = "Malcolm",
-             family = "Barrett",
-             role = c("aut", "cre"),
-             email = "malcolmbarrett@gmail.com",
-             comment = c(ORCID = "0000-0003-0299-5825")),
-      person(given = "Katelyn",
-             family = "Queen",
-             role = c("aut"),
-             email = "kjqueen@usc.edu",
-             comment = c(ORCID = "0000-0002-8070-3042")))
+Authors@R: c(
+    person("Joshua", "Millstein", , "joshua.millstein@usc.edu", role = "aut"),
+    person("Malcolm", "Barrett", , "malcolmbarrett@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-0299-5825")),
+    person("Katelyn", "Queen", , "kjqueen@usc.edu", role = "aut",
+           comment = c(ORCID = "0000-0002-8070-3042"))
+  )
 Maintainer: Malcolm Barrett <malcolmbarrett@gmail.com>
-Description: A fast and flexible framework for agglomerative
-    partitioning. 'partition' uses an approach called
-    Direct-Measure-Reduce to create new variables that maintain the
-    user-specified minimum level of information. Each reduced variable is
-    also interpretable: the original variables map to one and only one
-    variable in the reduced data set. 'partition' is flexible, as well:
-    how variables are selected to reduce, how information loss is
-    measured, and the way data is reduced can all be customized.
-    'partition' is based on the Partition framework discussed in Millstein
-    et al. (2020) <doi: 10.1093/bioinformatics/btz661>.
+Description: A fast and flexible framework for agglomerative partitioning.
+    'partition' uses an approach called Direct-Measure-Reduce to create
+    new variables that maintain the user-specified minimum level of
+    information. Each reduced variable is also interpretable: the original
+    variables map to one and only one variable in the reduced data set.
+    'partition' is flexible, as well: how variables are selected to
+    reduce, how information loss is measured, and the way data is reduced
+    can all be customized.  'partition' is based on the Partition
+    framework discussed in Millstein et al. (2020) <doi:
+    10.1093/bioinformatics/btz661>.
 License: MIT + file LICENSE
 URL: https://uscbiostats.github.io/partition/,
     https://github.com/USCbiostats/partition
@@ -39,9 +30,7 @@ Imports:
     crayon,
     dplyr (>= 0.8.0),
     forcats,
-    genieclust,
     ggplot2 (>= 3.3.0),
-    gtools,
     infotheo,
     magrittr,
     MASS,
@@ -55,20 +44,22 @@ Imports:
     tidyr (>= 1.0.0)
 Suggests: 
     covr,
+    genieclust,
+    ggcorrplot,
+    gtools,
     knitr,
     rmarkdown,
     spelling,
-    testthat (>= 3.0.0),
-    ggcorrplot
+    testthat (>= 3.0.0)
 LinkingTo: 
     Rcpp,
     RcppArmadillo
 VignetteBuilder: 
     knitr
+Config/testthat/edition: 3
+Config/testthat/parallel: true
 Encoding: UTF-8
 Language: en-US
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Config/testthat/edition: 3
-Config/testthat/parallel: true
