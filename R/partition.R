@@ -220,6 +220,7 @@ assign_partition <- function(.x, partitioner, .data, threshold, tolerance, var_p
 #' `partition_step` object, cleans the reduced variable names, adds mapping
 #' indices, and sorts the composite variables.
 #'
+#' @param .partition_step a `partition_step` object
 #' @template partition_step_param
 #'
 #' @return a `partition` object
