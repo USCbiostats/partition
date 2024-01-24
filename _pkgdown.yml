@@ -6,6 +6,7 @@ reference:
 - title: partition
   contents:
     - partition
+    - super_partition
     - is_partition
     - simulate_block_data
 
