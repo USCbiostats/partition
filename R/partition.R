@@ -220,26 +220,25 @@ assign_partition <- function(.x, partitioner, .data, threshold, tolerance, var_p
 #' `partition_step` object, cleans the reduced variable names, adds mapping
 #' indices, and sorts the composite variables.
 #'
-#' @param .partition_step a `partition_step` object
 #' @template partition_step_param
 #'
 #' @return a `partition` object
 #' @keywords internal
-as_partition <- function(partition_step) {
+as_partition <- function(.partition_step) {
   # Scrub partition_step:
   # * clean reduced names and mappings
-  partition_step <- simplify_names(partition_step)
+  .partition_step <- simplify_names(.partition_step)
   # * add variable positions (indices) to mapping
-  partition_step <- add_indices(partition_step)
+  .partition_step <- add_indices(.partition_step)
   # * sort mappings by order in original data
-  partition_step <- sort_mapping(partition_step)
+  .partition_step <- sort_mapping(.partition_step)
 
   structure(
     list(
-      reduced_data = partition_step$reduced_data,
-      mapping_key = partition_step$mapping_key,
-      threshold = partition_step$threshold,
-      partitioner = partition_step$partitioner
+      reduced_data = .partition_step$reduced_data,
+      mapping_key = .partition_step$mapping_key,
+      threshold = .partition_step$threshold,
+      partitioner = .partition_step$partitioner
     ),
     class = "partition"
   )

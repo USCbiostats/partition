@@ -4,7 +4,7 @@
 \alias{as_partition}
 \title{Return a partition object}
 \usage{
-as_partition(partition_step)
+as_partition(.partition_step)
 }
 \arguments{
 \item{.partition_step}{a \code{partition_step} object}
