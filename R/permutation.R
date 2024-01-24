@@ -88,7 +88,7 @@ summarize_partitions <- function(.partition, .information) {
 
 #' @rdname mapping_helpers
 map_permutations <- function(.data, partitioner = part_icc(), ..., information = seq(.1, .5, by = .1), nperm = 100) {
-  permuted_data <- purrr::rerun(nperm, permute_df(.data))
+  permuted_data <- purrr::map(seq_len(nperm), ~ permute_df(.data))
   permuted_summaries <- purrr::map_dfr(
     permuted_data,
     map_partition,

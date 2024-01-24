@@ -102,7 +102,7 @@ cluster_stacked_area_plot <- function(plot_df, breaks, stack_colors = c("#E69F00
     ggplot2::stat_smooth(
       geom = "area",
       position = "stack",
-      size = .2,
+      linewidth = .2,
       alpha = .7,
       color = NA,
       method = "loess",
@@ -139,7 +139,7 @@ cluster_area_plot <- function(plot_df, breaks, obs_color = "#E69F00", perm_color
     ggplot2::stat_smooth(
       data = filter_part("permuted"),
       geom = "area",
-      size = .2,
+      linewidth = .2,
       alpha = .7,
       color = NA,
       method = "loess",
@@ -148,7 +148,7 @@ cluster_area_plot <- function(plot_df, breaks, obs_color = "#E69F00", perm_color
     ggplot2::stat_smooth(
       data = filter_part("observed"),
       geom = "area",
-      size = .2,
+      linewidth = .2,
       alpha = .7,
       color = NA,
       method = "loess",
@@ -159,7 +159,7 @@ cluster_area_plot <- function(plot_df, breaks, obs_color = "#E69F00", perm_color
       method = "loess",
       formula = y ~ x,
       se = FALSE,
-      size = .2,
+      linewidth = .2,
       na.rm = TRUE
     ) +
     ggplot2::geom_smooth(
@@ -167,7 +167,7 @@ cluster_area_plot <- function(plot_df, breaks, obs_color = "#E69F00", perm_color
       method = "loess",
       formula = y ~ x,
       se = FALSE,
-      size = .2,
+      linewidth = .2,
       na.rm = TRUE
     ) +
     ggplot2::scale_x_continuous(
@@ -259,7 +259,7 @@ plot_information <- function(.partition, fill = "#0172B1", color = NA,
 
   .partition %>%
     ggplot2::ggplot(ggplot2::aes(x = observed_info, target_info)) +
-    ggplot2::geom_abline(intercept = 0, slope = 1, col = "grey80", size = .7) +
+    ggplot2::geom_abline(intercept = 0, slope = 1, col = "grey80", linewidth = .7) +
     ggplot2::geom_point() +
     ggplot2::xlim(0, 1.05) +
     ggplot2::ylim(0, 1.05) +
@@ -341,7 +341,7 @@ plot_permutation <- function(permutations,
     ggplot2::geom_vline(
       data = permutations,
       ggplot2::aes(xintercept = !!plot_sym, col = "observed"),
-      size = 1.2
+      linewidth = 1.2
     ) +
     ggplot2::facet_wrap(
       target_info ~ .,

@@ -50,12 +50,9 @@ test_that("custom metric works", {
 })
 
 test_that("custom director works", {
-  # TODO: FIX
-  skip()
   euc_dist <- function(.data) as.matrix(dist(t(.data)))
 
   min_dist <- function(.x) {
-    .x[lower.tri(.x, diag = TRUE)] <- NA
     indices <- arrayInd(which.min(.x), dim(as.matrix(.x)))
 
     #  get variable names with minimum distance
