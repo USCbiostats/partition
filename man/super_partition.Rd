@@ -9,7 +9,7 @@ super_partition(
   threshold = 0.5,
   cluster_size = 4000,
   partitioner = part_icc(),
-  tolerance = 1e-04,
+  tolerance = 0.0001,
   niter = NULL,
   x = "reduced_var",
   .sep = "_",

@@ -4,7 +4,7 @@
 
 [![R-CMD-check](https://github.com/USCbiostats/partition/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/USCbiostats/partition/actions/workflows/R-CMD-check.yaml)
 [![Coverage
-status](https://codecov.io/gh/USCbiostats/partition/branch/master/graph/badge.svg)](https://codecov.io/github/USCbiostats/partition?branch=master)
+status](https://codecov.io/gh/USCbiostats/partition/branch/master/graph/badge.svg)](https://app.codecov.io/github/USCbiostats/partition?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version-ago/partition)](https://cran.r-project.org/package=partition)
 [![JOSS](https://joss.theoj.org/papers/10.21105/joss.01991/status.svg)](https://doi.org/10.21105/joss.01991)
@@ -228,8 +228,7 @@ By participating in this project you agree to abide by its terms.
 
 ## References
 
-<div id="refs" class="references csl-bib-body hanging-indent"
-entry-spacing="0">
+<div id="refs" class="references csl-bib-body hanging-indent">
 
 <div id="ref-R-partition" class="csl-entry">
 

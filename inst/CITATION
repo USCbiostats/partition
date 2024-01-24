@@ -1,7 +1,7 @@
 citHeader("To cite partition in publications use:")
 
-citEntry(
-  entry    = "Article",
+bibentry(
+  bibtype    = "Article",
   title    = "Partition: a surjective mapping approach for dimensionality reduction",
   author   = "Joshua Millstein, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu Zhang, Sebastian Stintzing, Volker Heinemann, Heinz-Josef Lenz",
   journal  = "Bioinformatics",
@@ -13,8 +13,8 @@ citEntry(
   textVersion = "Millstein et al., (2020). Partition: a surjective mapping approach for dimensionality reduction. Bioinformatics, 36(3) 3, 676–681, https://doi.org/10.1093/bioinformatics/btz661"
 )
 
-citEntry(
-  entry    = "Article",
+bibentry(
+  bibtype    = "Article",
   title    = "Partition: a surjective mapping approach for dimensionality reduction",
   author   = "Joshua Millstein, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu Zhang, Sebastian Stintzing, Volker Heinemann, Heinz-Josef Lenz",
   journal  = "Journal of Open Source Software",
