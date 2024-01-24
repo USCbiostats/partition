@@ -9,3 +9,4 @@ cache
 rhub.R
 data-raw/crc_baxter.otu_table.100.denovo.rdp_assigned
 revdep/
+cran-comments.md
