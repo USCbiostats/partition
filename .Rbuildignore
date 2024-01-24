@@ -20,3 +20,4 @@ cache
 ^icc_kmeans_benchmarks\.rds$
 ^basic_benchmarks\.rds$
 ^data-raw$
+^revdep$
