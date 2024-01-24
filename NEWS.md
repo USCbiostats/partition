@@ -1,5 +1,9 @@
 # partition (development version)
 
+* Added `super_partition()`, a new function to preprocess particularly large datasets before partitioning (#29, thanks @katelynqueen98)
+* Added @katelynqueen98 as an author
+* Fixed various CRAN-related notes 
+
 # partition 0.1.4
 
 * Fixed testing error with upcoming rlang release (4769186)
