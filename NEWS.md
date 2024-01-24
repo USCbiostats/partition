@@ -1,3 +1,5 @@
+# partition (development version)
+
 # partition 0.2.0
 
 * Added `super_partition()`, a new function to preprocess particularly large datasets before partitioning (#29, thanks @katelynqueen98)

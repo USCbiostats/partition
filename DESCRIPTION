@@ -1,7 +1,7 @@
 Type: Package
 Package: partition
 Title: Agglomerative Partitioning Framework for Dimension Reduction
-Version: 0.2.0
+Version: 0.2.0.9000
 Authors@R: c(
     person("Joshua", "Millstein", , "joshua.millstein@usc.edu", role = "aut"),
     person("Malcolm", "Barrett", , "malcolmbarrett@gmail.com", role = c("aut", "cre"),
