@@ -5,25 +5,23 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agglomerative Partitioning Framework for Dimension
-    Reduction • partition</title>
+<title>Agglomerative Partitioning Framework for Dimension Reduction • partition</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Agglomerative Partitioning Framework for Dimension
-    Reduction">
-<meta property="og:description" content="A fast and flexible framework for agglomerative
-    partitioning. partition uses an approach called
-    Direct-Measure-Reduce to create new variables that maintain the
-    user-specified minimum level of information. Each reduced variable is
-    also interpretable: the original variables map to one and only one
-    variable in the reduced data set. partition is flexible, as well:
-    how variables are selected to reduce, how information loss is
-    measured, and the way data is reduced can all be customized.
-    partition is based on the Partition framework discussed in Millstein
-    et al. (2020) &lt;doi: 10.1093/bioinformatics/btz661&gt;.">
+<script src="pkgdown.js"></script><meta property="og:title" content="Agglomerative Partitioning Framework for Dimension Reduction">
+<meta property="og:description" content="A fast and flexible framework for agglomerative partitioning.
+    partition uses an approach called Direct-Measure-Reduce to create
+    new variables that maintain the user-specified minimum level of
+    information. Each reduced variable is also interpretable: the original
+    variables map to one and only one variable in the reduced data set.
+    partition is flexible, as well: how variables are selected to
+    reduce, how information loss is measured, and the way data is reduced
+    can all be customized.  partition is based on the Partition
+    framework discussed in Millstein et al. (2020) &lt;doi:
+    10.1093/bioinformatics/btz661&gt;.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -60,7 +58,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -77,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/USCbiostats/partition/">
+  <a href="https://github.com/USCbiostats/partition/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -96,187 +94,188 @@
   <div class="contents col-md-9">
 
 
-<div id="partition" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#partition" class="anchor" aria-hidden="true"></a>partition</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="partition">partition<a class="anchor" aria-label="anchor" href="#partition"></a>
+</h1></div>
 <p>partition is a fast and flexible framework for agglomerative partitioning. partition uses an approach called Direct-Measure-Reduce to create new variables that maintain the user-specified minimum level of information. Each reduced variable is also interpretable: the original variables map to one and only one variable in the reduced data set. partition is flexible, as well: how variables are selected to reduce, how information loss is measured, and the way data is reduced can all be customized.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor" aria-hidden="true"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p>You can install the partition from CRAN with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"partition"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"partition"</span><span class="op">)</span></span></code></pre></div>
 <p>Or you can install the development version of partition GitHub with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"USCbiostats/partition"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"USCbiostats/partition"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="example" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example" class="anchor" aria-hidden="true"></a>Example</h2>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://uscbiostats.github.io/partition/" class="external-link">partition</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span>, lower_corr <span class="op">=</span> <span class="fl">.4</span>, upper_corr <span class="op">=</span> <span class="fl">.6</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-
-<span class="co">#  don't accept reductions where information &lt; .6</span>
-<span class="va">prt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">df</span>, threshold <span class="op">=</span> <span class="fl">.6</span><span class="op">)</span>
-<span class="va">prt</span>
-<span class="co">#&gt; Partitioner:</span>
-<span class="co">#&gt;    Director: Minimum Distance (Pearson) </span>
-<span class="co">#&gt;    Metric: Intraclass Correlation </span>
-<span class="co">#&gt;    Reducer: Scaled Mean</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Reduced Variables:</span>
-<span class="co">#&gt; 1 reduced variables created from 2 observed variables</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Mappings:</span>
-<span class="co">#&gt; reduced_var_1 = {block2_x3, block2_x4}</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Minimum information:</span>
-<span class="co">#&gt; 0.602</span>
-
-<span class="co"># return reduced data</span>
-<span class="fu"><a href="reference/partition_scores.html">partition_scores</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 100 Ã 11</span>
-<span class="co">#&gt;    block1_x1 block1_x2 block1_x3 block2_x1 block2_x2 block3_x1 block3_x2</span>
-<span class="co">#&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1   -1.00     -0.344      1.35     -0.526    -1.25      1.13     0.357 </span>
-<span class="co">#&gt;  2    0.518    -0.434     -0.361    -1.48     -1.53     -0.317    0.290 </span>
-<span class="co">#&gt;  3   -1.77     -0.913     -0.722     0.122     0.224    -0.529    0.114 </span>
-<span class="co">#&gt;  4   -1.49     -0.998      0.189     0.149    -0.994    -0.433    0.0120</span>
-<span class="co">#&gt;  5    0.616     0.0211     0.895     1.09     -1.25      0.440   -0.550 </span>
-<span class="co">#&gt;  6    0.0765    0.522      1.20     -0.152    -0.419    -0.912   -0.362 </span>
-<span class="co">#&gt;  7    1.74      0.0993    -0.654    -1.26     -0.502    -0.792   -1.03  </span>
-<span class="co">#&gt;  8    1.05      2.19       0.913     0.254     0.328    -1.07    -0.976 </span>
-<span class="co">#&gt;  9   -1.07     -0.292     -0.763     0.437     0.739     0.899   -0.342 </span>
-<span class="co">#&gt; 10   -1.02     -0.959     -1.33     -1.57     -1.11      0.618    0.153 </span>
-<span class="co">#&gt; # â¦ with 90 more rows, and 4 more variables: block3_x3 &lt;dbl&gt;, block3_x4 &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   block3_x5 &lt;dbl&gt;, reduced_var_1 &lt;dbl&gt;</span>
-
-<span class="co"># access mapping keys</span>
-<span class="fu"><a href="reference/mapping_key.html">mapping_key</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 11 Ã 4</span>
-<span class="co">#&gt;    variable      mapping   information indices  </span>
-<span class="co">#&gt;    &lt;chr&gt;         &lt;list&gt;          &lt;dbl&gt; &lt;list&gt;   </span>
-<span class="co">#&gt;  1 block1_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span>
-<span class="co">#&gt;  2 block1_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span>
-<span class="co">#&gt;  3 block1_x3     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span>
-<span class="co">#&gt;  4 block2_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span>
-<span class="co">#&gt;  5 block2_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span>
-<span class="co">#&gt;  6 block3_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span>
-<span class="co">#&gt;  7 block3_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span>
-<span class="co">#&gt;  8 block3_x3     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span>
-<span class="co">#&gt;  9 block3_x4     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span>
-<span class="co">#&gt; 10 block3_x5     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span>
-<span class="co">#&gt; 11 reduced_var_1 &lt;chr [2]&gt;       0.602 &lt;int [2]&gt;</span>
-
-<span class="fu"><a href="reference/mapping_key.html">unnest_mappings</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 12 Ã 4</span>
-<span class="co">#&gt;    variable      mapping   information indices</span>
-<span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;           &lt;dbl&gt;   &lt;int&gt;</span>
-<span class="co">#&gt;  1 block1_x1     block1_x1       1           1</span>
-<span class="co">#&gt;  2 block1_x2     block1_x2       1           2</span>
-<span class="co">#&gt;  3 block1_x3     block1_x3       1           3</span>
-<span class="co">#&gt;  4 block2_x1     block2_x1       1           4</span>
-<span class="co">#&gt;  5 block2_x2     block2_x2       1           5</span>
-<span class="co">#&gt;  6 block3_x1     block3_x1       1           8</span>
-<span class="co">#&gt;  7 block3_x2     block3_x2       1           9</span>
-<span class="co">#&gt;  8 block3_x3     block3_x3       1          10</span>
-<span class="co">#&gt;  9 block3_x4     block3_x4       1          11</span>
-<span class="co">#&gt; 10 block3_x5     block3_x5       1          12</span>
-<span class="co">#&gt; 11 reduced_var_1 block2_x3       0.602       6</span>
-<span class="co">#&gt; 12 reduced_var_1 block2_x4       0.602       7</span>
-
-<span class="co"># use a lower threshold of information loss</span>
-<span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">df</span>, threshold <span class="op">=</span> <span class="fl">.5</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_kmeans.html">part_kmeans</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Partitioner:</span>
-<span class="co">#&gt;    Director: K-Means Clusters </span>
-<span class="co">#&gt;    Metric: Minimum Intraclass Correlation </span>
-<span class="co">#&gt;    Reducer: Scaled Mean</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Reduced Variables:</span>
-<span class="co">#&gt; 2 reduced variables created from 7 observed variables</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Mappings:</span>
-<span class="co">#&gt; reduced_var_1 = {block3_x1, block3_x2, block3_x5}</span>
-<span class="co">#&gt; reduced_var_2 = {block2_x1, block2_x2, block2_x3, block2_x4}</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Minimum information:</span>
-<span class="co">#&gt; 0.508</span>
-
-<span class="co"># use a custom partitioner</span>
-<span class="va">part_icc_rowmeans</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/replace_partitioner.html">replace_partitioner</a></span><span class="op">(</span>
-  <span class="va">part_icc</span>, 
-  reduce <span class="op">=</span> <span class="fu"><a href="reference/as_reducer.html">as_reducer</a></span><span class="op">(</span><span class="va">rowMeans</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">df</span>, threshold <span class="op">=</span> <span class="fl">.6</span>, partitioner <span class="op">=</span> <span class="va">part_icc_rowmeans</span><span class="op">)</span> 
-<span class="co">#&gt; Partitioner:</span>
-<span class="co">#&gt;    Director: Minimum Distance (Pearson) </span>
-<span class="co">#&gt;    Metric: Intraclass Correlation </span>
-<span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Reduced Variables:</span>
-<span class="co">#&gt; 1 reduced variables created from 2 observed variables</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Mappings:</span>
-<span class="co">#&gt; reduced_var_1 = {block2_x3, block2_x4}</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Minimum information:</span>
-<span class="co">#&gt; 0.602</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://uscbiostats.github.io/partition/" class="external-link">partition</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span>, lower_corr <span class="op">=</span> <span class="fl">.4</span>, upper_corr <span class="op">=</span> <span class="fl">.6</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#  don't accept reductions where information &lt; .6</span></span>
+<span><span class="va">prt</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">df</span>, threshold <span class="op">=</span> <span class="fl">.6</span><span class="op">)</span></span>
+<span><span class="va">prt</span></span>
+<span><span class="co">#&gt; Partitioner:</span></span>
+<span><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
+<span><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
+<span><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Reduced Variables:</span></span>
+<span><span class="co">#&gt; 1 reduced variables created from 2 observed variables</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Mappings:</span></span>
+<span><span class="co">#&gt; reduced_var_1 = {block2_x3, block2_x4}</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Minimum information:</span></span>
+<span><span class="co">#&gt; 0.602</span></span>
+<span></span>
+<span><span class="co"># return reduced data</span></span>
+<span><span class="fu"><a href="reference/partition_scores.html">partition_scores</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 100 × 11</span></span>
+<span><span class="co">#&gt;    block1_x1 block1_x2 block1_x3 block2_x1 block2_x2 block3_x1 block3_x2</span></span>
+<span><span class="co">#&gt;        &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1   -1.00     -0.344      1.35     -0.526    -1.25      1.13     0.357 </span></span>
+<span><span class="co">#&gt;  2    0.518    -0.434     -0.361    -1.48     -1.53     -0.317    0.290 </span></span>
+<span><span class="co">#&gt;  3   -1.77     -0.913     -0.722     0.122     0.224    -0.529    0.114 </span></span>
+<span><span class="co">#&gt;  4   -1.49     -0.998      0.189     0.149    -0.994    -0.433    0.0120</span></span>
+<span><span class="co">#&gt;  5    0.616     0.0211     0.895     1.09     -1.25      0.440   -0.550 </span></span>
+<span><span class="co">#&gt;  6    0.0765    0.522      1.20     -0.152    -0.419    -0.912   -0.362 </span></span>
+<span><span class="co">#&gt;  7    1.74      0.0993    -0.654    -1.26     -0.502    -0.792   -1.03  </span></span>
+<span><span class="co">#&gt;  8    1.05      2.19       0.913     0.254     0.328    -1.07    -0.976 </span></span>
+<span><span class="co">#&gt;  9   -1.07     -0.292     -0.763     0.437     0.739     0.899   -0.342 </span></span>
+<span><span class="co">#&gt; 10   -1.02     -0.959     -1.33     -1.57     -1.11      0.618    0.153 </span></span>
+<span><span class="co">#&gt; # ℹ 90 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 4 more variables: block3_x3 &lt;dbl&gt;, block3_x4 &lt;dbl&gt;, block3_x5 &lt;dbl&gt;,</span></span>
+<span><span class="co">#&gt; #   reduced_var_1 &lt;dbl&gt;</span></span>
+<span></span>
+<span><span class="co"># access mapping keys</span></span>
+<span><span class="fu"><a href="reference/mapping_key.html">mapping_key</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 11 × 4</span></span>
+<span><span class="co">#&gt;    variable      mapping   information indices  </span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;         &lt;list&gt;          &lt;dbl&gt; &lt;list&gt;   </span></span>
+<span><span class="co">#&gt;  1 block1_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span><span class="co">#&gt;  2 block1_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span><span class="co">#&gt;  3 block1_x3     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span><span class="co">#&gt;  4 block2_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span><span class="co">#&gt;  5 block2_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span><span class="co">#&gt;  6 block3_x1     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span><span class="co">#&gt;  7 block3_x2     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span><span class="co">#&gt;  8 block3_x3     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span><span class="co">#&gt;  9 block3_x4     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span><span class="co">#&gt; 10 block3_x5     &lt;chr [1]&gt;       1     &lt;int [1]&gt;</span></span>
+<span><span class="co">#&gt; 11 reduced_var_1 &lt;chr [2]&gt;       0.602 &lt;int [2]&gt;</span></span>
+<span></span>
+<span><span class="fu"><a href="reference/mapping_key.html">unnest_mappings</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 12 × 4</span></span>
+<span><span class="co">#&gt;    variable      mapping   information indices</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;           &lt;dbl&gt;   &lt;int&gt;</span></span>
+<span><span class="co">#&gt;  1 block1_x1     block1_x1       1           1</span></span>
+<span><span class="co">#&gt;  2 block1_x2     block1_x2       1           2</span></span>
+<span><span class="co">#&gt;  3 block1_x3     block1_x3       1           3</span></span>
+<span><span class="co">#&gt;  4 block2_x1     block2_x1       1           4</span></span>
+<span><span class="co">#&gt;  5 block2_x2     block2_x2       1           5</span></span>
+<span><span class="co">#&gt;  6 block3_x1     block3_x1       1           8</span></span>
+<span><span class="co">#&gt;  7 block3_x2     block3_x2       1           9</span></span>
+<span><span class="co">#&gt;  8 block3_x3     block3_x3       1          10</span></span>
+<span><span class="co">#&gt;  9 block3_x4     block3_x4       1          11</span></span>
+<span><span class="co">#&gt; 10 block3_x5     block3_x5       1          12</span></span>
+<span><span class="co">#&gt; 11 reduced_var_1 block2_x3       0.602       6</span></span>
+<span><span class="co">#&gt; 12 reduced_var_1 block2_x4       0.602       7</span></span>
+<span></span>
+<span><span class="co"># use a lower threshold of information loss</span></span>
+<span><span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">df</span>, threshold <span class="op">=</span> <span class="fl">.5</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_kmeans.html">part_kmeans</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Partitioner:</span></span>
+<span><span class="co">#&gt;    Director: &lt;custom director&gt; </span></span>
+<span><span class="co">#&gt;    Metric: &lt;custom metric&gt; </span></span>
+<span><span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Reduced Variables:</span></span>
+<span><span class="co">#&gt; 2 reduced variables created from 7 observed variables</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Mappings:</span></span>
+<span><span class="co">#&gt; reduced_var_1 = {block3_x1, block3_x2, block3_x5}</span></span>
+<span><span class="co">#&gt; reduced_var_2 = {block2_x1, block2_x2, block2_x3, block2_x4}</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Minimum information:</span></span>
+<span><span class="co">#&gt; 0.508</span></span>
+<span></span>
+<span><span class="co"># use a custom partitioner</span></span>
+<span><span class="va">part_icc_rowmeans</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/replace_partitioner.html">replace_partitioner</a></span><span class="op">(</span></span>
+<span>  <span class="va">part_icc</span>, </span>
+<span>  reduce <span class="op">=</span> <span class="fu"><a href="reference/as_reducer.html">as_reducer</a></span><span class="op">(</span><span class="va">rowMeans</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">df</span>, threshold <span class="op">=</span> <span class="fl">.6</span>, partitioner <span class="op">=</span> <span class="va">part_icc_rowmeans</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; Partitioner:</span></span>
+<span><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
+<span><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
+<span><span class="co">#&gt;    Reducer: &lt;custom reducer&gt;</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Reduced Variables:</span></span>
+<span><span class="co">#&gt; 1 reduced variables created from 2 observed variables</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Mappings:</span></span>
+<span><span class="co">#&gt; reduced_var_1 = {block2_x3, block2_x4}</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Minimum information:</span></span>
+<span><span class="co">#&gt; 0.602</span></span></code></pre></div>
 <p>partition also supports a number of ways to visualize partitions and permutation tests; these functions all start with <code>plot_*()</code>. These functions all return ggplots and can thus be extended using ggplot2.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="reference/plot_partitions.html">plot_stacked_area_clusters</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="reference/plot_partitions.html">plot_stacked_area_clusters</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-stacked_area_chart-1.png" width="100%"></p>
 </div>
-<div id="performance" class="section level2">
-<h2 class="hasAnchor">
-<a href="#performance" class="anchor" aria-hidden="true"></a>Performance</h2>
-<p>partition has been meticulously benchmarked and profiled to improve performance, and key sections are written in C++ or use C++-based packages. Using a data frame with 1 million rows on a 2017 MacBook Pro with 16 GB RAM, hereâs how each of the built-in partitioners perform:</p>
+<div class="section level2">
+<h2 id="performance">Performance<a class="anchor" aria-label="anchor" href="#performance"></a>
+</h2>
+<p>partition has been meticulously benchmarked and profiled to improve performance, and key sections are written in C++ or use C++-based packages. Using a data frame with 1 million rows on a 2017 MacBook Pro with 16 GB RAM, here’s how each of the built-in partitioners perform:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">large_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span>, lower_corr <span class="op">=</span> <span class="fl">.4</span>, upper_corr <span class="op">=</span> <span class="fl">.6</span>, n <span class="op">=</span> <span class="fl">1e6</span><span class="op">)</span>
-
-<span class="va">basic_benchmarks</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu">microbenchmark</span><span class="op">(</span>
-  icc <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">large_df</span>, <span class="fl">.3</span><span class="op">)</span>,
-  kmeans <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">large_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_kmeans.html">part_kmeans</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,
-  minr2 <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">large_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_minr2.html">part_minr2</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,
-  pc1 <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">large_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_pc1.html">part_pc1</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,
-  stdmi <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">large_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_stdmi.html">part_stdmi</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">large_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span>, lower_corr <span class="op">=</span> <span class="fl">.4</span>, upper_corr <span class="op">=</span> <span class="fl">.6</span>, n <span class="op">=</span> <span class="fl">1e6</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">basic_benchmarks</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu">microbenchmark</span><span class="op">(</span></span>
+<span>  icc <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">large_df</span>, <span class="fl">.3</span><span class="op">)</span>,</span>
+<span>  kmeans <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">large_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_kmeans.html">part_kmeans</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  minr2 <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">large_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_minr2.html">part_minr2</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  pc1 <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">large_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_pc1.html">part_pc1</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  stdmi <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">large_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_stdmi.html">part_stdmi</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-secret_benchmarks1-1.png" width="100%"></p>
 </div>
-<div id="icc-vs-k-means" class="section level2">
-<h2 class="hasAnchor">
-<a href="#icc-vs-k-means" class="anchor" aria-hidden="true"></a>ICC vs K-Means</h2>
+<div class="section level2">
+<h2 id="icc-vs-k-means">ICC vs K-Means<a class="anchor" aria-label="anchor" href="#icc-vs-k-means"></a>
+</h2>
 <p>As the features (columns) in the data set become greater than the number of observations (rows), the default ICC method scales more linearly than K-Means-based methods. While K-Means is often faster at lower dimensions, it becomes slower as the features outnumber the observations. For example, using three data sets with increasing numbers of columns, K-Means starts as the fastest and gets increasingly slower, although in this case it is still comparable to ICC:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">narrow_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, lower_corr <span class="op">=</span> <span class="fl">.4</span>, upper_corr <span class="op">=</span> <span class="fl">.6</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="va">wide_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">2</span><span class="op">)</span>, lower_corr <span class="op">=</span> <span class="fl">.4</span>, upper_corr <span class="op">=</span> <span class="fl">.6</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-<span class="va">wider_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">20</span>, <span class="fl">4</span><span class="op">)</span>, lower_corr <span class="op">=</span> <span class="fl">.4</span>, upper_corr <span class="op">=</span> <span class="fl">.6</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>
-
-<span class="va">icc_kmeans_benchmarks</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu">microbenchmark</span><span class="op">(</span>
-  icc_narrow <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">narrow_df</span>, <span class="fl">.3</span><span class="op">)</span>,
-  icc_wide <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">wide_df</span>, <span class="fl">.3</span><span class="op">)</span>,
-  icc_wider <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">wider_df</span>, <span class="fl">.3</span><span class="op">)</span>,
-  kmeans_narrow <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">narrow_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_kmeans.html">part_kmeans</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,
-  kmeans_wide <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">wide_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_kmeans.html">part_kmeans</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,
-  kmeans_wider  <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">wider_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_kmeans.html">part_kmeans</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">narrow_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">5</span>, lower_corr <span class="op">=</span> <span class="fl">.4</span>, upper_corr <span class="op">=</span> <span class="fl">.6</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">wide_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">10</span>, <span class="fl">2</span><span class="op">)</span>, lower_corr <span class="op">=</span> <span class="fl">.4</span>, upper_corr <span class="op">=</span> <span class="fl">.6</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="va">wider_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">3</span><span class="op">:</span><span class="fl">20</span>, <span class="fl">4</span><span class="op">)</span>, lower_corr <span class="op">=</span> <span class="fl">.4</span>, upper_corr <span class="op">=</span> <span class="fl">.6</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">icc_kmeans_benchmarks</span> <span class="op">&lt;-</span> <span class="fu">microbenchmark</span><span class="fu">::</span><span class="fu">microbenchmark</span><span class="op">(</span></span>
+<span>  icc_narrow <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">narrow_df</span>, <span class="fl">.3</span><span class="op">)</span>,</span>
+<span>  icc_wide <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">wide_df</span>, <span class="fl">.3</span><span class="op">)</span>,</span>
+<span>  icc_wider <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">wider_df</span>, <span class="fl">.3</span><span class="op">)</span>,</span>
+<span>  kmeans_narrow <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">narrow_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_kmeans.html">part_kmeans</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  kmeans_wide <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">wide_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_kmeans.html">part_kmeans</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  kmeans_wider  <span class="op">=</span> <span class="fu"><a href="reference/partition.html">partition</a></span><span class="op">(</span><span class="va">wider_df</span>, <span class="fl">.3</span>, partitioner <span class="op">=</span> <span class="fu"><a href="reference/part_kmeans.html">part_kmeans</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-secret_benchmarks2-1.png" width="100%"></p>
-<p>For more information, see <a href="https://doi.org/10.1093/bioinformatics/btz661" class="external-link">our paper in Bioinformatics</a>, which discusses these issues in more depth (Millstein et al.Â 2020).</p>
+<p>For more information, see <a href="https://doi.org/10.1093/bioinformatics/btz661" class="external-link">our paper in Bioinformatics</a>, which discusses these issues in more depth (Millstein et al. 2020).</p>
 </div>
-<div id="contributing" class="section level2">
-<h2 class="hasAnchor">
-<a href="#contributing" class="anchor" aria-hidden="true"></a>Contributing</h2>
+<div class="section level2">
+<h2 id="contributing">Contributing<a class="anchor" aria-label="anchor" href="#contributing"></a>
+</h2>
 <p>Please read the <a href="https://github.com/USCbiostats/partition/blob/master/.github/CONTRIBUTING.md" class="external-link">Contributor Guidelines</a> prior to submitting a pull request to partition. Also note that this project is released with a <a href="https://github.com/USCbiostats/partition/blob/master/.github/CODE_OF_CONDUCT.md" class="external-link">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
 </div>
-<div id="references" class="section level2">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor" aria-hidden="true"></a>References</h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div class="section level2">
+<h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-R-partition" class="csl-entry">
-<p>Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz. 2020. âPartition: A Surjective Mapping Approach for Dimensionality Reduction.â <em>Bioinformatics</em> 36 (3): 676â81. <a href="https://doi.org/10.1093/bioinformatics/btz661" class="external-link uri">https://doi.org/10.1093/bioinformatics/btz661</a>.</p>
+Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz. 2020. “Partition: A Surjective Mapping Approach for Dimensionality Reduction.” <em>Bioinformatics</em> 36 (3): 676–81. <a href="https://doi.org/10.1093/bioinformatics/btz661" class="external-link uri">https://doi.org/10.1093/bioinformatics/btz661</a>.
 </div>
 </div>
 </div>
@@ -288,12 +287,9 @@
     <div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=partition">https://​cloud.r-project.org/​package=partition</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/USCbiostats/partition/">https://​github.com/​USCbiostats/​partition/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/USCbiostats/partition/issues">https://​github.com/​USCbiostats/​partition/​issues</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=partition" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/USCbiostats/partition/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/USCbiostats/partition/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -301,7 +297,7 @@
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
 
@@ -316,7 +312,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing partition</a></li>
+<li><a href="authors.html#citation">Citing partition</a></li>
 </ul>
 </div>
 
@@ -325,14 +321,15 @@
 <ul class="list-unstyled">
 <li>Joshua Millstein <br><small class="roles"> Author </small>  </li>
 <li>
-<a href="https://malco.io">Malcolm Barrett</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-0299-5825" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<a href="https://malco.io" class="external-link">Malcolm Barrett</a> <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0003-0299-5825" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Katelyn Queen <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-8070-3042" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
 </ul>
 </div>
 
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/USCbiostats/partition/actions" class="external-link"><img src="https://github.com/USCbiostats/partition/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/USCbiostats/partition/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/USCbiostats/partition/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/github/USCbiostats/partition?branch=master" class="external-link"><img src="https://codecov.io/gh/USCbiostats/partition/branch/master/graph/badge.svg" alt="Coverage status"></a></li>
 <li><a href="https://cran.r-project.org/package=partition" class="external-link"><img src="https://www.r-pkg.org/badges/version-ago/partition" alt="CRAN status"></a></li>
 <li><a href="https://doi.org/10.21105/joss.01991" class="external-link"><img src="https://joss.theoj.org/papers/10.21105/joss.01991/status.svg" alt="JOSS"></a></li>
@@ -347,12 +344,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Joshua Millstein, <a href="https://malco.io" class="external-link">Malcolm Barrett</a>.</p>
+<p>Developed by Joshua Millstein, <a href="https://malco.io" class="external-link">Malcolm Barrett</a>, Katelyn Queen.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

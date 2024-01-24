@@ -49,7 +49,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -81,201 +81,272 @@
 
       
 
-      </header><script src="introduction-to-partition_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to Partition</h1>
-                        <h4 data-toc-skip class="author">Malcolm Barrett</h4>
+                        <h4 data-toc-skip class="author">Malcolm
+Barrett</h4>
             
-            <h4 data-toc-skip class="date">2021-10-05</h4>
+            <h4 data-toc-skip class="date">2024-01-24</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/USCbiostats/partition/blob/master/vignettes/introduction-to-partition.Rmd" class="external-link"><code>vignettes/introduction-to-partition.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/USCbiostats/partition/blob/HEAD/vignettes/introduction-to-partition.Rmd" class="external-link"><code>vignettes/introduction-to-partition.Rmd</code></a></small>
       <div class="hidden name"><code>introduction-to-partition.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction-to-the-partition-package" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction-to-the-partition-package" class="anchor" aria-hidden="true"></a>Introduction to the partition package</h2>
-<p>partition is a fast and flexible data reduction framework for R <span class="citation">(Millstein et al. 2020)</span>. There are many approaches to data reduction, such as principal components analysis (PCA) and hierarchical clustering (both supported in base R). In contrast, partition attempts to create a reduced data set that is both interpretable (each raw feature maps to one and only one reduced feature) and information-rich (reduced features must meet an information constraint). Reducing the data this way often results in a data set that has a mix of raw features from the original data and reduced features.</p>
-<p>partition is particularly useful for highly correlated data, such as genomic data, where there is a lot of redundancy. A simple model of say, gene expression data could be block correlated Gaussian variables. <code><a href="../reference/simulate_block_data.html">simulate_block_data()</a></code> simulates data like this: blocks of correlated data that are themselves independent of the other blocks in the data.</p>
+<div class="section level3">
+<h3 id="introduction-to-the-partition-package">Introduction to the partition package<a class="anchor" aria-label="anchor" href="#introduction-to-the-partition-package"></a>
+</h3>
+<p>partition is a fast and flexible data reduction framework for R <span class="citation">(Millstein et al. 2020)</span>. There are many
+approaches to data reduction, such as principal components analysis
+(PCA) and hierarchical clustering (both supported in base R). In
+contrast, partition attempts to create a reduced data set that is both
+interpretable (each raw feature maps to one and only one reduced
+feature) and information-rich (reduced features must meet an information
+constraint). Reducing the data this way often results in a data set that
+has a mix of raw features from the original data and reduced
+features.</p>
+<p>partition is particularly useful for highly correlated data, such as
+genomic data, where there is a lot of redundancy. A simple model of say,
+gene expression data could be block correlated Gaussian variables.
+<code><a href="../reference/simulate_block_data.html">simulate_block_data()</a></code> simulates data like this: blocks of
+correlated data that are themselves independent of the other blocks in
+the data.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://uscbiostats.github.io/partition/" class="external-link">partition</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span>
-<span class="co"># create a 100 x 15 data set with 3 blocks</span>
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span>
-  <span class="co"># create 3 correlated blocks of 5 features each</span>
-  block_sizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">)</span>,
-  lower_corr <span class="op">=</span> <span class="fl">.4</span>,
-  upper_corr <span class="op">=</span> <span class="fl">.6</span>,
-  n <span class="op">=</span> <span class="fl">100</span>
-<span class="op">)</span></code></pre></div>
-<p>In a heatmap showing the correlations between the simulated features, blocks of correlated features are visible:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://uscbiostats.github.io/partition/" class="external-link">partition</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span>
+<span><span class="co"># create a 100 x 15 data set with 3 blocks</span></span>
+<span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/simulate_block_data.html">simulate_block_data</a></span><span class="op">(</span></span>
+<span>  <span class="co"># create 3 correlated blocks of 5 features each</span></span>
+<span>  block_sizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  lower_corr <span class="op">=</span> <span class="fl">.4</span>,</span>
+<span>  upper_corr <span class="op">=</span> <span class="fl">.6</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">100</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>In a heatmap showing the correlations between the simulated features,
+blocks of correlated features are visible:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">ggcorrplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggcorrplot/man/ggcorrplot.html" class="external-link">ggcorrplot</a></span><span class="op">(</span><span class="fu"><a href="../reference/corr.html">corr</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;"></p>
-<p>Many types of data follow a pattern like this. Closely related to the block correlation structure found in genetic data is that found in microbiome data. The data set <code>baxter_otu</code> has microbiome data on 172 healthy patients. Each row represents a patient, and each column represents an Operational Taxonomic Unit (OTU). OTUs are species-like relationships between bacteria determined by analyzing their RNA. Each cell in the dataset represents the logged-count of an OTU found in a patient’s stool sample, with 1,234 OTUs in all.</p>
+<code class="sourceCode R"><span><span class="fu">ggcorrplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggcorrplot/man/ggcorrplot.html" class="external-link">ggcorrplot</a></span><span class="op">(</span><span class="fu"><a href="../reference/corr.html">corr</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-2-1.png" width="2240" style="display: block; margin: auto;"></p>
+<p>Many types of data follow a pattern like this. Closely related to the
+block correlation structure found in genetic data is that found in
+microbiome data. The data set <code>baxter_otu</code> has microbiome
+data on 172 healthy patients. Each row represents a patient, and each
+column represents an Operational Taxonomic Unit (OTU). OTUs are
+species-like relationships between bacteria determined by analyzing
+their RNA. Each cell in the dataset represents the logged-count of an
+OTU found in a patient’s stool sample, with 1,234 OTUs in all.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">baxter_otu</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 172 × 1,234</span></span>
-<span class="co">#&gt;    otu_1 otu_2 otu_3 otu_4 otu_5 otu_6 otu_7 otu_8 otu_9 otu_10 otu_11 otu_12</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  0     0        0  1.39     0  0        0     0     0  2.08   0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  2.48  0        0  0        0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  1.10  0        0  3.26     0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  1.39  0        0  1.10     0  1.10     0     0     0  0.693  0.693   0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  0     0        0  3.00     0  0        0     0     0  0      0       2.40</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  0     0        0  0        0  0        0     0     0  0      0       1.79</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  1.39  1.79     0  0        0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 162 more rows, and 1,222 more variables: otu_13 &lt;dbl&gt;, otu_14 &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   otu_15 &lt;dbl&gt;, otu_16 &lt;dbl&gt;, otu_17 &lt;dbl&gt;, otu_18 &lt;dbl&gt;, otu_19 &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   otu_20 &lt;dbl&gt;, otu_21 &lt;dbl&gt;, otu_22 &lt;dbl&gt;, …</span></span></code></pre></div>
-<p>While not as apparent as simulated data, correlated blocks also appear in these data; bacteria tend to group together into communities or cliques in the microbiomes of participants. Here are the first 200 OTUs:</p>
+<code class="sourceCode R"><span><span class="va">baxter_otu</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 172 × 1,234</span></span></span>
+<span><span class="co">#&gt;    otu_1 otu_2 otu_3 otu_4 otu_5 otu_6 otu_7 otu_8 otu_9 otu_10 otu_11 otu_12</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  0     0        0  1.39     0  0        0     0     0  2.08   0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  2.48  0        0  0        0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  1.10  0        0  3.26     0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  1.39  0        0  1.10     0  1.10     0     0     0  0.693  0.693   0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  0     0        0  3.00     0  0        0     0     0  0      0       2.40</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  0     0        0  0        0  0        0     0     0  0      0       1.79</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  1.39  1.79     0  0        0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 162 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,222 more variables: otu_13 &lt;dbl&gt;, otu_14 &lt;dbl&gt;, otu_15 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   otu_16 &lt;dbl&gt;, otu_17 &lt;dbl&gt;, otu_18 &lt;dbl&gt;, otu_19 &lt;dbl&gt;, otu_20 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   otu_21 &lt;dbl&gt;, otu_22 &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<p>While not as apparent as simulated data, correlated blocks also
+appear in these data; bacteria tend to group together into communities
+or cliques in the microbiomes of participants. Here are the first 200
+OTUs:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">correlation_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/corr.html">corr</a></span><span class="op">(</span><span class="va">baxter_otu</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span><span class="op">)</span>
-<span class="fu">ggcorrplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggcorrplot/man/ggcorrplot.html" class="external-link">ggcorrplot</a></span><span class="op">(</span><span class="va">correlation_subset</span>, hc.order <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;"></p>
+<code class="sourceCode R"><span><span class="va">correlation_subset</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/corr.html">corr</a></span><span class="op">(</span><span class="va">baxter_otu</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">200</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu">ggcorrplot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/ggcorrplot/man/ggcorrplot.html" class="external-link">ggcorrplot</a></span><span class="op">(</span><span class="va">correlation_subset</span>, hc.order <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-4-1.png" width="2240" style="display: block; margin: auto;"></p>
 </div>
-<div id="reducing-data-with-partition" class="section level1">
-<h1 class="hasAnchor">
-<a href="#reducing-data-with-partition" class="anchor" aria-hidden="true"></a>Reducing data with partition</h1>
-<p>Because there are many more features (OTUs) in these data than rows (patients), it’s useful to reduce the data for use in statistical modeling. The primary function, <code><a href="../reference/partition.html">partition()</a></code>, takes a data frame and an information threshold and reduces the data to as few variables as possible, subject to the information constraint.</p>
+<div class="section level2">
+<h2 id="reducing-data-with-partition">Reducing data with partition<a class="anchor" aria-label="anchor" href="#reducing-data-with-partition"></a>
+</h2>
+<p>Because there are many more features (OTUs) in these data than rows
+(patients), it’s useful to reduce the data for use in statistical
+modeling. The primary function, <code><a href="../reference/partition.html">partition()</a></code>, takes a data
+frame and an information threshold and reduces the data to as few
+variables as possible, subject to the information constraint.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">prt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partition.html">partition</a></span><span class="op">(</span><span class="va">baxter_otu</span>, threshold <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span>
-
-<span class="va">prt</span>
-<span class="co">#&gt; <span style="font-weight: bold;">Partitioner:</span></span>
-<span class="co">#&gt;    Director: Minimum Distance (Pearson) </span>
-<span class="co">#&gt;    Metric: Intraclass Correlation </span>
-<span class="co">#&gt;    Reducer: Scaled Mean</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="font-weight: bold;">Reduced Variables:</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">63</span> reduced variables created from <span style="color: #BBBB00;">158</span> observed variables</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="font-weight: bold;">Mappings:</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_1</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_663, otu_879</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_2</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_556, otu_662</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_3</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_269, otu_714</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_4</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_200, otu_989</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_5</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_148, otu_704</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_6</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_75, otu_1111</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_7</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_793, otu_986, otu_1088</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_8</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_234, otu_1165</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_9</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_160, otu_636, otu_830</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_10</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_232, otu_1141</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #949494;">...with 53 more reduced variables</span></span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="font-weight: bold;">Minimum information:</span></span>
-<span class="co">#&gt; 0.5</span></code></pre></div>
-<p>For the microbiome data, <code><a href="../reference/partition.html">partition()</a></code> reduced 158 of the OTUs to 63 reduced features. The other 1,076 OTUs were not reduced because doing so would have removed too much information from the data. <code><a href="../reference/partition.html">partition()</a></code> creates a <code>tibble</code> with the newly reduced features, as well as any features that were not reduced, which you can get with <code><a href="../reference/partition_scores.html">partition_scores()</a></code>:</p>
+<code class="sourceCode R"><span><span class="va">prt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partition.html">partition</a></span><span class="op">(</span><span class="va">baxter_otu</span>, threshold <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">prt</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Partitioner:</span></span></span>
+<span><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
+<span><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
+<span><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Reduced Variables:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">63</span> reduced variables created from <span style="color: #BBBB00;">158</span> observed variables</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Mappings:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_1</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_663, otu_879</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_2</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_556, otu_662</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_3</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_269, otu_714</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_4</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_200, otu_989</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_5</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_148, otu_704</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_6</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_75, otu_1111</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_7</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_793, otu_986, otu_1088</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_8</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_234, otu_1165</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_9</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_160, otu_636, otu_830</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_10</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_232, otu_1141</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">...with 53 more reduced variables</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Minimum information:</span></span></span>
+<span><span class="co">#&gt; 0.5</span></span></code></pre></div>
+<p>For the microbiome data, <code><a href="../reference/partition.html">partition()</a></code> reduced 158 of the
+OTUs to 63 reduced features. The other 1,076 OTUs were not reduced
+because doing so would have removed too much information from the data.
+<code><a href="../reference/partition.html">partition()</a></code> creates a <code>tibble</code> with the newly
+reduced features, as well as any features that were not reduced, which
+you can get with <code><a href="../reference/partition_scores.html">partition_scores()</a></code>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/partition_scores.html">partition_scores</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 172 × 1,139</span></span>
-<span class="co">#&gt;    otu_1 otu_2 otu_3 otu_4 otu_5 otu_6 otu_7 otu_8 otu_9 otu_10 otu_11 otu_12</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  0     0        0  1.39     0  0        0     0     0  2.08   0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  2.48  0        0  0        0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  1.10  0        0  3.26     0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  1.39  0        0  1.10     0  1.10     0     0     0  0.693  0.693   0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  0     0        0  3.00     0  0        0     0     0  0      0       2.40</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  0     0        0  0        0  0        0     0     0  0      0       1.79</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  1.39  1.79     0  0        0  0        0     0     0  0      0       0   </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 162 more rows, and 1,127 more variables: otu_13 &lt;dbl&gt;, otu_14 &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   otu_15 &lt;dbl&gt;, otu_16 &lt;dbl&gt;, otu_17 &lt;dbl&gt;, otu_19 &lt;dbl&gt;, otu_20 &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   otu_21 &lt;dbl&gt;, otu_22 &lt;dbl&gt;, otu_23 &lt;dbl&gt;, …</span></span></code></pre></div>
-<p>In comparison, PCA produces a data set of the same dimensions of the original data where all original variables map to all new components in some amount. While components are organized by their informativeness (the first component explains the most variance), no original features are retained.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/partition_scores.html">partition_scores</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 172 × 1,139</span></span></span>
+<span><span class="co">#&gt;    otu_1 otu_2 otu_3 otu_4 otu_5 otu_6 otu_7 otu_8 otu_9 otu_10 otu_11 otu_12</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  0     0        0  1.39     0  0        0     0     0  2.08   0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>  2.48  0        0  0        0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  1.10  0        0  3.26     0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>  1.39  0        0  1.10     0  1.10     0     0     0  0.693  0.693   0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>  0     0        0  3.00     0  0        0     0     0  0      0       2.40</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>  0     0        0  0        0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  0     0        0  0        0  0        0     0     0  0      0       1.79</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>  1.39  1.79     0  0        0  0        0     0     0  0      0       0   </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 162 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,127 more variables: otu_13 &lt;dbl&gt;, otu_14 &lt;dbl&gt;, otu_15 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   otu_16 &lt;dbl&gt;, otu_17 &lt;dbl&gt;, otu_19 &lt;dbl&gt;, otu_20 &lt;dbl&gt;, otu_21 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   otu_22 &lt;dbl&gt;, otu_23 &lt;dbl&gt;, …</span></span></span></code></pre></div>
+<p>In comparison, PCA produces a data set of the same dimensions of the
+original data where all original variables map to all new components in
+some amount. While components are organized by their informativeness
+(the first component explains the most variance), no original features
+are retained.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">baxter_otu</span><span class="op">)</span>
-
-<span class="co"># print the results more neatly</span>
-<span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">pca</span><span class="op">$</span><span class="va">x</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 172 × 172</span></span>
-<span class="co">#&gt;       PC1    PC2      PC3    PC4   PC5    PC6     PC7    PC8   PC9   PC10</span>
-<span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  -<span style="color: #BB0000;">7.52</span>  5.45   -<span style="color: #BB0000;">1.43</span>    1.38  -<span style="color: #BB0000;">3.75</span>  6.94  -<span style="color: #BB0000;">6.89</span>    4.95  -<span style="color: #BB0000;">1.80</span>  2.66 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   1.62 -<span style="color: #BB0000;">4.42</span>   14.9     2.40   3.95  4.30   3.63   -<span style="color: #BB0000;">5.84</span>  -<span style="color: #BB0000;">1.31</span>  2.78 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  -<span style="color: #BB0000;">9.97</span> -<span style="color: #BB0000;">5.05</span>  -<span style="color: #BB0000;">10.2</span>    -<span style="color: #BB0000;">0.628</span>  6.36  3.79   0.614  -<span style="color: #BB0000;">1.17</span>   1.68  1.28 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">10.6</span>   3.91   -<span style="color: #BB0000;">1.78</span>   -<span style="color: #BB0000;">2.91</span>   1.03  7.24   0.528   8.40   8.26  2.89 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">16.2</span>  -<span style="color: #BB0000;">4.19</span>    2.76    9.84   1.79  1.62  -<span style="color: #BB0000;">6.23</span>   -<span style="color: #BB0000;">0.543</span>  4.11  1.63 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  14.6   0.339  -<span style="color: #BB0000;">0.089</span><span style="color: #BB0000; text-decoration: underline;">5</span>  4.11  -<span style="color: #BB0000;">1.61</span> -<span style="color: #BB0000;">7.36</span>   5.92    0.735 -<span style="color: #BB0000;">6.61</span>  2.08 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   4.84 -<span style="color: #BB0000;">5.08</span>    3.34   -<span style="color: #BB0000;">2.74</span>  -<span style="color: #BB0000;">2.57</span> -<span style="color: #BB0000;">2.13</span>   6.25    0.858 -<span style="color: #BB0000;">1.22</span> -<span style="color: #BB0000;">2.78</span> </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">14.2</span>  -<span style="color: #BB0000;">7.79</span>    5.29    8.99  -<span style="color: #BB0000;">2.38</span> -<span style="color: #BB0000;">0.718</span>  0.057<span style="text-decoration: underline;">8</span> -<span style="color: #BB0000;">0.676</span> -<span style="color: #BB0000;">2.19</span>  3.13 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">5.47</span> -<span style="color: #BB0000;">3.48</span>   -<span style="color: #BB0000;">1.86</span>   -<span style="color: #BB0000;">4.15</span>  -<span style="color: #BB0000;">2.62</span> -<span style="color: #BB0000;">0.510</span>  4.94   -<span style="color: #BB0000;">9.12</span>   5.12 -<span style="color: #BB0000;">0.126</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">11.8</span>   9.68   -<span style="color: #BB0000;">0.394</span>   4.92  -<span style="color: #BB0000;">1.20</span> -<span style="color: #BB0000;">4.57</span>  -<span style="color: #BB0000;">6.54</span>   -<span style="color: #BB0000;">2.72</span>   6.81  0.181</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 162 more rows, and 162 more variables: PC11 &lt;dbl&gt;, PC12 &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   PC13 &lt;dbl&gt;, PC14 &lt;dbl&gt;, PC15 &lt;dbl&gt;, PC16 &lt;dbl&gt;, PC17 &lt;dbl&gt;, PC18 &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   PC19 &lt;dbl&gt;, PC20 &lt;dbl&gt;, …</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">pca</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html" class="external-link">prcomp</a></span><span class="op">(</span><span class="va">baxter_otu</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># print the results more neatly</span></span>
+<span><span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html" class="external-link">as_tibble</a></span><span class="op">(</span><span class="va">pca</span><span class="op">$</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 172 × 172</span></span></span>
+<span><span class="co">#&gt;       PC1    PC2      PC3    PC4   PC5    PC6     PC7    PC8   PC9   PC10</span></span>
+<span><span class="co">#&gt;     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>  -<span style="color: #BB0000;">7.52</span>  5.45   -<span style="color: #BB0000;">1.43</span>    1.38  -<span style="color: #BB0000;">3.75</span>  6.94  -<span style="color: #BB0000;">6.89</span>    4.95  -<span style="color: #BB0000;">1.80</span>  2.66 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>   1.62 -<span style="color: #BB0000;">4.42</span>   14.9     2.40   3.95  4.30   3.63   -<span style="color: #BB0000;">5.84</span>  -<span style="color: #BB0000;">1.31</span>  2.78 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>  -<span style="color: #BB0000;">9.97</span> -<span style="color: #BB0000;">5.05</span>  -<span style="color: #BB0000;">10.2</span>    -<span style="color: #BB0000;">0.628</span>  6.36  3.79   0.614  -<span style="color: #BB0000;">1.17</span>   1.68  1.28 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> -<span style="color: #BB0000;">10.6</span>   3.91   -<span style="color: #BB0000;">1.78</span>   -<span style="color: #BB0000;">2.91</span>   1.03  7.24   0.528   8.40   8.26  2.89 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> -<span style="color: #BB0000;">16.2</span>  -<span style="color: #BB0000;">4.19</span>    2.76    9.84   1.79  1.62  -<span style="color: #BB0000;">6.23</span>   -<span style="color: #BB0000;">0.543</span>  4.11  1.63 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>  14.6   0.339  -<span style="color: #BB0000;">0.089</span><span style="color: #BB0000; text-decoration: underline;">5</span>  4.11  -<span style="color: #BB0000;">1.61</span> -<span style="color: #BB0000;">7.36</span>   5.92    0.735 -<span style="color: #BB0000;">6.61</span>  2.08 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>   4.84 -<span style="color: #BB0000;">5.08</span>    3.34   -<span style="color: #BB0000;">2.74</span>  -<span style="color: #BB0000;">2.57</span> -<span style="color: #BB0000;">2.13</span>   6.25    0.858 -<span style="color: #BB0000;">1.22</span> -<span style="color: #BB0000;">2.78</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> -<span style="color: #BB0000;">14.2</span>  -<span style="color: #BB0000;">7.79</span>    5.29    8.99  -<span style="color: #BB0000;">2.38</span> -<span style="color: #BB0000;">0.718</span>  0.057<span style="text-decoration: underline;">8</span> -<span style="color: #BB0000;">0.676</span> -<span style="color: #BB0000;">2.19</span>  3.13 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>  -<span style="color: #BB0000;">5.47</span> -<span style="color: #BB0000;">3.48</span>   -<span style="color: #BB0000;">1.86</span>   -<span style="color: #BB0000;">4.15</span>  -<span style="color: #BB0000;">2.62</span> -<span style="color: #BB0000;">0.510</span>  4.94   -<span style="color: #BB0000;">9.12</span>   5.12 -<span style="color: #BB0000;">0.126</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> -<span style="color: #BB0000;">11.8</span>   9.68   -<span style="color: #BB0000;">0.394</span>   4.92  -<span style="color: #BB0000;">1.20</span> -<span style="color: #BB0000;">4.57</span>  -<span style="color: #BB0000;">6.54</span>   -<span style="color: #BB0000;">2.72</span>   6.81  0.181</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 162 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 162 more variables: PC11 &lt;dbl&gt;, PC12 &lt;dbl&gt;, PC13 &lt;dbl&gt;, PC14 &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   PC15 &lt;dbl&gt;, PC16 &lt;dbl&gt;, PC17 &lt;dbl&gt;, PC18 &lt;dbl&gt;, PC19 &lt;dbl&gt;, PC20 &lt;dbl&gt;, …</span></span></span></code></pre></div>
 <p>Notably, these approaches can be easily combined (see below).</p>
 </div>
-<div id="the-partition-algorithm" class="section level1">
-<h1 class="hasAnchor">
-<a href="#the-partition-algorithm" class="anchor" aria-hidden="true"></a>The partition algorithm</h1>
-<p>partition uses an approach called Direct-Measure-Reduce to create agglomerative (bottom-up) partitions that capture the user-specified minimum level of information. Each variable starts as an individual partition subset, and candidate partition subsets are assessed by verifying that the minimum information is captured in the reduced variable. Reduced variables are easily interpretable because original variables map to one and only one variable in the reduced data set. The partition software is flexible and customizable in the way features are agglomerated, information is measured, and data are reduced.</p>
-<p>In this partition, 63 reduced features consist of two to seven features each, as well as 1,076 of the original features that did not get reduced because reducing them would lose too much information. Here are the top 20 clusters, ordered by how many raw features they represent:</p>
+<div class="section level2">
+<h2 id="the-partition-algorithm">The partition algorithm<a class="anchor" aria-label="anchor" href="#the-partition-algorithm"></a>
+</h2>
+<p>partition uses an approach called Direct-Measure-Reduce to create
+agglomerative (bottom-up) partitions that capture the user-specified
+minimum level of information. Each variable starts as an individual
+partition subset, and candidate partition subsets are assessed by
+verifying that the minimum information is captured in the reduced
+variable. Reduced variables are easily interpretable because original
+variables map to one and only one variable in the reduced data set. The
+partition software is flexible and customizable in the way features are
+agglomerated, information is measured, and data are reduced.</p>
+<p>In this partition, 63 reduced features consist of two to seven
+features each, as well as 1,076 of the original features that did not
+get reduced because reducing them would lose too much information. Here
+are the top 20 clusters, ordered by how many raw features they
+represent:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plot_partitions.html">plot_ncluster</a></span><span class="op">(</span><span class="va">prt</span>, show_n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">+</span>
-  <span class="co"># plot_*() functions return ggplots, so they can be extended using ggplot2</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;"></p>
-<p>Each reduced feature explains at least 50% of the information of the original features that it summarizes. The distribution of information has a lower limit of our threshold, .5.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_partitions.html">plot_ncluster</a></span><span class="op">(</span><span class="va">prt</span>, show_n <span class="op">=</span> <span class="fl">20</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="co"># plot_*() functions return ggplots, so they can be extended using ggplot2</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-8-1.png" width="2240" style="display: block; margin: auto;"></p>
+<p>Each reduced feature explains at least 50% of the information of the
+original features that it summarizes. The distribution of information
+has a lower limit of our threshold, .5.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plot_partitions.html">plot_information</a></span><span class="op">(</span><span class="va">prt</span>, geom <span class="op">=</span> <span class="va">geom_histogram</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;"></p>
-<p>Retrieve a key for these mappings and the information each feature explains with <code><a href="../reference/mapping_key.html">mapping_key()</a></code>, which returns a nested <code>tibble</code>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_partitions.html">plot_information</a></span><span class="op">(</span><span class="va">prt</span>, geom <span class="op">=</span> <span class="va">geom_histogram</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-9-1.png" width="2240" style="display: block; margin: auto;"></p>
+<p>Retrieve a key for these mappings and the information each feature
+explains with <code><a href="../reference/mapping_key.html">mapping_key()</a></code>, which returns a nested
+<code>tibble</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mapping_key.html">mapping_key</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,139 × 4</span></span>
-<span class="co">#&gt;    variable mapping   information indices  </span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> otu_1    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> otu_2    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> otu_3    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> otu_4    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> otu_5    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> otu_6    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> otu_7    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> otu_8    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> otu_9    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> otu_10   <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 1,129 more rows</span></span></code></pre></div>
-<p>To see each mapping, unnest them using <code><a href="../reference/mapping_key.html">unnest_mappings()</a></code> (or do it yourself with <code><a href="https://tidyr.tidyverse.org/reference/nest.html" class="external-link">tidyr::unnest()</a></code>)</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mapping_key.html">mapping_key</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,139 × 4</span></span></span>
+<span><span class="co">#&gt;    variable mapping   information indices  </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>          <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> otu_1    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> otu_2    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> otu_3    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> otu_4    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> otu_5    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> otu_6    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> otu_7    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> otu_8    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> otu_9    <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> otu_10   <span style="color: #949494;">&lt;chr [1]&gt;</span>           1 <span style="color: #949494;">&lt;int [1]&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,129 more rows</span></span></span></code></pre></div>
+<p>To see each mapping, unnest them using <code><a href="../reference/mapping_key.html">unnest_mappings()</a></code>
+(or do it yourself with <code><a href="https://tidyr.tidyverse.org/reference/unnest.html" class="external-link">tidyr::unnest()</a></code>)</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/mapping_key.html">unnest_mappings</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,234 × 4</span></span>
-<span class="co">#&gt;    variable mapping information indices</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> otu_1    otu_1             1       1</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> otu_2    otu_2             1       2</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> otu_3    otu_3             1       3</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> otu_4    otu_4             1       4</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> otu_5    otu_5             1       5</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> otu_6    otu_6             1       6</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> otu_7    otu_7             1       7</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> otu_8    otu_8             1       8</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> otu_9    otu_9             1       9</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> otu_10   otu_10            1      10</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 1,224 more rows</span></span></code></pre></div>
-<div id="direct-measure-reduce-and-partitioners" class="section level2">
-<h2 class="hasAnchor">
-<a href="#direct-measure-reduce-and-partitioners" class="anchor" aria-hidden="true"></a>Direct-Measure-Reduce and Partitioners</h2>
-<p>Partitioners are functions that tell the partition algorithm 1) what to reduce 2) how to measure how much information and 3) how to reduce the data. We call this approach Direct-Measure-Reduce. In partition, functions that handle (1) are thus called directors, functions that handle (2) are called metrics, and functions that handle (3) are called reducers. partition has many pre-specified partitioners, but this aspect of the approach is also quite flexible. See the <a href="extending-partition.html">vignette on extending partition</a> to learn more about custom partitioners.</p>
-<p>The default partitioner in <code><a href="../reference/partition.html">partition()</a></code> is <code><a href="../reference/part_icc.html">part_icc()</a></code>. <code><a href="../reference/part_icc.html">part_icc()</a></code> uses a correlation-based distance matrix to find the pair of features with the smallest distance between them; intraclass correlation (ICC) to measure information explained by the reduced feature; and scaled row means to reduce features with a sufficient minimum ICC. <code><a href="../reference/part_icc.html">part_icc()</a></code> is generally fast and scalable.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/mapping_key.html">unnest_mappings</a></span><span class="op">(</span><span class="va">prt</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,234 × 4</span></span></span>
+<span><span class="co">#&gt;    variable mapping information indices</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> otu_1    otu_1             1       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> otu_2    otu_2             1       2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> otu_3    otu_3             1       3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> otu_4    otu_4             1       4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> otu_5    otu_5             1       5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> otu_6    otu_6             1       6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> otu_7    otu_7             1       7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> otu_8    otu_8             1       8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> otu_9    otu_9             1       9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> otu_10   otu_10            1      10</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1,224 more rows</span></span></span></code></pre></div>
+<div class="section level3">
+<h3 id="direct-measure-reduce-and-partitioners">Direct-Measure-Reduce and Partitioners<a class="anchor" aria-label="anchor" href="#direct-measure-reduce-and-partitioners"></a>
+</h3>
+<p>Partitioners are functions that tell the partition algorithm 1) what
+to reduce 2) how to measure how much information and 3) how to reduce
+the data. We call this approach Direct-Measure-Reduce. In partition,
+functions that handle (1) are thus called directors, functions that
+handle (2) are called metrics, and functions that handle (3) are called
+reducers. partition has many pre-specified partitioners, but this aspect
+of the approach is also quite flexible. See the <a href="extending-partition.html">vignette on extending partition</a> to
+learn more about custom partitioners.</p>
+<p>The default partitioner in <code><a href="../reference/partition.html">partition()</a></code> is
+<code><a href="../reference/part_icc.html">part_icc()</a></code>. <code><a href="../reference/part_icc.html">part_icc()</a></code> uses a
+correlation-based distance matrix to find the pair of features with the
+smallest distance between them; intraclass correlation (ICC) to measure
+information explained by the reduced feature; and scaled row means to
+reduce features with a sufficient minimum ICC. <code><a href="../reference/part_icc.html">part_icc()</a></code>
+is generally fast and scalable.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/part_icc.html">part_icc</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt;    Director: Minimum Distance (Pearson) </span>
-<span class="co">#&gt;    Metric: Intraclass Correlation </span>
-<span class="co">#&gt;    Reducer: Scaled Mean</span></code></pre></div>
-<p>There are several other partitioners, which all have names in the format <code>part_*()</code></p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/part_icc.html">part_icc</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
+<span><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
+<span><span class="co">#&gt;    Reducer: Scaled Mean</span></span></code></pre></div>
+<p>There are several other partitioners, which all have names in the
+format <code>part_*()</code></p>
 <table class="table">
 <colgroup>
 <col width="25%">
@@ -322,86 +393,113 @@
 </tr>
 </tbody>
 </table>
-<p>To apply a different partitioner, use the <code>partitioner</code> argument in <code><a href="../reference/partition.html">partition()</a></code>.</p>
+<p>To apply a different partitioner, use the <code>partitioner</code>
+argument in <code><a href="../reference/partition.html">partition()</a></code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">prt_pc1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partition.html">partition</a></span><span class="op">(</span><span class="va">baxter_otu</span>, threshold <span class="op">=</span> <span class="fl">.5</span>, partitioner <span class="op">=</span> <span class="fu"><a href="../reference/part_pc1.html">part_pc1</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="va">prt_pc1</span>
-<span class="co">#&gt; <span style="font-weight: bold;">Partitioner:</span></span>
-<span class="co">#&gt;    Director: Minimum Distance (Pearson) </span>
-<span class="co">#&gt;    Metric: Variance Explained (PCA) </span>
-<span class="co">#&gt;    Reducer: First Principal Component</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="font-weight: bold;">Reduced Variables:</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">370</span> reduced variables created from <span style="color: #BBBB00;">1203</span> observed variables</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="font-weight: bold;">Mappings:</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_1</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_299, otu_720</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_2</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_301, otu_745</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_3</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_776, otu_1000</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_4</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_636, otu_992</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_5</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_545, otu_675, otu_1164</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_6</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_308, otu_967</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_7</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_266, otu_518</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_8</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_620, otu_819</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_9</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_255, otu_646, otu_1163</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">reduced_var_10</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_290, otu_387, otu_560, otu_993, otu_1045</span><span style="color: #555555;">}</span></span>
-<span class="co">#&gt; <span style="color: #949494;">...with 360 more reduced variables</span></span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="font-weight: bold;">Minimum information:</span></span>
-<span class="co">#&gt; 0.501</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">prt_pc1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partition.html">partition</a></span><span class="op">(</span><span class="va">baxter_otu</span>, threshold <span class="op">=</span> <span class="fl">.5</span>, partitioner <span class="op">=</span> <span class="fu"><a href="../reference/part_pc1.html">part_pc1</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">prt_pc1</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Partitioner:</span></span></span>
+<span><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
+<span><span class="co">#&gt;    Metric: Variance Explained (PCA) </span></span>
+<span><span class="co">#&gt;    Reducer: First Principal Component</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Reduced Variables:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">370</span> reduced variables created from <span style="color: #BBBB00;">1203</span> observed variables</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Mappings:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_1</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_299, otu_720</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_2</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_301, otu_745</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_3</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_776, otu_1000</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_4</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_636, otu_992</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_5</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_545, otu_675, otu_1164</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_6</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_308, otu_967</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_7</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_266, otu_518</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_8</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_620, otu_819</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_9</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_255, otu_646, otu_1163</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">reduced_var_10</span><span style="color: #555555;"> = {</span><span style="color: #BBBB00;">otu_290, otu_387, otu_560, otu_993, otu_1045</span><span style="color: #555555;">}</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">...with 360 more reduced variables</span></span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Minimum information:</span></span></span>
+<span><span class="co">#&gt; 0.501</span></span></code></pre></div>
 </div>
-<div id="permutation-tests" class="section level2">
-<h2 class="hasAnchor">
-<a href="#permutation-tests" class="anchor" aria-hidden="true"></a>Permutation tests</h2>
-<p>Data sets with statistically independent variables reduce only at lower thresholds because variables can only be reduced if a substantial proportion of information is discarded. In this set of 10 independent variables, setting the threshold to 0.5 results in a partition with no reduction. <code><a href="../reference/partition.html">partition()</a></code> returns the original data.</p>
+<div class="section level3">
+<h3 id="permutation-tests">Permutation tests<a class="anchor" aria-label="anchor" href="#permutation-tests"></a>
+</h3>
+<p>Data sets with statistically independent variables reduce only at
+lower thresholds because variables can only be reduced if a substantial
+proportion of information is discarded. In this set of 10 independent
+variables, setting the threshold to 0.5 results in a partition with no
+reduction. <code><a href="../reference/partition.html">partition()</a></code> returns the original data.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># create a data.frame of 10 independent features</span>
-<span class="va">ind_df</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dfc</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">)</span>
-<span class="va">ind_part</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partition.html">partition</a></span><span class="op">(</span><span class="va">ind_df</span>, <span class="fl">.5</span><span class="op">)</span>
-<span class="va">ind_part</span>
-<span class="co">#&gt; <span style="font-weight: bold;">Partitioner:</span></span>
-<span class="co">#&gt;    Director: Minimum Distance (Pearson) </span>
-<span class="co">#&gt;    Metric: Intraclass Correlation </span>
-<span class="co">#&gt;    Reducer: Scaled Mean</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; <span style="font-weight: bold;">Reduced Variables:</span></span>
-<span class="co">#&gt; <span style="color: #00BB00;">0</span> reduced variables created from <span style="color: #BBBB00;">0</span> observed variables</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">ind_df</span>, <span class="fu"><a href="../reference/partition_scores.html">partition_scores</a></span><span class="op">(</span><span class="va">ind_part</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
-<p>Comparing partitioning that occurs in our observed data to what occurs in data where all features are statistically independent gives us insight into the structure of dependencies in our data. We can make this type of comparison with the function <code><a href="../reference/plot_partitions.html">plot_stacked_area_clusters()</a></code>, which creates partitions for a series of information thresholds using both the observed data and a permuted (independent) version of the data. In the permuted version, each variable is randomly permuted relative to all other variables, thereby enforcing statistical independence. In general, there are many fewer reduced features for the real data than the independent data due to these dependencies; there is more common information across features in the real data.</p>
+<code class="sourceCode R"><span><span class="co"># create a data.frame of 10 independent features</span></span>
+<span><span class="va">ind_df</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfc</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">ind_part</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/partition.html">partition</a></span><span class="op">(</span><span class="va">ind_df</span>, <span class="fl">.5</span><span class="op">)</span></span>
+<span><span class="va">ind_part</span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Partitioner:</span></span></span>
+<span><span class="co">#&gt;    Director: Minimum Distance (Pearson) </span></span>
+<span><span class="co">#&gt;    Metric: Intraclass Correlation </span></span>
+<span><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="font-weight: bold;">Reduced Variables:</span></span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">0</span> reduced variables created from <span style="color: #BBBB00;">0</span> observed variables</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">ind_df</span>, <span class="fu"><a href="../reference/partition_scores.html">partition_scores</a></span><span class="op">(</span><span class="va">ind_part</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<p>Comparing partitioning that occurs in our observed data to what
+occurs in data where all features are statistically independent gives us
+insight into the structure of dependencies in our data. We can make this
+type of comparison with the function
+<code><a href="../reference/plot_partitions.html">plot_stacked_area_clusters()</a></code>, which creates partitions for
+a series of information thresholds using both the observed data and a
+permuted (independent) version of the data. In the permuted version,
+each variable is randomly permuted relative to all other variables,
+thereby enforcing statistical independence. In general, there are many
+fewer reduced features for the real data than the independent data due
+to these dependencies; there is more common information across features
+in the real data.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plot_partitions.html">plot_stacked_area_clusters</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;"></p>
-<p>partition also has a set of tools for more extensive permutation tests. <code><a href="../reference/map_partition.html">map_partition()</a></code> will fit partitions for a range of thresholds for the observed data; <code><a href="../reference/test_permutation.html">test_permutation()</a></code> will do the same but also for a set of permuted data sets (100 by default). <code><a href="../reference/plot_permutation.html">plot_permutation()</a></code> visualizes the results, comparing information, number of clusters, or the number of raw features reduced.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_partitions.html">plot_stacked_area_clusters</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-15-1.png" width="2240" style="display: block; margin: auto;"></p>
+<p>partition also has a set of tools for more extensive permutation
+tests. <code><a href="../reference/map_partition.html">map_partition()</a></code> will fit partitions for a range of
+thresholds for the observed data; <code><a href="../reference/test_permutation.html">test_permutation()</a></code> will
+do the same but also for a set of permuted data sets (100 by default).
+<code><a href="../reference/plot_permutation.html">plot_permutation()</a></code> visualizes the results, comparing
+information, number of clusters, or the number of raw features
+reduced.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">perms</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/test_permutation.html">test_permutation</a></span><span class="op">(</span><span class="va">df</span>, nperm <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>
-<span class="va">perms</span>
-<span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span>
-<span class="co">#&gt;   target_info observed_info nclusters nreduced partition  perm_observed_info</span>
-<span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         0.1         0.119         1       15 <span style="color: #949494;">&lt;partitin&gt;</span>              0.110</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         0.2         0.218         2       15 <span style="color: #949494;">&lt;partitin&gt;</span>              0.228</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         0.3         0.395         3       15 <span style="color: #949494;">&lt;partitin&gt;</span>              0.935</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         0.4         0.426         3       14 <span style="color: #949494;">&lt;partitin&gt;</span>              1    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         0.5         0.501         4       10 <span style="color: #949494;">&lt;partitin&gt;</span>              1    </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         0.6         1             0        0 <span style="color: #949494;">&lt;partitin&gt;</span>              1    </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 3 more variables: perm_nclusters &lt;dbl&gt;, perm_nreduced &lt;dbl&gt;,</span></span>
-<span class="co">#&gt; <span style="color: #949494;">#   permutation &lt;list&lt;tibble[,6]&gt;&gt;</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">perms</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/test_permutation.html">test_permutation</a></span><span class="op">(</span><span class="va">df</span>, nperm <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">perms</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
+<span><span class="co">#&gt;   target_info observed_info nclusters nreduced partition  perm_observed_info</span></span>
+<span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;list&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>         0.1         0.145         1       15 <span style="color: #949494;">&lt;partitin&gt;</span>              0.109</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>         0.2         0.215         2       15 <span style="color: #949494;">&lt;partitin&gt;</span>              0.381</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>         0.3         0.4           3       15 <span style="color: #949494;">&lt;partitin&gt;</span>              1    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>         0.4         0.426         3       14 <span style="color: #949494;">&lt;partitin&gt;</span>              1    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>         0.5         0.507         4       11 <span style="color: #949494;">&lt;partitin&gt;</span>              1    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         0.6         0.625         2        4 <span style="color: #949494;">&lt;partitin&gt;</span>              1    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: perm_nclusters &lt;dbl&gt;, perm_nreduced &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   permutation &lt;list&lt;tibble[,6]&gt;&gt;</span></span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/plot_permutation.html">plot_permutation</a></span><span class="op">(</span><span class="va">perms</span>, .plot <span class="op">=</span> <span class="st">"nreduced"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></code></pre></div>
-<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-17-1.png" width="672" style="display: block; margin: auto;"></p>
-<p><code><a href="../reference/plot_partitions.html">plot_ncluster()</a></code> and <code><a href="../reference/plot_partitions.html">plot_information()</a></code>, in addition to plotting individual partitions, also plot the results of <code><a href="../reference/test_permutation.html">test_permutation()</a></code>.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_permutation.html">plot_permutation</a></span><span class="op">(</span><span class="va">perms</span>, .plot <span class="op">=</span> <span class="st">"nreduced"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></span></code></pre></div>
+<p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-17-1.png" width="2240" style="display: block; margin: auto;"></p>
+<p><code><a href="../reference/plot_partitions.html">plot_ncluster()</a></code> and <code><a href="../reference/plot_partitions.html">plot_information()</a></code>, in
+addition to plotting individual partitions, also plot the results of
+<code><a href="../reference/test_permutation.html">test_permutation()</a></code>.</p>
 </div>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor" aria-hidden="true"></a>References</h1>
-<div id="refs" class="references">
-<div id="ref-R-partition">
-<p>Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz. 2020. “Partition: A Surjective Mapping Approach for Dimensionality Reduction.” <em>Bioinformatics</em> 36 (3): 676–81. <a href="https://doi.org/10.1093/bioinformatics/btz661" class="external-link">https://doi.org/10.1093/bioinformatics/btz661</a>.</p>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-R-partition" class="csl-entry">
+Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu
+Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz.
+2020. <span>“Partition: A Surjective Mapping Approach for Dimensionality
+Reduction.”</span> <em>Bioinformatics</em> 36 (3): 676–81. <a href="https://doi.org/10.1093/bioinformatics/btz661" class="external-link">https://doi.org/10.1093/bioinformatics/btz661</a>.
 </div>
 </div>
 </div>
@@ -419,12 +517,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Joshua Millstein, <a href="https://malco.io" class="external-link external-link">Malcolm Barrett</a>.</p>
+<p>Developed by Joshua Millstein, <a href="https://malco.io" class="external-link">Malcolm Barrett</a>, Katelyn Queen.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
