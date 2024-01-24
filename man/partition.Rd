@@ -8,7 +8,7 @@ partition(
   .data,
   threshold,
   partitioner = part_icc(),
-  tolerance = 0.0001,
+  tolerance = 1e-04,
   niter = NULL,
   x = "reduced_var",
   .sep = "_"
