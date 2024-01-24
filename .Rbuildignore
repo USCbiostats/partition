@@ -21,3 +21,4 @@ cache
 ^basic_benchmarks\.rds$
 ^data-raw$
 ^revdep$
+^CRAN-SUBMISSION$
