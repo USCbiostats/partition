@@ -293,8 +293,8 @@ super_partition <- function(full_data,
 
   # sort reduced var rows
   reduced_var_rows <- grep(x, part_master$mapping_key$variable)
-  part_master$mapping_key$variable[reduced_var_rows] <-
-    part_master$mapping_key$variable[reduced_var_rows][gtools::mixedorder(part_master$mapping_key$variable[reduced_var_rows])]
+  part_master$mapping_key[reduced_var_rows, ] <-
+    part_master$mapping_key[gtools::mixedorder(part_master$mapping_key$variable[reduced_var_rows]), ]
 
   # match names between mapping_key and reduced_data
   part_master$reduced_data <- part_master$reduced_data[, match(part_master$mapping_key$variable, colnames(part_master$reduced_data))]
