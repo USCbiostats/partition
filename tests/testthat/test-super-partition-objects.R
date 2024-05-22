@@ -60,7 +60,7 @@ test_that("dimensions are consistent", {
   expect_equal(nrow(map_key), 4)
   expect_equal(nrow(reduced_map), 3)
   map_lengths <- purrr::map_int(map_key[["mapping"]], length)
-  expect_true(all(map_lengths == c(1, 2, 2, 3)))
+  expect_true(all(map_lengths == c(1, 3, 2, 2)))
   index_lengths <- purrr::map_int(map_key[["indices"]], length)
   expect_true(all(index_lengths == map_lengths))
 
