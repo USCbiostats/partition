@@ -1,3 +1,5 @@
+# partition (development version)
+
 # partition 0.2.1
 * Fixed bug in `super_partition()` related to indices not matching (#37)
 
