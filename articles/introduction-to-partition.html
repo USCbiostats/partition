@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Introduction to Partition • partition</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -88,7 +88,7 @@
                         <h4 data-toc-skip class="author">Malcolm
 Barrett</h4>
             
-            <h4 data-toc-skip class="date">2024-01-24</h4>
+            <h4 data-toc-skip class="date">2024-05-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/USCbiostats/partition/blob/HEAD/vignettes/introduction-to-partition.Rmd" class="external-link"><code>vignettes/introduction-to-partition.Rmd</code></a></small>
       <div class="hidden name"><code>introduction-to-partition.Rmd</code></div>
@@ -441,8 +441,9 @@ reduction. <code><a href="../reference/partition.html">partition()</a></code> re
 <span><span class="co">#&gt;    Reducer: Scaled Mean</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="font-weight: bold;">Reduced Variables:</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BB00;">0</span> reduced variables created from <span style="color: #BBBB00;">0</span> observed variables</span></span>
-<span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">0</span> reduced variables created from <span style="color: #BBBB00;">0</span> observed variables</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="va">ind_df</span>, <span class="fu"><a href="../reference/partition_scores.html">partition_scores</a></span><span class="op">(</span><span class="va">ind_part</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
 <p>Comparing partitioning that occurs in our observed data to what
@@ -457,7 +458,7 @@ thereby enforcing statistical independence. In general, there are many
 fewer reduced features for the real data than the independent data due
 to these dependencies; there is more common information across features
 in the real data.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_partitions.html">plot_stacked_area_clusters</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-15-1.png" width="2240" style="display: block; margin: auto;"></p>
@@ -468,7 +469,7 @@ do the same but also for a set of permuted data sets (100 by default).
 <code><a href="../reference/plot_permutation.html">plot_permutation()</a></code> visualizes the results, comparing
 information, number of clusters, or the number of raw features
 reduced.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">perms</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/test_permutation.html">test_permutation</a></span><span class="op">(</span><span class="va">df</span>, nperm <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">perms</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
@@ -482,7 +483,7 @@ reduced.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>         0.6         0.625         2        4 <span style="color: #949494;">&lt;partitin&gt;</span>              1    </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: perm_nclusters &lt;dbl&gt;, perm_nreduced &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   permutation &lt;list&lt;tibble[,6]&gt;&gt;</span></span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/plot_permutation.html">plot_permutation</a></span><span class="op">(</span><span class="va">perms</span>, .plot <span class="op">=</span> <span class="st">"nreduced"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="fl">14</span><span class="op">)</span></span></code></pre></div>
 <p><img src="introduction-to-partition_files/figure-html/unnamed-chunk-17-1.png" width="2240" style="display: block; margin: auto;"></p>
@@ -494,7 +495,7 @@ addition to plotting individual partitions, also plot the results of
 <div class="section level2">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-R-partition" class="csl-entry">
 Millstein, Joshua, Francesca Battaglin, Malcolm Barrett, Shu Cao, Wu
 Zhang, Sebastian Stintzing, Volker Heinemann, and Heinz-Josef Lenz.
@@ -522,7 +523,7 @@ Reduction.”</span> <em>Bioinformatics</em> 36 (3): 676–81. <a href="https://
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>
