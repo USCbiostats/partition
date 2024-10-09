@@ -100,9 +100,11 @@ test_that("reduce_first_component() works without measure_variance_explained()",
     reduce = reduce_first_component
   )
 
-  prt <- partition(df, threshold = .7, partitioner = part_custom)
+  prt <- partition(df, threshold = .6, partitioner = part_custom)
 
   expect_reduction(prt)
+  expect_mapping_names(c("block1_x3", "block1_x5", "reduced_var_1"), prt)
+  expect_mapping_info(c(1, 1, 0.6), prt)
 })
 
 test_that("part_stdmi() reduces correctly, high threshold", {
