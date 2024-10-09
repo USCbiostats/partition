@@ -75,7 +75,12 @@ reduce_kmeans <- function(.partition_step, search = c("binary", "linear"), n_hit
 #' @template describe_reducer
 #'
 #' @description `reduce_first_component()` returns the first component from the
-#'   principal components analysis of the target variables.
+#'   principal components analysis of the target variables. Because the PCA
+#'   calculates the components and the variance explained at the same time, if
+#'   the metric is `measure_variance_explained()`, that function will store the
+#'   first component for use in `reduce_first_component()` to avoid
+#'   recalculation. If the partitioner uses a different metric, the first
+#'   component will be calculated by `reduce_first_component()`.
 #'
 #' @template partition_step
 #' @export

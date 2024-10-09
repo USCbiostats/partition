@@ -19,7 +19,12 @@ reducers to be used in \code{partitioner}s. \code{partitioner}s can be created w
 \code{\link[=as_partitioner]{as_partitioner()}}.
 
 \code{reduce_first_component()} returns the first component from the
-principal components analysis of the target variables.
+principal components analysis of the target variables. Because the PCA
+calculates the components and the variance explained at the same time, if
+the metric is \code{measure_variance_explained()}, that function will store the
+first component for use in \code{reduce_first_component()} to avoid
+recalculation. If the partitioner uses a different metric, the first
+component will be calculated by \code{reduce_first_component()}.
 }
 \seealso{
 Other reducers: 

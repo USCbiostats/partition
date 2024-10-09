@@ -146,12 +146,16 @@ measure_min_icc <- function(.partition_step, search_method = c("binary", "linear
   .partition_step
 }
 
-#' Measure the information loss of reduction using the variance explained
+#' Measure the information loss of reduction using the variance explained.
 #'
 #' @template describe_metric
 #'
-#' @description `measure_variance_explained()` assesses information loss by calculating the
-#'   variance explained by the first component of a principal components analysis.
+#' @description `measure_variance_explained()` assesses information loss by
+#'   calculating the variance explained by the first component of a principal
+#'   components analysis. Because the PCA calculates the components and the
+#'   variance explained at the same time, if the reducer is
+#'   `reduce_first_component()`, then `measure_variance_explained()` will store
+#'   the first component for later use to avoid recalculation.
 #'
 #' @template partition_step
 #' @export

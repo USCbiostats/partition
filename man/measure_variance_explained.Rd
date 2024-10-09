@@ -2,7 +2,7 @@
 % Please edit documentation in R/metrics.R
 \name{measure_variance_explained}
 \alias{measure_variance_explained}
-\title{Measure the information loss of reduction using the variance explained}
+\title{Measure the information loss of reduction using the variance explained.}
 \usage{
 measure_variance_explained(.partition_step)
 }
@@ -18,8 +18,12 @@ lost for a given reduction in the data. reduce.  \code{\link[=as_measure]{as_mea
 helper function to create new metrics to be used in \code{partitioner}s.
 \code{partitioner}s can be created with \code{\link[=as_partitioner]{as_partitioner()}}.
 
-\code{measure_variance_explained()} assesses information loss by calculating the
-variance explained by the first component of a principal components analysis.
+\code{measure_variance_explained()} assesses information loss by
+calculating the variance explained by the first component of a principal
+components analysis. Because the PCA calculates the components and the
+variance explained at the same time, if the reducer is
+\code{reduce_first_component()}, then \code{measure_variance_explained()} will store
+the first component for later use to avoid recalculation.
 }
 \seealso{
 Other metrics: 
