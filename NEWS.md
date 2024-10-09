@@ -1,4 +1,4 @@
-# partition (development version)
+# partition 0.2.2
 * Allowed `reduce_first_component()` to behave independently of `measure_variance_explained()` and better documented their relationship (#41)
 
 # partition 0.2.1
