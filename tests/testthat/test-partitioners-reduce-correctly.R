@@ -15,6 +15,11 @@ expect_no_reduction <- function(.prt, .df) {
   expect_equal(.prt[["mapping_key"]][["variable"]], names(.df))
 }
 
+expect_reduction <- function(.prt) {
+  all_1 <- all(.prt[["mapping_key"]][["information"]] == 1)
+  expect_false(all_1)
+}
+
 test_that("part_icc() reduces correctly, high threshold", {
   prt <- expect_silent(partition(df, threshold = .6))
   expect_mapping_names(c("block1_x3", "block1_x5", "reduced_var_1"), prt)
@@ -87,6 +92,19 @@ test_that("part_pc1() reduces correctly, low threshold", {
 test_that("part_pc1() reduces correctly, independent data", {
   ind_prt <- partition(ind_df, threshold = .8, partitioner = part_pc1())
   expect_no_reduction(ind_prt, ind_df)
+})
+
+test_that("reduce_first_component() works without measure_variance_explained()", {
+  part_custom <- replace_partitioner(
+    part_icc,
+    reduce = reduce_first_component
+  )
+
+  prt <- partition(df, threshold = .6, partitioner = part_custom)
+
+  expect_reduction(prt)
+  expect_mapping_names(c("block1_x3", "block1_x5", "reduced_var_1"), prt)
+  expect_mapping_info(c(1, 1, 0.6), prt)
 })
 
 test_that("part_stdmi() reduces correctly, high threshold", {

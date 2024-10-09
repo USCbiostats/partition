@@ -75,13 +75,38 @@ reduce_kmeans <- function(.partition_step, search = c("binary", "linear"), n_hit
 #' @template describe_reducer
 #'
 #' @description `reduce_first_component()` returns the first component from the
-#'   principal components analysis of the target variables.
+#'   principal components analysis of the target variables. Because the PCA
+#'   calculates the components and the variance explained at the same time, if
+#'   the metric is `measure_variance_explained()`, that function will store the
+#'   first component for use in `reduce_first_component()` to avoid
+#'   recalculation. If the partitioner uses a different metric, the first
+#'   component will be calculated by `reduce_first_component()`.
 #'
 #' @template partition_step
 #' @export
 reduce_first_component <- function(.partition_step) {
   # this function uses the first PC, which is fit at the same time as variance
-  # explained, so no need to pass a function. Just process it.
+  # explained, so we don't need to calculate it if `measure_variance_explained()`
+  # already did
+  uses_variance_explained <- is_same_function(
+    .partition_step$partitioner$measure,
+    measure_variance_explained
+  )
+  # if we didn't call `measure_variance_explained()`,
+  # calculate the first component
+  if (!uses_variance_explained) {
+    composite_variables <- pull_composite_variables(.partition_step)
+    target_data <- .partition_step$.df[, composite_variables, drop = FALSE]
+
+    pca1 <- pca_c(as.matrix(na.omit(target_data)))
+    .partition_step$new_variable <- as.numeric(pca1[["pc1"]])
+    missing_row <- is_missing_rowwise(target_data)
+    #  return same number of rows as original data with missing values where not complete
+    if (any(missing_row)) .partition_step$new_variable <- fill_in_missing(.partition_step$new_variable, missing_row)
+  }
+
+  # We already calculated the new variable, so no need to pass a function.
+  # Just process it.
   reduce_cluster(.partition_step, NULL)
 }
 
