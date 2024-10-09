@@ -1,5 +1,5 @@
 # partition (development version)
-* Allowed `reduce_first_component()` to behave indpendently of `measure_variance_explained()` and better documented their relationship (#41)
+* Allowed `reduce_first_component()` to behave independently of `measure_variance_explained()` and better documented their relationship (#41)
 
 # partition 0.2.1
 * Fixed bug in `super_partition()` related to indices not matching (#37)
