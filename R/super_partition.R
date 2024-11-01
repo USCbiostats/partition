@@ -182,11 +182,17 @@ super_partition <- function(full_data,
       width = 100
     )
   }
+  
+  # if no dimension reduction, stop
+  if (length(unique(master_cluster$cluster)) == ncol(full_data)) stop("No dimension reduction occured. Try a lower threshold.")
 
-  ## first cluster
+  ## first cluster - always use largest cluster
+  clust_sizes   <- as.data.frame(table(master_cluster$cluster))
+  first_clust   <- which(unique(master_cluster$cluster) == clust_sizes[which.max(clust_sizes$Freq), 1])
+  
   # get initial partition to build off
   part_master <- partition(
-    full_data[, which(master_cluster$cluster == unique(master_cluster$cluster)[1])],
+    full_data[, which(master_cluster$cluster == unique(master_cluster$cluster)[first_clust])],
     threshold, partitioner, tolerance, niter, x, .sep
   )
 
@@ -194,7 +200,7 @@ super_partition <- function(full_data,
   mod_rows <- grep(x, part_master$mapping_key$variable)
   part_master$mapping_key$indices <- full_data_col_numbers(
     full_data = full_data,
-    small_data = full_data[, which(master_cluster$cluster == unique(master_cluster$cluster)[1])],
+    small_data = full_data[, which(master_cluster$cluster == unique(master_cluster$cluster)[first_clust])],
     modules = part_master$mapping_key$indices
   )
 
@@ -208,7 +214,10 @@ super_partition <- function(full_data,
   if (progress_bar) pb$tick()
 
   # for each cluster...
-  for (i in 2:n_iter) {
+  for (i in 1:n_iter) {
+    # skip if first cluster
+    if(i == first_clust) next()
+    
     # what to do if cluster is of size one
     if (sum(master_cluster$cluster == unique(master_cluster$cluster)[i]) == 1) {
       # cbind data to master partition reduced data
