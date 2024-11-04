@@ -185,7 +185,7 @@ super_partition <- function(full_data,
   
   # if no dimension reduction, use partition instead
   if (length(unique(master_cluster$cluster)) == ncol(full_data)) {
-    if (verbose) ("No dimension reduction occured using Super Partition. Using Partition instead.")
+    if (verbose) message("No dimension reduction occured using Super Partition. Using Partition instead.")
     return(partition(full_data, threshold, partitioner, tolerance, niter, x, .sep))
   }
 
