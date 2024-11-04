@@ -73,7 +73,7 @@ super_partition <- function(full_data,
   # if < cluster_size features, call regular partition
   if (ncol(full_data) < cluster_size) {
     message(paste0("Using `partition()` since there are < ", cluster_size, "features."))
-    return(partition(full_data, threshold = threshold))
+    return(partition(full_data, threshold, partitioner, tolerance, niter, x, .sep))
   }
 
   # iteration counters
@@ -183,8 +183,11 @@ super_partition <- function(full_data,
     )
   }
   
-  # if no dimension reduction, stop
-  if (length(unique(master_cluster$cluster)) == ncol(full_data)) stop("No dimension reduction occured. Try a lower threshold.")
+  # if no dimension reduction, use partition instead
+  if (length(unique(master_cluster$cluster)) == ncol(full_data)) {
+    if (verbose) ("No dimension reduction occured using Super Partition. Using Partition instead.")
+    return(partition(full_data, threshold, partitioner, tolerance, niter, x, .sep))
+  }
 
   ## first cluster - always use largest cluster
   clust_sizes   <- as.data.frame(table(master_cluster$cluster))
