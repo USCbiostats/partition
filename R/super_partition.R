@@ -62,10 +62,14 @@ super_partition <- function(full_data,
   }
 
   # ensure 0 < threshold < 1
-  if (0 > threshold | 1 < threshold) stop("Threshold must be between 0 and 1.")
+  if (0 > threshold | 1 < threshold) {
+    stop("Threshold must be between 0 and 1.")
+  }
 
   # ensure no column names contain x
-  if (any(grepl(x, colnames(full_data)))) stop(paste0("The prefix for new variable names, ", x, ", is contained within existing data column names. Please choose a different prefix to avoid errors."))
+  if (any(grepl(x, colnames(full_data)))) {
+    stop(paste0("The prefix for new variable names, ", x, ", is contained within existing data column names. Please choose a different prefix to avoid errors."))
+  }
 
   # ensure data frame structure
   full_data <- as.data.frame(full_data)
@@ -73,7 +77,16 @@ super_partition <- function(full_data,
   # if < cluster_size features, call regular partition
   if (ncol(full_data) < cluster_size) {
     message(paste0("Using `partition()` since there are < ", cluster_size, "features."))
-    return(partition(full_data, threshold, partitioner, tolerance, niter, x, .sep))
+    prt <- partition(
+      full_data,
+      threshold = threshold,
+      partitioner = partitioner,
+      tolerance = tolerance,
+      niter = niter,
+      x = x,
+      .sep = .sep
+    )
+    return(prt)
   }
 
   # iteration counters
@@ -182,7 +195,7 @@ super_partition <- function(full_data,
       width = 100
     )
   }
-  
+
   # if no dimension reduction, use partition instead
   if (length(unique(master_cluster$cluster)) == ncol(full_data)) {
     if (verbose) message("No dimension reduction occured using Super Partition. Using Partition instead.")
@@ -192,7 +205,7 @@ super_partition <- function(full_data,
   ## first cluster - always use largest cluster
   clust_sizes   <- as.data.frame(table(master_cluster$cluster))
   first_clust   <- which(unique(master_cluster$cluster) == clust_sizes[which.max(clust_sizes$Freq), 1])
-  
+
   # get initial partition to build off
   part_master <- partition(
     full_data[, which(master_cluster$cluster == unique(master_cluster$cluster)[first_clust])],
@@ -217,10 +230,10 @@ super_partition <- function(full_data,
   if (progress_bar) pb$tick()
 
   # for each cluster...
-  for (i in 1:n_iter) {
+  for (i in seq_len(n_iter)) {
     # skip if first cluster
-    if(i == first_clust) next()
-    
+    if (i == first_clust) next()
+
     # what to do if cluster is of size one
     if (sum(master_cluster$cluster == unique(master_cluster$cluster)[i]) == 1) {
       # cbind data to master partition reduced data
